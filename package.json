@@ -2,14 +2,15 @@
 	"name": "workout-optimizer",
 	"version": "1.0.0",
 	"description": "Exercise Tracker App",
+	"homepage": "https://github.com/Sebsterio/workout-optimizer#readme",
 	"main": "server.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"client": "npm start --prefix client",
+		"client-test": "npm test --prefix client",
 		"client-install": "npm install --prefix client",
 		"start": "node server.js",
 		"server": "nodemon server.js --exec babel-node --presets babel-preset-env",
-		"client": "npm start --prefix client",
-		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
 		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
 	},
 	"dependencies": {
@@ -39,6 +40,5 @@
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/Sebsterio/workout-optimizer/issues"
-	},
-	"homepage": "https://github.com/Sebsterio/workout-optimizer#readme"
+	}
 }
