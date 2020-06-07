@@ -3,6 +3,7 @@ import { combineReducers } from "redux";
 // import storage from "redux-persist/lib/storage";
 
 import userReducer from "./user/user.reducer";
+import trackerReducer from "./tracker/tracker.reducer";
 
 // const persistConfig = {
 // 	key: "root",
@@ -12,6 +13,7 @@ import userReducer from "./user/user.reducer";
 
 const rootReducer = combineReducers({
 	user: userReducer,
+	tracker: trackerReducer,
 });
 
 // export default persistReducer(persistConfig, rootReducer);
