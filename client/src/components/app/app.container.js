@@ -6,12 +6,12 @@ import { connect } from "react-redux";
 // import { checkUserSession } from "./redux/user/user.actions";
 // import { hideModals } from "./redux/......";
 
-import App from "./app";
+import App from "./app.component";
 
 //------------------------------------------------------------------------------
 
 // const mapStateToProps = createStructuredSelector({
-// 	currentUser: selectCurrentUser,
+// 	currentUser: selectCurrentUser
 // });
 
 // const mapDispatchToProps = (dispatch) => ({
@@ -19,7 +19,10 @@ import App from "./app";
 // 	hideModals: () => dispatch(hideModals()),
 // });
 
-const AppContainer = (props) => <App {...props} />;
+const AppContainer = (props) => {
+	console.log("hello from AppContainer");
+	return <App {...props} />;
+};
 
+export default AppContainer;
 // export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
-export default connect(null, null)(AppContainer);
