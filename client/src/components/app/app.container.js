@@ -20,7 +20,6 @@ import App from "./app.component";
 // });
 
 const AppContainer = (props) => {
-	console.log("hello from AppContainer");
 	return <App {...props} />;
 };
 
