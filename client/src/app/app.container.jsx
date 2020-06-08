@@ -6,7 +6,7 @@ import { createStructuredSelector } from "reselect";
 // import { checkUserSession } from "./redux/user/user.actions";
 // import { hideModals } from "./redux/......";
 
-import App from "./app.component";
+import App from "./app";
 
 //------------------------------------------------------------------------------
 

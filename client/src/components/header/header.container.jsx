@@ -2,7 +2,7 @@ import React from "react";
 // import { connect } from "react-redux";
 // import { createStructuredSelector } from "reselect";
 
-import Header from "./header.component";
+import Header from "./header";
 
 // -----------------------------------------------------------
 

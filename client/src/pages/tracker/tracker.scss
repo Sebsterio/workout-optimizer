@@ -1,0 +1,53 @@
+.tracker {
+}
+
+.table {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: scroll;
+	display: flex;
+	flex-flow: row nowrap;
+
+	&__aside {
+		z-index: 2;
+		// transform: translateX(50px)
+	}
+
+	&__main {
+		z-index: 1;
+		display: flex;
+		flex-flow: row nowrap;
+	}
+
+	&__col {
+	}
+
+	&__col-head {
+		width: 100px;
+		height: 30px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 1px solid silver;
+		background-color: white;
+	}
+
+	&__cell {
+		width: 100px;
+		height: 100px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 1px solid rgb(224, 224, 224);
+		background-color: white;
+	}
+
+	&__marker {
+		width: 50px;
+		height: 50px;
+		background-color: rgb(173, 173, 173);
+	}
+}
