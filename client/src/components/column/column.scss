@@ -1,0 +1,26 @@
+@import "../../vars";
+
+.column {
+	&--empty {
+		width: $cell-size;
+	}
+
+	&__head {
+		height: $head-size;
+		width: $cell-size;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 1px solid silver;
+		background-color: white;
+		overflow: hidden;
+
+		&--today {
+			background-color: rgb(228, 228, 228);
+		}
+	}
+
+	&__weekDay {
+		margin-right: 0.3em;
+	}
+}

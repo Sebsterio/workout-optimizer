@@ -1,7 +1,7 @@
-.tracker {
-}
+@import "../../vars";
 
-$cell-size: 100px;
+// .tracker {
+// }
 
 .table {
 	position: absolute;
@@ -13,42 +13,32 @@ $cell-size: 100px;
 	display: flex;
 	flex-flow: row nowrap;
 
-	&__aside {
-		z-index: 2;
-		// transform: translateX(50px)
-	}
-
 	&__main {
 		z-index: 1;
 		display: flex;
 		flex-flow: row nowrap;
 	}
 
-	&__empty-col {
-		width: $cell-size;
+	&__aside {
+		z-index: 2;
 	}
 
-	&__col-head,
-	&__cell {
+	&__aside-head,
+	&__aside-cell {
 		width: $cell-size;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		border: 1px solid silver;
 		background-color: white;
+		overflow: hidden;
 	}
 
-	&__col-head {
-		height: $cell-size / 3;
+	&__aside-head {
+		height: $head-size;
 	}
 
-	&__cell {
+	&__aside-cell {
 		height: $cell-size;
-	}
-
-	&__marker {
-		width: $cell-size / 2;
-		height: $cell-size / 2;
-		background-color: rgb(173, 173, 173);
 	}
 }

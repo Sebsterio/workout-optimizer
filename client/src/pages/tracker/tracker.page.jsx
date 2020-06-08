@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import "./tracker.scss";
+import trackerData from "./tracker.data";
 
-// ignore planning feature. build table from today + 2 (on the left), going right until 2 days after screen edge
+import Column from "../../components/column/column";
+
+import "./tracker.scss";
 
 const TrackerPage = () => {
 	const cellWidth = 100;
-	const rowsNum = 10;
 
-	const [colsNum, setColsNum] = useState(1); // cols loaded
+	const [colsNum, setColsNum] = useState(1); // n of cols loaded
 	const [tableContentWidth, setTableContentWidth] = useState(0);
 	const [scrollX, setScrollX] = useState(0); // table scroll left
 	const [scrollY, setScrollY] = useState(0); // table scroll top
@@ -22,6 +23,8 @@ const TrackerPage = () => {
 		setTableContentWidth(colsNum * cellWidth);
 	}, []);
 
+	// -------------------- Scroll --------------------
+
 	const handleScrollX = (e, scrollLeft) => {
 		// only populate cols/cells in view
 		const tableWidth = e.target.offsetWidth;
@@ -31,66 +34,65 @@ const TrackerPage = () => {
 		setFirstRenderedCol(firstVisibleCol > 0 ? firstVisibleCol - 1 : 0);
 		setLastRenderedCol(lastVisibleCol + 1);
 
-		// insert new column if scrolled near right edge
+		// append new column if scrolled near right edge
 		if (scrollLeft + tableWidth >= tableContentWidth) {
 			setColsNum(colsNum + 1);
 			setTableContentWidth(colsNum * cellWidth);
 		}
 	};
 
+	// Main table scroll X or Y
 	const handleScroll = (e) => {
 		const scrollLeft = e.target.scrollLeft;
-		if (scrollLeft != scrollX) handleScrollX(e, scrollLeft);
+		if (scrollLeft !== scrollX) handleScrollX(e, scrollLeft);
 
 		// set both in either case due to setState lag
 		setScrollY(e.target.scrollTop);
 		setScrollX(scrollLeft);
 	};
 
+	// -------------------- Render --------------------
+
 	const translateX = { transform: `translateX(${scrollX}px)` };
 	const translateY = { transform: `translateY(${scrollY}px)` };
+
+	const { bodyParts } = trackerData.protocol;
+
+	const Aside = (
+		<div className="table__aside" style={translateX}>
+			<div className="table__aside-head" style={translateY}>
+				^ {/* expand/collapse header button */}
+			</div>
+			{bodyParts.map((bodyPart, i) => (
+				<div className="table__aside-cell" key={bodyPart.name}>
+					{bodyPart.name}
+				</div>
+			))}
+		</div>
+	);
+
+	const isColVisible = (i) => i >= firstRenderedCol && i <= lastRenderedCol;
+
+	const MainTable = (
+		<div className="table__main">
+			{Array(colsNum)
+				.fill(null)
+				.map((_col, i) => (
+					<Column
+						isVisible={isColVisible(i)}
+						headOffsetY={translateY}
+						dateOffset={2 - i}
+						key={i}
+					/>
+				))}
+		</div>
+	);
 
 	return (
 		<div className="page tracker">
 			<div className="table" onScroll={handleScroll}>
-				<div className="table__aside" style={translateX}>
-					<div className="table__col">
-						<div className="table__col-head" style={translateY}>
-							H
-						</div>
-						{Array(rowsNum)
-							.fill("")
-							.map((cell, i) => (
-								<div className="table__cell" key={i}>
-									X
-								</div>
-							))}
-					</div>
-				</div>
-
-				<div className="table__main">
-					{Array(colsNum)
-						.fill("")
-						.map((col, i) => {
-							if (i < firstRenderedCol || i > lastRenderedCol)
-								return <div className="table__empty-col" key={i}></div>;
-							else
-								return (
-									<div className="table__col" key={i}>
-										<div className="table__col-head" style={translateY}>
-											{i}
-										</div>
-										{Array(rowsNum)
-											.fill("A")
-											.map((col, i) => (
-												<div className="table__cell" key={i}>
-													<div className="table__marker"></div>
-												</div>
-											))}
-									</div>
-								);
-						})}
-				</div>
+				{Aside}
+				{MainTable}
 			</div>
 		</div>
 	);
