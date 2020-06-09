@@ -6,8 +6,6 @@ import routes from "../../app/routes";
 import "./header.scss";
 
 const Header = (props) => {
-	const expandView = () => {};
-
 	return (
 		<div className="header">
 			<div className="header__wrap">
@@ -16,11 +14,9 @@ const Header = (props) => {
 						<NavLink className="nav-item" to={route.path} key={route.name}>
 							{route.name}
 						</NavLink>
+						// add label; hidden except when navLink active
 					))}
 					{/* desktop only */}
-					<div className="nav-item" onClick={expandView}>
-						Expand
-					</div>
 				</nav>
 			</div>
 		</div>

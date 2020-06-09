@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import trackerData from "./tracker.data";
 
 import Column from "../../components/column/column";
+import Modal from "../../components/modal/modal";
 
 import "./tracker.scss";
 
@@ -15,6 +16,14 @@ const TrackerPage = () => {
 	const [scrollY, setScrollY] = useState(0); // table scroll top
 	const [firstRenderedCol, setFirstRenderedCol] = useState(0); // arr index
 	const [lastRenderedCol, setLastRenderedCol] = useState(99); // arr index
+
+	// TEMP
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [modalData, setModalData] = useState({});
+	const addEntry = (data) => {
+		setModalData(data);
+		setIsModalOpen(true);
+	};
 
 	// onMount, add columns to slightly overflow table
 	useEffect(() => {
@@ -83,6 +92,7 @@ const TrackerPage = () => {
 						headOffsetY={translateY}
 						dateOffset={2 - i}
 						key={i}
+						addEntry={addEntry}
 					/>
 				))}
 		</div>
@@ -93,6 +103,9 @@ const TrackerPage = () => {
 			<div className="table" onScroll={handleScroll}>
 				{Aside}
 				{MainTable}
+				{isModalOpen && (
+					<Modal data={modalData} closeModal={() => setIsModalOpen(false)} />
+				)}
 			</div>
 		</div>
 	);

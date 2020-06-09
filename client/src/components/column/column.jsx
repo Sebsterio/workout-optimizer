@@ -1,23 +1,21 @@
 import React from "react";
 
 import trackerData from "../../pages/tracker/tracker.data";
+import getDate from "../../utils/date";
 
 import Cell from "../../components/cell/cell";
 
 import "./column.scss";
 
-const Column = ({ isVisible, i, headOffsetY, dateOffset }) => {
+const Column = ({ isVisible, headOffsetY, dateOffset, addEntry }) => {
 	if (!isVisible) return <div className="column column--empty"></div>;
 
 	const { bodyParts } = trackerData.protocol;
 
 	const isToday = dateOffset === 0;
-	const date = new Date(new Date());
-	date.setDate(date.getDate() + dateOffset);
-	const dateStr = date.toDateString();
-	const dateArr = dateStr.split(" ");
-	const weekDay = dateArr[0];
-	const monthDay = dateArr[2];
+	const isFuture = dateOffset > 0;
+	const today = new Date();
+	const { weekDay, monthDay, dateStr } = getDate(today, dateOffset);
 
 	const headClassName =
 		"column__head " + (isToday ? "column__head--today" : "");
@@ -33,7 +31,9 @@ const Column = ({ isVisible, i, headOffsetY, dateOffset }) => {
 					dateStr={dateStr}
 					bodyPart={bodyPart}
 					isToday={isToday}
+					isFuture={isFuture}
 					key={bodyPart.name}
+					addEntry={addEntry}
 				/>
 			))}
 		</div>

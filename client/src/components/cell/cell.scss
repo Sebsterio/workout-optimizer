@@ -15,30 +15,33 @@
 	}
 
 	&--recovery-1 {
-		background-color: rgb(221, 150, 150);
+		background-color: rgb(241, 200, 200);
 	}
 	&--recovery-2 {
-		background-color: rgb(221, 150, 150);
+		background-color: rgb(231, 156, 156);
 	}
 
 	&__marker {
-		background-color: rgb(173, 173, 173);
+		background-color: rgb(117, 11, 11);
 		border-radius: 50%;
 	}
 
 	&--intensity-1 {
+		background-color: rgb(226, 105, 105);
 		.cell__marker {
 			width: 30%;
 			height: 30%;
 		}
 	}
 	&--intensity-2 {
+		background-color: rgb(226, 105, 105);
 		.cell__marker {
 			width: 60%;
 			height: 60%;
 		}
 	}
 	&--intensity-3 {
+		background-color: rgb(226, 105, 105);
 		.cell__marker {
 			width: 90%;
 			height: 90%;

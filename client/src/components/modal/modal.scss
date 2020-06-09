@@ -1,0 +1,60 @@
+.modal {
+	z-index: 999;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&__card {
+		padding: 1rem;
+		background-color: white;
+		border: 5px solid black;
+	}
+
+	&__title {
+		margin: 0;
+	}
+
+	&__row {
+		margin: 0.5rem auto 0.5rem auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__button {
+		position: relative;
+		flex: 0 1 50%;
+		height: 3rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: transparent;
+		border: none;
+
+		&--level-0 {
+			--size: 0;
+			border: 1px dotted black;
+		}
+		&--level-1 {
+			--size: 1.6rem;
+		}
+		&--level-2 {
+			--size: 2.3rem;
+		}
+		&--level-3 {
+			--size: 3rem;
+		}
+	}
+
+	&__marker {
+		width: var(--size);
+		height: var(--size);
+		border-radius: 50%;
+		background-color: red;
+	}
+}
