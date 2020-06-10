@@ -1,6 +1,6 @@
 import React from "react";
 
-import trackerData from "../../pages/tracker/tracker.data";
+import trackerData from "../../utils/tracker.data";
 import getDateInfo from "../../utils/date";
 
 import Cell from "../../components/cell/cell";

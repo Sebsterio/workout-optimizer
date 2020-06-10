@@ -26,6 +26,14 @@
 		border-radius: 50%;
 	}
 
+	&--planned {
+		.cell__marker {
+			width: 30%;
+			height: 30%;
+			background-color: transparent;
+			border: 1px dotted black;
+		}
+	}
 	&--intensity-1 {
 		background-color: rgb(226, 105, 105);
 		.cell__marker {

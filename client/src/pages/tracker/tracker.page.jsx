@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import trackerData from "./tracker.data";
+import trackerData from "../../utils/tracker.data";
 
 import Column from "../../components/column/column";
 import Modal from "../../components/modal/modal";

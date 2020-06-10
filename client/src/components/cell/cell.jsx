@@ -1,16 +1,21 @@
 import React from "react";
 
-import trackerData from "../../pages/tracker/tracker.data";
+import trackerData from "../../utils/tracker.data";
+import { addToLog } from "../../utils/log";
 import getDateInfo from "../../utils/date";
 
 import "./cell.scss";
 
-const getIntensity = (bodyPart, dateStr, log) => {
+// add workout type support
+
+const { log } = trackerData;
+
+const getIntensity = (bodyPart, dateStr) => {
 	const dayLog = log.find((entry) => entry.date === dateStr);
 	return dayLog ? dayLog[bodyPart.name] : null;
 };
 
-const getRestLevel = (bodyPart, dateStr, log) => {
+const getRestLevel = (bodyPart, dateStr) => {
 	const maxRestTime = bodyPart.levels[bodyPart.levels.length - 1].rest;
 	let cellRestLevel = 0;
 
@@ -28,29 +33,28 @@ const getRestLevel = (bodyPart, dateStr, log) => {
 // -----------------------------------------------------
 
 const Cell = ({ bodyPart, dateStr, dateOffset, addEntry }) => {
-	const { log } = trackerData;
+	const intensity = getIntensity(bodyPart, dateStr);
+	const restLevel = getRestLevel(bodyPart, dateStr);
 
 	const isToday = dateOffset === 0;
 	const isFuture = dateOffset > 0;
-
-	const intensity = getIntensity(bodyPart, dateStr, log);
-	const restLevel = getRestLevel(bodyPart, dateStr, log);
+	const isPast = dateOffset < 0;
 
 	// TODO: force recovery day after N days of small exercise in a row
 
 	let cellClass = "cell";
 	if (isToday) cellClass += " cell--today";
-	if (intensity === 0) cellClass += " cell--planned";
+	if (intensity === 0 && !isPast) cellClass += " cell--planned";
 	if (intensity) cellClass += " cell--intensity-" + intensity;
-	if (restLevel) cellClass += " cell--recovery-" + restLevel;
+	else if (restLevel) cellClass += " cell--recovery-" + restLevel;
 
 	const handleClick = () => {
-		if (isFuture) return;
-		else addEntry({ bodyPart, dateStr });
+		if (!isFuture) addEntry({ bodyPart, dateStr });
+		else addToLog(dateStr, bodyPart, 0); // will work with redux
 	};
 	return (
 		<div className={cellClass} onClick={handleClick}>
-			{intensity > 0 ? <div className={"cell__marker"}></div> : ""}
+			{intensity >= 0 ? <div className={"cell__marker"}></div> : ""}
 		</div>
 	);
 };
