@@ -1,4 +1,4 @@
-const getDate = (sourceDate, offset) => {
+const getDateInfo = (sourceDate, offset) => {
 	const date = new Date(sourceDate);
 	date.setDate(date.getDate() + offset);
 	const dateStr = date.toDateString();
@@ -9,4 +9,4 @@ const getDate = (sourceDate, offset) => {
 	return { dateStr, weekDay, monthDay };
 };
 
-export default getDate;
+export default getDateInfo;

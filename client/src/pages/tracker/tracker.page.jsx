@@ -7,6 +7,10 @@ import Modal from "../../components/modal/modal";
 
 import "./tracker.scss";
 
+// TODO: add cols on resize
+// aside transform on scroll Y, not X
+// TODO: single translateX for all table heads; aside head just fixed
+
 const TrackerPage = () => {
 	const cellWidth = 100;
 

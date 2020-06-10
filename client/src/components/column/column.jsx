@@ -1,7 +1,7 @@
 import React from "react";
 
 import trackerData from "../../pages/tracker/tracker.data";
-import getDate from "../../utils/date";
+import getDateInfo from "../../utils/date";
 
 import Cell from "../../components/cell/cell";
 
@@ -12,13 +12,11 @@ const Column = ({ isVisible, headOffsetY, dateOffset, addEntry }) => {
 
 	const { bodyParts } = trackerData.protocol;
 
-	const isToday = dateOffset === 0;
-	const isFuture = dateOffset > 0;
 	const today = new Date();
-	const { weekDay, monthDay, dateStr } = getDate(today, dateOffset);
+	const { weekDay, monthDay, dateStr } = getDateInfo(today, dateOffset);
 
 	const headClassName =
-		"column__head " + (isToday ? "column__head--today" : "");
+		"column__head " + (dateOffset === 0 ? "column__head--today" : "");
 
 	return (
 		<div className="column">
@@ -30,8 +28,7 @@ const Column = ({ isVisible, headOffsetY, dateOffset, addEntry }) => {
 				<Cell
 					dateStr={dateStr}
 					bodyPart={bodyPart}
-					isToday={isToday}
-					isFuture={isFuture}
+					dateOffset={dateOffset}
 					key={bodyPart.name}
 					addEntry={addEntry}
 				/>
