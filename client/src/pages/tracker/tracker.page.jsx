@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import trackerData from "../../utils/tracker.data";
-
-import Column from "../../components/column/column";
+import ColumnContainer from "../../components/column/column.container";
 import Modal from "../../components/modal/modal";
 
 import "./tracker.scss";
@@ -11,7 +9,7 @@ import "./tracker.scss";
 // aside transform on scroll Y, not X
 // TODO: single translateX for all table heads; aside head just fixed
 
-const TrackerPage = () => {
+const TrackerPage = ({ areas }) => {
 	const cellWidth = 100;
 
 	const [colsNum, setColsNum] = useState(1); // n of cols loaded
@@ -21,7 +19,7 @@ const TrackerPage = () => {
 	const [firstRenderedCol, setFirstRenderedCol] = useState(0); // arr index
 	const [lastRenderedCol, setLastRenderedCol] = useState(99); // arr index
 
-	// TEMP
+	// Redux
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalData, setModalData] = useState({});
 	const addEntry = (data) => {
@@ -69,14 +67,12 @@ const TrackerPage = () => {
 	const translateX = { transform: `translateX(${scrollX}px)` };
 	const translateY = { transform: `translateY(${scrollY}px)` };
 
-	const { bodyParts } = trackerData.protocol;
-
 	const Aside = (
 		<div className="table__aside" style={translateX}>
 			<div className="table__aside-head" style={translateY}>
 				^ {/* expand/collapse header button */}
 			</div>
-			{bodyParts.map((bodyPart, i) => (
+			{areas.map((bodyPart, i) => (
 				<div className="table__aside-cell" key={bodyPart.name}>
 					{bodyPart.name}
 				</div>
@@ -91,7 +87,7 @@ const TrackerPage = () => {
 			{Array(colsNum)
 				.fill(null)
 				.map((_col, i) => (
-					<Column
+					<ColumnContainer
 						isVisible={isColVisible(i)}
 						headOffsetY={translateY}
 						dateOffset={2 - i}

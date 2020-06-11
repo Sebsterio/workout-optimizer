@@ -8,7 +8,7 @@ import "./modal.scss";
 
 const Modal = ({ data: { bodyPart, dateStr }, closeModal }) => {
 	const handleInput = (level) => {
-		addToLog(dateStr, bodyPart, level);
+		addToLog({ dateStr, bodyPart, level });
 		closeModal();
 	};
 

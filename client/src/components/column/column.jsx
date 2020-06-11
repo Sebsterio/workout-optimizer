@@ -1,16 +1,10 @@
 import React from "react";
-
-import trackerData from "../../utils/tracker.data";
 import getDateInfo from "../../utils/date";
-
 import Cell from "../../components/cell/cell";
-
 import "./column.scss";
 
-const Column = ({ isVisible, headOffsetY, dateOffset, addEntry }) => {
+const Column = ({ isVisible, headOffsetY, dateOffset, addEntry, areas }) => {
 	if (!isVisible) return <div className="column column--empty"></div>;
-
-	const { bodyParts } = trackerData.protocol;
 
 	const today = new Date();
 	const { weekDay, monthDay, dateStr } = getDateInfo(today, dateOffset);
@@ -24,7 +18,7 @@ const Column = ({ isVisible, headOffsetY, dateOffset, addEntry }) => {
 				<span className="column__weekDay">{weekDay}</span>
 				<span className="column__monthDay">{monthDay}</span>
 			</div>
-			{bodyParts.map((bodyPart) => (
+			{areas.map((bodyPart) => (
 				<Cell
 					dateStr={dateStr}
 					bodyPart={bodyPart}

@@ -1,6 +1,6 @@
 import React from "react";
 
-import trackerData from "../../utils/tracker.data";
+import trackerData from "../../redux/log/log.data";
 import { addToLog } from "../../utils/log";
 import getDateInfo from "../../utils/date";
 
@@ -50,7 +50,7 @@ const Cell = ({ bodyPart, dateStr, dateOffset, addEntry }) => {
 
 	const handleClick = () => {
 		if (!isFuture) addEntry({ bodyPart, dateStr });
-		else addToLog(dateStr, bodyPart, 0); // will work with redux
+		else addToLog({ dateStr, bodyPart, level: 0 }); // will work with redux
 	};
 	return (
 		<div className={cellClass} onClick={handleClick}>

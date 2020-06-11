@@ -15,10 +15,14 @@
 	}
 
 	&--recovery-1 {
-		background-color: rgb(241, 200, 200);
+		background: linear-gradient(to right, white, rgb(247, 184, 184));
 	}
 	&--recovery-2 {
-		background-color: rgb(231, 156, 156);
+		background: linear-gradient(
+			to right,
+			rgb(247, 184, 184),
+			rgb(226, 105, 105)
+		);
 	}
 
 	&__marker {
