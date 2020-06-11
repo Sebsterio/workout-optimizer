@@ -9,7 +9,7 @@ import "./tracker.scss";
 // aside transform on scroll Y, not X
 // TODO: single translateX for all table heads; aside head just fixed
 
-const TrackerPage = ({ areas, isModalOpen }) => {
+const TrackerPage = ({ areas }) => {
 	const cellWidth = 100;
 
 	const [colsNum, setColsNum] = useState(1); // n of cols loaded
@@ -94,7 +94,7 @@ const TrackerPage = ({ areas, isModalOpen }) => {
 			<div className="table" onScroll={handleScroll}>
 				{Aside}
 				{MainTable}
-				{isModalOpen && <ModalContainer />}
+				<ModalContainer />
 			</div>
 		</div>
 	);

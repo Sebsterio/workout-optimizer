@@ -8,7 +8,6 @@ import TrackerPage from "./tracker.page";
 
 const mapStateToProps = createStructuredSelector({
 	areas: selectAreas,
-	isModalOpen: (state) => state.modal.isOpen,
 });
 
 const TrackerPageContainer = (props) => <TrackerPage {...props} />;

@@ -7,6 +7,7 @@ import { closeModal } from "../../redux/modal/modal.actions";
 import Modal from "./modal";
 
 const mapStateToProps = (state) => ({
+	isOpen: state.modal.isOpen,
 	cellData: state.modal.cellData,
 });
 
