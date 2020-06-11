@@ -19,6 +19,7 @@
 		"enzyme": "^3.11.0",
 		"enzyme-adapter-react-16": "^1.15.2",
 		"node-sass": "^4.14.1",
+		"re-reselect": "^4.0.0",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-redux": "^7.2.0",

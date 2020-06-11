@@ -5,6 +5,7 @@ import { combineReducers } from "redux";
 import userReducer from "./user/user.reducer";
 import logReducer from "./log/log.reducer";
 import protocolReducer from "./protocol/protocol.reducer";
+import modalReducer from "./modal/modal.reducer";
 
 // const persistConfig = {
 // 	key: "root",
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
 	user: userReducer,
 	log: logReducer,
 	protocol: protocolReducer,
+	modal: modalReducer,
 });
 
 // export default persistReducer(persistConfig, rootReducer);

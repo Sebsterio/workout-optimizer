@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import ColumnContainer from "../../components/column/column.container";
-import Modal from "../../components/modal/modal";
+import ModalContainer from "../../components/modal/modal.container";
 
 import "./tracker.scss";
 
@@ -9,7 +9,7 @@ import "./tracker.scss";
 // aside transform on scroll Y, not X
 // TODO: single translateX for all table heads; aside head just fixed
 
-const TrackerPage = ({ areas }) => {
+const TrackerPage = ({ areas, isModalOpen }) => {
 	const cellWidth = 100;
 
 	const [colsNum, setColsNum] = useState(1); // n of cols loaded
@@ -18,14 +18,6 @@ const TrackerPage = ({ areas }) => {
 	const [scrollY, setScrollY] = useState(0); // table scroll top
 	const [firstRenderedCol, setFirstRenderedCol] = useState(0); // arr index
 	const [lastRenderedCol, setLastRenderedCol] = useState(99); // arr index
-
-	// Redux
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [modalData, setModalData] = useState({});
-	const addEntry = (data) => {
-		setModalData(data);
-		setIsModalOpen(true);
-	};
 
 	// onMount, add columns to slightly overflow table
 	useEffect(() => {
@@ -92,7 +84,6 @@ const TrackerPage = ({ areas }) => {
 						headOffsetY={translateY}
 						dateOffset={2 - i}
 						key={i}
-						addEntry={addEntry}
 					/>
 				))}
 		</div>
@@ -103,9 +94,7 @@ const TrackerPage = ({ areas }) => {
 			<div className="table" onScroll={handleScroll}>
 				{Aside}
 				{MainTable}
-				{isModalOpen && (
-					<Modal data={modalData} closeModal={() => setIsModalOpen(false)} />
-				)}
+				{isModalOpen && <ModalContainer />}
 			</div>
 		</div>
 	);

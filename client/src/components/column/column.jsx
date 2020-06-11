@@ -1,9 +1,9 @@
 import React from "react";
 import getDateInfo from "../../utils/date";
-import Cell from "../../components/cell/cell";
+import CellContainer from "../../components/cell/cell.container";
 import "./column.scss";
 
-const Column = ({ isVisible, headOffsetY, dateOffset, addEntry, areas }) => {
+const Column = ({ isVisible, headOffsetY, dateOffset, areas }) => {
 	if (!isVisible) return <div className="column column--empty"></div>;
 
 	const today = new Date();
@@ -18,13 +18,12 @@ const Column = ({ isVisible, headOffsetY, dateOffset, addEntry, areas }) => {
 				<span className="column__weekDay">{weekDay}</span>
 				<span className="column__monthDay">{monthDay}</span>
 			</div>
-			{areas.map((bodyPart) => (
-				<Cell
+			{areas.map((area) => (
+				<CellContainer
 					dateStr={dateStr}
-					bodyPart={bodyPart}
+					area={area}
 					dateOffset={dateOffset}
-					key={bodyPart.name}
-					addEntry={addEntry}
+					key={area.name}
 				/>
 			))}
 		</div>

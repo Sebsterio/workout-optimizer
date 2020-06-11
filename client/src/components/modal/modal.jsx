@@ -1,14 +1,13 @@
 import React from "react";
-
-import { addToLog } from "../../utils/log";
-
 import "./modal.scss";
 
 // -------------------------------------------------------------
 
-const Modal = ({ data: { bodyPart, dateStr }, closeModal }) => {
+const Modal = ({ cellData, addEntry, closeModal }) => {
+	const { area, dateStr } = cellData;
+
 	const handleInput = (level) => {
-		addToLog({ dateStr, bodyPart, level });
+		addEntry({ dateStr, area, level });
 		closeModal();
 	};
 
@@ -21,7 +20,7 @@ const Modal = ({ data: { bodyPart, dateStr }, closeModal }) => {
 			<div className="modal__card">
 				<h1 className="modal__title">Add Exercise</h1>
 				<form action="">
-					{bodyPart.levels.map(({ label }, i) => (
+					{area.levels.map(({ label }, i) => (
 						<div className="modal__row" key={i}>
 							<label className="modal__label" htmlFor={"add-entry-btn-" + i}>
 								{label}

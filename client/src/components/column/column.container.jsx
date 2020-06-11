@@ -7,7 +7,7 @@ import { selectAreas } from "../../redux/protocol/protocol.selectors";
 import Column from "./column";
 
 const mapStateToProps = createStructuredSelector({
-	areas: (state) => selectAreas(state),
+	areas: selectAreas,
 });
 
 const ColumnContainer = (props) => <Column {...props} />;
