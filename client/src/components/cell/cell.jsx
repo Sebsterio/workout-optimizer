@@ -10,15 +10,13 @@ const Cell = ({ dateOffset, intensity, restLevel, newEntry }) => {
 
 	let cellClass = "cell";
 	if (isToday) cellClass += " cell--today";
-	if (intensity === "plan" && !isPast) cellClass += " cell--planned";
+	if (intensity < 0 && !isPast) cellClass += " cell--planned";
 	if (intensity > 0) cellClass += " cell--intensity-" + intensity;
 	else if (restLevel) cellClass += " cell--recovery-" + restLevel;
 
-	const hasMarker = intensity >= 0 || intensity === "plan";
-
 	return (
 		<div className={cellClass} onClick={newEntry}>
-			{hasMarker && <div className={"cell__marker"}></div>}
+			{intensity && <div className={"cell__marker"}></div>}
 		</div>
 	);
 };

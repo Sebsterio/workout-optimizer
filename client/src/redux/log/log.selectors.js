@@ -15,6 +15,7 @@ const selectIntensity = (state, props) => {
 	return entry ? entry[props.area.name] : null;
 };
 
+// check as many previous days as the highest possible rest period is for given exercise
 const getRestLevel = (state, props) => {
 	const { area, dateStr } = props;
 	const maxRestTime = area.levels[area.levels.length - 1].rest;
@@ -25,7 +26,7 @@ const getRestLevel = (state, props) => {
 		tempProps.dateStr = getDateInfo(dateStr, -i).dateStr;
 		const intensity = selectIntensity(state, tempProps);
 
-		if (intensity && intensity !== "plan") {
+		if (intensity && intensity > 0) {
 			const dayRestLevel = area.levels[intensity].rest - i + 1;
 			if (dayRestLevel > maxRestLevel) maxRestLevel = dayRestLevel;
 		}
