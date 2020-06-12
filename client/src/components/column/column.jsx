@@ -6,8 +6,7 @@ import "./column.scss";
 const Column = ({ isVisible, headOffsetY, dateOffset, areas }) => {
 	if (!isVisible) return <div className="column column--empty"></div>;
 
-	const today = new Date();
-	const { weekDay, monthDay, dateStr } = getDateInfo(today, dateOffset);
+	const { weekDay, monthDay, dateStr } = getDateInfo(new Date(), dateOffset);
 
 	const headClassName =
 		"column__head " + (dateOffset === 0 ? "column__head--today" : "");

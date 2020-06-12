@@ -13,14 +13,14 @@ const TrackerPage = ({ areas }) => {
 	const cellWidth = 100;
 
 	const [colsNum, setColsNum] = useState(1); // n of cols loaded
+	const [firstRenderedCol, setFirstRenderedCol] = useState(0); // arr index
+	const [lastRenderedCol, setLastRenderedCol] = useState(99); // arr index
 	const [tableContentWidth, setTableContentWidth] = useState(0);
 	const [scrollX, setScrollX] = useState(0); // table scroll left
 	const [scrollY, setScrollY] = useState(0); // table scroll top
-	const [firstRenderedCol, setFirstRenderedCol] = useState(0); // arr index
-	const [lastRenderedCol, setLastRenderedCol] = useState(99); // arr index
 
-	// onMount, add columns to slightly overflow table
 	useEffect(() => {
+		// onMount, add columns to slightly overflow table
 		const colsNum = Math.ceil(window.innerWidth / cellWidth);
 		setColsNum(colsNum);
 		setTableContentWidth(colsNum * cellWidth);
