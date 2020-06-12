@@ -3,9 +3,7 @@ import "./modal.scss";
 
 // -------------------------------------------------------------
 
-const Modal = ({ cellData, addEntry, closeModal, isOpen }) => {
-	if (!isOpen) return null;
-
+const Modal = ({ cellData, addEntry, closeModal }) => {
 	const { area, dateStr } = cellData;
 
 	const handleInput = (level) => {

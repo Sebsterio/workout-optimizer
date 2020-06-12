@@ -16,6 +16,6 @@ const mapDispatchToProps = (dispatch) => ({
 	closeModal: () => dispatch(closeModal()),
 });
 
-const ModalContainer = (props) => <Modal {...props} />;
+const ModalContainer = (props) => (props.isOpen ? <Modal {...props} /> : null);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalContainer);
