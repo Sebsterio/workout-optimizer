@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 import path from "path";
 import cors from "cors";
 import morgan from "morgan";
+import dotenv from "dotenv";
 
-import config from "./config";
+import authRoutes from "./routes/api/auth";
 
-const { MONGO_URI, PORT } = config;
-
+dotenv.config();
 const app = express();
 
 // -------------- Middleware -------------
@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // ---------------- Mongo ----------------
 
-const db = MONGO_URI;
+const db = process.env.MONGO_URI;
 
 mongoose
 	.connect(db, {
@@ -32,6 +32,8 @@ mongoose
 
 // --------------- Routing ---------------
 
+app.use("/api/auth", authRoutes);
+
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {
 	// Set static folder
@@ -42,5 +44,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // ---------------------------------------
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
