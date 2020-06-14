@@ -1,23 +1,23 @@
 import logActionTypes from "./log.types";
-
 import { openModal } from "../modal/modal.actions";
 
+const { ADD_LOG, REMOVE_LOG } = logActionTypes;
+
+// ----------------- Basic -----------------
+
 const addLog = (data) => ({
-	type: logActionTypes.ADD_LOG,
+	type: ADD_LOG,
 	payload: data,
 });
 
 const removeLog = (data) => ({
-	type: logActionTypes.REMOVE_LOG,
+	type: REMOVE_LOG,
 	payload: data,
 });
 
 // ----------------- Thunk ------------------
 
 export const addEntry = (data) => (dispatch) => {
-	//
-	// TODO: POST to DB
-	//
 	const { level } = data;
 	if (level === 0) dispatch(removeLog(data));
 	// TODO: only addLog if different than current

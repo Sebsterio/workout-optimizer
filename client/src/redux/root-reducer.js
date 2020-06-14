@@ -6,6 +6,7 @@ import userReducer from "./user/user.reducer";
 import logReducer from "./log/log.reducer";
 import protocolReducer from "./protocol/protocol.reducer";
 import modalReducer from "./modal/modal.reducer";
+import errorReducer from "./error/error.reducer";
 
 // const persistConfig = {
 // 	key: "root",
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
 	log: logReducer,
 	protocol: protocolReducer,
 	modal: modalReducer,
+	error: errorReducer,
 });
 
 // export default persistReducer(persistConfig, rootReducer);

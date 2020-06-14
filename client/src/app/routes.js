@@ -2,7 +2,7 @@ import TrackerPageContainer from "../pages/tracker/tracker.container";
 import ProtocolsPage from "../pages/protocols/protocols.page";
 import StatisticsPage from "../pages/statistics/statistics.page";
 import OptionsPage from "../pages/options/options.page";
-import UserPage from "../pages/user/user.page";
+import AccountPageContainer from "../pages/account/account.container";
 
 const routes = [
 	{
@@ -21,14 +21,14 @@ const routes = [
 		component: StatisticsPage,
 	},
 	{
-		name: "User",
-		path: "/user",
-		component: OptionsPage,
+		name: "Account",
+		path: "/account",
+		component: AccountPageContainer,
 	},
 	{
 		name: "Options",
 		path: "/options",
-		component: UserPage,
+		component: OptionsPage,
 	},
 ];
 

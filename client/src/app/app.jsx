@@ -1,23 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 
 import Header from "../components/header/header";
+import AccountPageContainer from "../pages/account/account.container";
 
 import routes from "./routes";
 
 import "./app.scss";
 
-const App = ({ currentUser, hideCart, checkUserSession }) => {
-	// useEffect(() => {
-	// 	checkUserSession();
-	// }, [checkUserSession]);
+const App = ({ user, loadUser }) => {
+	const { isAuthenticated, isLocal } = user;
 
-	// useEffect(() => {
-	// 	// selectCartHidden buggy with event listener (?)
-	// 	document.addEventListener("click", (e) => {
-	// 		if (!e.target.closest(".ignore-click-listener")) hideCart();
-	// 	});
-	// }, [hideCart]);
+	useEffect(() => {
+		loadUser();
+	}, []);
+
+	const userIsDefined = isAuthenticated || isLocal;
+
+	if (!userIsDefined) return <AccountPageContainer />;
 
 	const pages = routes.map((route) => {
 		const { path, component } = route;

@@ -18,13 +18,13 @@ router.post("/register", async (req, res) => {
 
 	// Validation
 	if (!name || !email || !password) {
-		return res.status(400).json({ error: "Missing fields" });
+		return res.status(400).json({ msg: "Missing fields" });
 	}
 
 	// Check for duplicates
 	const user = await User.findOne({ email });
 	if (user) {
-		return res.status(403).json({ error: "User already exists" });
+		return res.status(403).json({ msg: "User already exists" });
 	}
 
 	// Create user and add to DB
@@ -55,7 +55,7 @@ router.post("/register", async (req, res) => {
 			},
 		});
 	} catch (e) {
-		res.status(500).json({ error: e.message });
+		res.status(500).json({ msg: e.message });
 	}
 });
 
@@ -98,7 +98,7 @@ router.get("/user", auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.userId).select("-password");
 		if (!user) throw Error("User Does not exist");
-		res.json(user);
+		res.status(200).json(user);
 	} catch (e) {
 		res.status(400).json({ msg: e.message });
 	}

@@ -1,10 +1,11 @@
 import modalActionTypes from "./modal.types";
+const { OPEN_MODAL, CLOSE_MODAL } = modalActionTypes;
 
 export const openModal = (data) => ({
-	type: modalActionTypes.OPEN_MODAL,
+	type: OPEN_MODAL,
 	payload: data,
 });
 
 export const closeModal = () => ({
-	type: modalActionTypes.CLOSE_MODAL,
+	type: CLOSE_MODAL,
 });

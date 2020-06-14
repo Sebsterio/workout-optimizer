@@ -1,23 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
 
-// import { selectCurrentUser } from "./redux/user/user.selectors";
-// import { checkUserSession } from "./redux/user/user.actions";
-// import { hideModals } from "./redux/......";
+import { loadUser } from "../redux/user/user.actions";
 
 import App from "./app";
 
 //------------------------------------------------------------------------------
 
-const mapStateToProps = createStructuredSelector({
-	// currentUser: selectCurrentUser
-	currentUser: () => null,
+const mapStateToProps = (state) => ({
+	user: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	// 	checkUserSession: () => dispatch(checkUserSession()),
-	// 	hideModals: () => dispatch(hideModals()),
+	loadUser: () => dispatch(loadUser()),
 });
 
 const AppContainer = (props) => {

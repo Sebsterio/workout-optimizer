@@ -1,0 +1,20 @@
+.account {
+	&__wrapper {
+		height: 100%;
+		max-width: 20rem;
+		margin: auto;
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: center;
+	}
+
+	&__heading {
+		justify-self: flex-start;
+		align-self: start;
+	}
+
+	&__btn {
+		display: block;
+		margin: 1rem 0;
+	}
+}

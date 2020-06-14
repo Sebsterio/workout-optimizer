@@ -1,13 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-
-import { selectAreas } from "../../redux/protocol/protocol.selectors";
-
 import Column from "./column";
 
-const mapStateToProps = createStructuredSelector({
-	areas: selectAreas,
+const mapStateToProps = (store) => ({
+	areas: store.protocol.areas,
 });
 
 const ColumnContainer = (props) => <Column {...props} />;
