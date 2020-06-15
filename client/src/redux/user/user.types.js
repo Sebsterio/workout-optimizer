@@ -4,7 +4,7 @@ const userActionTypes = {
 	AUTH_SUCCESS: "AUTH_SUCCESS",
 	AUTH_ERROR: "AUTH_ERROR",
 	SKIP_AUTH: "SKIP_AUTH",
-	LOGOUT_SUCCESS: "LOGOUT_SUCCESS",
+	CLEAR_USER_DATA: "CLEAR_USER_DATA",
 };
 
 export default userActionTypes;

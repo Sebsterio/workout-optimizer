@@ -66,38 +66,50 @@ router.get("/", auth, async (req, res) => {
 
 // @access: log owner and  PT
 
-// router.post('/:userId/:dateStr', auth, async (req, res) => {
-//   const newItem = new Item({
-//     name: req.body.name
-//   });
+router.post("/entry", auth, async (req, res) => {
+	const { userId } = req;
+	const { dateStr, content } = req.body;
 
-//   try {
-//     const item = await newItem.save();
-//     if (!item) throw Error('Something went wrong saving the item');
+	try {
+		const log = await Log.findOne({ userId });
+		if (!log) throw Error("Log not found");
+		const entry = log.entries.find((entry) => entry.dateStr === dateStr);
 
-//     res.status(200).json(item);
-//   } catch (e) {
-//     res.status(400).json({ msg: e.message });
-//   }
-// });
+		if (entry) {
+			entry.content = content;
+		} else {
+			log.entries.push({ dateStr, content: content });
+		}
+		await log.save();
+		res.status(200).json(entry);
+	} catch (err) {
+		res.status(400).json({ msg: err.message });
+	}
+});
 
 // ------------------- Remove entry -------------------
 
 // @access: log owner and  PT
 
-// router.delete('/:userId/:dateStr', auth, async (req, res) => {
-//   try {
-//     const item = await Item.findById(req.params.id);
-//     if (!item) throw Error('No item found');
+// router.delete("/entry", auth, async (req, res) => {
+// 	const { userId } = req;
+// 	const { dateStr, content } = req.body;
 
-//     const removed = await item.remove();
-//     if (!removed)
-//       throw Error('Something went wrong while trying to delete the item');
+// 	try {
+// 		const log = await Log.findOne({ userId });
+// 		if (!log) throw Error("Log not found");
+// 		const entry = log.entries.find((entry) => entry.dateStr === dateStr);
 
-//     res.status(200).json({ success: true });
-//   } catch (error) {
-//     res.status(400).json({ msg: e.message, success: false });
-//   }
+// 		if (entry) {
+// 			entry.content = content;
+// 		} else {
+// 			log.entries.push({ dateStr, content: content });
+// 		}
+// 		await log.save();
+// 		res.status(200).json(entry);
+// 	} catch (err) {
+// 		res.status(400).json({ msg: err.message });
+// 	}
 // });
 
 export default router;

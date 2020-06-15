@@ -1,24 +1,21 @@
 import { Schema, model } from "mongoose";
 
-export const EntrySchema = new Schema({
-	dateStr: String,
-	content: String,
-});
-
 export const LogSchema = new Schema({
 	userId: {
 		type: String,
 		required: true,
 	},
-	PTs: [String], // authorized PT userIDs
+	PTs: [String], // PT userIDs
 	dateUpdated: {
 		type: Date,
 		default: Date.now,
 	},
-	entries: {
-		type: Array,
-		value: EntrySchema,
-	},
+	entries: [
+		{
+			dateStr: String,
+			content: String,
+		},
+	],
 });
 
 const Log = model("log", LogSchema);

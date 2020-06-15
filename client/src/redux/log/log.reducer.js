@@ -1,8 +1,6 @@
 import logActionTypes from "./log.types";
 import { getStateWithAddedEntry, getStateWithRemovedEntry } from "./log.utils";
 
-// GET all on login (not app init) or sync; sorted chronologically
-// POST day on input (replace)
 export const INITIAL_STATE = {
 	dateUpdated: new Date(),
 	entries: {
@@ -14,10 +12,16 @@ export const INITIAL_STATE = {
 	},
 };
 
-const { LOG_SYNCED, ADD_ENTRY, REMOVE_ENTRY } = logActionTypes;
+const { LOG_SYNCED, ADD_ENTRY, REMOVE_ENTRY, CLEAR_LOG } = logActionTypes;
 
 const logReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case CLEAR_LOG: {
+			return {
+				...state,
+				entries: {},
+			};
+		}
 		case LOG_SYNCED: {
 			return {
 				...action.payload,

@@ -3,14 +3,14 @@ import React from "react";
 import "./cell.scss";
 
 const Cell = (props) => {
-	const { dateOffset, intensity, restLevel, addEntry, openModal } = props;
+	const { dateOffset, intensity, restLevel, updateLog, openModal } = props;
 
 	const isToday = dateOffset === 0;
 	const isPast = dateOffset < 0;
 	const isFuture = dateOffset > 0;
 
 	const handleSubmit = () => {
-		if (isFuture) addEntry({ ...props, level: -1 });
+		if (isFuture) updateLog({ ...props, level: -1 });
 		else openModal(props);
 	};
 

@@ -6,7 +6,7 @@ const {
 	AUTH_SUCCESS,
 	AUTH_ERROR,
 	SKIP_AUTH,
-	LOGOUT_SUCCESS,
+	CLEAR_USER_DATA,
 } = userActionTypes;
 
 const INITIAL_STATE = {
@@ -48,7 +48,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				...action.payload,
 			};
 		case AUTH_ERROR:
-		case LOGOUT_SUCCESS:
+		case CLEAR_USER_DATA:
 			localStorage.removeItem("token");
 			return {
 				...state,

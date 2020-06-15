@@ -5,19 +5,26 @@ import { getError, clearError } from "../error/error.actions";
 import { getTokenConfig } from "../utils";
 
 const {
+	CLEAR_LOG,
 	CREATING_LOG,
 	LOG_CREATED,
 	SYNCING_LOG,
 	LOG_SYNCED,
 	ADD_ENTRY,
 	REMOVE_ENTRY,
+	LOG_UPDATE_SUCCES,
 } = logActionTypes;
 
 // ----------------- Basic -----------------
 
+export const clearLog = () => ({
+	type: CLEAR_LOG,
+});
+
 export const creatingLog = (data) => ({
 	type: CREATING_LOG,
 });
+
 export const logCreated = (data) => ({
 	type: LOG_CREATED,
 	payload: data,
@@ -30,6 +37,11 @@ export const syncingLog = (data) => ({
 
 export const logSynced = (data) => ({
 	type: LOG_SYNCED,
+	payload: data,
+});
+
+export const logUpdated = (data) => ({
+	type: LOG_UPDATE_SUCCES,
 	payload: data,
 });
 
@@ -91,10 +103,38 @@ export const syncLog = () => (dispatch, getState) => {
 		.get("/api/log", getTokenConfig(getState))
 		.then((res) => dispatch(logSynced(convertRemoteLog(res.data))))
 		.catch((err) => {
-			console.dir(err);
 			const { data, status } = err.response;
 			dispatch(getError(data, status, "SYNC_ERROR"));
 		});
 };
 
-export const updateEntry = () => {};
+// Update entry / add new if doesn't exist / remove if level === 0
+export const updateLog = (data) => (dispatch, getState) => {
+	let method;
+
+	// remove
+	if (data.level === 0) {
+		dispatch(removeEntry(data));
+		method = "delete";
+	}
+	// add / update
+	else {
+		dispatch(addEntry(data));
+		method = "post";
+	}
+
+	const { dateStr } = data;
+	const entryName = dateStr.replace(/ /g, "_");
+	const content = JSON.stringify(getState().log.entries[entryName]);
+
+	axios[method](
+		"api/log/entry",
+		JSON.stringify({ dateStr, content }),
+		getTokenConfig(getState)
+	)
+		.then((res) => dispatch(logUpdated(res.data)))
+		.catch((err) => {
+			const { data, status } = err.response;
+			dispatch(getError(data, status, "SYNC_ERROR"));
+		});
+};

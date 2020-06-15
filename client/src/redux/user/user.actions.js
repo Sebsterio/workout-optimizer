@@ -4,7 +4,7 @@ import userActionTypes from "./user.types";
 import { getError, clearError } from "../error/error.actions";
 import { createLog } from "../log/log.actions";
 import { getConfig, getTokenConfig } from "../utils";
-import { syncLog } from "../log/log.actions";
+import { syncLog, clearLog } from "../log/log.actions";
 
 const {
 	USER_LOADED,
@@ -12,7 +12,7 @@ const {
 	AUTH_SUCCESS,
 	AUTH_ERROR,
 	SKIP_AUTH,
-	LOGOUT_SUCCESS,
+	CLEAR_USER_DATA,
 } = userActionTypes;
 
 // ---------------------- Basic --------------------------
@@ -39,11 +39,16 @@ export const skipAuth = () => ({
 	type: SKIP_AUTH,
 });
 
-export const logout = () => ({
-	type: LOGOUT_SUCCESS,
+export const clearUserData = () => ({
+	type: CLEAR_USER_DATA,
 });
 
 // ---------------------- Thunk --------------------------
+
+export const logout = () => (dispatch) => {
+	dispatch(clearLog());
+	dispatch(clearUserData());
+};
 
 // Get user data using locally saved token
 export const loadUser = () => (dispatch, getState) => {
@@ -53,14 +58,14 @@ export const loadUser = () => (dispatch, getState) => {
 		.get("/api/auth/user", getTokenConfig(getState))
 		.then((res) => {
 			dispatch(userLoaded(res.data));
+
+			// TODO: sync log if remote is more recent than local
 		})
 		.catch((err) => {
 			const { data, status } = err.response;
 			dispatch(getError(data, status, "AUTH_ERROR"));
 			dispatch(authError());
 		});
-
-	// TODO: sync log with db - push newer to older
 };
 
 // Register and get new token
