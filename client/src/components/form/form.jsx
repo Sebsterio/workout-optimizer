@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import "./form.scss";
 
-const Form = ({ mode, goBack, login, register, update, error }) => {
+const Form = ({ mode, goBack, login, register, update, connect, error }) => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -78,6 +78,13 @@ const Form = ({ mode, goBack, login, register, update, error }) => {
 				{emailInput("New email")}
 				{newPasswordInput}
 				{submitButton("Done", update)}
+			</>
+		),
+		connect: (
+			<>
+				<h3>Feature currently unavailable</h3>
+				{emailInput("PT email")}
+				{submitButton("Done", connect)}
 			</>
 		),
 	};

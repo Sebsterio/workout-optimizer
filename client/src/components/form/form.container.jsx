@@ -14,6 +14,7 @@ const mapDispatchToProps = (dispatch) => ({
 	login: (data) => dispatch(login(data)),
 	register: (data) => dispatch(register(data)),
 	update: (data) => {},
+	connect: (data) => {},
 });
 
 const FormContainer = (props) => <Form {...props} />;

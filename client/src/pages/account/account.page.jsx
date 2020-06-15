@@ -28,6 +28,9 @@ const AccountPage = ({ user, logout, skipAuth, clearError }) => {
 			<button className="account__btn" data-form="update" onClick={openForm}>
 				Manage account
 			</button>
+			<button className="account__btn" data-form="connect" onClick={openForm}>
+				Connect with PT
+			</button>
 		</>
 	);
 
