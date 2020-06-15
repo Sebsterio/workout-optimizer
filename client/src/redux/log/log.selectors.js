@@ -7,7 +7,7 @@ import getDateInfo from "../../utils/date";
 
 const selectEntry = (state, props) => {
 	const entryName = props.dateStr.replace(/ /g, "_");
-	return state.log[entryName];
+	return state.log.entries[entryName];
 };
 
 const selectIntensity = (state, props) => {

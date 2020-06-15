@@ -4,8 +4,7 @@ import userActionTypes from "./user.types";
 import { getError, clearError } from "../error/error.actions";
 import { createLog } from "../log/log.actions";
 import { getConfig, getTokenConfig } from "../utils";
-
-// const syncLogs = () => {};
+import { syncLog } from "../log/log.actions";
 
 const {
 	USER_LOADED,
@@ -54,7 +53,6 @@ export const loadUser = () => (dispatch, getState) => {
 		.get("/api/auth/user", getTokenConfig(getState))
 		.then((res) => {
 			dispatch(userLoaded(res.data));
-			// dispatch(syncLogs());
 		})
 		.catch((err) => {
 			const { data, status } = err.response;
@@ -86,7 +84,10 @@ export const login = (formData) => (dispatch) => {
 	dispatch(clearError());
 	axios
 		.post("/api/auth/login", JSON.stringify(formData), getConfig())
-		.then((res) => dispatch(authSuccess(res.data)))
+		.then((res) => {
+			dispatch(authSuccess(res.data));
+			dispatch(syncLog());
+		})
 		.catch((err) => {
 			const { data, status } = err.response;
 			dispatch(getError(data, status, "LOGIN_FAIL"));

@@ -14,10 +14,10 @@ router.post("/", auth, async (req, res) => {
 	const { userId } = req;
 	const { entries, PTs } = req.body;
 	try {
-		const newLog = new Log({ userId, entries, PTs });
+		const newLog = new Log({ userId, entries, PTs, date_updated: new Date() });
 		const log = await newLog.save();
 		if (!log) throw Error("Something went wrong saving the log");
-		res.status(200).json(log);
+		res.status(200).send();
 	} catch (e) {
 		res.status(400).json({ msg: e.message });
 	}
@@ -29,21 +29,19 @@ router.post("/", auth, async (req, res) => {
 
 // TODO: chose whether should merge or replace local
 
-// router.get('/', async (req, res) => {
-// 	const inquiringUserId = req.userId;
-// 	const logOwnerUserId = null
-
-// 	// TODO: verfiy userId against lowOnwer's id and PTs array
-
-//   try {
-//     const items = await Log.find();
-//     if (!items) throw Error('No items');
-
-//     res.status(200).json(items);
-//   } catch (e) {
-//     res.status(400).json({ msg: e.message });
-//   }
-// });
+router.get("/", auth, async (req, res) => {
+	// TODO: verfiy userId against lowOnwer's id and PTs array
+	// const inquiringUserId = req.userId;
+	// const logOwnerUserId = null;
+	const { userId } = req;
+	try {
+		const log = await Log.findOne({ userId });
+		if (!log) throw Error("Log not found");
+		res.status(200).json(log);
+	} catch (e) {
+		res.status(400).json({ msg: e.message });
+	}
+});
 
 // ------------------ Delete log -------------------
 

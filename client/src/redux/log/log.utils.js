@@ -8,9 +8,13 @@ export const getStateWithAddedEntry = (state, payload) => {
 	const { entryName, areaName, level } = getEntryPropNames(payload);
 	return {
 		...state,
-		[entryName]: {
-			...state[entryName],
-			[areaName]: level,
+		dateUpdated: new Date(),
+		entries: {
+			...state.entries,
+			[entryName]: {
+				...state.entries[entryName],
+				[areaName]: level,
+			},
 		},
 	};
 };
@@ -18,16 +22,21 @@ export const getStateWithAddedEntry = (state, payload) => {
 export const getStateWithRemovedEntry = (state, payload) => {
 	const { entryName, areaName } = getEntryPropNames(payload);
 
-	// ignore if log or exercise doesn't exist
+	// Ignore if log or exercise doesn't exist
 	if (
-		!state.hasOwnProperty(entryName) ||
-		!state[entryName].hasOwnProperty(areaName)
+		!state.entries.hasOwnProperty(entryName) ||
+		!state.entries[entryName].hasOwnProperty(areaName)
 	) {
 		return state;
 	}
-	const newState = { ...state };
-	delete newState[entryName][areaName];
-	if (Object.keys(newState[entryName]).length === 1) delete newState[entryName];
+
+	const newState = {
+		...state,
+		dateUpdated: new Date(),
+	};
+	delete newState.entries[entryName][areaName];
+	if (Object.keys(newState.entries[entryName]).length === 0)
+		delete newState.entries[entryName];
 
 	return newState;
 };

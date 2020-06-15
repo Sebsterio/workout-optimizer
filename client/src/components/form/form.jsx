@@ -47,7 +47,8 @@ const Form = ({ mode, goBack, login, register, update, connect, error }) => {
 			onClick={(e) => {
 				e.preventDefault();
 				handler({ name, email, password, newPassword });
-				goBack();
+				// if success:
+				// goBack();
 			}}
 		>
 			{label}

@@ -11,7 +11,7 @@ export const LogSchema = new Schema({
 		required: true,
 	},
 	PTs: [String], // authorized PT userIDs
-	date_updated: {
+	dateUpdated: {
 		type: Date,
 		default: Date.now,
 	},
@@ -24,11 +24,3 @@ export const LogSchema = new Schema({
 const Log = model("log", LogSchema);
 
 export default Log;
-
-// const newLog1 = {
-// 	entries: [
-// 		{ exercises: [{ area: "legs" }, { area: "chest" }] },
-// 		{ exercises: [{ area: "upperBody" }, { area: "arms" }] },
-// 	],
-// 	PTs: ["pt1", "pt2"],
-// };
