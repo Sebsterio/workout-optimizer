@@ -14,7 +14,8 @@ const INITIAL_STATE = {
 	isLoading: false,
 	isAuthenticated: false,
 	isLocal: false,
-	data: null,
+	name: null,
+	id: null,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -35,7 +36,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				isLoading: false,
 				isLocal: false,
 				isAuthenticated: true,
-				data: action.payload,
+				name: action.payload.name,
+				id: action.payload.id,
+				token: action.payload.token,
 			};
 		case AUTH_SUCCESS:
 			localStorage.setItem("token", action.payload.token);
@@ -44,17 +47,20 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				isLoading: false,
 				isLocal: false,
 				isAuthenticated: true,
-				data: action.payload,
+				name: action.payload.name,
+				id: action.payload.id,
+				token: action.payload.token,
 			};
 		case AUTH_ERROR:
 		case LOGOUT_SUCCESS:
 			localStorage.removeItem("token");
 			return {
 				...state,
-				token: null,
-				data: null,
 				isAuthenticated: false,
 				isLoading: false,
+				name: null,
+				id: null,
+				token: null,
 			};
 		default:
 			return state;

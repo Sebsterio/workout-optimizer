@@ -13,7 +13,7 @@ const App = ({ user, loadUser }) => {
 
 	useEffect(() => {
 		loadUser();
-	}, []);
+	}, [loadUser]);
 
 	const userIsDefined = isAuthenticated || isLocal;
 

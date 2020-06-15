@@ -48,11 +48,8 @@ router.post("/register", async (req, res) => {
 
 		res.status(200).json({
 			token,
-			user: {
-				id: savedUser.id,
-				name: savedUser.name,
-				email: savedUser.email,
-			},
+			id: savedUser.id,
+			name: savedUser.name,
 		});
 	} catch (e) {
 		res.status(500).json({ msg: e.message });
@@ -81,11 +78,8 @@ router.post("/login", async (req, res) => {
 
 		res.status(200).json({
 			token,
-			user: {
-				id: user._id,
-				name: user.name,
-				email: user.email,
-			},
+			id: user._id,
+			name: user.name,
 		});
 	} catch (e) {
 		res.status(400).json({ msg: e.message });
@@ -98,7 +92,10 @@ router.get("/user", auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.userId).select("-password");
 		if (!user) throw Error("User Does not exist");
-		res.status(200).json(user);
+		res.status(200).json({
+			id: user._id,
+			name: user.name,
+		});
 	} catch (e) {
 		res.status(400).json({ msg: e.message });
 	}

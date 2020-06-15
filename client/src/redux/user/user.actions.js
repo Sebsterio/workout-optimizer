@@ -59,8 +59,8 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 // Add new user and get new token
-export const register = ({ name, email, password }) => (dispatch) => {
-	const body = JSON.stringify({ name, email, password });
+export const register = (formData) => (dispatch) => {
+	const body = JSON.stringify(formData);
 	axios
 		.post("/api/auth/register", body, getConfig())
 		.then((res) => dispatch(authSuccess(res.data)))
@@ -72,8 +72,8 @@ export const register = ({ name, email, password }) => (dispatch) => {
 };
 
 // Log in and get new token
-export const login = ({ email, password }) => (dispatch) => {
-	const body = JSON.stringify({ email, password });
+export const login = (formData) => (dispatch) => {
+	const body = JSON.stringify(formData);
 	axios
 		.post("/api/auth/login", body, getConfig())
 		.then((res) => dispatch(authSuccess(res.data)))

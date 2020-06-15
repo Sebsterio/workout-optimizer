@@ -7,7 +7,6 @@ export const getConfig = () => ({
 export const getTokenConfig = (getState) => {
 	const config = getConfig();
 	const token = getState().user.token;
-	console.log("token: ", token);
 	if (token) config.headers["x-auth-token"] = token;
 	return config;
 };

@@ -2,7 +2,6 @@ import { Schema, model } from "mongoose";
 
 import { LogSchema } from "./log";
 
-// Create Schema
 const UserSchema = new Schema({
 	name: {
 		type: String,

@@ -2,23 +2,17 @@ import React, { useState } from "react";
 
 // TODO: CSS focuswithin > label: show
 
-const Form = ({ mode, back, login, register }) => {
-	const [msg, setMsg] = useState(null); // alert
+const Form = ({ mode, goBack, login, register, update }) => {
+	// const [msg, setMsg] = useState(null); // alert
 
-	const [username, setUsername] = useState("");
+	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if (mode === "login") login({ email, password });
-		if (mode === "register") register({ name: username, email, password });
-	};
-
 	// ---------------------- Render ----------------------
 
-	const input = (type, name, label, value, handler) => (
+	const makeInput = (type, name, label, value, handler) => (
 		<div className="form-group">
 			<label htmlFor={"auth-" + name}>{label}</label>
 			<input
@@ -33,22 +27,21 @@ const Form = ({ mode, back, login, register }) => {
 		</div>
 	);
 
-	const usernameInput = input(
-		"text",
-		"username",
-		"Username",
-		username,
-		setUsername
-	);
-	const emailInput = input("email", "email", "Email", email, setEmail);
+	const makeNameInput = (label) =>
+		makeInput("text", "name", label, name, setName);
+	const nameInput = makeNameInput("Name");
+	const newNameInput = makeNameInput("New name");
+
+	const makeEmailInput = (label) =>
+		makeInput("email", "email", label, email, setEmail);
+	const emailInput = makeEmailInput("Email");
+	const newEmailInput = makeEmailInput("New email");
 
 	const makePasswordInput = (label) =>
-		input("password", "password", label, password, setPassword);
-
+		makeInput("password", "password", label, password, setPassword);
 	const passwordInput = makePasswordInput("Password");
 	const oldPasswordInput = makePasswordInput("Old password");
-
-	const newPasswordInput = input(
+	const newPasswordInput = makeInput(
 		"password",
 		"new-password",
 		"New password",
@@ -56,28 +49,52 @@ const Form = ({ mode, back, login, register }) => {
 		setNewPassword
 	);
 
-	const submitButtonLabel =
-		mode === "login"
-			? "Log in"
-			: mode === "register"
-			? "Register"
-			: mode === "password"
-			? "Done"
-			: "";
+	const makeSubmitButton = (label, handler) => (
+		<button
+			className="form__submit-btn"
+			onClick={(e) => {
+				e.preventDefault();
+				handler({ name, email, password });
+			}}
+		>
+			{label}
+		</button>
+	);
+	const loginButton = makeSubmitButton("Login", login);
+	const registerButton = makeSubmitButton("Register", register);
+	const doneButton = makeSubmitButton("Done", update);
+
+	const formFields = {
+		login: (
+			<>
+				{emailInput}
+				{passwordInput}
+				{loginButton}
+			</>
+		),
+		register: (
+			<>
+				{nameInput}
+				{emailInput}
+				{passwordInput}
+				{registerButton}
+			</>
+		),
+		update: (
+			<>
+				{oldPasswordInput}
+				{newNameInput}
+				{newEmailInput}
+				{newPasswordInput}
+				{doneButton}
+			</>
+		),
+	};
 
 	return (
 		<form className="form">
-			{mode === "register" && usernameInput}
-			{mode !== "password" && emailInput}
-			{mode !== "password" && passwordInput}
-			{mode === "password" && oldPasswordInput}
-			{mode === "password" && newPasswordInput}
-
-			<button className="form__submit-btn" onClick={handleSubmit}>
-				{submitButtonLabel}
-			</button>
-
-			<button className="form__back-btn" onClick={back}>
+			{formFields[mode]}
+			<button className="form__back-btn" onClick={goBack}>
 				Back
 			</button>
 		</form>

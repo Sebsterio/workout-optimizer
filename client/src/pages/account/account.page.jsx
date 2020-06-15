@@ -7,20 +7,18 @@ import "./account.scss";
 const AccountPage = ({ user, logout, skipAuth }) => {
 	const [form, setForm] = useState(null);
 
-	const { isAuthenticated, isLocal } = user;
+	const closeForm = () => setForm(null);
 
-	// ------------------------- render -------------------------
+	const { isAuthenticated, isLocal } = user;
 
 	const memberView = (
 		<>
-			<h1 className="account__heading">
-				Welcome, {isAuthenticated ? user.data.name : "Guest"}
-			</h1>
+			<h1 className="account__heading">Welcome, {user && user.name}</h1>
 			<button className="account__btn" onClick={logout}>
 				Log out
 			</button>
-			<button className="account__btn" onClick={() => setForm("password")}>
-				Change password
+			<button className="account__btn" onClick={() => setForm("update")}>
+				Manage account
 			</button>
 		</>
 	);
@@ -43,7 +41,7 @@ const AccountPage = ({ user, logout, skipAuth }) => {
 		<div className="page account">
 			<div className="account__wrapper">
 				{form ? (
-					<FormContainer mode={form} back={() => setForm(null)} />
+					<FormContainer mode={form} goBack={closeForm} />
 				) : isAuthenticated ? (
 					memberView
 				) : (

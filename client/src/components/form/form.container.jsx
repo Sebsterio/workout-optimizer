@@ -12,6 +12,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 	login: (data) => dispatch(login(data)),
 	register: (data) => dispatch(register(data)),
+	update: (data) => {},
 });
 
 const FormContainer = (props) => <Form {...props} />;
