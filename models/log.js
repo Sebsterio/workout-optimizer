@@ -1,30 +1,34 @@
 import { Schema, model } from "mongoose";
 
-// Create Schema
+export const EntrySchema = new Schema({
+	dateStr: String,
+	content: String,
+});
+
 export const LogSchema = new Schema({
-	date_created: {
-		type: Date,
-		default: Date.now,
+	userId: {
+		type: String,
+		required: true,
 	},
+	PTs: [String], // authorized PT userIDs
 	date_updated: {
 		type: Date,
 		default: Date.now,
 	},
-	exercises: [
-		{
-			area: {
-				type: String,
-				required: true,
-			},
-			level: Number,
-			sets: Number,
-			reps: Number,
-			resistance: Number,
-			notes: String,
-		},
-	],
+	entries: {
+		type: Array,
+		value: EntrySchema,
+	},
 });
 
 const Log = model("log", LogSchema);
 
 export default Log;
+
+// const newLog1 = {
+// 	entries: [
+// 		{ exercises: [{ area: "legs" }, { area: "chest" }] },
+// 		{ exercises: [{ area: "upperBody" }, { area: "arms" }] },
+// 	],
+// 	PTs: ["pt1", "pt2"],
+// };

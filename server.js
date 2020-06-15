@@ -6,6 +6,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 
 import authRoutes from "./routes/api/auth";
+import logRoutes from "./routes/api/log";
 
 dotenv.config();
 const app = express();
@@ -26,17 +27,17 @@ mongoose
 		useNewUrlParser: true,
 		useCreateIndex: true,
 		useUnifiedTopology: true,
-	}) // Adding new mongo url parser
+	})
 	.then(() => console.log("MongoDB Connected..."))
 	.catch((err) => console.log(err));
 
 // --------------- Routing ---------------
 
 app.use("/api/auth", authRoutes);
+app.use("/api/log", logRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {
-	// Set static folder
 	app.use(express.static("client/build"));
 	app.get("*", (req, res) => {
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));

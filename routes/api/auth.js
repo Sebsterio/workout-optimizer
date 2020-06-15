@@ -13,6 +13,8 @@ const router = Router();
 
 // ------------------- Register -------------------
 
+// @access: public
+
 router.post("/register", async (req, res) => {
 	const { name, email, password } = req.body;
 
@@ -58,6 +60,8 @@ router.post("/register", async (req, res) => {
 
 // ------------------- Login -------------------
 
+// @access: public
+
 router.post("/login", async (req, res) => {
 	const { email, password } = req.body;
 
@@ -87,6 +91,8 @@ router.post("/login", async (req, res) => {
 });
 
 // ---------------- Get user data ----------------
+
+// @access: private (token)
 
 router.get("/user", auth, async (req, res) => {
 	try {

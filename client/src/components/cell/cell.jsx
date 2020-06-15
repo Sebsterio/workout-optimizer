@@ -2,11 +2,17 @@ import React from "react";
 
 import "./cell.scss";
 
-const Cell = ({ dateOffset, intensity, restLevel, newEntry }) => {
+const Cell = (props) => {
+	const { dateOffset, intensity, restLevel, addEntry, openModal } = props;
+
 	const isToday = dateOffset === 0;
 	const isPast = dateOffset < 0;
+	const isFuture = dateOffset > 0;
 
-	// TODO: force recovery day after N days of small exercise in a row
+	const handleSubmit = () => {
+		if (isFuture) addEntry({ ...props, level: -1 });
+		else openModal(props);
+	};
 
 	let cellClass = "cell";
 	if (isToday) cellClass += " cell--today";
@@ -15,7 +21,7 @@ const Cell = ({ dateOffset, intensity, restLevel, newEntry }) => {
 	else if (restLevel) cellClass += " cell--recovery-" + restLevel;
 
 	return (
-		<div className={cellClass} onClick={newEntry}>
+		<div className={cellClass} onClick={handleSubmit}>
 			{intensity && <div className={"cell__marker"}></div>}
 		</div>
 	);

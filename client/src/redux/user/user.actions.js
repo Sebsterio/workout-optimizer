@@ -2,9 +2,10 @@ import axios from "axios";
 
 import userActionTypes from "./user.types";
 import { getError, clearError } from "../error/error.actions";
-import { getConfig, getTokenConfig } from "./user.utils";
+import { createLog } from "../log/log.actions";
+import { getConfig, getTokenConfig } from "../utils";
 
-const syncLogs = () => {};
+// const syncLogs = () => {};
 
 const {
 	USER_LOADED,
@@ -69,7 +70,10 @@ export const register = (formData) => (dispatch) => {
 	dispatch(clearError());
 	axios
 		.post("/api/auth/register", JSON.stringify(formData), getConfig())
-		.then((res) => dispatch(authSuccess(res.data)))
+		.then((res) => {
+			dispatch(authSuccess(res.data));
+			dispatch(createLog(res.data));
+		})
 		.catch((err) => {
 			const { data, status } = err.response;
 			dispatch(getError(data, status, "REGISTER_FAIL"));

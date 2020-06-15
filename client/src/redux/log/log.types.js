@@ -1,6 +1,6 @@
 const logActionTypes = {
-	ADD_LOG: "ADD_LOG",
-	REMOVE_LOG: "REMOVE_LOG",
+	ADD_ENTRY: "ADD_ENTRY",
+	REMOVE_ENTRY: "REMOVE_ENTRY",
 };
 
 export default logActionTypes;

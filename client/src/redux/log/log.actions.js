@@ -1,31 +1,50 @@
+import axios from "axios";
+
 import logActionTypes from "./log.types";
 import { openModal } from "../modal/modal.actions";
+import { getTokenConfig } from "../utils";
 
-const { ADD_LOG, REMOVE_LOG } = logActionTypes;
+const { ADD_ENTRY, REMOVE_ENTRY } = logActionTypes;
 
 // ----------------- Basic -----------------
 
-const addLog = (data) => ({
-	type: ADD_LOG,
+export const addEntry = (data) => ({
+	type: ADD_ENTRY,
 	payload: data,
 });
 
-const removeLog = (data) => ({
-	type: REMOVE_LOG,
+export const removeEntry = (data) => ({
+	type: REMOVE_ENTRY,
 	payload: data,
 });
 
 // ----------------- Thunk ------------------
 
-export const addEntry = (data) => (dispatch) => {
-	const { level } = data;
-	if (level === 0) dispatch(removeLog(data));
-	// TODO: only addLog if different than current
-	else dispatch(addLog(data));
+// INITIAL_STATE = {
+// 		Mon_Jun_15_2020: {
+//  		dateStr: "Mon Jun 15 2020",
+// 			quads: 1,
+// 			upperBack: 2,
+// 			chest: 3,
+// 		},
+// 	},
+
+const convertLog = (log) => {
+	const entriesArr = Object.entries(log);
+	return entriesArr.map((entry) => ({
+		dateStr: entry[0].split("_").join(" "),
+		content: JSON.stringify(entry[1]),
+	}));
 };
 
-export const newEntry = (props) => (dispatch) => {
-	const isFuture = props.dateOffset > 0;
-	if (isFuture) dispatch(addEntry({ ...props, level: -1 }));
-	else dispatch(openModal(props));
+export const createLog = (newUserData) => (dispatch, getState) => {
+	const localLog = {
+		userId: newUserData.id,
+		PTs: [],
+		date_updated: new Date(),
+		entries: convertLog(getState().log),
+	};
+	axios.post("/api/log", JSON.stringify(localLog), getTokenConfig(getState));
 };
+
+export const updateEntry = () => {};

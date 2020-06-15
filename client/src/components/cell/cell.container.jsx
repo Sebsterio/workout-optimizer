@@ -5,7 +5,8 @@ import {
 	makeGetIntensity,
 	makeGetRestLevel,
 } from "../../redux/log/log.selectors";
-import { newEntry } from "../../redux/log/log.actions";
+import { addEntry } from "../../redux/log/log.actions";
+import { openModal } from "../../redux/modal/modal.actions";
 
 import Cell from "./cell";
 
@@ -19,8 +20,9 @@ const makeMapStateToProps = () => {
 	});
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
-	newEntry: () => dispatch(newEntry(props)),
+const mapDispatchToProps = (dispatch) => ({
+	addEntry: (data) => dispatch(addEntry(data)),
+	openModal: (data) => dispatch(openModal(data)),
 });
 
 const CellContainer = (props) => <Cell {...props} />;

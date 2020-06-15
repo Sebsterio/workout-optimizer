@@ -6,7 +6,7 @@ import getDateInfo from "../../utils/date";
 // const selectLog = (state) => state.log;
 
 const selectEntry = (state, props) => {
-	const entryName = props.dateStr.replace(/ /g, "");
+	const entryName = props.dateStr.replace(/ /g, "_");
 	return state.log[entryName];
 };
 

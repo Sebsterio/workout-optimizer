@@ -3,11 +3,12 @@ import "./modal.scss";
 
 // -------------------------------------------------------------
 
-const Modal = ({ cellData, addEntry, closeModal }) => {
+const Modal = ({ cellData, addEntry, removeEntry, closeModal }) => {
 	const { area, dateStr } = cellData;
 
 	const handleInput = (level) => {
-		addEntry({ dateStr, area, level });
+		if (level === 0) removeEntry({ dateStr, area });
+		else addEntry({ dateStr, area, level });
 		closeModal();
 	};
 

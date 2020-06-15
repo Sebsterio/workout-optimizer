@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { addEntry } from "../../redux/log/log.actions";
+import { addEntry, removeEntry } from "../../redux/log/log.actions";
 import { closeModal } from "../../redux/modal/modal.actions";
 
 import Modal from "./modal";
@@ -13,6 +13,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
 	addEntry: (data) => dispatch(addEntry(data)),
+	removeEntry: (data) => dispatch(removeEntry(data)),
 	closeModal: () => dispatch(closeModal()),
 });
 

@@ -1,33 +1,33 @@
-const getLogPropNames = ({ dateStr, area, level }) => ({
-	logName: dateStr.replace(/ /g, ""),
+const getEntryPropNames = ({ dateStr, area, level }) => ({
+	entryName: dateStr.replace(/ /g, "_"),
 	areaName: area.name,
 	level,
 });
 
-export const getStateWithAddedLog = (state, payload) => {
-	const { logName, areaName, level } = getLogPropNames(payload);
+export const getStateWithAddedEntry = (state, payload) => {
+	const { entryName, areaName, level } = getEntryPropNames(payload);
 	return {
 		...state,
-		[logName]: {
-			...state[logName],
+		[entryName]: {
+			...state[entryName],
 			[areaName]: level,
 		},
 	};
 };
 
-export const getStateWithRemovedLog = (state, payload) => {
-	const { logName, areaName } = getLogPropNames(payload);
+export const getStateWithRemovedEntry = (state, payload) => {
+	const { entryName, areaName } = getEntryPropNames(payload);
 
 	// ignore if log or exercise doesn't exist
 	if (
-		!state.hasOwnProperty(logName) ||
-		!state[logName].hasOwnProperty(areaName)
+		!state.hasOwnProperty(entryName) ||
+		!state[entryName].hasOwnProperty(areaName)
 	) {
 		return state;
 	}
 	const newState = { ...state };
-	delete newState[logName][areaName];
-	if (Object.keys(newState[logName]).length === 0) delete newState[logName];
+	delete newState[entryName][areaName];
+	if (Object.keys(newState[entryName]).length === 1) delete newState[entryName];
 
 	return newState;
 };
