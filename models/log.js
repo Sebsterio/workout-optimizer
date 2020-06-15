@@ -2,7 +2,11 @@ import { Schema, model } from "mongoose";
 
 // Create Schema
 export const LogSchema = new Schema({
-	date: {
+	date_created: {
+		type: Date,
+		default: Date.now,
+	},
+	date_updated: {
 		type: Date,
 		default: Date.now,
 	},
@@ -12,10 +16,11 @@ export const LogSchema = new Schema({
 				type: String,
 				required: true,
 			},
-			level: {
-				type: Number,
-				required: true,
-			},
+			level: Number,
+			sets: Number,
+			reps: Number,
+			resistance: Number,
+			notes: String,
 		},
 	],
 });

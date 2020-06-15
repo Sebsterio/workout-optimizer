@@ -36,9 +36,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				isLoading: false,
 				isLocal: false,
 				isAuthenticated: true,
-				name: action.payload.name,
-				id: action.payload.id,
-				token: action.payload.token,
+				...action.payload,
 			};
 		case AUTH_SUCCESS:
 			localStorage.setItem("token", action.payload.token);
@@ -47,9 +45,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				isLoading: false,
 				isLocal: false,
 				isAuthenticated: true,
-				name: action.payload.name,
-				id: action.payload.id,
-				token: action.payload.token,
+				...action.payload,
 			};
 		case AUTH_ERROR:
 		case LOGOUT_SUCCESS:

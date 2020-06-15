@@ -7,6 +7,7 @@ import Form from "./form";
 
 const mapStateToProps = (state) => ({
 	user: state.user,
+	error: state.error.msg,
 });
 
 const mapDispatchToProps = (dispatch) => ({

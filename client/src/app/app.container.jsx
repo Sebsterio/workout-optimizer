@@ -8,7 +8,8 @@ import App from "./app";
 //------------------------------------------------------------------------------
 
 const mapStateToProps = (state) => ({
-	user: state.user,
+	isAuthenticated: state.user.isAuthenticated,
+	isLocal: state.user.isLocal,
 });
 
 const mapDispatchToProps = (dispatch) => ({

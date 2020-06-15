@@ -8,15 +8,12 @@ import routes from "./routes";
 
 import "./app.scss";
 
-const App = ({ user, loadUser }) => {
-	const { isAuthenticated, isLocal } = user;
-
+const App = ({ isAuthenticated, isLocal, loadUser }) => {
 	useEffect(() => {
 		loadUser();
 	}, [loadUser]);
 
 	const userIsDefined = isAuthenticated || isLocal;
-
 	if (!userIsDefined) return <AccountPageContainer />;
 
 	const pages = routes.map((route) => {

@@ -1,8 +1,10 @@
 import axios from "axios";
 
 import userActionTypes from "./user.types";
-import { getError } from "../error/error.actions";
+import { getError, clearError } from "../error/error.actions";
 import { getConfig, getTokenConfig } from "./user.utils";
+
+const syncLogs = () => {};
 
 const {
 	USER_LOADED,
@@ -45,10 +47,14 @@ export const logout = () => ({
 
 // Get user data using locally saved token
 export const loadUser = () => (dispatch, getState) => {
+	dispatch(clearError());
 	dispatch(userLoading());
 	axios
 		.get("/api/auth/user", getTokenConfig(getState))
-		.then((res) => dispatch(userLoaded(res.data)))
+		.then((res) => {
+			dispatch(userLoaded(res.data));
+			// dispatch(syncLogs());
+		})
 		.catch((err) => {
 			const { data, status } = err.response;
 			dispatch(getError(data, status, "AUTH_ERROR"));
@@ -58,11 +64,11 @@ export const loadUser = () => (dispatch, getState) => {
 	// TODO: sync log with db - push newer to older
 };
 
-// Add new user and get new token
+// Register and get new token
 export const register = (formData) => (dispatch) => {
-	const body = JSON.stringify(formData);
+	dispatch(clearError());
 	axios
-		.post("/api/auth/register", body, getConfig())
+		.post("/api/auth/register", JSON.stringify(formData), getConfig())
 		.then((res) => dispatch(authSuccess(res.data)))
 		.catch((err) => {
 			const { data, status } = err.response;
@@ -73,9 +79,9 @@ export const register = (formData) => (dispatch) => {
 
 // Log in and get new token
 export const login = (formData) => (dispatch) => {
-	const body = JSON.stringify(formData);
+	dispatch(clearError());
 	axios
-		.post("/api/auth/login", body, getConfig())
+		.post("/api/auth/login", JSON.stringify(formData), getConfig())
 		.then((res) => dispatch(authSuccess(res.data)))
 		.catch((err) => {
 			const { data, status } = err.response;
