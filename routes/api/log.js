@@ -8,38 +8,37 @@ const router = Router();
 // ------------------ Create log -------------------
 
 // @access: log owner only
-// post local entries
 
-router.post("/", auth, async (req, res) => {
+router.post("/create", auth, async (req, res) => {
 	const { userId } = req;
-	const { entries, PTs } = req.body;
-	try {
-		const newLog = new Log({ userId, entries, PTs, date_updated: new Date() });
-		const log = await newLog.save();
-		if (!log) throw Error("Something went wrong saving the log");
-		res.status(200).send();
-	} catch (e) {
-		res.status(400).json({ msg: e.message });
-	}
+	const { dateUpdated, PTs, entries } = req.body;
+	const newLog = new Log({ userId, dateUpdated, PTs, entries });
+	const log = await newLog.save();
+	if (!log)
+		return res.status(500).json({ msg: "Something went wrong saving the log" });
+	res.status(201).send();
 });
 
 // ------------------- Get log -------------------
 
 // @access: log owner and  PT
 
-// TODO: chose whether should merge or replace local
-
-router.get("/", auth, async (req, res) => {
+router.post("/sync", auth, async (req, res) => {
 	// TODO: verfiy userId against lowOnwer's id and PTs array
 	// const inquiringUserId = req.userId;
 	// const logOwnerUserId = null;
 	const { userId } = req;
+	const { dateUpdatedLocal } = req.body;
+
 	try {
 		const log = await Log.findOne({ userId });
 		if (!log) throw Error("Log not found");
-		res.status(200).json(log);
+
+		const dateUpdatedRemote = log.dateUpdated;
+		if (dateUpdatedRemote === dateUpdatedLocal) return res.status(204).send();
+		else res.status(200).json(log);
 	} catch (e) {
-		res.status(400).json({ msg: e.message });
+		res.status(500).json({ msg: e.message });
 	}
 });
 
@@ -68,7 +67,7 @@ router.get("/", auth, async (req, res) => {
 
 router.post("/entry", auth, async (req, res) => {
 	const { userId } = req;
-	const { dateStr, content } = req.body;
+	const { dateStr, content, dateUpdated } = req.body;
 
 	try {
 		const log = await Log.findOne({ userId });
@@ -80,8 +79,10 @@ router.post("/entry", auth, async (req, res) => {
 		} else {
 			log.entries.push({ dateStr, content: content });
 		}
+		log.dateUpdated = dateUpdated;
+
 		await log.save();
-		res.status(200).json(entry);
+		res.status(200).send();
 	} catch (err) {
 		res.status(400).json({ msg: err.message });
 	}

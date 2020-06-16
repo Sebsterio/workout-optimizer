@@ -50,7 +50,7 @@ router.post("/register", async (req, res) => {
 
 		res.status(200).json({
 			token,
-			id: savedUser.id,
+			_id: savedUser._id,
 			name: savedUser.name,
 		});
 	} catch (e) {

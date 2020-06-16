@@ -2,15 +2,13 @@ import axios from "axios";
 
 import userActionTypes from "./user.types";
 import { getError, clearError } from "../error/error.actions";
-import { createLog } from "../log/log.actions";
+import { createRemoteLog, syncLog, clearLocalLog } from "../log/log.actions";
 import { getConfig, getTokenConfig } from "../utils";
-import { syncLog, clearLog } from "../log/log.actions";
 
 const {
 	USER_LOADED,
 	USER_LOADING,
 	AUTH_SUCCESS,
-	AUTH_ERROR,
 	SKIP_AUTH,
 	CLEAR_USER_DATA,
 } = userActionTypes;
@@ -24,10 +22,6 @@ const userLoading = () => ({
 const userLoaded = (data) => ({
 	type: USER_LOADED,
 	payload: data,
-});
-
-const authError = () => ({
-	type: AUTH_ERROR,
 });
 
 export const authSuccess = (data) => ({
@@ -45,29 +39,6 @@ export const clearUserData = () => ({
 
 // ---------------------- Thunk --------------------------
 
-export const logout = () => (dispatch) => {
-	dispatch(clearLog());
-	dispatch(clearUserData());
-};
-
-// Get user data using locally saved token
-export const loadUser = () => (dispatch, getState) => {
-	dispatch(clearError());
-	dispatch(userLoading());
-	axios
-		.get("/api/auth/user", getTokenConfig(getState))
-		.then((res) => {
-			dispatch(userLoaded(res.data));
-
-			// TODO: sync log if remote is more recent than local
-		})
-		.catch((err) => {
-			const { data, status } = err.response;
-			dispatch(getError(data, status, "AUTH_ERROR"));
-			dispatch(authError());
-		});
-};
-
 // Register and get new token
 export const register = (formData) => (dispatch) => {
 	dispatch(clearError());
@@ -75,12 +46,12 @@ export const register = (formData) => (dispatch) => {
 		.post("/api/auth/register", JSON.stringify(formData), getConfig())
 		.then((res) => {
 			dispatch(authSuccess(res.data));
-			dispatch(createLog(res.data));
+			dispatch(createRemoteLog());
 		})
 		.catch((err) => {
 			const { data, status } = err.response;
 			dispatch(getError(data, status, "REGISTER_FAIL"));
-			dispatch(authError());
+			dispatch(clearUserData());
 		});
 };
 
@@ -96,6 +67,27 @@ export const login = (formData) => (dispatch) => {
 		.catch((err) => {
 			const { data, status } = err.response;
 			dispatch(getError(data, status, "LOGIN_FAIL"));
-			dispatch(authError());
+			dispatch(clearUserData());
 		});
+};
+
+// Get user data using locally saved token
+export const loadUser = () => (dispatch, getState) => {
+	dispatch(userLoading());
+	axios
+		.get("/api/auth/user", getTokenConfig(getState))
+		.then((res) => {
+			dispatch(userLoaded(res.data));
+			dispatch(syncLog());
+		})
+		.catch((err) => {
+			const { data, status } = err.response;
+			dispatch(getError(data, status, "AUTH_ERROR"));
+			dispatch(clearUserData());
+		});
+};
+
+export const logout = () => (dispatch) => {
+	dispatch(clearUserData());
+	dispatch(clearLocalLog());
 };

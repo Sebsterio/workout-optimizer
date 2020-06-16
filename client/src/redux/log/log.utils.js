@@ -1,42 +1,51 @@
+// ---------------------- reducer utils ------------------------
+
 const getEntryPropNames = ({ dateStr, area, level }) => ({
 	entryName: dateStr.replace(/ /g, "_"),
 	areaName: area.name,
 	level,
 });
 
-export const getStateWithAddedEntry = (state, payload) => {
+export const getUpdatedEntries = (state, payload) => {
 	const { entryName, areaName, level } = getEntryPropNames(payload);
-	return {
-		...state,
-		dateUpdated: new Date(),
-		entries: {
-			...state.entries,
-			[entryName]: {
-				...state.entries[entryName],
-				[areaName]: level,
-			},
-		},
-	};
-};
+	const entries = { ...state.entries };
 
-export const getStateWithRemovedEntry = (state, payload) => {
-	const { entryName, areaName } = getEntryPropNames(payload);
-
-	// Ignore if log or exercise doesn't exist
-	if (
-		!state.entries.hasOwnProperty(entryName) ||
-		!state.entries[entryName].hasOwnProperty(areaName)
-	) {
-		return state;
+	// Remove entry
+	if (level === 0) {
+		delete entries[entryName][areaName];
+		const isEmpty = Object.keys(entries[entryName]).length === 0;
+		if (isEmpty) delete entries[entryName];
+	}
+	// Add entry
+	else {
+		entries[entryName] = {
+			...entries[entryName],
+			[areaName]: level,
+		};
 	}
 
-	const newState = {
-		...state,
-		dateUpdated: new Date(),
-	};
-	delete newState.entries[entryName][areaName];
-	if (Object.keys(newState.entries[entryName]).length === 0)
-		delete newState.entries[entryName];
+	return entries;
+};
 
-	return newState;
+// ---------------------- db conversion ------------------------
+
+// Convert single local log entry for export to db
+export const convertLocalEntry = (entryName, entryValue) => ({
+	dateStr: entryName.split("_").join(" "),
+	content: JSON.stringify(entryValue),
+});
+
+// Convert all local log entries for export to db
+export const convertLocalEntries = (entries) =>
+	Object.entries(entries).map((entry) => convertLocalEntry(entry[0], entry[1]));
+
+// Convert imported remote log entries
+export const convertRemoteEntries = (entries) => {
+	const newEntries = {};
+	entries.forEach((entry) => {
+		const entryName = entry.dateStr.replace(/ /g, "_");
+		const content = JSON.parse(entry.content);
+		newEntries[entryName] = content;
+	});
+	return newEntries;
 };

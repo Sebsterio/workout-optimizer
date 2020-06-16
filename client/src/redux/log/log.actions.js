@@ -1,38 +1,47 @@
 import axios from "axios";
 
 import logActionTypes from "./log.types";
-import { getError, clearError } from "../error/error.actions";
+import { getError } from "../error/error.actions";
 import { getTokenConfig } from "../utils";
+import {
+	convertLocalEntries,
+	convertRemoteEntries,
+	convertLocalEntry,
+} from "./log.utils";
 
 const {
-	CLEAR_LOG,
-	CREATING_LOG,
-	LOG_CREATED,
+	CLEAR_LOCAL_LOG,
+	CREATING_REMOTE_LOG,
+	REMOTE_LOG_CREATED,
 	SYNCING_LOG,
+	LOG_UP_TO_DATE,
 	LOG_SYNCED,
-	ADD_ENTRY,
-	REMOVE_ENTRY,
-	LOG_UPDATE_SUCCES,
+	UPDATE_LOCAL_LOG,
+	UPDATING_REMOTE_LOG,
+	REMOTE_LOG_UPDATED,
 } = logActionTypes;
 
 // ----------------- Basic -----------------
 
-export const clearLog = () => ({
-	type: CLEAR_LOG,
+export const clearLocalLog = () => ({
+	type: CLEAR_LOCAL_LOG,
 });
 
-export const creatingLog = (data) => ({
-	type: CREATING_LOG,
+export const creatingRemoteLog = () => ({
+	type: CREATING_REMOTE_LOG,
 });
 
-export const logCreated = (data) => ({
-	type: LOG_CREATED,
+export const remoteLogCreated = (data) => ({
+	type: REMOTE_LOG_CREATED,
 	payload: data,
 });
 
-export const syncingLog = (data) => ({
+export const syncingLog = () => ({
 	type: SYNCING_LOG,
-	payload: data,
+});
+
+export const logUpToDate = () => ({
+	type: LOG_UP_TO_DATE,
 });
 
 export const logSynced = (data) => ({
@@ -40,101 +49,110 @@ export const logSynced = (data) => ({
 	payload: data,
 });
 
-export const logUpdated = (data) => ({
-	type: LOG_UPDATE_SUCCES,
+export const updateLocalLog = (data) => ({
+	type: UPDATE_LOCAL_LOG,
 	payload: data,
 });
 
-export const addEntry = (data) => ({
-	type: ADD_ENTRY,
-	payload: data,
+export const updatingRemoteLog = () => ({
+	type: UPDATING_REMOTE_LOG,
 });
 
-export const removeEntry = (data) => ({
-	type: REMOVE_ENTRY,
-	payload: data,
+export const remoteLogUpdated = () => ({
+	type: REMOTE_LOG_UPDATED,
 });
 
 // ----------------- Thunk ------------------
 
-// aux
-const convertLocalLog = (localLog) => ({
-	dateUpdated: localLog.dateUpdated,
-	entries: Object.entries(localLog.entries).map((entry) => ({
-		dateStr: entry[0].split("_").join(" "),
-		content: JSON.stringify(entry[1]),
-	})),
-});
-
-const convertRemoteLog = (remoteLog) => {
-	console.log(remoteLog);
-	const entries = {};
-	remoteLog.entries.forEach((entry) => {
-		const entryName = entry.dateStr.replace(/ /g, "_");
-		const content = JSON.parse(entry.content);
-		entries[entryName] = content;
-	});
-	return {
-		dateUpdated: remoteLog.dateUpdated,
-		entries,
-	};
-};
-
-export const createLog = (newUserData) => (dispatch, getState) => {
-	dispatch(creatingLog());
+// POST local log to db
+export const createRemoteLog = () => (dispatch, getState) => {
+	dispatch(creatingRemoteLog());
 
 	const localLog = getState().log;
-	const remoteLog = convertLocalLog(localLog);
-	remoteLog.userId = newUserData.id;
-	remoteLog.PTs = [];
+	const newRemoteLog = {
+		dateUpdated: localLog.dateUpdated,
+		userId: getState().user._id,
+		PTs: [],
+		entries: convertLocalEntries(localLog.entries),
+	};
 
+	console.log("newRemoteLog: ", newRemoteLog);
 	axios
-		.post("/api/log", JSON.stringify(remoteLog), getTokenConfig(getState))
-		.then((res) => dispatch(logCreated()))
+		.post(
+			"/api/log/create",
+			JSON.stringify(newRemoteLog),
+			getTokenConfig(getState)
+		)
+		.then(() => dispatch(remoteLogCreated()))
 		.catch((err) => {
-			const { data, status } = err.response;
-			dispatch(getError(data, status, "SYNC_ERROR"));
+			dispatch(
+				getError(
+					err.response.data,
+					err.response.status,
+					"CREATE_REMOTE_LOG_ERROR"
+				)
+			);
 		});
 };
 
+// GET log from db
 export const syncLog = () => (dispatch, getState) => {
 	dispatch(syncingLog());
+	const dateUpdatedLocal = getState().log.dateUpdated;
 	axios
-		.get("/api/log", getTokenConfig(getState))
-		.then((res) => dispatch(logSynced(convertRemoteLog(res.data))))
+		.post(
+			"/api/log/sync",
+			JSON.stringify({ dateUpdatedLocal }),
+			getTokenConfig(getState)
+		)
+		.then((res) => {
+			if (res.status === 204) dispatch(logUpToDate());
+			// TODO: compare dateUpdated of remote and local and prompt user about action
+			else {
+				const remoteLog = res.data;
+				const localLog = {
+					dateUpdated: remoteLog.dateUpdated,
+					PTs: remoteLog.PTs,
+					entries: convertRemoteEntries(remoteLog.entries),
+				};
+				dispatch(logSynced(localLog));
+			}
+		})
 		.catch((err) => {
-			const { data, status } = err.response;
-			dispatch(getError(data, status, "SYNC_ERROR"));
+			dispatch(
+				getError(err.response.data, err.response.status, "SYNC_LOG_ERROR")
+			);
 		});
 };
 
-// Update entry / add new if doesn't exist / remove if level === 0
+// Add/update/remove entry locally & POST/DELETE to db
 export const updateLog = (data) => (dispatch, getState) => {
-	let method;
+	const dateUpdated = new Date();
+	dispatch(updateLocalLog({ ...data, dateUpdated }));
 
-	// remove
-	if (data.level === 0) {
-		dispatch(removeEntry(data));
-		method = "delete";
-	}
-	// add / update
-	else {
-		dispatch(addEntry(data));
-		method = "post";
-	}
+	if (getState().user.isIncognito) return;
 
-	const { dateStr } = data;
-	const entryName = dateStr.replace(/ /g, "_");
-	const content = JSON.stringify(getState().log.entries[entryName]);
+	dispatch(updatingRemoteLog());
 
-	axios[method](
-		"api/log/entry",
-		JSON.stringify({ dateStr, content }),
-		getTokenConfig(getState)
-	)
-		.then((res) => dispatch(logUpdated(res.data)))
+	const entryName = data.dateStr.replace(/ /g, "_");
+	const entryValue = getState().log.entries[entryName];
+	const remoteEntry = convertLocalEntry(entryName, entryValue);
+
+	// POST and replace whole entry or DELETE if empty
+	axios
+		.post(
+			"api/log/entry",
+			JSON.stringify({ ...remoteEntry, dateUpdated }),
+			getTokenConfig(getState)
+		)
+		.then(() => dispatch(remoteLogUpdated()))
 		.catch((err) => {
-			const { data, status } = err.response;
-			dispatch(getError(data, status, "SYNC_ERROR"));
+			dispatch(
+				getError(
+					err.response.data,
+					err.response.status,
+					"UPDATE_REMOTE_LOG_ERROR"
+				)
+			);
 		});
 };

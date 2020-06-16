@@ -4,18 +4,17 @@ const {
 	USER_LOADED,
 	USER_LOADING,
 	AUTH_SUCCESS,
-	AUTH_ERROR,
 	SKIP_AUTH,
 	CLEAR_USER_DATA,
 } = userActionTypes;
 
 const INITIAL_STATE = {
 	token: localStorage.getItem("token"),
+	isIncognito: false,
 	isLoading: false,
 	isAuthenticated: false,
-	isLocal: false,
 	name: null,
-	id: null,
+	_id: null,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -23,7 +22,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 		case SKIP_AUTH:
 			return {
 				...state,
-				isLocal: true,
+				isIncognito: true,
 			};
 		case USER_LOADING:
 			return {
@@ -33,8 +32,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
 		case USER_LOADED:
 			return {
 				...state,
+				isIncognito: false,
 				isLoading: false,
-				isLocal: false,
 				isAuthenticated: true,
 				...action.payload,
 			};
@@ -42,20 +41,19 @@ const userReducer = (state = INITIAL_STATE, action) => {
 			localStorage.setItem("token", action.payload.token);
 			return {
 				...state,
+				isIncognito: false,
 				isLoading: false,
-				isLocal: false,
 				isAuthenticated: true,
 				...action.payload,
 			};
-		case AUTH_ERROR:
 		case CLEAR_USER_DATA:
 			localStorage.removeItem("token");
 			return {
-				...state,
-				isAuthenticated: false,
+				isIncognito: false,
 				isLoading: false,
+				isAuthenticated: false,
 				name: null,
-				id: null,
+				_id: null,
 				token: null,
 			};
 		default:

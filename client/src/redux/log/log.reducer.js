@@ -1,37 +1,67 @@
 import logActionTypes from "./log.types";
-import { getStateWithAddedEntry, getStateWithRemovedEntry } from "./log.utils";
+import { getUpdatedEntries } from "./log.utils";
 
 export const INITIAL_STATE = {
-	dateUpdated: new Date(),
-	entries: {
-		// Mon_Jun_15_2020: {
-		// 	quads: 1,
-		// 	upperBack: 2,
-		// 	chest: 3,
-		// },
-	},
+	dateUpdated: null,
+	isSyncing: false,
+	isSynced: false,
+	entries: {},
 };
 
-const { LOG_SYNCED, ADD_ENTRY, REMOVE_ENTRY, CLEAR_LOG } = logActionTypes;
+const {
+	CLEAR_LOCAL_LOG,
+	CREATING_REMOTE_LOG,
+	REMOTE_LOG_CREATED,
+	SYNCING_LOG,
+	LOG_UP_TO_DATE,
+	LOG_SYNCED,
+	UPDATE_LOCAL_LOG,
+	UPDATING_REMOTE_LOG,
+	REMOTE_LOG_UPDATED,
+} = logActionTypes;
 
 const logReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case CLEAR_LOG: {
+		case CREATING_REMOTE_LOG:
+		case UPDATING_REMOTE_LOG:
+		case SYNCING_LOG: {
 			return {
 				...state,
-				entries: {},
+				isSyncing: true,
+				isSynced: false,
+			};
+		}
+		case REMOTE_LOG_CREATED:
+		case REMOTE_LOG_UPDATED:
+		case LOG_UP_TO_DATE: {
+			return {
+				...state,
+				isSyncing: false,
+				isSynced: true,
 			};
 		}
 		case LOG_SYNCED: {
 			return {
-				...action.payload,
+				isSyncing: false,
+				isSynced: true,
+				dateUpdated: action.payload.dateUpdated,
+				entries: action.payload.entries,
 			};
 		}
-		case ADD_ENTRY: {
-			return getStateWithAddedEntry(state, action.payload);
+		case UPDATE_LOCAL_LOG: {
+			return {
+				...state,
+				dateUpdated: action.payload.dateUpdated,
+				entries: getUpdatedEntries(state, action.payload),
+			};
 		}
-		case REMOVE_ENTRY: {
-			return getStateWithRemovedEntry(state, action.payload);
+		case CLEAR_LOCAL_LOG: {
+			return {
+				isSyncing: false,
+				isSynced: false,
+				dateUpdated: null,
+				entries: {},
+			};
 		}
 		default:
 			return state;
