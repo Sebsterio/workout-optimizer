@@ -30,16 +30,12 @@ router.post("/sync", auth, async (req, res) => {
 	const { userId } = req;
 	const { dateUpdatedLocal } = req.body;
 
-	try {
-		const log = await Log.findOne({ userId });
-		if (!log) throw Error("Log not found");
+	const log = await Log.findOne({ userId });
+	if (!log) return res.status(404).json({ msg: "Log not found" });
 
-		const dateUpdatedRemote = log.dateUpdated;
-		if (dateUpdatedRemote === dateUpdatedLocal) return res.status(204).send();
-		else res.status(200).json(log);
-	} catch (e) {
-		res.status(500).json({ msg: e.message });
-	}
+	const dateUpdatedRemote = log.dateUpdated;
+	if (dateUpdatedRemote === dateUpdatedLocal) return res.status(204).send();
+	else res.status(200).json(log);
 });
 
 // ------------------ Delete log -------------------
@@ -61,7 +57,7 @@ router.post("/sync", auth, async (req, res) => {
 //   }
 // });
 
-// ---------------- Add / update entry -----------------
+// ---------------- Add / update / remove entry -----------------
 
 // @access: log owner and  PT
 
@@ -72,45 +68,32 @@ router.post("/entry", auth, async (req, res) => {
 	try {
 		const log = await Log.findOne({ userId });
 		if (!log) throw Error("Log not found");
+
 		const entry = log.entries.find((entry) => entry.dateStr === dateStr);
 
-		if (entry) {
-			entry.content = content;
-		} else {
+		// add new entry
+		if (!entry && content) {
 			log.entries.push({ dateStr, content: content });
 		}
+		// update entry
+		else if (entry && content) {
+			entry.content = content;
+		}
+		// delete entry
+		else if (entry && !content) {
+			log.entries = log.entries.filter((entry) => entry.dateStr !== dateStr);
+		}
+		// attempt to remove non-existing entry
+		else {
+			throw Error("Error updating database");
+		}
 		log.dateUpdated = dateUpdated;
-
 		await log.save();
+
 		res.status(200).send();
 	} catch (err) {
 		res.status(400).json({ msg: err.message });
 	}
 });
-
-// ------------------- Remove entry -------------------
-
-// @access: log owner and  PT
-
-// router.delete("/entry", auth, async (req, res) => {
-// 	const { userId } = req;
-// 	const { dateStr, content } = req.body;
-
-// 	try {
-// 		const log = await Log.findOne({ userId });
-// 		if (!log) throw Error("Log not found");
-// 		const entry = log.entries.find((entry) => entry.dateStr === dateStr);
-
-// 		if (entry) {
-// 			entry.content = content;
-// 		} else {
-// 			log.entries.push({ dateStr, content: content });
-// 		}
-// 		await log.save();
-// 		res.status(200).json(entry);
-// 	} catch (err) {
-// 		res.status(400).json({ msg: err.message });
-// 	}
-// });
 
 export default router;

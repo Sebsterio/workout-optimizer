@@ -49,8 +49,7 @@ export const register = (formData) => (dispatch) => {
 			dispatch(createRemoteLog());
 		})
 		.catch((err) => {
-			const { data, status } = err.response;
-			dispatch(getError(data, status, "REGISTER_FAIL"));
+			dispatch(getError(err, "REGISTER_FAIL"));
 			dispatch(clearUserData());
 		});
 };
@@ -65,8 +64,7 @@ export const login = (formData) => (dispatch) => {
 			dispatch(syncLog());
 		})
 		.catch((err) => {
-			const { data, status } = err.response;
-			dispatch(getError(data, status, "LOGIN_FAIL"));
+			dispatch(getError(err, "LOGIN_FAIL"));
 			dispatch(clearUserData());
 		});
 };
@@ -75,14 +73,13 @@ export const login = (formData) => (dispatch) => {
 export const loadUser = () => (dispatch, getState) => {
 	dispatch(userLoading());
 	axios
-		.get("/api/auth/user", getTokenConfig(getState))
+		.get("/api/auth", getTokenConfig(getState))
 		.then((res) => {
 			dispatch(userLoaded(res.data));
 			dispatch(syncLog());
 		})
 		.catch((err) => {
-			const { data, status } = err.response;
-			dispatch(getError(data, status, "AUTH_ERROR"));
+			dispatch(getError(err, "AUTH_ERROR"));
 			dispatch(clearUserData());
 		});
 };

@@ -94,7 +94,7 @@ router.post("/login", async (req, res) => {
 
 // @access: private (token)
 
-router.get("/user", auth, async (req, res) => {
+router.get("/", auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.userId).select("-password");
 		if (!user) throw Error("User Does not exist");

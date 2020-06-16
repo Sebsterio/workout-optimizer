@@ -76,7 +76,6 @@ export const createRemoteLog = () => (dispatch, getState) => {
 		entries: convertLocalEntries(localLog.entries),
 	};
 
-	console.log("newRemoteLog: ", newRemoteLog);
 	axios
 		.post(
 			"/api/log/create",
@@ -85,13 +84,7 @@ export const createRemoteLog = () => (dispatch, getState) => {
 		)
 		.then(() => dispatch(remoteLogCreated()))
 		.catch((err) => {
-			dispatch(
-				getError(
-					err.response.data,
-					err.response.status,
-					"CREATE_REMOTE_LOG_ERROR"
-				)
-			);
+			dispatch(getError(err, "CREATE_REMOTE_LOG_ERROR"));
 		});
 };
 
@@ -119,9 +112,7 @@ export const syncLog = () => (dispatch, getState) => {
 			}
 		})
 		.catch((err) => {
-			dispatch(
-				getError(err.response.data, err.response.status, "SYNC_LOG_ERROR")
-			);
+			dispatch(getError(err, "SYNC_LOG_ERROR"));
 		});
 };
 
@@ -147,12 +138,6 @@ export const updateLog = (data) => (dispatch, getState) => {
 		)
 		.then(() => dispatch(remoteLogUpdated()))
 		.catch((err) => {
-			dispatch(
-				getError(
-					err.response.data,
-					err.response.status,
-					"UPDATE_REMOTE_LOG_ERROR"
-				)
-			);
+			dispatch(getError(err, "UPDATE_REMOTE_LOG_ERROR"));
 		});
 };
