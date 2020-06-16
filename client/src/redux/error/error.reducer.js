@@ -12,7 +12,12 @@ const errorReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case GET_ERROR: {
 			const { response } = action.payload;
-			if (response) return { ...response };
+			if (response)
+				return {
+					msg: response.data.msg,
+					status: response.status,
+					id: response.id,
+				};
 			else
 				return {
 					msg: action.payload,

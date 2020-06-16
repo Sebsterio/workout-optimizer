@@ -1,0 +1,15 @@
+.alert {
+	max-height: 10vh;
+	padding: 1em;
+	color: rgb(175, 3, 3);
+	border: 2px solid red;
+	background-color: rgb(255, 189, 189);
+	display: flex;
+	justify-content: space-between;
+
+	&__close {
+		width: 1rem;
+		height: 1rem;
+		padding-left: 1rem;
+	}
+}

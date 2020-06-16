@@ -79,7 +79,6 @@ export const loadUser = () => (dispatch, getState) => {
 			dispatch(syncLog());
 		})
 		.catch((err) => {
-			dispatch(getError(err, "AUTH_ERROR"));
 			dispatch(clearUserData());
 		});
 };

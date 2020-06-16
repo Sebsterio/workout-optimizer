@@ -2,19 +2,19 @@ import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 
 import Header from "../components/header/header";
-import AccountPageContainer from "../pages/account/account.container";
+import AccountPage from "../pages/account/account.container";
+import Alert from "../components/alert/alert.container";
 
 import routes from "./routes";
 
 import "./app.scss";
 
 const App = ({ isAuthenticated, isIncognito, loadUser }) => {
+	const userIsDefined = isAuthenticated || isIncognito;
+
 	useEffect(() => {
 		loadUser();
 	}, [loadUser]);
-
-	const userIsDefined = isAuthenticated || isIncognito;
-	if (!userIsDefined) return <AccountPageContainer />;
 
 	const pages = routes.map((route) => {
 		const { path, component } = route;
@@ -23,9 +23,10 @@ const App = ({ isAuthenticated, isIncognito, loadUser }) => {
 
 	return (
 		<div className="app">
-			<Header />
+			{userIsDefined && <Header />}
 			<main>
-				<Switch>{pages}</Switch>
+				<Alert />
+				{!userIsDefined ? <AccountPage /> : <Switch>{pages}</Switch>}
 			</main>
 		</div>
 	);

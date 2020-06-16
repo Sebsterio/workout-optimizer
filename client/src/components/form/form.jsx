@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import "./form.scss";
 
-const Form = ({ mode, goBack, login, register, update, connect, error }) => {
+const Form = ({ mode, goBack, login, register, update, connect }) => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -92,7 +92,6 @@ const Form = ({ mode, goBack, login, register, update, connect, error }) => {
 
 	return (
 		<form className="form">
-			{error && <div className="form__item form__alert">{error}</div>}
 			{formFields[mode]}
 			<button className="form__item form__btn--back" onClick={goBack}>
 				Back
