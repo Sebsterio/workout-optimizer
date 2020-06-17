@@ -25,11 +25,14 @@ const AccountPage = ({ user, logout, skipAuth, clearError }) => {
 			<button className="account__btn" onClick={logout}>
 				Log out
 			</button>
+			<button className="account__btn" data-form="connect" onClick={openForm}>
+				Connect with PT
+			</button>
 			<button className="account__btn" data-form="update" onClick={openForm}>
 				Manage account
 			</button>
-			<button className="account__btn" data-form="connect" onClick={openForm}>
-				Connect with PT
+			<button className="account__btn" data-form="remove" onClick={openForm}>
+				Delete account
 			</button>
 		</>
 	);

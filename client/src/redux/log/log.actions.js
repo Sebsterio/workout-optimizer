@@ -141,3 +141,10 @@ export const updateLog = (data) => (dispatch, getState) => {
 			dispatch(getError(err, "UPDATE_REMOTE_LOG_ERROR"));
 		});
 };
+
+export const removeRemoteLog = (token) => (dispatch) => {
+	axios
+		.delete("/api/log", token)
+		.then(() => dispatch(clearLocalLog()))
+		.catch((err) => dispatch(getError(err, "REMOVE_REMOTE_LOG_FAIL")));
+};

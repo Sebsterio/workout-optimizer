@@ -22,7 +22,7 @@ const Cell = (props) => {
 
 	return (
 		<div className={cellClass} onClick={handleSubmit}>
-			{intensity && <div className={"cell__marker"}></div>}
+			{intensity && <div className={"cell__exercise"}></div>}
 		</div>
 	);
 };

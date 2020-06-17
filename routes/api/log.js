@@ -42,20 +42,19 @@ router.post("/sync", auth, async (req, res) => {
 
 // @access: log owner only
 
-// router.delete('/', auth, async (req, res) => {
-//   const newItem = new Item({
-//     name: req.body.name
-//   });
+router.delete("/", auth, async (req, res) => {
+	try {
+		const { userId } = req;
+		console.log(userId); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		const log = await Log.findOne({ userId });
+		if (!log) throw Error("Log does not exist");
 
-//   try {
-//     const item = await newItem.save();
-//     if (!item) throw Error('Something went wrong saving the item');
-
-//     res.status(200).json(item);
-//   } catch (e) {
-//     res.status(400).json({ msg: e.message });
-//   }
-// });
+		await Log.findOneAndRemove({ userId });
+		res.status(200).send();
+	} catch (e) {
+		res.status(400).json({ msg: e.message });
+	}
+});
 
 // ---------------- Add / update / remove entry -----------------
 

@@ -25,13 +25,13 @@
 		);
 	}
 
-	&__marker {
+	&__exercise {
 		background-color: rgb(117, 11, 11);
 		border-radius: 50%;
 	}
 
 	&--planned {
-		.cell__marker {
+		.cell__exercise {
 			width: 30%;
 			height: 30%;
 			background-color: transparent;
@@ -40,21 +40,21 @@
 	}
 	&--intensity-1 {
 		background-color: rgb(226, 105, 105);
-		.cell__marker {
+		.cell__exercise {
 			width: 30%;
 			height: 30%;
 		}
 	}
 	&--intensity-2 {
 		background-color: rgb(226, 105, 105);
-		.cell__marker {
+		.cell__exercise {
 			width: 60%;
 			height: 60%;
 		}
 	}
 	&--intensity-3 {
 		background-color: rgb(226, 105, 105);
-		.cell__marker {
+		.cell__exercise {
 			width: 90%;
 			height: 90%;
 		}

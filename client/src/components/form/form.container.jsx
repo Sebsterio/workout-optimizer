@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { login, register } from "../../redux/user/user.actions";
+import { login, register, closeAccount } from "../../redux/user/user.actions";
 
 import Form from "./form";
 
@@ -12,8 +12,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 	login: (data) => dispatch(login(data)),
 	register: (data) => dispatch(register(data)),
-	update: (data) => {},
-	connect: (data) => {},
+	update: () => {},
+	connect: () => {},
+	remove: (data) => dispatch(closeAccount(data)),
 });
 
 const FormContainer = (props) => <Form {...props} />;

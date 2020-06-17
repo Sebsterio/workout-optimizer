@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import "./form.scss";
 
-const Form = ({ mode, goBack, login, register, update, connect }) => {
+const Form = ({ mode, goBack, login, register, update, connect, remove }) => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -86,6 +86,17 @@ const Form = ({ mode, goBack, login, register, update, connect }) => {
 				<h3>Feature currently unavailable</h3>
 				{emailInput("PT email")}
 				{submitButton("Done", connect)}
+			</>
+		),
+		remove: (
+			<>
+				<h3>Caution!</h3>
+				<p>
+					You're about to permanently remove all your data. This action cannot
+					be undone.
+				</p>
+				{passwordInput("Password")}
+				{submitButton("CLOSE ACCOUNT", remove)}
 			</>
 		),
 	};

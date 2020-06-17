@@ -3,7 +3,6 @@ import React from "react";
 import "./alert.scss";
 
 const Alert = ({ error, clearError }) => {
-	console.log("Alert ", error);
 	if (error)
 		return (
 			<div className="alert">

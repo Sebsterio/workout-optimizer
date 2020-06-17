@@ -2,7 +2,12 @@ import axios from "axios";
 
 import userActionTypes from "./user.types";
 import { getError, clearError } from "../error/error.actions";
-import { createRemoteLog, syncLog, clearLocalLog } from "../log/log.actions";
+import {
+	createRemoteLog,
+	syncLog,
+	clearLocalLog,
+	removeRemoteLog,
+} from "../log/log.actions";
 import { getConfig, getTokenConfig } from "../utils";
 
 const {
@@ -69,6 +74,16 @@ export const login = (formData) => (dispatch) => {
 		});
 };
 
+export const closeAccount = (formData) => (dispatch, getState) => {
+	dispatch(clearError());
+	const token = getTokenConfig(getState);
+	axios
+		.post("api/auth/delete", JSON.stringify(formData), token)
+		.then(() => dispatch(clearUserData()))
+		.then(() => dispatch(removeRemoteLog(token)))
+		.catch((err) => dispatch(getError(err, "CLOSE_ACCOUNT_FAIL")));
+};
+
 // Get user data using locally saved token
 export const loadUser = () => (dispatch, getState) => {
 	dispatch(userLoading());
@@ -78,9 +93,7 @@ export const loadUser = () => (dispatch, getState) => {
 			dispatch(userLoaded(res.data));
 			dispatch(syncLog());
 		})
-		.catch((err) => {
-			dispatch(clearUserData());
-		});
+		.catch((err) => dispatch(clearUserData()));
 };
 
 export const logout = () => (dispatch) => {
