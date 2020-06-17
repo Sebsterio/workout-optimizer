@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import ColumnContainer from "../../components/column/column.container";
 import ModalContainer from "../../components/modal/modal.container";
+import LogSpinner from "../../components/log-spinner/log-spinner.container";
 
 import "./tracker.scss";
 
@@ -62,7 +63,7 @@ const TrackerPage = ({ areas }) => {
 	const Aside = (
 		<div className="table__aside" style={translateX}>
 			<div className="table__aside-head" style={translateY}>
-				^ {/* expand/collapse header button */}
+				<LogSpinner />
 			</div>
 			{areas.map((bodyPart, i) => (
 				<div className="table__aside-cell" key={bodyPart.name}>

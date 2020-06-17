@@ -100,7 +100,7 @@ router.get("/", auth, async (req, res) => {
 	}
 });
 
-// ---------------- Remove account ----------------
+// ---------------- Remove user ----------------
 
 router.post("/delete", auth, async (req, res) => {
 	try {
