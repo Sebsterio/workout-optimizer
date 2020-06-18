@@ -1,0 +1,64 @@
+@import "../../vars";
+
+$black: rgba(0, 0, 0, 0.2);
+$white: white;
+
+.field {
+	box-sizing: border-box;
+	height: 95%;
+	width: 95%;
+	overflow: hidden;
+
+	position: relative;
+	background: linear-gradient(rgb(225, 230, 253), rgb(200, 209, 246));
+
+	&--recovery {
+		&-1 {
+			background: linear-gradient(to right, white, rgb(184, 247, 221));
+		}
+		&-2 {
+			background: linear-gradient(
+				to right,
+				rgb(184, 247, 221),
+				rgb(119, 221, 179)
+			);
+		}
+	}
+
+	&--intensity {
+		background: rgb(119, 221, 179);
+	}
+
+	&__plan,
+	&__exercise {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 50%;
+	}
+
+	&__plan {
+		width: 30%;
+		height: 30%;
+		border: 1px dotted black;
+	}
+
+	&__exercise {
+		background-color: rgb(11, 117, 16);
+
+		&--intensity-1 {
+			width: 30%;
+			height: 30%;
+		}
+
+		&--intensity-2 {
+			width: 60%;
+			height: 60%;
+		}
+		&--intensity-3 {
+			width: 90%;
+			height: 90%;
+		}
+	}
+}

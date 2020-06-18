@@ -1,9 +1,7 @@
 @import "../../vars";
 
 .column {
-	&--empty {
-		width: $cell-size;
-	}
+	position: relative;
 
 	&__head {
 		box-sizing: border-box;
@@ -12,16 +10,34 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		border: 1px solid silver;
-		background-color: white;
 		overflow: hidden;
 
-		&--today {
-			background-color: rgb(228, 228, 228);
-		}
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		background-color: white;
 	}
 
 	&__weekDay {
 		margin-right: 0.3em;
+	}
+
+	&__cell {
+		box-sizing: border-box;
+		height: $cell-size;
+		width: $cell-size;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		position: relative;
+	}
+
+	&--today &__head {
+		background: silver;
+	}
+
+	&--today &__cell {
+		background: rgba(0, 0, 0, 0.1);
 	}
 }

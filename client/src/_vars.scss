@@ -1,2 +1,6 @@
+:root {
+	--cell-size: 100px;
+}
+
 $cell-size: var(--cell-size);
 $head-size: calc(var(--cell-size) / 3);

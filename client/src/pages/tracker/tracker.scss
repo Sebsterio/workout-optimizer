@@ -1,7 +1,7 @@
 @import "../../vars";
 
 .tracker {
-	--cell-size: 100px;
+	// background-color: silver;
 
 	&__wrap {
 		position: absolute;
@@ -12,39 +12,6 @@
 		display: flex;
 		flex-flow: row nowrap;
 		overflow: hidden;
-	}
-
-	&__aside {
-		position: relative;
-		display: flex;
-		flex-flow: column nowrap;
-
-		&-head {
-			height: $head-size;
-			position: absolute;
-			z-index: 1;
-		}
-
-		&-body {
-			padding-top: $head-size;
-			z-index: -1;
-		}
-
-		&-head,
-		&-cell {
-			box-sizing: border-box;
-			width: $cell-size;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			border: 1px solid silver;
-			background-color: white;
-			overflow: hidden;
-		}
-
-		&-cell {
-			height: $cell-size;
-		}
 	}
 
 	&__main {
