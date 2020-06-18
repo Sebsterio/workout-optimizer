@@ -10,6 +10,7 @@ import App from "./app";
 const mapStateToProps = (state) => ({
 	isAuthenticated: state.user.isAuthenticated,
 	isIncognito: state.user.isIncognito,
+	isLoading: state.user.isLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

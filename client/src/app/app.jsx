@@ -4,12 +4,13 @@ import { Switch, Route } from "react-router-dom";
 import Header from "../components/header/header";
 import AccountPage from "../pages/account/account.container";
 import Alert from "../components/alert/alert.container";
+import Spinner from "../components/spinner/spinner";
 
 import routes from "./routes";
 
 import "./app.scss";
 
-const App = ({ isAuthenticated, isIncognito, loadUser }) => {
+const App = ({ isAuthenticated, isIncognito, isLoading, loadUser }) => {
 	const userIsDefined = isAuthenticated || isIncognito;
 
 	useEffect(() => {
@@ -26,7 +27,13 @@ const App = ({ isAuthenticated, isIncognito, loadUser }) => {
 			{userIsDefined && <Header />}
 			<main>
 				<Alert />
-				{!userIsDefined ? <AccountPage /> : <Switch>{pages}</Switch>}
+				{isLoading ? (
+					<Spinner />
+				) : !userIsDefined ? (
+					<AccountPage />
+				) : (
+					<Switch>{pages}</Switch>
+				)}
 			</main>
 		</div>
 	);
