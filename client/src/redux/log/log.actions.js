@@ -100,7 +100,6 @@ export const syncLog = () => (dispatch, getState) => {
 		)
 		.then((res) => {
 			if (res.status === 204) dispatch(logUpToDate());
-			// TODO: compare dateUpdated of remote and local and prompt user about action
 			else {
 				const remoteLog = res.data;
 				const localLog = {

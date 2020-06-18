@@ -28,12 +28,12 @@ router.post("/sync", auth, async (req, res) => {
 	// const inquiringUserId = req.userId;
 	// const logOwnerUserId = null;
 	const { userId } = req;
-	const { dateUpdatedLocal } = req.body;
+	const dateUpdatedLocal = new Date(req.body.dateUpdatedLocal).getTime();
 
 	const log = await Log.findOne({ userId });
 	if (!log) return res.status(404).json({ msg: "Log not found" });
+	const dateUpdatedRemote = log.dateUpdated.getTime();
 
-	const dateUpdatedRemote = log.dateUpdated;
 	if (dateUpdatedRemote === dateUpdatedLocal) return res.status(204).send();
 	else res.status(200).json(log);
 });
