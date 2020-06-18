@@ -9,7 +9,7 @@ const {
 } = userActionTypes;
 
 const INITIAL_STATE = {
-	token: localStorage.getItem("token"),
+	token: null,
 	isIncognito: false,
 	isLoading: false,
 	isAuthenticated: false,
@@ -38,7 +38,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				...action.payload,
 			};
 		case AUTH_SUCCESS:
-			localStorage.setItem("token", action.payload.token);
+			// localStorage.setItem("token", action.payload.token);
 			return {
 				...state,
 				isIncognito: false,
@@ -47,7 +47,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				...action.payload,
 			};
 		case CLEAR_USER_DATA:
-			localStorage.removeItem("token");
+			// localStorage.removeItem("token");
 			return {
 				isIncognito: false,
 				isLoading: false,
