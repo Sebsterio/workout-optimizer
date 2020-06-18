@@ -6,71 +6,60 @@ import LogSpinner from "../../components/log-spinner/log-spinner.container";
 
 import "./tracker.scss";
 
-// TODO
-// near edge debounce scroll
-// drag to scroll
-
-// const isFirstRender = React.useRef(true);
-// if (isFirstRender.current) {
-// 	isFirstRender.current = false;
-// 	return;
-// }
-
 const TrackerPage = ({ areas }) => {
 	const cellSize = 100; // -> store.settings
+	const hideScrollBar = false; // -> store.settings
 
+	const [cols, setCols] = useState(0); // N of cols loaded
+	const [maxDateOffset, setMaxDateOffset] = useState(0); // leftmost col
+	const [hasRendered, setHasRendered] = useState(false);
 	const [tableScrollLeft, setTableScrollLeft] = useState(0);
 	const [tableScrollTop, setTableScrollTop] = useState(0);
-	const [cols, setCols] = useState(0); // N of cols loaded
-	const [maxDateOffset, setMaxDateOffset] = useState(0); // first col loaded
-	const [hasRendered, setHasRendered] = useState(false);
 
 	const tableRef = useRef(null);
 
-	// -------------------- Mount --------------------
+	// -------------------- Layout --------------------
 
 	useEffect(() => {
-		const { offsetWidth } = tableRef.current;
-
 		// Load enough columns to overflow table
-		const newTotalCols = Math.ceil(offsetWidth / cellSize) + 2;
-		setCols(newTotalCols);
-		setMaxDateOffset(1); // useEffect will immediately add 1
+		const updateCols = () => {
+			const { offsetWidth } = tableRef.current;
+			const newTotalCols = Math.ceil(offsetWidth / cellSize) + 2;
+			setCols(newTotalCols);
+		};
+
+		updateCols();
+		setMaxDateOffset(1);
 		setHasRendered(true);
 
-		tableRef.current.scrollLeft += cellSize;
-
-		window.addEventListener("resize", () => {
-			// tableWidth = tableRef.current.offsetWidth;
-			// handleScroll();
-		});
+		window.addEventListener("resize", updateCols);
 	}, []);
 
-	// next:
+	// after first render, center scroll
 	useEffect(() => {
-		tableRef.current.scrollLeft += cellSize;
+		// tableRef.current.scrollLeft += cellSize;
+		const { offsetWidth, scrollWidth } = tableRef.current;
+		tableRef.current.scrollLeft = (scrollWidth - offsetWidth) / 2;
 	}, [hasRendered]);
 
 	// -------------------- Scroll --------------------
 
 	const SCROLL_X_THRESHOLD = 50;
 
-	// after scroll re-render, run fake scroll
+	// Add & remove cols && jump scroll
+	const fakeScrollX = (direction) => {
+		const step = direction === "left" ? 1 : -1;
+		setMaxDateOffset((maxDateOffset) => maxDateOffset + step);
+		tableRef.current.scrollLeft += cellSize * step;
+	};
+
+	// After scroll-triggered re-render, run fake debounced scroll
 	useEffect(() => {
 		const { offsetWidth, scrollWidth } = tableRef.current;
 		const tableScrollRight = scrollWidth - offsetWidth - tableScrollLeft;
 
-		// left edge
-		if (tableScrollLeft <= SCROLL_X_THRESHOLD /*  && deltaX < 0 */) {
-			setMaxDateOffset((maxDateOffset) => maxDateOffset + 1);
-			tableRef.current.scrollLeft += cellSize;
-		}
-
-		// right edge
-		else if (tableScrollRight <= SCROLL_X_THRESHOLD /* && deltaX > 0 */) {
-			setMaxDateOffset((maxDateOffset) => maxDateOffset - 1);
-			tableRef.current.scrollLeft -= cellSize;
-		}
+		if (tableScrollLeft <= SCROLL_X_THRESHOLD) fakeScrollX("left");
+		else if (tableScrollRight <= SCROLL_X_THRESHOLD) fakeScrollX("right");
 	}, [tableScrollLeft]);
 
 	// On scroll, re-render
@@ -82,8 +71,8 @@ const TrackerPage = ({ areas }) => {
 
 	// -------------------- Render --------------------
 
-	const translateY = { transform: `translateY(${tableScrollTop}px)` };
 	const reverseTranslateY = { transform: `translateY(${-tableScrollTop}px)` };
+	const translateY = { transform: `translateY(${tableScrollTop}px)` };
 
 	const Aside = (
 		<div className="tracker__aside">
@@ -101,7 +90,6 @@ const TrackerPage = ({ areas }) => {
 		</div>
 	);
 
-	const hideScrollBar = false;
 	const mainTableClass =
 		"tracker__main" + (hideScrollBar ? " no-scrollbar" : "");
 
