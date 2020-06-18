@@ -1,44 +1,64 @@
 @import "../../vars";
 
-// .tracker {
-// }
+.tracker {
+	--cell-size: 100px;
 
-.table {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	overflow: scroll;
-	display: flex;
-	flex-flow: row nowrap;
-
-	&__main {
-		z-index: 1;
+	&__wrap {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
 		display: flex;
 		flex-flow: row nowrap;
-	}
-
-	&__aside {
-		z-index: 2;
-	}
-
-	&__aside-head,
-	&__aside-cell {
-		width: $cell-size;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border: 1px solid silver;
-		background-color: white;
 		overflow: hidden;
 	}
 
-	&__aside-head {
-		height: $head-size;
+	&__aside {
+		position: relative;
+		display: flex;
+		flex-flow: column nowrap;
+
+		&-head {
+			height: $head-size;
+			position: absolute;
+			z-index: 1;
+		}
+
+		&-body {
+			padding-top: $head-size;
+			z-index: -1;
+		}
+
+		&-head,
+		&-cell {
+			box-sizing: border-box;
+			width: $cell-size;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border: 1px solid silver;
+			background-color: white;
+			overflow: hidden;
+		}
+
+		&-cell {
+			height: $cell-size;
+		}
 	}
 
-	&__aside-cell {
-		height: $cell-size;
+	&__main {
+		flex: 1 0 0;
+		display: flex;
+		flex-flow: row nowrap;
+		overflow: scroll;
+	}
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+
+	&::-webkit-scrollbar {
+		display: none;
 	}
 }

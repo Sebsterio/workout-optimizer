@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import ColumnContainer from "../../components/column/column.container";
 import ModalContainer from "../../components/modal/modal.container";
@@ -6,84 +6,114 @@ import LogSpinner from "../../components/log-spinner/log-spinner.container";
 
 import "./tracker.scss";
 
-// TODO: add cols on resize
-// aside transform on scroll Y, not X
-// TODO: single translateX for all table heads; aside head just fixed
+// TODO
+// near edge debounce scroll
+// drag to scroll
+
+// const isFirstRender = React.useRef(true);
+// if (isFirstRender.current) {
+// 	isFirstRender.current = false;
+// 	return;
+// }
 
 const TrackerPage = ({ areas }) => {
-	const cellWidth = 100;
+	const cellSize = 100; // -> store.settings
 
-	const [colsNum, setColsNum] = useState(1); // n of cols loaded
-	const [firstRenderedCol, setFirstRenderedCol] = useState(0); // arr index
-	const [lastRenderedCol, setLastRenderedCol] = useState(99); // arr index
-	const [tableContentWidth, setTableContentWidth] = useState(0);
-	const [scrollX, setScrollX] = useState(0); // table scroll left
-	const [scrollY, setScrollY] = useState(0); // table scroll top
+	const [tableScrollLeft, setTableScrollLeft] = useState(0);
+	const [tableScrollTop, setTableScrollTop] = useState(0);
+	const [cols, setCols] = useState(0); // N of cols loaded
+	const [maxDateOffset, setMaxDateOffset] = useState(0); // first col loaded
+	const [hasRendered, setHasRendered] = useState(false);
+
+	const tableRef = useRef(null);
+
+	// -------------------- Mount --------------------
 
 	useEffect(() => {
-		// onMount, add columns to slightly overflow table
-		const colsNum = Math.ceil(window.innerWidth / cellWidth);
-		setColsNum(colsNum);
-		setTableContentWidth(colsNum * cellWidth);
+		const { offsetWidth } = tableRef.current;
+
+		// Load enough columns to overflow table
+		const newTotalCols = Math.ceil(offsetWidth / cellSize) + 2;
+		setCols(newTotalCols);
+		setMaxDateOffset(1); // useEffect will immediately add 1
+		setHasRendered(true);
+
+		tableRef.current.scrollLeft += cellSize;
+
+		window.addEventListener("resize", () => {
+			// tableWidth = tableRef.current.offsetWidth;
+			// handleScroll();
+		});
 	}, []);
+
+	// next:
+	useEffect(() => {
+		tableRef.current.scrollLeft += cellSize;
+	}, [hasRendered]);
 
 	// -------------------- Scroll --------------------
 
-	const handleScrollX = (e, scrollLeft) => {
-		// only populate cols/cells in view
-		const tableWidth = e.target.offsetWidth;
-		const firstVisibleCol = Math.floor(scrollLeft / cellWidth);
-		const visibleColsNum = Math.floor((tableWidth - cellWidth) / cellWidth);
-		const lastVisibleCol = firstVisibleCol + visibleColsNum;
-		setFirstRenderedCol(firstVisibleCol > 0 ? firstVisibleCol - 1 : 0);
-		setLastRenderedCol(lastVisibleCol + 1);
+	const SCROLL_X_THRESHOLD = 50;
 
-		// append new column if scrolled near right edge
-		if (scrollLeft + tableWidth >= tableContentWidth) {
-			setColsNum(colsNum + 1);
-			setTableContentWidth(colsNum * cellWidth);
+	// after scroll re-render, run fake scroll
+	useEffect(() => {
+		const { offsetWidth, scrollWidth } = tableRef.current;
+		const tableScrollRight = scrollWidth - offsetWidth - tableScrollLeft;
+
+		// left edge
+		if (tableScrollLeft <= SCROLL_X_THRESHOLD /*  && deltaX < 0 */) {
+			setMaxDateOffset((maxDateOffset) => maxDateOffset + 1);
+			tableRef.current.scrollLeft += cellSize;
 		}
-	};
 
-	// Main table scroll X or Y
-	const handleScroll = (e) => {
-		const scrollLeft = e.target.scrollLeft;
-		if (scrollLeft !== scrollX) handleScrollX(e, scrollLeft);
+		// right edge
+		else if (tableScrollRight <= SCROLL_X_THRESHOLD /* && deltaX > 0 */) {
+			setMaxDateOffset((maxDateOffset) => maxDateOffset - 1);
+			tableRef.current.scrollLeft -= cellSize;
+		}
+	}, [tableScrollLeft]);
 
-		// set both in either case due to setState lag
-		setScrollY(e.target.scrollTop);
-		setScrollX(scrollLeft);
+	// On scroll, re-render
+	const handleScroll = () => {
+		const { scrollLeft, scrollTop } = tableRef.current;
+		if (tableScrollTop !== scrollTop) setTableScrollTop(scrollTop);
+		if (tableScrollLeft !== scrollLeft) setTableScrollLeft(scrollLeft);
 	};
 
 	// -------------------- Render --------------------
 
-	const translateX = { transform: `translateX(${scrollX}px)` };
-	const translateY = { transform: `translateY(${scrollY}px)` };
+	const translateY = { transform: `translateY(${tableScrollTop}px)` };
+	const reverseTranslateY = { transform: `translateY(${-tableScrollTop}px)` };
 
 	const Aside = (
-		<div className="table__aside" style={translateX}>
-			<div className="table__aside-head" style={translateY}>
+		<div className="tracker__aside">
+			<div className="tracker__aside-body" style={reverseTranslateY}>
+				{areas.map((bodyPart, i) => (
+					<div className="tracker__aside-cell" key={bodyPart.name}>
+						{bodyPart.name}
+					</div>
+				))}
+			</div>
+
+			<div className="tracker__aside-head">
 				<LogSpinner />
 			</div>
-			{areas.map((bodyPart, i) => (
-				<div className="table__aside-cell" key={bodyPart.name}>
-					{bodyPart.name}
-				</div>
-			))}
 		</div>
 	);
 
-	const isColVisible = (i) => i >= firstRenderedCol && i <= lastRenderedCol;
+	const hideScrollBar = false;
+	const mainTableClass =
+		"tracker__main" + (hideScrollBar ? " no-scrollbar" : "");
 
 	const MainTable = (
-		<div className="table__main">
-			{Array(colsNum)
+		<div className={mainTableClass} ref={tableRef} onScroll={handleScroll}>
+			{Array(cols)
 				.fill(null)
 				.map((_col, i) => (
 					<ColumnContainer
-						isVisible={isColVisible(i)}
+						isVisible={true}
 						headOffsetY={translateY}
-						dateOffset={2 - i}
+						dateOffset={maxDateOffset - i}
 						key={i}
 					/>
 				))}
@@ -91,8 +121,8 @@ const TrackerPage = ({ areas }) => {
 	);
 
 	return (
-		<div className="page tracker">
-			<div className="table" onScroll={handleScroll}>
+		<div className="page tracker" style={{ "--cell-size": cellSize + "px" }}>
+			<div className="tracker__wrap">
 				{Aside}
 				{MainTable}
 				<ModalContainer />

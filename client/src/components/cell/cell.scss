@@ -1,6 +1,7 @@
 @import "../../vars";
 
 .cell {
+	box-sizing: border-box;
 	height: $cell-size;
 	width: $cell-size;
 	display: flex;

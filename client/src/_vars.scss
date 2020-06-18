@@ -1,2 +1,2 @@
-$cell-size: 6rem;
-$head-size: 2rem;
+$cell-size: var(--cell-size);
+$head-size: calc(var(--cell-size) / 3);

@@ -6,6 +6,7 @@
 	}
 
 	&__head {
+		box-sizing: border-box;
 		height: $head-size;
 		width: $cell-size;
 		display: flex;
