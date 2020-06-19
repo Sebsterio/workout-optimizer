@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const path = require("path");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const morgan = require("morgan");
 
 const authRoutes = require("./routes/api/auth");
 const logRoutes = require("./routes/api/log");
@@ -15,9 +14,13 @@ const app = express();
 // -------------- Middleware -------------
 
 app.use(cors());
-app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+if (process.env.NODE_ENV !== "production") {
+	const morgan = require("morgan");
+	app.use(morgan("dev"));
+}
 
 // ---------------- Mongo ----------------
 
