@@ -5,14 +5,10 @@ import ModalContainer from "../../components/modal/modal.container";
 
 import "./tracker.scss";
 
-const TrackerPage = ({ areas }) => {
-	const cellSize = 100; // -> store.settings
-
+const TrackerPage = ({ cellSize }) => {
 	const [cols, setCols] = useState(0); // N of cols loaded
 	const [maxDateOffset, setMaxDateOffset] = useState(0); // leftmost col
 	const [hasRendered, setHasRendered] = useState(false);
-	const [tableScrollLeft, setTableScrollLeft] = useState(0);
-	const [tableScrollTop, setTableScrollTop] = useState(0);
 
 	const tableRef = useRef();
 
@@ -20,7 +16,7 @@ const TrackerPage = ({ areas }) => {
 
 	useEffect(() => {
 		// Load enough columns to overflow table
-		// Minimum 2 extra cols to prevent fakeScroll infinite loop
+		// Minimum 2 extra cols to prevent fakeScroll infinite recursion
 		const updateCols = () => {
 			const { offsetWidth } = tableRef.current;
 			let newTotalCols = Math.ceil(offsetWidth / cellSize) + 2;
@@ -37,7 +33,7 @@ const TrackerPage = ({ areas }) => {
 
 		window.addEventListener("resize", updateCols);
 		return () => window.removeEventListener("resize", updateCols);
-	}, []);
+	}, [cellSize]);
 
 	// after first render, center scroll
 	useEffect(() => {
@@ -48,41 +44,33 @@ const TrackerPage = ({ areas }) => {
 
 	// -------------------- Scroll --------------------
 
-	const SCROLL_X_THRESHOLD = 50;
+	const SCROLL_X_THRESHOLD = cellSize;
 
 	// Add & remove cols && jump scroll
 	const fakeScrollX = (direction) => {
 		const step = direction === "left" ? 1 : -1;
-		const newScrollLeft = tableRef.current.scrollLeft + cellSize * step;
+		tableRef.current.scrollLeft += cellSize * step;
 		setMaxDateOffset((maxDateOffset) => maxDateOffset + step);
-		setTableScrollLeft(newScrollLeft);
-		tableRef.current.scrollLeft = newScrollLeft;
 	};
 
 	const handleScroll = () => {
-		const { scrollLeft, scrollTop } = tableRef.current;
+		const { scrollLeft, offsetWidth, scrollWidth } = tableRef.current;
+		const scrollRight = scrollWidth - offsetWidth - scrollLeft;
 
-		if (tableScrollTop !== scrollTop) setTableScrollTop(scrollTop);
-
-		if (tableScrollLeft !== scrollLeft) {
-			const { offsetWidth, scrollWidth } = tableRef.current;
-			const scrollRight = scrollWidth - offsetWidth - scrollLeft;
-
-			if (scrollLeft <= SCROLL_X_THRESHOLD) fakeScrollX("left");
-			else if (scrollRight <= SCROLL_X_THRESHOLD) fakeScrollX("right");
-			else setTableScrollLeft(scrollLeft);
-		}
+		if (scrollLeft <= SCROLL_X_THRESHOLD) fakeScrollX("left");
+		else if (scrollRight <= SCROLL_X_THRESHOLD) fakeScrollX("right");
 	};
 
 	// -------------------- Render --------------------
+
+	const scrollTop = tableRef.current ? tableRef.current.scrollTop : 0;
 
 	return (
 		<div className="page tracker" style={{ "--cell-size": cellSize + "px" }}>
 			<div className="tracker__wrap">
 				<div className="tracker__aside">
-					<Column scrollTop={tableScrollTop} />
+					<Column scrollTop={scrollTop} />
 				</div>
-
 				<div className="tracker__main" ref={tableRef} onScroll={handleScroll}>
 					{Array.from({ length: cols }, (_, i) => maxDateOffset - i).map(
 						(dateOffset) => (
@@ -90,7 +78,6 @@ const TrackerPage = ({ areas }) => {
 						)
 					)}
 				</div>
-
 				<ModalContainer />
 			</div>
 		</div>
