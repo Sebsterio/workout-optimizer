@@ -9,7 +9,7 @@
 		"client-test": "npm test --prefix client",
 		"client-install": "npm install --prefix client",
 		"start": "node server.js",
-		"server": "nodemon server.js --exec babel-node --presets babel-preset-env",
+		"server": "nodemon server.js",
 		"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
 		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
 	},
@@ -22,13 +22,9 @@
 		"dotenv": "^8.2.0",
 		"express": "^4.16.3",
 		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.1.6"
+		"mongoose": "^5.9.19"
 	},
 	"devDependencies": {
-		"babel-cli": "^6.26.0",
-		"babel-core": "^6.26.3",
-		"babel-loader": "^8.0.6",
-		"babel-preset-env": "^1.7.0",
 		"morgan": "^1.9.1",
 		"nodemon": "^1.17.5"
 	},

@@ -1,15 +1,11 @@
-import { Router } from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-import auth from "../../middleware/auth";
-import User from "../../models/User";
+const auth = require("../../middleware/auth");
+const User = require("../../models/user");
 
-const router = Router();
-
-// "id": "5ee5fe0ee2fca83b70371e54",
-// "name": "Dev",
-// "email": "sebster.dev@gmail.com"
+const router = express.Router();
 
 // ------------------- Register -------------------
 
@@ -121,4 +117,4 @@ router.post("/delete", auth, async (req, res) => {
 	}
 });
 
-export default router;
+module.exports = router;

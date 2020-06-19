@@ -1,9 +1,9 @@
-import { Router } from "express";
+const express = require("express");
 
-import auth from "../../middleware/auth";
-import Log from "../../models/log";
+const auth = require("../../middleware/auth");
+const Log = require("../../models/log");
 
-const router = Router();
+const router = express.Router();
 
 // ------------------ Create log -------------------
 
@@ -95,4 +95,4 @@ router.post("/entry", auth, async (req, res) => {
 	}
 });
 
-export default router;
+module.exports = router;

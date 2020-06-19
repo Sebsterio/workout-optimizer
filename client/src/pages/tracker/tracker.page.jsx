@@ -4,7 +4,6 @@ import Column from "../../components/column/column.container";
 import ModalContainer from "../../components/modal/modal.container";
 
 import "./tracker.scss";
-import { useReducer } from "react";
 
 const TrackerPage = ({ areas }) => {
 	const cellSize = 100; // -> store.settings

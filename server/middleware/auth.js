@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
 // convert token into userId
-export default (req, res, next) => {
+function auth(req, res, next) {
 	const token = req.header("x-auth-token");
 	if (!token)
 		return res.status(401).json({ msg: "Missing auth token. Please sign in." });
@@ -12,4 +12,6 @@ export default (req, res, next) => {
 	} catch (e) {
 		res.status(401).json({ msg: "Invalid auth token" });
 	}
-};
+}
+
+module.exports = auth;
