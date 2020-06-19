@@ -4,6 +4,7 @@ import Column from "../../components/column/column.container";
 import ModalContainer from "../../components/modal/modal.container";
 
 import "./tracker.scss";
+import { useReducer } from "react";
 
 const TrackerPage = ({ areas }) => {
 	const cellSize = 100; // -> store.settings
@@ -20,17 +21,23 @@ const TrackerPage = ({ areas }) => {
 
 	useEffect(() => {
 		// Load enough columns to overflow table
+		// Minimum 2 extra cols to prevent fakeScroll infinite loop
 		const updateCols = () => {
 			const { offsetWidth } = tableRef.current;
-			const newTotalCols = Math.ceil(offsetWidth / cellSize) + 2;
+			let newTotalCols = Math.ceil(offsetWidth / cellSize) + 2;
+			if (newTotalCols % 2 === 0) newTotalCols++;
 			setCols(newTotalCols);
+			return newTotalCols;
 		};
 
-		updateCols();
-		setMaxDateOffset(1);
+		// put "today" col in the middle
+		const newTotalCols = updateCols();
+		const futureCols = (newTotalCols - 1) / 2;
+		setMaxDateOffset(futureCols);
 		setHasRendered(true);
 
 		window.addEventListener("resize", updateCols);
+		return () => window.removeEventListener("resize", updateCols);
 	}, []);
 
 	// after first render, center scroll
@@ -47,27 +54,30 @@ const TrackerPage = ({ areas }) => {
 	// Add & remove cols && jump scroll
 	const fakeScrollX = (direction) => {
 		const step = direction === "left" ? 1 : -1;
+		const newScrollLeft = tableRef.current.scrollLeft + cellSize * step;
 		setMaxDateOffset((maxDateOffset) => maxDateOffset + step);
-		tableRef.current.scrollLeft += cellSize * step;
+		setTableScrollLeft(newScrollLeft);
+		tableRef.current.scrollLeft = newScrollLeft;
 	};
 
-	// After scroll-triggered re-render, run fake debounced scroll
-	useEffect(() => {
-		const { offsetWidth, scrollWidth } = tableRef.current;
-		const tableScrollRight = scrollWidth - offsetWidth - tableScrollLeft;
-
-		if (tableScrollLeft <= SCROLL_X_THRESHOLD) fakeScrollX("left");
-		else if (tableScrollRight <= SCROLL_X_THRESHOLD) fakeScrollX("right");
-	}, [tableScrollLeft]);
-
-	// On scroll, re-render
 	const handleScroll = () => {
 		const { scrollLeft, scrollTop } = tableRef.current;
+
 		if (tableScrollTop !== scrollTop) setTableScrollTop(scrollTop);
-		if (tableScrollLeft !== scrollLeft) setTableScrollLeft(scrollLeft);
+
+		if (tableScrollLeft !== scrollLeft) {
+			const { offsetWidth, scrollWidth } = tableRef.current;
+			const scrollRight = scrollWidth - offsetWidth - scrollLeft;
+
+			if (scrollLeft <= SCROLL_X_THRESHOLD) fakeScrollX("left");
+			else if (scrollRight <= SCROLL_X_THRESHOLD) fakeScrollX("right");
+			else setTableScrollLeft(scrollLeft);
+		}
 	};
 
 	// -------------------- Render --------------------
+
+	// TODO: arr keys from dateOffset, not index !!!
 
 	return (
 		<div className="page tracker" style={{ "--cell-size": cellSize + "px" }}>
