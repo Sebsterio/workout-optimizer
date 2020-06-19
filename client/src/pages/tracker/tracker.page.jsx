@@ -77,8 +77,6 @@ const TrackerPage = ({ areas }) => {
 
 	// -------------------- Render --------------------
 
-	// TODO: arr keys from dateOffset, not index !!!
-
 	return (
 		<div className="page tracker" style={{ "--cell-size": cellSize + "px" }}>
 			<div className="tracker__wrap">
@@ -87,11 +85,11 @@ const TrackerPage = ({ areas }) => {
 				</div>
 
 				<div className="tracker__main" ref={tableRef} onScroll={handleScroll}>
-					{Array(cols)
-						.fill(null)
-						.map((_col, i) => (
-							<Column day={maxDateOffset - i} key={i} />
-						))}
+					{Array.from({ length: cols }, (_, i) => maxDateOffset - i).map(
+						(dateOffset) => (
+							<Column day={dateOffset} key={dateOffset} />
+						)
+					)}
 				</div>
 
 				<ModalContainer />
