@@ -1,7 +1,7 @@
 import protocolActionTypes from "./protocol.types";
 
-const { GET_AREAS } = protocolActionTypes;
+const { GET_FIELDS } = protocolActionTypes;
 
-export const getAreas = () => ({
-	type: GET_AREAS,
+export const getFields = () => ({
+	type: GET_FIELDS,
 });

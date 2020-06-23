@@ -1,5 +1,5 @@
-//   import protocolActionTypes from "./protocol.types";
-// import { getAreas } from "./protocol.utils";
+// import protocolActionTypes from "./protocol.types";
+// import { getFields } from "./protocol.utils";
 import { INITIAL_STATE } from "./protocol.initialState";
 
 const protocolReducer = (state = INITIAL_STATE, action) => {

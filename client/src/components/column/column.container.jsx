@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Column from "./column";
 
 const mapStateToProps = (store) => ({
-	areas: store.protocol.areas,
+	fields: store.protocol.fields,
 });
 
 const ColumnContainer = (props) => <Column {...props} />;

@@ -4,7 +4,7 @@ import LogSpinner from "../../components/log-spinner/log-spinner.container";
 import getDateInfo from "../../utils/date";
 import "./column.scss";
 
-const Column = ({ areas, day, isAside }) => {
+const Column = ({ fields, day, isAside }) => {
 	const { weekDay, monthDay, dateStr } = getDateInfo(new Date(), day) || null;
 
 	let colClass = "column";
@@ -24,12 +24,12 @@ const Column = ({ areas, day, isAside }) => {
 				)}
 			</div>
 			<div className="column__body">
-				{areas.map((area) => (
-					<div className="column__cell" key={area.name}>
+				{fields.map((field) => (
+					<div className="column__cell" key={field.name}>
 						{isAside ? (
-							area.name
+							field.name
 						) : (
-							<Field dateOffset={day} dateStr={dateStr} area={area} />
+							<Field dateOffset={day} dateStr={dateStr} field={field} />
 						)}
 					</div>
 				))}

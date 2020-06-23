@@ -4,10 +4,12 @@ import "./modal.scss";
 // -------------------------------------------------------------
 
 const Modal = ({ cellData, updateLog, closeModal }) => {
-	const { area, dateStr, intensity } = cellData;
+	const { field, dateStr, intensity } = cellData;
 
-	const handleInput = (level) => {
-		if (intensity !== null || level !== 0) updateLog({ area, dateStr, level });
+	const handleInput = (newIntensity) => {
+		if (intensity != newIntensity)
+			updateLog({ field, dateStr, intensity: newIntensity });
+		else console.log("No change");
 		closeModal();
 	};
 
@@ -20,20 +22,49 @@ const Modal = ({ cellData, updateLog, closeModal }) => {
 			<div className="modal__card">
 				<h1 className="modal__title">Add Exercise</h1>
 				<form action="">
-					{area.levels.map(({ label }, i) => (
-						<div className="modal__row" key={i}>
-							<label className="modal__label" htmlFor={"add-entry-btn-" + i}>
+					{field.levels.map(({ label, intensity }) => (
+						<div className="modal__row" key={intensity}>
+							<label
+								className="modal__label"
+								htmlFor={"add-entry-btn-" + intensity}
+							>
 								{label}
 							</label>
 							<button
-								id={"add-entry-btn-" + i}
-								className={"modal__button modal__button--level-" + i}
-								onClick={() => handleInput(i)}
+								id={"add-entry-btn-" + intensity}
+								className={
+									"modal__level-button modal__level-button--level-" + intensity
+								}
+								onClick={() => handleInput(intensity)}
 							>
 								<div className="modal__marker"></div>
 							</button>
 						</div>
 					))}
+
+					<div className="modal__row modal__row--buttons">
+						<button
+							className={"modal__button modal__button--delete"}
+							onClick={() => handleInput(null)}
+						>
+							Delete
+						</button>
+						<button className={"modal__button modal__button--done"}>
+							Completed
+						</button>
+						<button className={"modal__button modal__button--reschedule"}>
+							Reschedule
+						</button>
+					</div>
+
+					<div className="modal__row modal__row--buttons">
+						<button
+							className={"modal__button modal__button--close"}
+							onClick={closeModal}
+						>
+							Close
+						</button>
+					</div>
 				</form>
 			</div>
 		</div>

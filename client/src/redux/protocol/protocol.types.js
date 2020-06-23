@@ -1,5 +1,5 @@
 const protocolActionTypes = {
-	GET_AREAS: "GET_AREAS",
+	GET_FIELDS: "GET_FIELDS",
 };
 
 export default protocolActionTypes;

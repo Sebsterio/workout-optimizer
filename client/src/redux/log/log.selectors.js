@@ -12,26 +12,35 @@ const selectEntry = (state, props) => {
 
 const selectIntensity = (state, props) => {
 	const entry = selectEntry(state, props);
-	return entry ? entry[props.area.name] : null;
+	return entry ? entry[props.field.name] : null;
 };
 
-// check as many previous days as the highest possible rest period is for given exercise
 const getRestLevel = (state, props) => {
-	const { area, dateStr } = props;
-	const maxRestTime = area.levels[area.levels.length - 1].rest;
-	let maxRestLevel = 0;
+	const { field, dateStr } = props;
 
-	for (let i = 1; i <= maxRestTime; i++) {
+	// Find max possible rest time for given exercise
+	const fieldMaxRestTime = field.levels.reduce((acc, cur) =>
+		cur.intensity > acc.intensity ? cur : acc
+	).rest;
+
+	let maxRestLevelToday = 0;
+
+	// Check as many past days as max rest time
+	for (let i = 1; i <= fieldMaxRestTime; i++) {
 		const tempProps = { ...props };
 		tempProps.dateStr = getDateInfo(dateStr, -i).dateStr;
 		const intensity = selectIntensity(state, tempProps);
 
 		if (intensity && intensity > 0) {
-			const dayRestLevel = area.levels[intensity].rest - i + 1;
-			if (dayRestLevel > maxRestLevel) maxRestLevel = dayRestLevel;
+			const dayLevel = field.levels.find(
+				(level) => level.intensity === intensity
+			);
+			const dayRestLevelToday = dayLevel.rest - i + 1;
+			if (dayRestLevelToday > maxRestLevelToday)
+				maxRestLevelToday = dayRestLevelToday;
 		}
 	}
-	return maxRestLevel;
+	return maxRestLevelToday;
 };
 
 export const makeGetEntry = () =>

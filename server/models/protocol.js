@@ -9,7 +9,7 @@ const ProtocolSchema = new Schema({
 		required: true,
 	},
 	description: String,
-	areas: [
+	fields: [
 		{
 			name: {
 				type: String,

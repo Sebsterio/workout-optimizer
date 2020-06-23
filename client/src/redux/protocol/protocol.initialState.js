@@ -1,77 +1,80 @@
 export const INITIAL_STATE = {
 	id: "id",
 	name: "name",
-	areas: [
+	fields: [
 		{
 			name: "arms",
 			iconUrl: "url|svgCode",
+			notes: "", // for protocol, not exercise (show on field field click)
 			levels: [
-				{ label: "None" },
-				{ label: "Small", rest: 0 },
-				{ label: "Medium", rest: 1 },
-				{ label: " Big", rest: 2 },
+				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Medium", intensity: 2, rest: 1 },
+				{ label: " Big", intensity: 3, rest: 2 },
 			],
+			// max 4 fields
+			details: [
+				{ label: "sets", default: 1 },
+				{ label: "reps", default: 10 },
+				{ label: "kg", default: 20 },
+				{ label: "mins", default: 20 },
+			],
+			// !levels && !details -> binary field
+			idDone: true, // false = planned
 		},
 		{
-			levels: [
-				{ label: "None" },
-				{ label: "Small", rest: 0 },
-				{ label: "Medium", rest: 1 },
-				{ label: " Big", rest: 2 },
-			],
 			name: "chest",
+			iconUrl: "url|svgCode",
+			levels: [
+				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Medium", intensity: 2, rest: 1 },
+				{ label: " Big", intensity: 3, rest: 2 },
+			],
 		},
 		{
 			levels: [
-				{ label: "None" },
-				{ label: "Small", rest: 0 },
-				{ label: "Medium", rest: 1 },
-				{ label: " Big", rest: 2 },
+				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Medium", intensity: 2, rest: 1 },
+				{ label: " Big", intensity: 3, rest: 2 },
 			],
 			name: "upperBack",
 		},
 		{
 			levels: [
-				{ label: "None" },
-				{ label: "Small", rest: 0 },
-				{ label: "Medium", rest: 1 },
-				{ label: " Big", rest: 2 },
+				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Medium", intensity: 2, rest: 1 },
+				{ label: " Big", intensity: 3, rest: 2 },
 			],
 			name: "core",
 		},
 		{
 			levels: [
-				{ label: "None" },
-				{ label: "Small", rest: 0 },
-				{ label: "Medium", rest: 1 },
-				{ label: " Big", rest: 2 },
+				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Medium", intensity: 2, rest: 1 },
+				{ label: " Big", intensity: 3, rest: 2 },
 			],
 			name: "lowerBack",
 		},
 		{
 			levels: [
-				{ label: "None" },
-				{ label: "Small", rest: 0 },
-				{ label: "Medium", rest: 1 },
-				{ label: " Big", rest: 2 },
+				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Medium", intensity: 2, rest: 1 },
+				{ label: " Big", intensity: 3, rest: 2 },
 			],
 			name: "quads",
 		},
 		{
 			levels: [
-				{ label: "None" },
-				{ label: "Small", rest: 0 },
-				{ label: "Medium", rest: 1 },
-				{ label: " Big", rest: 2 },
+				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Medium", intensity: 2, rest: 1 },
+				{ label: " Big", intensity: 3, rest: 2 },
 			],
 			name: "glutes",
 		},
 		{
 			levels: [
-				{ label: "None" },
-				{ label: "Small", rest: 0 },
-				{ label: "Medium", rest: 1 },
-				{ label: " Big", rest: 2 },
+				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Medium", intensity: 2, rest: 1 },
+				{ label: " Big", intensity: 3, rest: 2 },
 			],
 			name: "cardio",
 		},

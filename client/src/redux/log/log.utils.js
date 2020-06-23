@@ -1,18 +1,18 @@
 // ---------------------- reducer utils ------------------------
 
-const getEntryPropNames = ({ dateStr, area, level }) => ({
+const getEntryPropNames = ({ dateStr, field, intensity }) => ({
 	entryName: dateStr.replace(/ /g, "_"),
-	areaName: area.name,
-	level,
+	fieldName: field.name,
+	intensity,
 });
 
 export const getUpdatedEntries = (state, payload) => {
-	const { entryName, areaName, level } = getEntryPropNames(payload);
+	const { entryName, fieldName, intensity } = getEntryPropNames(payload);
 	const entries = { ...state.entries };
 
 	// Remove entry
-	if (level === 0) {
-		delete entries[entryName][areaName];
+	if (intensity === null) {
+		delete entries[entryName][fieldName];
 		const isEmpty = Object.keys(entries[entryName]).length === 0;
 		if (isEmpty) delete entries[entryName];
 	}
@@ -20,7 +20,7 @@ export const getUpdatedEntries = (state, payload) => {
 	else {
 		entries[entryName] = {
 			...entries[entryName],
-			[areaName]: level,
+			[fieldName]: intensity,
 		};
 	}
 
