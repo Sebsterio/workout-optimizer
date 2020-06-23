@@ -25,7 +25,7 @@ const TrackerPage = ({ cellSize }) => {
 			return newTotalCols;
 		};
 
-		// put "today" col in the middle
+		// Put "today" col in the middle
 		const newTotalCols = updateCols();
 		const futureCols = (newTotalCols - 1) / 2;
 		setMaxDateOffset(futureCols);
@@ -35,9 +35,8 @@ const TrackerPage = ({ cellSize }) => {
 		return () => window.removeEventListener("resize", updateCols);
 	}, [cellSize]);
 
-	// after first render, center scroll
+	// After first render, center scroll
 	useEffect(() => {
-		// tableRef.current.scrollLeft += cellSize;
 		const { offsetWidth, scrollWidth } = tableRef.current;
 		tableRef.current.scrollLeft = (scrollWidth - offsetWidth) / 2;
 	}, [hasRendered]);
@@ -63,23 +62,19 @@ const TrackerPage = ({ cellSize }) => {
 
 	// -------------------- Render --------------------
 
-	const scrollTop = tableRef.current ? tableRef.current.scrollTop : 0;
+	const cssVars = { "--cell-size": cellSize + "px" };
 
 	return (
-		<div className="page tracker" style={{ "--cell-size": cellSize + "px" }}>
-			<div className="tracker__wrap">
-				<div className="tracker__aside">
-					<Column scrollTop={scrollTop} />
-				</div>
-				<div className="tracker__main" ref={tableRef} onScroll={handleScroll}>
-					{Array.from({ length: cols }, (_, i) => maxDateOffset - i).map(
-						(dateOffset) => (
-							<Column day={dateOffset} key={dateOffset} />
-						)
-					)}
-				</div>
-				<ModalContainer />
+		<div className="page tracker" style={cssVars}>
+			<div className="tracker__table" ref={tableRef} onScroll={handleScroll}>
+				<Column isAside />
+				{Array.from({ length: cols }, (_, i) => maxDateOffset - i).map(
+					(dateOffset) => (
+						<Column day={dateOffset} key={dateOffset} />
+					)
+				)}
 			</div>
+			<ModalContainer />
 		</div>
 	);
 };

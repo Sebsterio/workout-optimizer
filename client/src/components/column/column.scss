@@ -3,9 +3,16 @@
 .column {
 	position: relative;
 
+	&--aside {
+		position: sticky;
+		left: 0;
+		right: 100%;
+		z-index: 999;
+	}
+
 	&__head {
 		box-sizing: border-box;
-		height: $head-size;
+		height: $head-height;
 		width: $cell-size;
 		display: flex;
 		justify-content: center;
@@ -31,6 +38,9 @@
 		align-items: center;
 		overflow: hidden;
 		position: relative;
+
+		//
+		background-color: white;
 	}
 
 	&--today &__head {

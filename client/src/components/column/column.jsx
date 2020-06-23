@@ -4,18 +4,15 @@ import LogSpinner from "../../components/log-spinner/log-spinner.container";
 import getDateInfo from "../../utils/date";
 import "./column.scss";
 
-const Column = ({ areas, day = null, scrollTop }) => {
-	const isAside = day === null;
-	const translateY = scrollTop
-		? { transform: `translateY(${-scrollTop}px)` }
-		: null;
+const Column = ({ areas, day, isAside }) => {
 	const { weekDay, monthDay, dateStr } = getDateInfo(new Date(), day) || null;
 
-	let columnClass = "column";
-	if (day === 0) columnClass += " column--today";
+	let colClass = "column";
+	if (day === 0) colClass += " column--today";
+	if (isAside) colClass += " column--aside";
 
 	return (
-		<div className={columnClass}>
+		<div className={colClass}>
 			<div className="column__head">
 				{isAside ? (
 					<LogSpinner />
@@ -26,7 +23,7 @@ const Column = ({ areas, day = null, scrollTop }) => {
 					</>
 				)}
 			</div>
-			<div className="column__body" style={translateY && translateY}>
+			<div className="column__body">
 				{areas.map((area) => (
 					<div className="column__cell" key={area.name}>
 						{isAside ? (

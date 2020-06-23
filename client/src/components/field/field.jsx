@@ -18,7 +18,7 @@ const Field = (props) => {
 		"field__exercise field__exercise--intensity-" + intensity;
 
 	return (
-		<div className={fieldClass} onClick={openModal}>
+		<div className={fieldClass} onClick={() => openModal(props)}>
 			{plan && <div className={planClass}></div>}
 			{intensity && <div className={exerciseClass}></div>}
 		</div>

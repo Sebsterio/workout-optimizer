@@ -19,8 +19,8 @@ const makeMapStateToProps = () => {
 	});
 };
 
-const mapDispatchToProps = (dispatch, props) => ({
-	openModal: () => dispatch(openModal(props)),
+const mapDispatchToProps = (dispatch) => ({
+	openModal: (data) => dispatch(openModal(data)),
 });
 
 const FieldContainer = (props) => <Field {...props} />;

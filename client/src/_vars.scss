@@ -1,6 +1,8 @@
 :root {
+	// set inline in TrackerPage
 	--cell-size: 100px;
 }
 
 $cell-size: var(--cell-size);
-$head-size: calc(var(--cell-size) / 3);
+$head-height: calc(var(--cell-size) / 3);
+$aside-width: var(--cell-size);
