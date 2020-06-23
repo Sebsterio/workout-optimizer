@@ -11,14 +11,20 @@ const INITIAL_STATE = {
 const errorReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case GET_ERROR: {
-			const { response } = action.payload;
+			const { response, message } = action.payload;
 			if (response)
 				return {
 					msg: response.data.msg,
 					status: response.status,
 					id: response.id,
 				};
-			else
+			else if (message) {
+				return {
+					msg: message,
+					status: null,
+					id: "UNKNOWN_ERROR",
+				};
+			} else
 				return {
 					msg: action.payload,
 					status: null,
