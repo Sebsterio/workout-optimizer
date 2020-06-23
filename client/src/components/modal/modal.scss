@@ -30,6 +30,11 @@
 		}
 	}
 
+	&__note {
+		font-size: 0.6em;
+		color: grey;
+	}
+
 	&__level-button {
 		position: relative;
 		flex: 0 1 50%;

@@ -22,25 +22,35 @@ const Modal = ({ cellData, updateLog, closeModal }) => {
 			<div className="modal__card">
 				<h1 className="modal__title">Add Exercise</h1>
 				<form action="">
-					{field.levels.map(({ label, intensity }) => (
-						<div className="modal__row" key={intensity}>
-							<label
-								className="modal__label"
-								htmlFor={"add-entry-btn-" + intensity}
-							>
-								{label}
-							</label>
-							<button
-								id={"add-entry-btn-" + intensity}
-								className={
-									"modal__level-button modal__level-button--level-" + intensity
-								}
-								onClick={() => handleInput(intensity)}
-							>
-								<div className="modal__marker"></div>
-							</button>
-						</div>
-					))}
+					{/* ------------------ Level buttons ------------------- */}
+
+					{field.levels.map(({ label, intensity, rest }) => {
+						const restMsg =
+							rest > 1 ? rest + " days" : rest === 1 ? rest + " day" : "none";
+						return (
+							<div className="modal__row" key={intensity}>
+								<label
+									className="modal__label"
+									htmlFor={"add-entry-btn-" + intensity}
+								>
+									{label}
+									<div className="modal__note">Rest: {restMsg}</div>
+								</label>
+								<button
+									id={"add-entry-btn-" + intensity}
+									className={
+										"modal__level-button modal__level-button--level-" +
+										intensity
+									}
+									onClick={() => handleInput(intensity)}
+								>
+									<div className="modal__marker"></div>
+								</button>
+							</div>
+						);
+					})}
+
+					{/* ---------------------- Modal buttons ------------------- */}
 
 					<div className="modal__row modal__row--buttons">
 						<button
