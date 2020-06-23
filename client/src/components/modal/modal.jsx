@@ -4,10 +4,10 @@ import "./modal.scss";
 // -------------------------------------------------------------
 
 const Modal = ({ cellData, updateLog, closeModal }) => {
-	const { area, dateStr } = cellData;
+	const { area, dateStr, intensity } = cellData;
 
 	const handleInput = (level) => {
-		updateLog({ area, dateStr, level });
+		if (intensity !== null || level !== 0) updateLog({ area, dateStr, level });
 		closeModal();
 	};
 
