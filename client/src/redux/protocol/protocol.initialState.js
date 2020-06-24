@@ -9,7 +9,7 @@ export const INITIAL_STATE = {
 			levels: [
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: " Big", intensity: 3, rest: 2 },
+				{ label: "Big", intensity: 3, rest: 2 },
 			],
 			// max 4 fields
 			details: [
@@ -26,14 +26,14 @@ export const INITIAL_STATE = {
 			levels: [
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: " Big", intensity: 3, rest: 2 },
+				{ label: "Big", intensity: 3, rest: 2 },
 			],
 		},
 		{
 			levels: [
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: " Big", intensity: 3, rest: 2 },
+				{ label: "Big", intensity: 3, rest: 2 },
 			],
 			name: "upperBack",
 		},
@@ -41,7 +41,7 @@ export const INITIAL_STATE = {
 			levels: [
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: " Big", intensity: 3, rest: 2 },
+				{ label: "Big", intensity: 3, rest: 2 },
 			],
 			name: "core",
 		},
@@ -49,7 +49,7 @@ export const INITIAL_STATE = {
 			levels: [
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: " Big", intensity: 3, rest: 2 },
+				{ label: "Big", intensity: 3, rest: 2 },
 			],
 			name: "lowerBack",
 		},
@@ -57,7 +57,7 @@ export const INITIAL_STATE = {
 			levels: [
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: " Big", intensity: 3, rest: 2 },
+				{ label: "Big", intensity: 3, rest: 2 },
 			],
 			name: "quads",
 		},
@@ -65,7 +65,7 @@ export const INITIAL_STATE = {
 			levels: [
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: " Big", intensity: 3, rest: 2 },
+				{ label: "Big", intensity: 3, rest: 2 },
 			],
 			name: "glutes",
 		},
@@ -73,7 +73,7 @@ export const INITIAL_STATE = {
 			levels: [
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: " Big", intensity: 3, rest: 2 },
+				{ label: "Big", intensity: 3, rest: 2 },
 			],
 			name: "cardio",
 		},

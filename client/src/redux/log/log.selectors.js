@@ -25,22 +25,13 @@ const getRestLevel = (state, props) => {
 
 	let maxRestLevelToday = 0;
 
-	// Check as many past days as max rest time
+	// Check as many past days as max rest time & get the highset rest today
 	for (let i = 1; i <= fieldMaxRestTime; i++) {
 		const tempProps = { ...props };
 		tempProps.dateStr = getDateInfo(dateStr, -i).dateStr;
 		const stats = selectStats(state, tempProps);
-		const intensity = stats ? stats.intensity : null;
-
-		// Get the highset rest today from all past days
-		if (intensity && intensity > 0) {
-			const dayLevel = field.levels.find(
-				(level) => level.intensity === intensity
-			);
-			const dayRestLevelToday = dayLevel.rest - i + 1;
-			if (dayRestLevelToday > maxRestLevelToday)
-				maxRestLevelToday = dayRestLevelToday;
-		}
+		const rest = stats ? stats.rest - i + 1 : 0;
+		if (rest > maxRestLevelToday) maxRestLevelToday = rest;
 	}
 	return maxRestLevelToday;
 };

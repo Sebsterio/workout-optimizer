@@ -8,12 +8,12 @@ const Modal = ({ cellData, updateLog, closeModal }) => {
 
 	const [newStats, setNewStats] = useState({
 		intensity: stats ? stats.intensity : null,
+		details: stats ? stats.details : null,
 		notes: stats ? stats.notes : "",
 		rest: stats ? stats.rest : null,
-		details: stats ? stats.details : null,
 	});
 
-	const { intensity, notes, rest, details } = newStats;
+	const { intensity, notes, details, rest } = newStats;
 
 	const handleInput = (e) => {
 		setNewStats({
@@ -23,7 +23,7 @@ const Modal = ({ cellData, updateLog, closeModal }) => {
 	};
 
 	// Update log entry if has changed
-	const handleSubmit = (newIntensity) => {
+	const handleSubmit = (newIntensity, newRest) => {
 		if (newIntensity !== intensity || newStats !== stats)
 			updateLog({
 				field,
@@ -31,6 +31,7 @@ const Modal = ({ cellData, updateLog, closeModal }) => {
 				stats: {
 					...newStats,
 					intensity: newIntensity,
+					rest: newRest,
 				},
 			});
 		else console.log("No change");
@@ -79,7 +80,7 @@ const Modal = ({ cellData, updateLog, closeModal }) => {
 										"modal__level-button modal__level-button--level-" +
 										intensity
 									}
-									onClick={() => handleSubmit(intensity)}
+									onClick={() => handleSubmit(intensity, rest)}
 								>
 									<div className="modal__marker"></div>
 								</button>
