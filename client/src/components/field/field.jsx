@@ -2,8 +2,9 @@ import React from "react";
 
 import "./field.scss";
 
-const Field = (props) => {
-	const { intensity, restLevel, openModal } = props;
+const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
+	let intensity, details;
+	if (stats) ({ intensity, details } = stats);
 
 	const plan = intensity < 0;
 
@@ -18,9 +19,13 @@ const Field = (props) => {
 		"field__exercise field__exercise--intensity-" + intensity;
 
 	return (
-		<div className={fieldClass} onClick={() => openModal(props)}>
+		<div
+			className={fieldClass}
+			onClick={() => openModal({ dateStr, field, stats })}
+		>
 			{plan && <div className={planClass}></div>}
 			{intensity && <div className={exerciseClass}></div>}
+			{details && details.map((detail) => <span>{detail}</span>)}
 		</div>
 	);
 };

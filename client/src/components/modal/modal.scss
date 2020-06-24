@@ -9,7 +9,17 @@
 	justify-content: center;
 	align-items: center;
 
+	&__bg {
+		z-index: 0;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+	}
+
 	&__card {
+		z-index: 1;
 		padding: 1rem;
 		background-color: white;
 		border: 5px solid black;
@@ -27,6 +37,12 @@
 
 		&--buttons {
 			justify-content: center;
+		}
+
+		&--levels {
+		}
+
+		&--notes {
 		}
 	}
 

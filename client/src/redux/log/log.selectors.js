@@ -10,7 +10,7 @@ const selectEntry = (state, props) => {
 	return state.log.entries[entryName];
 };
 
-const selectIntensity = (state, props) => {
+const selectStats = (state, props) => {
 	const entry = selectEntry(state, props);
 	return entry ? entry[props.field.name] : null;
 };
@@ -29,8 +29,10 @@ const getRestLevel = (state, props) => {
 	for (let i = 1; i <= fieldMaxRestTime; i++) {
 		const tempProps = { ...props };
 		tempProps.dateStr = getDateInfo(dateStr, -i).dateStr;
-		const intensity = selectIntensity(state, tempProps);
+		const stats = selectStats(state, tempProps);
+		const intensity = stats ? stats.intensity : null;
 
+		// Get the highset rest today from all past days
 		if (intensity && intensity > 0) {
 			const dayLevel = field.levels.find(
 				(level) => level.intensity === intensity
@@ -46,8 +48,8 @@ const getRestLevel = (state, props) => {
 export const makeGetEntry = () =>
 	createSelector([selectEntry], (entry) => entry);
 
-export const makeGetIntensity = () =>
-	createSelector([selectIntensity], (intensity) => intensity);
+export const makeGetStats = () =>
+	createSelector([selectStats], (stats) => stats);
 
 export const makeGetRestLevel = () =>
 	createSelector([getRestLevel], (restLevel) => restLevel);

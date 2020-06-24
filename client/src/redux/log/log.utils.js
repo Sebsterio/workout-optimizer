@@ -1,17 +1,17 @@
 // ---------------------- reducer utils ------------------------
 
-const getEntryPropNames = ({ dateStr, field, intensity }) => ({
+const getEntryPropNames = ({ dateStr, field, stats }) => ({
 	entryName: dateStr.replace(/ /g, "_"),
 	fieldName: field.name,
-	intensity,
+	stats,
 });
 
 export const getUpdatedEntries = (state, payload) => {
-	const { entryName, fieldName, intensity } = getEntryPropNames(payload);
+	const { entryName, fieldName, stats } = getEntryPropNames(payload);
 	const entries = { ...state.entries };
 
 	// Remove entry
-	if (intensity === null) {
+	if (stats.intensity === null) {
 		delete entries[entryName][fieldName];
 		const isEmpty = Object.keys(entries[entryName]).length === 0;
 		if (isEmpty) delete entries[entryName];
@@ -20,7 +20,7 @@ export const getUpdatedEntries = (state, payload) => {
 	else {
 		entries[entryName] = {
 			...entries[entryName],
-			[fieldName]: intensity,
+			[fieldName]: stats,
 		};
 	}
 

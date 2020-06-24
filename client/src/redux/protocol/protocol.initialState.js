@@ -19,7 +19,6 @@ export const INITIAL_STATE = {
 				{ label: "mins", default: 20 },
 			],
 			// !levels && !details -> binary field
-			idDone: true, // false = planned
 		},
 		{
 			name: "chest",

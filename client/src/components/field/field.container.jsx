@@ -1,20 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import {
-	makeGetIntensity,
-	makeGetRestLevel,
-} from "../../redux/log/log.selectors";
+import { makeGetStats, makeGetRestLevel } from "../../redux/log/log.selectors";
 import { openModal } from "../../redux/modal/modal.actions";
 
 import Field from "./field";
 
 const makeMapStateToProps = () => {
-	const getIntensity = makeGetIntensity();
+	const getStats = makeGetStats();
 	const getRestLevel = makeGetRestLevel();
 
 	return (state, props) => ({
-		intensity: getIntensity(state, props),
+		stats: getStats(state, props),
 		restLevel: getRestLevel(state, props),
 	});
 };
