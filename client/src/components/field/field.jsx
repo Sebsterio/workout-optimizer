@@ -6,6 +6,8 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 	let intensity, details;
 	if (stats) ({ intensity, details } = stats);
 
+	if (!intensity && details) intensity = 1;
+
 	const plan = intensity < 0;
 
 	let fieldClass = "field";

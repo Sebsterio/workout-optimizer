@@ -15,7 +15,7 @@ const Modal = ({
 }) => {
 	const [notes, setNotes] = useState(stats ? stats.notes : "");
 	const [details, setDetails] = useState(stats ? stats.details : []);
-	const [intensity, setIntensity] = useState(stats ? stats.rest : 0);
+	const [intensity, setIntensity] = useState(stats ? stats.intensity : 1);
 	const [rest, setRest] = useState(stats ? stats.rest : 0);
 
 	// Update log entry
