@@ -1,0 +1,8 @@
+.notes-row {
+	display: flex;
+	justify-content: stretch;
+
+	&__notes {
+		flex: 1 1 100%;
+	}
+}

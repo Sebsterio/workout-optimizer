@@ -1,0 +1,28 @@
+.details-row {
+	display: grid;
+	grid-gap: 0.7rem;
+
+	&__labels,
+	&__values,
+	&__inputs {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
+
+	&__label,
+	&__value,
+	&__input {
+		flex: 1 0 0;
+		width: 50px;
+		text-align: center;
+	}
+
+	&__buttons {
+		display: flex;
+		justify-content: center;
+	}
+
+	&__button {
+	}
+}

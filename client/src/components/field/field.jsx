@@ -25,7 +25,7 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 		>
 			{plan && <div className={planClass}></div>}
 			{intensity && <div className={exerciseClass}></div>}
-			{details && details.map((detail) => <span>{detail}</span>)}
+			{details && details.map((detail) => <div>{detail.value}</div>)}
 		</div>
 	);
 };

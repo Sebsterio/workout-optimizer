@@ -1,37 +1,40 @@
 import React, { useState } from "react";
 import "./modal.scss";
 
+import ButtonsRow from "./components/buttons-row/buttons-row";
+import LevelsRow from "./components/levels-row/levels-row";
+import DetailsRow from "./components/details-row/details-row";
+import NotesRow from "./components/notes-row/notes-row";
+
 // -------------------------------------------------------------
 
-const Modal = ({ cellData, updateLog, closeModal }) => {
-	const { field, dateStr, stats } = cellData;
+const Modal = ({
+	cellData: { field, dateStr, stats },
+	updateLog,
+	closeModal,
+}) => {
+	const intensity = stats ? stats.intensity : null;
+	const rest = stats ? stats.rest : null;
+	const [details, setDetails] = useState(stats ? stats.details : []);
+	const [notes, setNotes] = useState(stats ? stats.notes : "");
 
-	const [newStats, setNewStats] = useState({
-		intensity: stats ? stats.intensity : null,
-		details: stats ? stats.details : null,
-		notes: stats ? stats.notes : "",
-		rest: stats ? stats.rest : null,
-	});
-
-	const { intensity, notes, details, rest } = newStats;
-
-	const handleInput = (e) => {
-		setNewStats({
-			...newStats,
-			[e.target.name]: e.target.value,
-		});
-	};
+	const stateHasChanged = ({ newIntensity, newRest }) =>
+		newIntensity !== intensity ||
+		newRest !== rest ||
+		details != stats.details ||
+		notes != stats.notes;
 
 	// Update log entry if has changed
 	const handleSubmit = (newIntensity, newRest) => {
-		if (newIntensity !== intensity || newStats !== stats)
+		if (stateHasChanged({ newIntensity, newRest }))
 			updateLog({
 				field,
 				dateStr,
 				stats: {
-					...newStats,
 					intensity: newIntensity,
 					rest: newRest,
+					details,
+					notes,
 				},
 			});
 		else console.log("No change");
@@ -43,76 +46,21 @@ const Modal = ({ cellData, updateLog, closeModal }) => {
 			<div className="modal__bg" onClick={closeModal}></div>
 			<div className="modal__card">
 				<h1 className="modal__title">Add Exercise</h1>
-				<form action="">
-					{/* ------------------ Notes ------------------- */}
-
-					<div className="modal__row modal__row--notes">
-						<label className="modal__label" htmlFor="modal-notes">
-							Notes
-						</label>
-						<input
-							className="modal__notes"
-							name="notes"
-							value={notes}
-							onChange={handleInput}
-							id="modal-notes"
-							type="text"
-						/>
-					</div>
-
-					{/* ------------------ Level buttons ------------------- */}
-
-					{field.levels.map(({ label, intensity, rest }) => {
-						const restMsg =
-							rest > 1 ? rest + " days" : rest === 1 ? rest + " day" : "none";
-						return (
-							<div className="modal__row modal__row--levels" key={intensity}>
-								<label
-									className="modal__label"
-									htmlFor={"add-entry-btn-" + intensity}
-								>
-									{label}
-									<div className="modal__note">Rest: {restMsg}</div>
-								</label>
-								<button
-									id={"add-entry-btn-" + intensity}
-									className={
-										"modal__level-button modal__level-button--level-" +
-										intensity
-									}
-									onClick={() => handleSubmit(intensity, rest)}
-								>
-									<div className="modal__marker"></div>
-								</button>
-							</div>
-						);
-					})}
-
-					{/* ---------------------- Modal buttons ------------------- */}
-
-					<div className="modal__row modal__row--buttons">
-						<button
-							className={"modal__button modal__button--delete"}
-							onClick={() => handleSubmit(null)}
-						>
-							Delete
-						</button>
-						<button className={"modal__button modal__button--done"}>
-							Completed
-						</button>
-						<button className={"modal__button modal__button--reschedule"}>
-							Reschedule
-						</button>
-					</div>
-
-					<div className="modal__row modal__row--buttons">
-						<button
-							className={"modal__button modal__button--close"}
-							onClick={closeModal}
-						>
-							Close
-						</button>
-					</div>
+				<form className="modal__form" action="">
+					<NotesRow
+						notes={notes}
+						handleInput={(e) => setNotes(e.target.value)}
+					/>
+					<DetailsRow
+						field={field}
+						details={details}
+						addSet={(data) => setDetails([...details, data])}
+					/>
+					<LevelsRow field={field} handleSubmit={handleSubmit} />
+					<ButtonsRow
+						handleDelete={() => handleSubmit(null)}
+						closeModal={closeModal}
+					/>
 				</form>
 			</div>
 		</div>

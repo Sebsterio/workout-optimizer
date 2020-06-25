@@ -1,0 +1,37 @@
+.levels-row {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+
+	&__button {
+		flex: 0 0 30%;
+		position: relative;
+		height: 3rem;
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: space-evenly;
+		align-items: center;
+		background: transparent;
+		border: var(--border) solid red;
+
+		&--level-1 {
+			--border: 1px;
+		}
+		&--level-2 {
+			--border: 2px;
+		}
+		&--level-3 {
+			--border: 3px;
+		}
+	}
+
+	&__label {
+		display: block;
+	}
+
+	&__note {
+		display: block;
+		font-size: 0.6em;
+		color: grey;
+	}
+}

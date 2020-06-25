@@ -13,10 +13,11 @@ export const INITIAL_STATE = {
 			],
 			// max 4 fields
 			details: [
-				{ label: "sets", default: 1 },
-				{ label: "reps", default: 10 },
-				{ label: "kg", default: 20 },
-				{ label: "mins", default: 20 },
+				{ label: "sets", type: "number", defaultVal: 1 },
+				{ label: "reps", type: "number", defaultVal: 10 },
+				{ label: "kg", type: "number", defaultVal: 20 },
+				{ label: "mins", type: "number", defaultVal: 20 },
+				{ label: "done", type: "checkbox", defaultVal: true },
 			],
 			// !levels && !details -> binary field
 		},
@@ -28,12 +29,26 @@ export const INITIAL_STATE = {
 				{ label: "Medium", intensity: 2, rest: 1 },
 				{ label: "Big", intensity: 3, rest: 2 },
 			],
+			details: [
+				{ label: "sets", type: "number", defaultVal: 1 },
+				{ label: "reps", type: "number", defaultVal: 10 },
+				{ label: "kg", type: "number", defaultVal: 20 },
+				{ label: "mins", type: "number", defaultVal: 20 },
+				{ label: "done", type: "checkbox", defaultVal: true },
+			],
 		},
 		{
 			levels: [
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
 				{ label: "Big", intensity: 3, rest: 2 },
+			],
+			details: [
+				{ label: "sets", type: "number", defaultVal: 1 },
+				{ label: "reps", type: "number", defaultVal: 10 },
+				{ label: "kg", type: "number", defaultVal: 20 },
+				{ label: "mins", type: "number", defaultVal: 20 },
+				{ label: "done", type: "checkbox", defaultVal: true },
 			],
 			name: "upperBack",
 		},
@@ -43,6 +58,13 @@ export const INITIAL_STATE = {
 				{ label: "Medium", intensity: 2, rest: 1 },
 				{ label: "Big", intensity: 3, rest: 2 },
 			],
+			details: [
+				{ label: "sets", type: "number", defaultVal: 1 },
+				{ label: "reps", type: "number", defaultVal: 10 },
+				{ label: "kg", type: "number", defaultVal: 20 },
+				{ label: "mins", type: "number", defaultVal: 20 },
+				{ label: "done", type: "checkbox", defaultVal: true },
+			],
 			name: "core",
 		},
 		{
@@ -50,6 +72,13 @@ export const INITIAL_STATE = {
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
 				{ label: "Big", intensity: 3, rest: 2 },
+			],
+			details: [
+				{ label: "sets", type: "number", defaultVal: 1 },
+				{ label: "reps", type: "number", defaultVal: 10 },
+				{ label: "kg", type: "number", defaultVal: 20 },
+				{ label: "mins", type: "number", defaultVal: 20 },
+				{ label: "done", type: "checkbox", defaultVal: true },
 			],
 			name: "lowerBack",
 		},
@@ -59,6 +88,13 @@ export const INITIAL_STATE = {
 				{ label: "Medium", intensity: 2, rest: 1 },
 				{ label: "Big", intensity: 3, rest: 2 },
 			],
+			details: [
+				{ label: "sets", type: "number", defaultVal: 1 },
+				{ label: "reps", type: "number", defaultVal: 10 },
+				{ label: "kg", type: "number", defaultVal: 20 },
+				{ label: "mins", type: "number", defaultVal: 20 },
+				{ label: "done", type: "checkbox", defaultVal: true },
+			],
 			name: "quads",
 		},
 		{
@@ -67,6 +103,13 @@ export const INITIAL_STATE = {
 				{ label: "Medium", intensity: 2, rest: 1 },
 				{ label: "Big", intensity: 3, rest: 2 },
 			],
+			details: [
+				{ label: "sets", type: "number", defaultVal: 1 },
+				{ label: "reps", type: "number", defaultVal: 10 },
+				{ label: "kg", type: "number", defaultVal: 20 },
+				{ label: "mins", type: "number", defaultVal: 20 },
+				{ label: "done", type: "checkbox", defaultVal: true },
+			],
 			name: "glutes",
 		},
 		{
@@ -74,6 +117,13 @@ export const INITIAL_STATE = {
 				{ label: "Small", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
 				{ label: "Big", intensity: 3, rest: 2 },
+			],
+			details: [
+				{ label: "sets", type: "number", defaultVal: 1 },
+				{ label: "reps", type: "number", defaultVal: 10 },
+				{ label: "kg", type: "number", defaultVal: 20 },
+				{ label: "mins", type: "number", defaultVal: 20 },
+				{ label: "done", type: "checkbox", defaultVal: true },
 			],
 			name: "cardio",
 		},
