@@ -32,10 +32,8 @@ $white: white;
 	&__plan,
 	&__exercise {
 		position: absolute;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		border-radius: 50%;
+		height: 100%;
+		width: 100%;
 	}
 
 	&__plan {
@@ -45,20 +43,36 @@ $white: white;
 	}
 
 	&__exercise {
-		background-color: rgb(11, 117, 16);
+		box-sizing: border-box;
+		border: 0 solid rgb(11, 117, 16);
 
 		&--intensity-1 {
-			width: 30%;
-			height: 30%;
+			border-width: 3px;
 		}
 
 		&--intensity-2 {
-			width: 60%;
-			height: 60%;
+			border-width: 6px;
 		}
 		&--intensity-3 {
-			width: 90%;
-			height: 90%;
+			border-width: 9px;
 		}
+	}
+
+	&__details {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	&__line {
+		width: 100%;
+		display: flex;
+		justify-content: space-evenly;
 	}
 }

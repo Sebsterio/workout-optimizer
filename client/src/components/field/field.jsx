@@ -24,8 +24,21 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 			onClick={() => openModal({ dateStr, field, stats })}
 		>
 			{plan && <div className={planClass}></div>}
-			{intensity && <div className={exerciseClass}></div>}
-			{details && details.map((detail) => <div>{detail.value}</div>)}
+			{intensity && (
+				<div className={exerciseClass}>
+					{details && (
+						<div className="field__details">
+							{details.map((entry, i) => (
+								<div className="field__details-line" key={i}>
+									{Object.values(entry)
+										.filter((val) => typeof val !== "boolean")
+										.join("-")}
+								</div>
+							))}
+						</div>
+					)}
+				</div>
+			)}
 		</div>
 	);
 };
