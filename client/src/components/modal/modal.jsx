@@ -46,6 +46,11 @@ const Modal = ({
 			<div className="modal__bg" onClick={closeModal}></div>
 			<div className="modal__card">
 				<h1 className="modal__title">Add Exercise</h1>
+				<div className="modal__sub-title">
+					<span>{field.name}</span>
+					<span>|</span>
+					<span>{dateStr}</span>
+				</div>
 				<form className="modal__form" action="">
 					<NotesRow
 						notes={notes}
