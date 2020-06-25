@@ -56,11 +56,7 @@ const Modal = ({
 						notes={notes}
 						handleInput={(e) => setNotes(e.target.value)}
 					/>
-					<DetailsRow
-						field={field}
-						details={details}
-						addSet={(data) => setDetails([...details, data])}
-					/>
+					<DetailsRow field={field} details={details} setDetails={setDetails} />
 					<LevelsRow field={field} handleSubmit={handleSubmit} />
 					<ButtonsRow
 						handleDelete={() => handleSubmit(null)}

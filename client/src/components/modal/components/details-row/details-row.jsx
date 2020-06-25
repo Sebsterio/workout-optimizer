@@ -2,35 +2,27 @@ import React, { useState } from "react";
 import "./details-row.scss";
 
 // Convert protocol field labels into a default newEntry object
-const getNewEntryDefaults = (field) =>
+const getNewEntryDefaults = (field, done) =>
 	field.details.reduce((acc, cur) => {
 		const { label, defaultVal } = cur;
-		acc[label] = defaultVal;
+		acc[label] = label === "done" ? done : defaultVal;
 		return acc;
 	}, {});
 
 // ---------------------- Component ------------------------
 
-const DetailsRow = ({ field, details, addSet }) => {
-	const [formOpen, setFormOpen] = useState(false);
-	const [newEntry, setNewEntry] = useState(getNewEntryDefaults(field));
-
-	const toggleFormOpen = (e) => {
+const DetailsRow = ({ field, details, setDetails }) => {
+	const addEntry = (e, done) => {
 		e.preventDefault();
-		setFormOpen(!formOpen);
+		setDetails([...details, getNewEntryDefaults(field, done)]);
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		addSet(newEntry);
+	const updateEntry = ({ e, i, label, type }) => {
+		const newDetails = [...details];
+		const newValue = type === "checkbox" ? e.target.checked : e.target.value;
+		newDetails[i][label] = newValue;
+		setDetails(newDetails);
 	};
-
-	const updateNewEntry = (e) =>
-		setNewEntry({
-			...newEntry,
-			[e.target.name]:
-				e.target.type === "checkbox" ? e.target.checked : e.target.value,
-		});
 
 	// ---------------------- Labels -----------------------
 
@@ -45,53 +37,44 @@ const DetailsRow = ({ field, details, addSet }) => {
 		</div>
 	);
 
-	// -------------------- View/Edit Entry ------------------------
+	// ----------------------- Entries ------------------------
 
-	const DetailsItem = ({ set, detail }) => (
-		<span className="details-row__value" key={detail.label}>
-			{String(set[detail.label])}
-		</span>
-	);
-
-	// Display details array entries values from log
-	const DetailsList = details.map((set, i) => (
-		<div className="details-row__values" key={i}>
-			{field.details.map((detail) => DetailsItem({ set, detail }))}
-		</div>
-	));
-
-	// ---------------------- New Entry Inputs ----------------------
-
-	console.log(details);
-
-	const NewEntryInput = ({ label, type }) =>
+	const EntryInput = ({ entry, i, detail: { label, type } }) =>
 		type === "checkbox" ? (
 			<input
 				className="details-row__input"
 				type="checkbox"
 				name={label}
-				checked={newEntry[label]}
-				value={newEntry[label]}
+				checked={entry[label]}
+				value={entry[label]}
 				key={label}
-				onChange={updateNewEntry}
+				onChange={(e) => updateEntry({ e, i, label, type })}
 			></input>
 		) : (
 			<input
 				className="details-row__input"
 				type={type}
 				name={label}
-				value={newEntry[label]}
+				value={entry[label]}
 				key={label}
-				onChange={updateNewEntry}
+				onChange={(e) => updateEntry({ e, i, label, type })}
 			></input>
 		);
 
-	// Make newEntry inputs from protocol field
-	const NewEntryInputs = (
-		<div className="details-row__inputs">
-			{field.details.map(({ label, type }) => NewEntryInput({ label, type }))}
-		</div>
+	// Convert entry values to input elements
+	const EntryItem = ({ entry, i, detail }) => (
+		<span className="details-row__value" key={detail.label}>
+			{/* {String(entry[detail.label])} */}
+			{EntryInput({ entry, i, detail })}
+		</span>
 	);
+
+	// Convert 'details' entries from log to rows
+	const EntriesList = details.map((entry, i) => (
+		<div className="details-row__values" key={i}>
+			{field.details.map((detail) => EntryItem({ entry, i, detail }))}
+		</div>
+	));
 
 	// ---------------------- New Entry Buttons ----------------------
 
@@ -101,29 +84,20 @@ const DetailsRow = ({ field, details, addSet }) => {
 		</button>
 	);
 
-	const CloseNewSetButtons = (
+	const Buttons = (
 		<div className="details-row__buttons">
-			{Button("Cancel", toggleFormOpen)}
-			{Button("Add", handleSubmit)}
-		</div>
-	);
-
-	const OpenNewSetButtons = (
-		<div className="details-row__buttons">
-			{Button("Add details", toggleFormOpen)}
+			{Button("Add plan", (e) => addEntry(e, false))}
+			{Button("Add exercise", (e) => addEntry(e, true))}
 		</div>
 	);
 
 	// ---------------------- Render -----------------------
 
-	const labelsVisible = details.length || formOpen;
-
 	return (
 		<div className="details-row">
-			{labelsVisible && Labels}
-			{DetailsList}
-			{formOpen && NewEntryInputs}
-			{formOpen ? CloseNewSetButtons : OpenNewSetButtons}
+			{!!details.length && Labels}
+			{EntriesList}
+			{Buttons}
 		</div>
 	);
 };
