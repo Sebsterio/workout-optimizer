@@ -7,9 +7,9 @@ export const INITIAL_STATE = {
 			iconUrl: "url|svgCode",
 			notes: "", // for protocol, not exercise (show on field field click)
 			levels: [
-				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: "Big", intensity: 3, rest: 2 },
+				{ label: "Hard", intensity: 3, rest: 2 },
 			],
 			// max 4 fields
 			details: [
@@ -25,9 +25,9 @@ export const INITIAL_STATE = {
 			name: "chest",
 			iconUrl: "url|svgCode",
 			levels: [
-				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: "Big", intensity: 3, rest: 2 },
+				{ label: "Hard", intensity: 3, rest: 2 },
 			],
 			details: [
 				{ label: "sets", type: "number", defaultVal: 1 },
@@ -39,9 +39,9 @@ export const INITIAL_STATE = {
 		},
 		{
 			levels: [
-				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: "Big", intensity: 3, rest: 2 },
+				{ label: "Hard", intensity: 3, rest: 2 },
 			],
 			details: [
 				{ label: "sets", type: "number", defaultVal: 1 },
@@ -54,9 +54,9 @@ export const INITIAL_STATE = {
 		},
 		{
 			levels: [
-				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: "Big", intensity: 3, rest: 2 },
+				{ label: "Hard", intensity: 3, rest: 2 },
 			],
 			details: [
 				{ label: "sets", type: "number", defaultVal: 1 },
@@ -69,9 +69,9 @@ export const INITIAL_STATE = {
 		},
 		{
 			levels: [
-				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: "Big", intensity: 3, rest: 2 },
+				{ label: "Hard", intensity: 3, rest: 2 },
 			],
 			details: [
 				{ label: "sets", type: "number", defaultVal: 1 },
@@ -84,9 +84,9 @@ export const INITIAL_STATE = {
 		},
 		{
 			levels: [
-				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: "Big", intensity: 3, rest: 2 },
+				{ label: "Hard", intensity: 3, rest: 2 },
 			],
 			details: [
 				{ label: "sets", type: "number", defaultVal: 1 },
@@ -99,9 +99,9 @@ export const INITIAL_STATE = {
 		},
 		{
 			levels: [
-				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: "Big", intensity: 3, rest: 2 },
+				{ label: "Hard", intensity: 3, rest: 2 },
 			],
 			details: [
 				{ label: "sets", type: "number", defaultVal: 1 },
@@ -114,9 +114,9 @@ export const INITIAL_STATE = {
 		},
 		{
 			levels: [
-				{ label: "Small", intensity: 1, rest: 0 },
+				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
-				{ label: "Big", intensity: 3, rest: 2 },
+				{ label: "Hard", intensity: 3, rest: 2 },
 			],
 			details: [
 				{ label: "sets", type: "number", defaultVal: 1 },
