@@ -42,49 +42,53 @@ const DetailsRow = ({ field, details, setDetails }) => {
 
 	// Make header labels from protocol field
 	const Labels = (
-		<div className="details-row__labels">
-			<button style={{ opacity: 0 }}></button> {/* dummy */}
+		<tr>
+			<th>{/* empty */}</th>
 			{field.details.map((detail) => (
-				<span className="details-row__label" key={detail.label}>
+				<th className="details-row__label" key={detail.label}>
 					{detail.label}
-				</span>
+				</th>
 			))}
-		</div>
+		</tr>
 	);
 
 	// ----------------------- Entries ------------------------
 
 	// Convert entry values to input elements
-	const EntryItem = ({ entry, i, detail: { label, type } }) =>
+	const EntryItem = ({ entry, i, label, type }) =>
 		type === "checkbox" ? (
 			<input
-				className="details-row__value"
+				className="details-row__item"
 				type="checkbox"
 				name={label}
 				checked={entry[label]}
 				value={entry[label]}
-				key={label}
 				onChange={(e) => updateEntry({ e, i, label, type })}
 			></input>
 		) : (
 			<input
-				className="details-row__value"
+				className="details-row__item"
 				type={type}
 				name={label}
 				value={entry[label]}
-				key={label}
 				onChange={(e) => updateEntry({ e, i, label, type })}
 			></input>
 		);
 
-	// Convert 'details' entries from log to rows
-	const EntriesList = details.map((entry, i) => (
-		<div className="details-row__values" key={i}>
-			<button onClick={removeEntry} data-index={i}>
-				-
-			</button>
-			{field.details.map((detail) => EntryItem({ entry, i, detail }))}
-		</div>
+	const RemoveBtn = (i) => (
+		<button onClick={removeEntry} data-index={i}>
+			-
+		</button>
+	);
+
+	// Convert 'details' entries from log into table rows
+	const Entries = details.map((entry, i) => (
+		<tr key={i}>
+			<td>{RemoveBtn(i)}</td>
+			{field.details.map(({ label, type }) => (
+				<td key={label}>{EntryItem({ entry, i, label, type })}</td>
+			))}
+		</tr>
 	));
 
 	// ---------------------- New Entry Buttons ----------------------
@@ -110,8 +114,12 @@ const DetailsRow = ({ field, details, setDetails }) => {
 
 	return (
 		<div className="details-row">
-			{!!details.length && Labels}
-			{EntriesList}
+			{!!details.length && (
+				<table>
+					<thead>{Labels}</thead>
+					<tbody>{Entries}</tbody>
+				</table>
+			)}
 			{Buttons}
 		</div>
 	);
