@@ -3,16 +3,14 @@
 	grid-gap: 0.7rem;
 
 	&__labels,
-	&__values,
-	&__inputs {
+	&__values {
 		display: flex;
 		flex-flow: row nowrap;
 		justify-content: space-between;
 	}
 
 	&__label,
-	&__value,
-	&__input {
+	&__value {
 		flex: 1 0 0;
 		width: 50px;
 		text-align: center;
@@ -24,5 +22,6 @@
 	}
 
 	&__button {
+		margin: 0 0.5em;
 	}
 }
