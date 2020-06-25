@@ -1,10 +1,14 @@
 .levels-row {
+	width: 100%;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-between;
 
+	// Standard Levels & Toggle
+
 	&__button {
-		flex: 0 0 30%;
+		flex: 0 25%;
+		margin: 0 2px;
 		position: relative;
 		height: 3rem;
 		display: flex;
@@ -13,6 +17,16 @@
 		align-items: center;
 		background: transparent;
 		border: var(--border) solid red;
+
+		&--toggle {
+			background-color: rgb(231, 231, 231);
+			--border: 1px;
+			border-color: grey;
+		}
+
+		&--current {
+			background-color: rgb(250, 226, 226);
+		}
 
 		&--level-1 {
 			--border: 1px;
@@ -33,5 +47,28 @@
 		display: block;
 		font-size: 0.6em;
 		color: grey;
+	}
+
+	// Custom Levels
+
+	&__field {
+		flex: 0 35%;
+		display: grid;
+		justify-content: center;
+
+		&-label,
+		&-input {
+			display: block;
+		}
+
+		&-label {
+			font-size: 0.7em;
+			color: grey;
+			text-transform: capitalize;
+		}
+
+		&-input {
+			width: 50px;
+		}
 	}
 }

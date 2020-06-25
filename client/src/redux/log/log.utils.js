@@ -11,7 +11,7 @@ export const getUpdatedEntries = (state, payload) => {
 	const entries = { ...state.entries };
 
 	// Remove entry
-	if (stats.intensity === null) {
+	if (stats === "DELETE") {
 		delete entries[entryName][fieldName];
 		const isEmpty = Object.keys(entries[entryName]).length === 0;
 		if (isEmpty) delete entries[entryName];

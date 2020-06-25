@@ -2,7 +2,7 @@ import React from "react";
 
 import "./buttons-row.scss";
 
-const ButtonsRow = ({ handleDelete, closeModal }) => (
+const ButtonsRow = ({ handleSubmit, handleDelete, closeModal }) => (
 	<div className="buttons-row">
 		<button
 			className={"buttons-row__button buttons-row__button--delete"}
@@ -11,7 +11,10 @@ const ButtonsRow = ({ handleDelete, closeModal }) => (
 			Delete
 		</button>
 
-		<button className="buttons-row__button buttons-row__button--reschedule">
+		<button
+			className="buttons-row__button buttons-row__button--reschedule"
+			onClick={(e) => e.preventDefault()}
+		>
 			Reschedule
 		</button>
 
@@ -20,6 +23,12 @@ const ButtonsRow = ({ handleDelete, closeModal }) => (
 			onClick={closeModal}
 		>
 			Cancel
+		</button>
+		<button
+			className="buttons-row__button buttons-row__button--close"
+			onClick={() => handleSubmit()}
+		>
+			Save
 		</button>
 	</div>
 );

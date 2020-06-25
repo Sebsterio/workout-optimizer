@@ -1,24 +1,77 @@
-import React from "react";
-
+import React, { useState } from "react";
 import "./levels-row.scss";
 
-const LevelsRow = ({ field, handleSubmit }) => (
-	<div className="levels-row">
-		{field.levels.map(({ label, intensity, rest }) => {
-			const buttonClass =
-				"levels-row__button levels-row__button--level-" + intensity;
-			const restMsg =
-				rest > 1 ? rest + " days" : rest === 1 ? rest + " day" : "none";
-			const handleClick = () => handleSubmit(intensity, rest);
+const LevelsRow = (props) => {
+	const { field, intensity, rest, setIntensity, setRest, handleSubmit } = props;
 
-			return (
-				<button className={buttonClass} onClick={handleClick} key={intensity}>
-					<div className="levels-row__label">{label}</div>
-					<div className="levels-row__note">Rest: {restMsg}</div>
-				</button>
-			);
-		})}
-	</div>
-);
+	const [customLevels, setCustomLevels] = useState(false);
 
+	const toggleCustomLevels = (e) => {
+		e.preventDefault();
+		setCustomLevels(!customLevels);
+	};
+
+	const updateCustomLevels = (e) => {
+		if (e.target.name === "intensity") setIntensity(Number(e.target.value));
+		else if (e.target.name === "rest") setRest(Number(e.target.value));
+	};
+
+	// ---------------------- Toggle -----------------------
+	const Toggle = (
+		<button
+			className="levels-row__button levels-row__button--toggle"
+			onClick={toggleCustomLevels}
+		>
+			{customLevels ? "Standard" : "Custom"}
+		</button>
+	);
+	// -------------------- Base Levels --------------------
+
+	const getBtnClass = (btnIntensity) =>
+		"levels-row__button" +
+		" levels-row__button--level-" +
+		btnIntensity +
+		(btnIntensity === intensity ? " levels-row__button--current" : "");
+
+	const getRestMsg = (rest) =>
+		rest > 1 ? rest + " days" : rest === 1 ? rest + " day" : "none";
+
+	const BaseLevels = field.levels.map(({ label, intensity, rest }) => (
+		<button
+			className={getBtnClass(intensity)}
+			onClick={() => handleSubmit(intensity, rest)}
+			key={intensity}
+		>
+			<div className="levels-row__label">{label}</div>
+			<div className="levels-row__note">Rest: {getRestMsg(rest)}</div>
+		</button>
+	));
+
+	// ------------------- Custom Levels -------------------
+
+	const CustomLevels = ["intensity", "rest"].map((name) => (
+		<div className="levels-row__field" key={name}>
+			<label className="levels-row__field-label" htmlFor={"lrf-" + name}>
+				{name}
+			</label>
+			<input
+				className="levels-row__field-input"
+				id={"lrf-" + name}
+				type="number"
+				name={name}
+				value={props[name]}
+				onChange={updateCustomLevels}
+			/>
+		</div>
+	));
+
+	// ---------------------- Render ----------------------
+
+	return (
+		<div className="levels-row">
+			{Toggle}
+			{customLevels ? CustomLevels : BaseLevels}
+		</div>
+	);
+};
 export default LevelsRow;

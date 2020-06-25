@@ -81,10 +81,8 @@ router.post("/entry", auth, async (req, res) => {
 		// delete entry
 		else if (entry && !content) {
 			log.entries = log.entries.filter((entry) => entry.dateStr !== dateStr);
-		}
-		// attempt to remove non-existing entry
-		else {
-			throw Error("Error updating database");
+		} else {
+			throw Error("Unable to remove a non-existing entry");
 		}
 		log.dateUpdated = dateUpdated;
 		await log.save();

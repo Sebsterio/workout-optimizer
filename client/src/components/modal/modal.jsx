@@ -13,31 +13,29 @@ const Modal = ({
 	updateLog,
 	closeModal,
 }) => {
-	const intensity = stats ? stats.intensity : null;
-	const rest = stats ? stats.rest : null;
-	const [details, setDetails] = useState(stats ? stats.details : []);
 	const [notes, setNotes] = useState(stats ? stats.notes : "");
+	const [details, setDetails] = useState(stats ? stats.details : []);
+	const [intensity, setIntensity] = useState(stats ? stats.rest : 0);
+	const [rest, setRest] = useState(stats ? stats.rest : 0);
 
-	const stateHasChanged = ({ newIntensity, newRest }) =>
-		newIntensity !== intensity ||
-		newRest !== rest ||
-		details != stats.details ||
-		notes != stats.notes;
-
-	// Update log entry if has changed
+	// Update log entry
 	const handleSubmit = (newIntensity, newRest) => {
-		if (stateHasChanged({ newIntensity, newRest }))
-			updateLog({
-				field,
-				dateStr,
-				stats: {
-					intensity: newIntensity,
-					rest: newRest,
-					details,
-					notes,
-				},
-			});
-		else console.log("No change");
+		updateLog({
+			field,
+			dateStr,
+			stats: {
+				intensity: newIntensity ? newIntensity : intensity,
+				rest: newRest ? newRest : rest,
+				details,
+				notes,
+			},
+		});
+		closeModal();
+	};
+
+	const handleDelete = () => {
+		// e.preventDefault();
+		updateLog({ field, dateStr, stats: "DELETE" });
 		closeModal();
 	};
 
@@ -57,9 +55,17 @@ const Modal = ({
 						handleInput={(e) => setNotes(e.target.value)}
 					/>
 					<DetailsRow field={field} details={details} setDetails={setDetails} />
-					<LevelsRow field={field} handleSubmit={handleSubmit} />
+					<LevelsRow
+						field={field}
+						intensity={intensity}
+						rest={rest}
+						setIntensity={setIntensity}
+						setRest={setRest}
+						handleSubmit={handleSubmit}
+					/>
 					<ButtonsRow
-						handleDelete={() => handleSubmit(null)}
+						handleSubmit={handleSubmit}
+						handleDelete={handleDelete}
 						closeModal={closeModal}
 					/>
 				</form>
