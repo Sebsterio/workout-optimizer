@@ -7,7 +7,8 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 	if (stats) ({ intensity, details } = stats);
 
 	let fieldClass = "field";
-	if (intensity || details) fieldClass += " field--active";
+	if (intensity === 0) fieldClass += " field--planned";
+	if (intensity > 0) fieldClass += " field--active";
 	if (restLevel) {
 		fieldClass += " field--recovery";
 		fieldClass += " field--recovery-" + (restLevel < 3 ? restLevel : "3");
@@ -24,7 +25,7 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 			className={fieldClass}
 			onClick={() => openModal({ dateStr, field, stats })}
 		>
-			{intensity && <div className={exerciseClass}> </div>}
+			{intensity >= 0 && <div className={exerciseClass}> </div>}
 
 			{details && (
 				<div className={detailsClass}>

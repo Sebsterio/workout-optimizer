@@ -16,7 +16,7 @@ const Modal = ({
 }) => {
 	const [notes, setNotes] = useState(stats ? stats.notes : "");
 	const [details, setDetails] = useState(stats ? stats.details : []);
-	const [intensity, setIntensity] = useState(stats ? stats.intensity : 1);
+	const [intensity, setIntensity] = useState(stats ? stats.intensity : 0);
 	const [rest, setRest] = useState(stats ? stats.rest : 0);
 
 	const entryExists = !!stats;
