@@ -1,8 +1,8 @@
 {
 	"name": "workout-optimizer",
-	"version": "1.0.0",
 	"description": "Exercise Tracker App",
-	"homepage": "https://github.com/Sebsterio/workout-optimizer#readme",
+	"homepage": "https://hidden-journey-01025.herokuapp.com/",
+	"version": "1.0.0",
 	"main": "server.js",
 	"scripts": {
 		"client": "npm start --prefix client",
@@ -27,6 +27,10 @@
 	"devDependencies": {
 		"morgan": "^1.10.0",
 		"nodemon": "^1.17.5"
+	},
+	"engines": {
+		"node": "14.x",
+		"npm": "6.x"
 	},
 	"repository": {
 		"type": "git",
