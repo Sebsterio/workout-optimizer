@@ -28,21 +28,14 @@ $white: white;
 		}
 	}
 
-	&--intensity {
+	&--active {
 		background: rgb(119, 221, 179);
 	}
 
-	&__plan,
 	&__exercise {
 		position: absolute;
 		height: 100%;
 		width: 100%;
-	}
-
-	&__plan {
-		width: 30%;
-		height: 30%;
-		border: 1px dotted black;
 	}
 
 	&__exercise {
@@ -70,5 +63,15 @@ $white: white;
 		justify-content: center;
 		align-items: center;
 		white-space: nowrap;
+
+		&--planned {
+			color: rgb(140, 140, 140);
+		}
+		&--partial {
+			color: rgb(100, 100, 100);
+		}
+		&--done {
+			color: black;
+		}
 	}
 }
