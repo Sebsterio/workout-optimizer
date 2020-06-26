@@ -18,7 +18,6 @@ const DetailsRow = ({ field, details, setDetails }) => {
 	};
 
 	const updateEntry = ({ e, i, label, type }) => {
-		e.preventDefault();
 		const newDetails = [...details];
 		const newValue =
 			type === "checkbox"

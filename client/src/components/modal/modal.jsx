@@ -21,9 +21,6 @@ const Modal = ({
 
 	const entryExists = !!stats;
 
-	// Update notes in local state
-	const handleNotes = (e) => setNotes(e.target.value);
-
 	// Update intensity or rest in local state
 	const updateCustomLevels = (e) => {
 		if (e.target.name === "intensity") setIntensity(Number(e.target.value));
@@ -74,7 +71,7 @@ const Modal = ({
 					<span>{dateStr}</span>
 				</div>
 				<form className="modal__form" action="">
-					<NotesRow notes={notes} handleInput={handleNotes} />
+					<NotesRow notes={notes} setNotes={setNotes} />
 					<DetailsRow field={field} details={details} setDetails={setDetails} />
 					<LevelsRow
 						field={field}
