@@ -5,7 +5,7 @@ export const INITIAL_STATE = {
 		{
 			name: "arms",
 			iconUrl: "url|svgCode",
-			notes: "", // for protocol, not exercise (show on field field click)
+			description: "Exercise description here...",
 			levels: [
 				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },
@@ -23,6 +23,7 @@ export const INITIAL_STATE = {
 		{
 			name: "chest",
 			iconUrl: "url|svgCode",
+			description: "Exercise description here...",
 			levels: [
 				{ label: "Light", intensity: 1, rest: 0 },
 				{ label: "Medium", intensity: 2, rest: 1 },

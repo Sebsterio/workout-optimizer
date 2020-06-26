@@ -6,6 +6,13 @@ import LevelsRow from "./components/levels-row/levels-row";
 import DetailsRow from "./components/details-row/details-row";
 import NotesRow from "./components/notes-row/notes-row";
 
+const Separator = ({ text }) => (
+	<div className="modal__separator">
+		<div className="modal__separator-line"></div>
+		<span className="modal__separator-text">{text}</span>
+	</div>
+);
+
 // -------------------------------------------------------------
 
 const Modal = ({
@@ -70,9 +77,14 @@ const Modal = ({
 					<span>|</span>
 					<span>{dateStr}</span>
 				</div>
+				{field.description && (
+					<div className="modal__description">{field.description}</div>
+				)}
 				<form className="modal__form" action="">
 					<NotesRow notes={notes} setNotes={setNotes} />
+					<Separator text="Exercise details" />
 					<DetailsRow field={field} details={details} setDetails={setDetails} />
+					<Separator text="Intensity and rest" />
 					<LevelsRow
 						field={field}
 						intensity={intensity}
@@ -80,6 +92,7 @@ const Modal = ({
 						updateCustomLevels={updateCustomLevels}
 						handleSubmit={handleSubmit}
 					/>
+					<Separator text="" />
 					<ButtonsRow
 						entryExists={entryExists}
 						handleSubmit={handleSubmit}
