@@ -1,7 +1,6 @@
 {
 	"name": "workout-optimizer",
 	"description": "Exercise Tracker App",
-	"homepage": ".",
 	"version": "1.0.0",
 	"main": "server.js",
 	"scripts": {
