@@ -19,9 +19,11 @@ const getRestLevel = (state, props) => {
 	const { field, dateStr } = props;
 
 	// Find max possible rest time for given exercise
-	const fieldMaxRestTime = field.levels.reduce((acc, cur) =>
+	const fieldMaxStandardRest = field.levels.reduce((acc, cur) =>
 		cur.intensity > acc.intensity ? cur : acc
 	).rest;
+	const fieldMaxCustomRest = field.maxCustomRest || 0;
+	const fieldMaxRestTime = Math.max(fieldMaxStandardRest, fieldMaxCustomRest);
 
 	let maxRestLevelToday = 0;
 

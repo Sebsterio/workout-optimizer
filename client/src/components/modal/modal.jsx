@@ -12,6 +12,7 @@ const Modal = ({
 	cellData: { field, dateStr, stats },
 	updateLog,
 	closeModal,
+	updateMaxCustomRest,
 }) => {
 	const [notes, setNotes] = useState(stats ? stats.notes : "");
 	const [details, setDetails] = useState(stats ? stats.details : []);
@@ -20,18 +21,28 @@ const Modal = ({
 
 	const entryExists = !!stats;
 
+	// Update notes in local state
 	const handleNotes = (e) => setNotes(e.target.value);
 
+	// Update intensity or rest in local state
 	const updateCustomLevels = (e) => {
 		if (e.target.name === "intensity") setIntensity(Number(e.target.value));
 		else if (e.target.name === "rest") setRest(Number(e.target.value));
 	};
 
-	// Update log entry
+	// Save custom rest in redux to inform Fields about custom max rest
+	const checkCustomRest = (standardRest) => {
+		// Ignore if rest is non-custom or hasn't changed
+		if (standardRest >= 0) return;
+		if (!!stats && rest === stats.rest) return;
+
+		updateMaxCustomRest({ field, rest });
+	};
+
+	// Update log entry in redux & db
 	const handleSubmit = (e, newIntensity, newRest) => {
 		e.preventDefault();
-
-		const newLog = {
+		updateLog({
 			dateStr,
 			field,
 			stats: {
@@ -40,11 +51,12 @@ const Modal = ({
 				details,
 				notes,
 			},
-		};
-		updateLog(newLog);
+		});
+		checkCustomRest(newRest);
 		closeModal();
 	};
 
+	// Delete log entry in redux & db
 	const handleDelete = (e) => {
 		e.preventDefault();
 		updateLog({ field, dateStr, stats: "DELETE" });
@@ -67,6 +79,7 @@ const Modal = ({
 					<LevelsRow
 						field={field}
 						intensity={intensity}
+						rest={rest}
 						updateCustomLevels={updateCustomLevels}
 						handleSubmit={handleSubmit}
 					/>

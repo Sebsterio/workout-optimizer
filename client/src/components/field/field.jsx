@@ -14,7 +14,8 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 	if (intensity)
 		fieldClass += " field--intensity field--intensity-" + intensity;
 	if (restLevel > 0)
-		fieldClass += " field--recovery field--recovery-" + restLevel;
+		fieldClass +=
+			" field--recovery field--recovery-" + (restLevel < 3 ? restLevel : "3");
 
 	const planClass = "field__plan";
 	const exerciseClass =
