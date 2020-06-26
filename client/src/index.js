@@ -11,13 +11,15 @@ import "./index.scss";
 import AppContainer from "./app/app.container";
 
 ReactDOM.render(
-	<Provider store={store}>
-		<PersistGate persistor={persistor}>
-			<BrowserRouter>
-				<AppContainer />
-			</BrowserRouter>
-		</PersistGate>
-	</Provider>,
+	<React.StrictMode>
+		<Provider store={store}>
+			<PersistGate persistor={persistor}>
+				<BrowserRouter>
+					<AppContainer />
+				</BrowserRouter>
+			</PersistGate>
+		</Provider>
+	</React.StrictMode>,
 	document.getElementById("root")
 );
 

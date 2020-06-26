@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./details-row.scss";
 
 // Convert protocol field labels into a default newEntry object

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./levels-row.scss";
 
 const LevelsRow = (props) => {
-	const { field, intensity, rest, setIntensity, setRest, handleSubmit } = props;
+	const { field, intensity, setIntensity, setRest, handleSubmit } = props;
 
 	const [customLevels, setCustomLevels] = useState(false);
 
