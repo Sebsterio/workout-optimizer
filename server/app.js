@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const compression = require("compression");
 
 const authRoutes = require("./routes/api/auth");
 const logRoutes = require("./routes/api/log");
@@ -20,6 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV !== "production") {
 	const morgan = require("morgan");
 	app.use(morgan("dev"));
+}
+
+if (process.env.NODE_ENV === "production") {
+	app.use(compression());
 }
 
 // ---------------- Mongo ----------------
@@ -43,7 +48,7 @@ app.use("/api/log", logRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "../client/build")));
+	app.use(express.static(path.join(__dirname, "..", "client", "build")));
 	app.get("*", (req, res) => {
 		res.sendFile(
 			path.resolve(__dirname, "..", "client", "build", "index.html")
