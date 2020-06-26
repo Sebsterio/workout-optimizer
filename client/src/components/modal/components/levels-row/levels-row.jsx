@@ -2,18 +2,13 @@ import React, { useState } from "react";
 import "./levels-row.scss";
 
 const LevelsRow = (props) => {
-	const { field, intensity, setIntensity, setRest, handleSubmit } = props;
+	const { field, intensity, updateCustomLevels, handleSubmit } = props;
 
 	const [customLevels, setCustomLevels] = useState(false);
 
 	const toggleCustomLevels = (e) => {
 		e.preventDefault();
 		setCustomLevels(!customLevels);
-	};
-
-	const updateCustomLevels = (e) => {
-		if (e.target.name === "intensity") setIntensity(Number(e.target.value));
-		else if (e.target.name === "rest") setRest(Number(e.target.value));
 	};
 
 	// ---------------------- Toggle -----------------------
@@ -39,7 +34,7 @@ const LevelsRow = (props) => {
 	const BaseLevels = field.levels.map(({ label, intensity, rest }) => (
 		<button
 			className={getBtnClass(intensity)}
-			onClick={() => handleSubmit(intensity, rest)}
+			onClick={(e) => handleSubmit(e, intensity, rest)}
 			key={intensity}
 		>
 			<div className="levels-row__label">{label}</div>

@@ -2,11 +2,17 @@ import React from "react";
 
 import "./buttons-row.scss";
 
-const ButtonsRow = ({ handleSubmit, handleDelete, closeModal }) => (
+const ButtonsRow = ({
+	entryExists,
+	handleSubmit,
+	handleDelete,
+	closeModal,
+}) => (
 	<div className="buttons-row">
 		<button
 			className={"buttons-row__button buttons-row__button--delete"}
 			onClick={handleDelete}
+			disabled={!entryExists}
 		>
 			Delete
 		</button>
@@ -14,6 +20,7 @@ const ButtonsRow = ({ handleSubmit, handleDelete, closeModal }) => (
 		<button
 			className="buttons-row__button buttons-row__button--reschedule"
 			onClick={(e) => e.preventDefault()}
+			disabled={!entryExists}
 		>
 			Reschedule
 		</button>
@@ -26,7 +33,7 @@ const ButtonsRow = ({ handleSubmit, handleDelete, closeModal }) => (
 		</button>
 		<button
 			className="buttons-row__button buttons-row__button--close"
-			onClick={() => handleSubmit()}
+			onClick={handleSubmit}
 		>
 			Save
 		</button>

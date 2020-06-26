@@ -18,23 +18,35 @@ const Modal = ({
 	const [intensity, setIntensity] = useState(stats ? stats.intensity : 1);
 	const [rest, setRest] = useState(stats ? stats.rest : 0);
 
+	const entryExists = !!stats;
+
+	const handleNotes = (e) => setNotes(e.target.value);
+
+	const updateCustomLevels = (e) => {
+		if (e.target.name === "intensity") setIntensity(Number(e.target.value));
+		else if (e.target.name === "rest") setRest(Number(e.target.value));
+	};
+
 	// Update log entry
-	const handleSubmit = (newIntensity, newRest) => {
-		updateLog({
-			field,
+	const handleSubmit = (e, newIntensity, newRest) => {
+		e.preventDefault();
+
+		const newLog = {
 			dateStr,
+			field,
 			stats: {
-				intensity: newIntensity ? newIntensity : intensity,
-				rest: newRest ? newRest : rest,
+				intensity: newIntensity !== undefined ? newIntensity : intensity,
+				rest: newRest !== undefined ? newRest : rest,
 				details,
 				notes,
 			},
-		});
+		};
+		updateLog(newLog);
 		closeModal();
 	};
 
-	const handleDelete = () => {
-		// e.preventDefault();
+	const handleDelete = (e) => {
+		e.preventDefault();
 		updateLog({ field, dateStr, stats: "DELETE" });
 		closeModal();
 	};
@@ -50,20 +62,16 @@ const Modal = ({
 					<span>{dateStr}</span>
 				</div>
 				<form className="modal__form" action="">
-					<NotesRow
-						notes={notes}
-						handleInput={(e) => setNotes(e.target.value)}
-					/>
+					<NotesRow notes={notes} handleInput={handleNotes} />
 					<DetailsRow field={field} details={details} setDetails={setDetails} />
 					<LevelsRow
 						field={field}
 						intensity={intensity}
-						rest={rest}
-						setIntensity={setIntensity}
-						setRest={setRest}
+						updateCustomLevels={updateCustomLevels}
 						handleSubmit={handleSubmit}
 					/>
 					<ButtonsRow
+						entryExists={entryExists}
 						handleSubmit={handleSubmit}
 						handleDelete={handleDelete}
 						closeModal={closeModal}

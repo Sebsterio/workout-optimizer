@@ -11,7 +11,9 @@ const makeMapStateToProps = () => {
 	const getRestLevel = makeGetRestLevel();
 
 	return (state, props) => ({
+		// Log entry stats (including exercise rest prop)
 		stats: getStats(state, props),
+		// Rest level calculated from past days' rest props
 		restLevel: getRestLevel(state, props),
 	});
 };

@@ -12,10 +12,6 @@ const persistConfig = {
 	key: "root",
 	storage,
 	whitelist: ["user", "log", "protocol"],
-	migrate: (state) => {
-		console.log("Migration running");
-		return Promise.resolve(state);
-	},
 };
 
 const rootReducer = combineReducers({
