@@ -34,6 +34,8 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 
 	return (
 		<div className="row-form">
+			<h1 className="modal__title">Exercise Config</h1>
+
 			<TextInputSection name="name" value={name} handler={setName} />
 
 			<nav className="row-form__nav">

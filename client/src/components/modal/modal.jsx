@@ -13,13 +13,6 @@ const Modal = ({ cellData, closeModal, isOpen }) => {
 		<div className="modal">
 			<div className="modal__bg" onClick={closeModal}></div>
 			<div className="modal__card">
-				<h1 className="modal__title">
-					{mode === "log"
-						? "Exercise Log"
-						: mode === "row"
-						? "Exercise Config"
-						: ""}
-				</h1>
 				{mode === "log" && (
 					<LogForm cellData={cellData} closeModal={closeModal} />
 				)}

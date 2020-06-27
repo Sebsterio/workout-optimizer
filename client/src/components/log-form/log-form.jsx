@@ -62,6 +62,10 @@ const LogForm = ({
 
 	return (
 		<form className="log-form" action="">
+			<h1 className="modal__title">
+				{entryExists ? "Edit Exercise" : "New Exercise"}
+			</h1>
+
 			<div className="log-form__sub-title">
 				<span>{field.name}</span>
 				<span>|</span>

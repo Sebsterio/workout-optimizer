@@ -105,7 +105,7 @@ const DetailsRow = ({ field, details, setDetails }) => {
 				className="details-row__button"
 				onClick={(e) => addEntry(e, true)}
 			>
-				New exercise
+				New log
 			</button>
 		</div>
 	);
