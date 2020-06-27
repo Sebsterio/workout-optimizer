@@ -1,0 +1,21 @@
+.separator {
+	position: relative;
+	color: grey;
+	text-align: center;
+
+	&-line {
+		position: absolute;
+		top: 0;
+		bottom: 0.5em;
+		left: 0;
+		right: 0;
+		border-bottom: 1px solid grey;
+		z-index: -1;
+	}
+
+	&-text {
+		font-size: 0.7em;
+		padding: 0 0.7em;
+		background-color: white;
+	}
+}

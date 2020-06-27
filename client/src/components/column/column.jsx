@@ -1,5 +1,6 @@
 import React from "react";
 import Field from "../../components/field/field.container";
+import AsideField from "../../components/aside-field/aside-field";
 import LogSpinner from "../../components/log-spinner/log-spinner.container";
 import getDateInfo from "../../utils/date";
 import "./column.scss";
@@ -27,7 +28,7 @@ const Column = ({ fields, day, isAside }) => {
 				{fields.map((field) => (
 					<div className="column__cell" key={field.name}>
 						{isAside ? (
-							field.name
+							<AsideField field={field} />
 						) : (
 							<Field dateOffset={day} dateStr={dateStr} field={field} />
 						)}

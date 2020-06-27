@@ -1,5 +1,5 @@
 import React from "react";
-import { getCompletion } from "./field.utils";
+import { getCompletion, getIntensity, getRestLevel } from "./field.utils";
 import "./field.scss";
 
 const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
@@ -10,15 +10,17 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 	if (intensity === 0) fieldClass += " field--planned";
 	if (intensity > 0) fieldClass += " field--active";
 	if (restLevel) {
-		fieldClass += " field--recovery";
-		fieldClass += " field--recovery-" + (restLevel < 3 ? restLevel : "3");
+		fieldClass +=
+			" field--recovery" + ` field--recovery-${getRestLevel(restLevel)}`;
 	}
 
 	const exerciseClass =
-		"field__exercise field__exercise--intensity-" + intensity;
+		"field__exercise" +
+		` field__exercise--intensity-${getIntensity(intensity)}`;
 
-	const detailsClass =
-		"field__details field__details--" + getCompletion(details);
+	const detailsClass = `field__details field__details--${getCompletion(
+		details
+	)}`;
 
 	return (
 		<div
