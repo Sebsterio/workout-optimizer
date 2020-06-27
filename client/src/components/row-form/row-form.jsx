@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./row-form.scss";
 
 import TextInputSection from "./subcomponents/text-input-section";
-import DetailsSection from "./subcomponents/details-section";
+import ParamsSection from "./subcomponents/params-section";
 import LevelsSection from "./subcomponents/levels-section";
 import ButtonsSection from "./subcomponents/buttons-section";
 import Separator from "../separator/separator";
@@ -18,9 +18,7 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 	// const [customRestLimit] = useState(field.customRestLimit || 6)
 
 	const [tab, setTab] = useState("general");
-
 	const tabsList = ["general", "parameters", "levels"];
-
 	const switchTabs = (e) => {
 		e.preventDefault();
 		setTab(e.target.dataset.tab);
@@ -67,7 +65,7 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 			{tab === "parameters" && (
 				<>
 					<Separator text="Exercise Parameters" />
-					<DetailsSection details={details} setDetails={setDetails} />
+					<ParamsSection details={details} setDetails={setDetails} />
 				</>
 			)}
 
