@@ -2,6 +2,30 @@
 	width: 100%;
 	height: 100%;
 	display: flex;
+	flex-flow: column nowrap;
 	justify-content: center;
 	align-items: center;
+
+	&__icon {
+		width: 70%;
+		height: 70%;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	&:hover {
+		.aside-field__icon {
+			transform: scale(0.9);
+		}
+		.aside-field__name {
+			display: initial;
+		}
+	}
+
+	&__name {
+		&--small {
+			display: none;
+			font-size: 0.7em;
+		}
+	}
 }

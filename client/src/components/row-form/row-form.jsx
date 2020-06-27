@@ -5,6 +5,7 @@ import TextInputSection from "./subcomponents/text-input-section";
 import ParamsSection from "./subcomponents/params-section";
 import LevelsSection from "./subcomponents/levels-section";
 import ButtonsSection from "./subcomponents/buttons-section";
+import IconPicker from "./subcomponents/icon-picker";
 import Separator from "../separator/separator";
 
 const RowForm = ({ cellData, closeModal, updateProtocol }) => {
@@ -14,11 +15,11 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 	const [description, setDescription] = useState(field.description || "");
 	const [levels, setLevels] = useState(field.levels || []);
 	const [details, setDetails] = useState(field.details || []);
-	// const [icon, setIcon] = useState(field.icon || null)
+	const [icon, setIcon] = useState(field.icon || null);
 	// const [customRestLimit] = useState(field.customRestLimit || 6)
 
-	const [tab, setTab] = useState("general");
-	const tabsList = ["general", "parameters", "levels"];
+	const [tab, setTab] = useState("description");
+	const tabsList = ["description", "icon", "parameters", "levels"];
 	const switchTabs = (e) => {
 		e.preventDefault();
 		setTab(e.target.dataset.tab);
@@ -27,7 +28,7 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 	// Update protocol field in redux & db
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const newFieldData = { name, description, levels, details };
+		const newFieldData = { name, description, levels, details, icon };
 		updateProtocol({ field, newFieldData });
 		closeModal();
 	};
@@ -52,15 +53,22 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 				))}
 			</nav>
 
-			{tab === "general" && (
+			{tab === "description" && (
 				<>
-					<Separator text="General Settings" />
-					<TextInputSection
+					<Separator text="Description" />
+					<textarea
 						name="description"
 						value={description}
-						handler={setDescription}
-					/>
-					{/* <div>--- IconPicker here... ---</div> */}
+						onChange={(e) => setDescription(e.target.value)}
+						cols="30"
+						rows="10"
+					></textarea>
+				</>
+			)}
+			{tab === "icon" && (
+				<>
+					<Separator text="Icon" />
+					<IconPicker icon={icon} setIcon={setIcon} />
 				</>
 			)}
 
