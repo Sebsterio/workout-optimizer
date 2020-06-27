@@ -1,14 +1,13 @@
 import React from "react";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 
 import RowForm from "./row-form";
 
-// const mapDispatchToProps = (dispatch) => ({
-// 	updateLog: (data) => dispatch(updateLog(data)),
-// 	updateMaxCustomRest: (data) => dispatch(updateMaxCustomRest(data)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+	// updateProtocol: (data) => dispatch(updateProtocol(data)),
+	updateProtocol: (data) => console.log("UPDATE_PROTOCOL--STUB: ", data),
+});
 
 const RowFormContainer = (props) => <RowForm {...props} />;
 
-// export default connect(null, mapDispatchToProps)(RowFormContainer);
-export default RowFormContainer;
+export default connect(null, mapDispatchToProps)(RowFormContainer);

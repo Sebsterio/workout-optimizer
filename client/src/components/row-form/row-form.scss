@@ -32,3 +32,15 @@
 .details-section__button {
 	margin-top: 1rem;
 }
+
+.buttons-section {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+
+	&__button {
+		flex: 1 1 45%;
+		margin: 2px;
+		padding: 0.5em;
+	}
+}
