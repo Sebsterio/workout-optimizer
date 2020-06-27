@@ -20,16 +20,26 @@ const ParamsSection = ({ details, setDetails }) => {
 		setDetails(newDetails);
 	};
 
+	const isParamValid = (name, val) => {
+		if (name !== "label") return true;
+
+		const isLabelUnique = details.every((deet) => deet.label !== val);
+		if (isLabelUnique) return true;
+
+		alert("Labels must be unique");
+	};
+
 	const updateParam = (e) => {
-		const index = e.target.dataset.index;
+		const { name, type, checked, value, dataset } = e.target;
+		const { index } = dataset;
+
 		const newValue =
-			e.target.type === "checkbox"
-				? e.target.checked
-				: e.target.type === "number"
-				? Number(e.target.value)
-				: e.target.value;
+			type === "checkbox" ? checked : type === "number" ? Number(value) : value;
+
+		if (!isParamValid(name, newValue)) return;
+
 		const newDetails = [...details];
-		newDetails[index][e.target.name] = newValue;
+		newDetails[index][name] = newValue;
 		setDetails(newDetails);
 	};
 
