@@ -16,18 +16,19 @@
 		flex: 1 1 60%;
 	}
 }
-
+.levels-section__input,
 .details-section__input {
 	width: 100px;
 	text-align: center;
 }
 
+.levels-section__row,
 .details-section__row {
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: center;
 }
-
+.levels-section__button,
 .details-section__button {
 	margin-top: 1rem;
 }

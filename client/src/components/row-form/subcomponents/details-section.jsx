@@ -1,17 +1,18 @@
 import React from "react";
 
-// TODO: validate lable unique
-// TODO: defaultVal type reflect chosen type
-
-const newDefaultDetail = { label: "label", type: "number", defaultVal: 1 };
+const newDefaultDetail = {
+	label: "new parameter",
+	type: "number",
+	defaultVal: 1,
+};
 
 const DetailsSection = ({ details, setDetails }) => {
-	const addEntry = (e) => {
+	const addParam = (e) => {
 		e.preventDefault();
 		setDetails([...details, newDefaultDetail]);
 	};
 
-	const removeEntry = (e) => {
+	const removeParam = (e) => {
 		e.preventDefault();
 		const index = e.target.dataset.index;
 		const newDetails = [...details];
@@ -19,7 +20,7 @@ const DetailsSection = ({ details, setDetails }) => {
 		setDetails(newDetails);
 	};
 
-	const updateEntry = (e) => {
+	const updateParam = (e) => {
 		const index = e.target.dataset.index;
 		const newValue =
 			e.target.type === "checkbox"
@@ -42,7 +43,7 @@ const DetailsSection = ({ details, setDetails }) => {
 			<tr key={label}>
 				{/* Remove btn */}
 				<td>
-					<button onClick={removeEntry} data-index={i} children="-" />
+					<button onClick={removeParam} data-index={i} children="-" />
 				</td>
 				{/* Label */}
 				<td>
@@ -52,7 +53,7 @@ const DetailsSection = ({ details, setDetails }) => {
 						name="label"
 						value={label}
 						data-index={i}
-						onChange={updateEntry}
+						onChange={updateParam}
 					></input>
 				</td>
 				{/* Type */}
@@ -62,7 +63,7 @@ const DetailsSection = ({ details, setDetails }) => {
 						name="type"
 						value={type}
 						data-index={i}
-						onChange={updateEntry}
+						onChange={updateParam}
 					>
 						<option value="number">Number</option>
 						<option value="text">Text</option>
@@ -77,8 +78,9 @@ const DetailsSection = ({ details, setDetails }) => {
 						name="defaultVal"
 						value={defaultVal}
 						checked={defaultVal}
+						min={0}
 						data-index={i}
-						onChange={updateEntry}
+						onChange={updateParam}
 					></input>
 				</td>
 			</tr>
@@ -106,7 +108,7 @@ const DetailsSection = ({ details, setDetails }) => {
 
 			{/* Button */}
 			<div className="details-section__row">
-				<button className="details-section__button" onClick={addEntry}>
+				<button className="details-section__button" onClick={addParam}>
 					New parameter
 				</button>
 			</div>

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./row-form.scss";
 
-import DetailsSection from "./subcomponents/details-section";
 import TextInputSection from "./subcomponents/text-input-section";
+import DetailsSection from "./subcomponents/details-section";
+import LevelsSection from "./subcomponents/levels-section";
 import Separator from "../separator/separator";
 
 const RowForm = ({ cellData, closeModal }) => {
@@ -25,11 +26,11 @@ const RowForm = ({ cellData, closeModal }) => {
 			/>
 			<Separator text="Exercise Parameters" />
 			<DetailsSection details={details} setDetails={setDetails} />
+			<Separator text="Levels (Quick-Add Buttons)" />
+			<LevelsSection levels={levels} setLevels={setLevels} />
 		</div>
 	);
 
-	// details
-	// levels (quick-add buttons)
 	// custom rest limit
 
 	// buttons: cancel, save
