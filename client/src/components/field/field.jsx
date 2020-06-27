@@ -1,5 +1,10 @@
 import React from "react";
-import { getCompletion, getIntensity, getRestLevel } from "./field.utils";
+import {
+	getCompletion,
+	getIntensity,
+	getRestLevel,
+	getDetailsString,
+} from "./field.utils";
 import "./field.scss";
 
 const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
@@ -27,15 +32,15 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 			className={fieldClass}
 			onClick={() => openModal({ dateStr, field, stats, mode: "log" })}
 		>
+			{/* Intensity marker */}
 			{intensity >= 0 && <div className={exerciseClass}> </div>}
 
+			{/* Details strings */}
 			{details && (
 				<div className={detailsClass}>
 					{details.map((entry, i) => (
 						<div className="field__details-line" key={i}>
-							{Object.values(entry)
-								.filter((val) => typeof val !== "boolean")
-								.join("-")}
+							{getDetailsString(entry)}
 						</div>
 					))}
 				</div>

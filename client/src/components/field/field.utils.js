@@ -10,3 +10,15 @@ export const getCompletion = (details) => {
 	if (detailsDone.length > 0) return "partial";
 	return "planned";
 };
+
+export const getDetailsString = (entry) =>
+	Object.entries(entry)
+		.filter((pair) => pair[0] !== "done")
+		.map((pair) => {
+			if (typeof pair[1] === "string" && pair[1].length > 5)
+				return pair[1].substr(0, 4) + "...";
+			if (pair[1] === true) return "Y";
+			if (pair[1] === false) return "N";
+			return pair[1];
+		})
+		.join("-");

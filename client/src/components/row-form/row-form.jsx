@@ -29,12 +29,8 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 	// Update protocol field in redux & db
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		updateProtocol({
-			name,
-			description,
-			levels,
-			details,
-		});
+		const newFieldData = { name, description, levels, details };
+		updateProtocol({ field, newFieldData });
 		closeModal();
 	};
 
@@ -64,7 +60,7 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 						value={description}
 						handler={setDescription}
 					/>
-					<div>--- IconPicker here... ---</div>
+					{/* <div>--- IconPicker here... ---</div> */}
 				</>
 			)}
 

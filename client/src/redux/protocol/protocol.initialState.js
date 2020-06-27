@@ -4,7 +4,7 @@ export const INITIAL_STATE = {
 	fields: [
 		{
 			name: "arms",
-			iconUrl: "url|svgCode",
+			icon: "url|svgCode",
 			description: "Exercise description here...",
 			levels: [
 				{ label: "Light", intensity: 1, rest: 0 },
@@ -22,7 +22,7 @@ export const INITIAL_STATE = {
 		},
 		{
 			name: "chest",
-			iconUrl: "url|svgCode",
+			icon: "url|svgCode",
 			description: "Exercise description here...",
 			levels: [
 				{ label: "Light", intensity: 1, rest: 0 },
