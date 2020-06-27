@@ -73,8 +73,10 @@ const LogForm = ({
 			)}
 
 			<NotesRow notes={notes} setNotes={setNotes} />
+
 			<Separator text="Exercise details" />
 			<DetailsRow field={field} details={details} setDetails={setDetails} />
+
 			<Separator text="Intensity and rest" />
 			<LevelsRow
 				field={field}
@@ -83,7 +85,8 @@ const LogForm = ({
 				updateCustomLevels={updateCustomLevels}
 				handleSubmit={handleSubmit}
 			/>
-			<Separator text="---" />
+
+			<Separator />
 			<ButtonsRow
 				entryExists={entryExists}
 				handleSubmit={handleSubmit}

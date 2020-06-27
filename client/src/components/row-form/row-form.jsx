@@ -17,7 +17,16 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 	// const [icon, setIcon] = useState(field.icon || null)
 	// const [customRestLimit] = useState(field.customRestLimit || 6)
 
-	// Update log entry in redux & db
+	const [tab, setTab] = useState("general");
+
+	const tabsList = ["general", "parameters", "levels"];
+
+	const switchTabs = (e) => {
+		e.preventDefault();
+		setTab(e.target.dataset.tab);
+	};
+
+	// Update protocol field in redux & db
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		updateProtocol({
@@ -32,19 +41,48 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 	return (
 		<div className="row-form">
 			<TextInputSection name="name" value={name} handler={setName} />
-			<TextInputSection
-				name="description"
-				value={description}
-				handler={setDescription}
-			/>
 
-			<Separator text="Exercise Parameters" />
-			<DetailsSection details={details} setDetails={setDetails} />
+			<nav className="row-form__nav">
+				{tabsList.map((tab) => (
+					<a
+						key={tab}
+						href="#"
+						className="row-form__nav-item"
+						data-tab={tab}
+						onClick={switchTabs}
+					>
+						{tab}
+					</a>
+				))}
+			</nav>
 
-			<Separator text="Levels (Quick-Add Buttons)" />
-			<LevelsSection levels={levels} setLevels={setLevels} />
+			{tab === "general" && (
+				<>
+					<Separator text="General Settings" />
+					<TextInputSection
+						name="description"
+						value={description}
+						handler={setDescription}
+					/>
+					<div>--- IconPicker here... ---</div>
+				</>
+			)}
 
-			<Separator text="" />
+			{tab === "parameters" && (
+				<>
+					<Separator text="Exercise Parameters" />
+					<DetailsSection details={details} setDetails={setDetails} />
+				</>
+			)}
+
+			{tab === "levels" && (
+				<>
+					<Separator text="Levels (Quick-Add Buttons)" />
+					<LevelsSection levels={levels} setLevels={setLevels} />
+				</>
+			)}
+
+			<Separator />
 			<ButtonsSection handleSubmit={handleSubmit} closeModal={closeModal} />
 		</div>
 	);

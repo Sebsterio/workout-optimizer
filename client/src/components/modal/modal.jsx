@@ -17,7 +17,7 @@ const Modal = ({ cellData, closeModal, isOpen }) => {
 					{mode === "log"
 						? "Exercise Log"
 						: mode === "row"
-						? "Exercise Parameters"
+						? "Exercise Config"
 						: ""}
 				</h1>
 				{mode === "log" && (
