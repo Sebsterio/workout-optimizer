@@ -10,7 +10,7 @@ const AsideField = ({ field, openModal }) => (
 	<div
 		className="aside-field"
 		field={field}
-		onClick={() => openModal({ field })}
+		onClick={() => openModal({ field, mode: "row" })}
 	>
 		{field.name}
 	</div>

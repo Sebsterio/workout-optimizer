@@ -25,7 +25,7 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 	return (
 		<div
 			className={fieldClass}
-			onClick={() => openModal({ dateStr, field, stats })}
+			onClick={() => openModal({ dateStr, field, stats, mode: "log" })}
 		>
 			{intensity >= 0 && <div className={exerciseClass}> </div>}
 

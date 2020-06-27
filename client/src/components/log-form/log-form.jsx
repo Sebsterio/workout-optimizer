@@ -6,9 +6,9 @@ import DetailsRow from "./subcomponents/details-row/details-row";
 import NotesRow from "./subcomponents/notes-row/notes-row";
 import Separator from "../separator/separator";
 
-import "./field-form.scss";
+import "./log-form.scss";
 
-const FieldForm = ({
+const LogForm = ({
 	cellData: { field, dateStr, stats },
 	updateLog,
 	updateMaxCustomRest,
@@ -61,15 +61,15 @@ const FieldForm = ({
 	};
 
 	return (
-		<form className="field-form" action="">
-			<div className="field-form__sub-title">
+		<form className="log-form" action="">
+			<div className="log-form__sub-title">
 				<span>{field.name}</span>
 				<span>|</span>
 				<span>{dateStr}</span>
 			</div>
 
 			{field.description && (
-				<div className="field-form__description">{field.description}</div>
+				<div className="log-form__description">{field.description}</div>
 			)}
 
 			<NotesRow notes={notes} setNotes={setNotes} />
@@ -94,4 +94,4 @@ const FieldForm = ({
 	);
 };
 
-export default FieldForm;
+export default LogForm;

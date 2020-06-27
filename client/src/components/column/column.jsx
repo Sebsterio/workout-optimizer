@@ -6,32 +6,34 @@ import getDateInfo from "../../utils/date";
 import "./column.scss";
 
 const Column = ({ fields, day, isAside }) => {
+	if (isAside)
+		return (
+			<div className="column column--aside">
+				<div className="column__head">
+					<LogSpinner />
+				</div>
+				<div className="column__body">
+					{fields.map((field) => (
+						<div className="column__cell" key={field.name}>
+							<AsideField field={field} />
+						</div>
+					))}
+				</div>
+			</div>
+		);
+
 	const { weekDay, monthDay, dateStr } = getDateInfo(new Date(), day) || null;
 
-	let colClass = "column";
-	if (day === 0) colClass += " column--today";
-	if (isAside) colClass += " column--aside";
-
 	return (
-		<div className={colClass}>
+		<div className={`column ${day === 0 ? "column--today" : ""}`}>
 			<div className="column__head">
-				{isAside ? (
-					<LogSpinner />
-				) : (
-					<>
-						<span className="column__weekDay">{weekDay}</span>
-						<span className="column__monthDay">{monthDay}</span>
-					</>
-				)}
+				<span className="column__weekDay">{weekDay}</span>
+				<span className="column__monthDay">{monthDay}</span>
 			</div>
 			<div className="column__body">
 				{fields.map((field) => (
 					<div className="column__cell" key={field.name}>
-						{isAside ? (
-							<AsideField field={field} />
-						) : (
-							<Field dateOffset={day} dateStr={dateStr} field={field} />
-						)}
+						<Field dateOffset={day} dateStr={dateStr} field={field} />
 					</div>
 				))}
 			</div>

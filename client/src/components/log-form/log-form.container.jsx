@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { updateLog } from "../../redux/log/log.actions";
 import { updateMaxCustomRest } from "../../redux/protocol/protocol.actions";
 
-import FieldForm from "./field-form";
+import LogForm from "./log-form";
 
 console.log(updateLog, updateMaxCustomRest);
 
@@ -13,6 +13,6 @@ const mapDispatchToProps = (dispatch) => ({
 	updateMaxCustomRest: (data) => dispatch(updateMaxCustomRest(data)),
 });
 
-const FieldFormContainer = (props) => <FieldForm {...props} />;
+const LogFormContainer = (props) => <LogForm {...props} />;
 
-export default connect(null, mapDispatchToProps)(FieldFormContainer);
+export default connect(null, mapDispatchToProps)(LogFormContainer);
