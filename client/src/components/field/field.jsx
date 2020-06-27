@@ -40,7 +40,7 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 				<div className={detailsClass}>
 					{details.map((entry, i) => (
 						<div className="field__details-line" key={i}>
-							{getDetailsString(entry)}
+							{getDetailsString(entry, field)}
 						</div>
 					))}
 				</div>

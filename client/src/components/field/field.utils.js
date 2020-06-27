@@ -11,14 +11,24 @@ export const getCompletion = (details) => {
 	return "planned";
 };
 
-export const getDetailsString = (entry) =>
-	Object.entries(entry)
-		.filter((pair) => pair[0] !== "done")
-		.map((pair) => {
-			if (typeof pair[1] === "string" && pair[1].length > 5)
-				return pair[1].substr(0, 4) + "...";
-			if (pair[1] === true) return "Y";
-			if (pair[1] === false) return "N";
-			return pair[1];
-		})
-		.join("-");
+export const getDetailsString = (entry, field) => {
+	const entryParams = Object.keys(entry);
+	return (
+		field.details
+			// Pick protocol parameters that are present in log entry (a set)
+			.filter((param) => entryParams.includes(param.label))
+			// Exclude 'done' param
+			.filter((param) => param.label !== "done")
+			// Map protocol params into corresponding log entry values
+			.map((param) => entry[param.label])
+			// Abbreviate etc.
+			.map((value) => {
+				if (typeof value === "string" && value.length > 5)
+					return value.substr(0, 4) + "...";
+				if (value === true) return "Y";
+				if (value === false) return "N";
+				return value;
+			})
+			.join("-")
+	);
+};
