@@ -20,12 +20,12 @@ const LevelsRow = (props) => {
 			{customLevels ? "Standard" : "Custom"}
 		</button>
 	);
-	// -------------------- Base Levels --------------------
+	// ------------------ Standard Levels --------------------
 
 	const getBtnClass = (btnIntensity) =>
 		"levels-row__button" +
 		" levels-row__button--level-" +
-		btnIntensity +
+		(btnIntensity <= 3 ? btnIntensity : "3") +
 		(btnIntensity === intensity ? " levels-row__button--current" : "");
 
 	const getRestMsg = (rest) =>
@@ -42,7 +42,7 @@ const LevelsRow = (props) => {
 		</button>
 	));
 
-	// ------------------- Custom Levels -------------------
+	// ------------------- Custom Levels --------------------
 
 	const CustomLevels = ["intensity", "rest"].map((name) => (
 		<div className="levels-row__field" key={name}>
