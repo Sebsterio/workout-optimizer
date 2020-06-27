@@ -2,6 +2,7 @@ import React from "react";
 import "./modal.scss";
 
 import LogForm from "../log-form/log-form.container";
+import RowForm from "../row-form/row-form.container";
 
 const Modal = ({ cellData, closeModal, isOpen }) => {
 	if (!isOpen) return null;
@@ -21,6 +22,9 @@ const Modal = ({ cellData, closeModal, isOpen }) => {
 				</h1>
 				{mode === "log" && (
 					<LogForm cellData={cellData} closeModal={closeModal} />
+				)}
+				{mode === "row" && (
+					<RowForm cellData={cellData} closeModal={closeModal} />
 				)}
 			</div>
 		</div>

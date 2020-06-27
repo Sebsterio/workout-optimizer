@@ -6,8 +6,6 @@ import { updateMaxCustomRest } from "../../redux/protocol/protocol.actions";
 
 import LogForm from "./log-form";
 
-console.log(updateLog, updateMaxCustomRest);
-
 const mapDispatchToProps = (dispatch) => ({
 	updateLog: (data) => dispatch(updateLog(data)),
 	updateMaxCustomRest: (data) => dispatch(updateMaxCustomRest(data)),

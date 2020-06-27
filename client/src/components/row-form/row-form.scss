@@ -1,0 +1,33 @@
+.row-form {
+	display: grid;
+	grid-gap: 1.4rem;
+
+	&__row {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
+
+	&__row-label {
+		flex: 1 1 30%;
+	}
+
+	&__text-input--wide {
+		flex: 1 1 60%;
+	}
+}
+
+.details-section__input {
+	width: 100px;
+	text-align: center;
+}
+
+.details-section__row {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+}
+
+.details-section__button {
+	margin-top: 1rem;
+}
