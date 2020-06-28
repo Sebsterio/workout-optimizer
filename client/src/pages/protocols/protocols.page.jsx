@@ -4,10 +4,15 @@ import "./protocols.scss";
 
 import ProtocolField from "./subcomponents/protocol-field.container";
 
-const ProtocolsPage = ({ protocol }) => {
+const ProtocolsPage = ({ protocol, updateProtocol }) => {
 	const { name, description, fields } = protocol;
 
-	const handleChange = () => {};
+	const handleChange = (e) => {
+		const newProps = {
+			[e.target.name]: e.target.value,
+		};
+		updateProtocol({ mode: "replace-prop", newProps });
+	};
 
 	return (
 		<div className="page protocols">
@@ -43,7 +48,7 @@ const ProtocolsPage = ({ protocol }) => {
 				</div>
 
 				{fields.map((field) => (
-					<ProtocolField field={field} key={field.name} />
+					<ProtocolField key={field.name} field={field} />
 				))}
 			</div>
 		</div>

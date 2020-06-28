@@ -29,7 +29,7 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const newFieldData = { name, description, levels, details, icon };
-		updateProtocol({ field, newFieldData });
+		updateProtocol({ mode: "replace-field", field, newFieldData });
 		closeModal();
 	};
 

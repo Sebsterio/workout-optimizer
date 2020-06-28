@@ -25,5 +25,5 @@ export const updateProtocol = (data) => (dispatch) => {
 	dispatch(updateLocalProtocol({ ...data, dateUpdated }));
 
 	// if (getState().user.isIncognito) return;
-	// else update DB
+	// replace entire protocol document in DB
 };
