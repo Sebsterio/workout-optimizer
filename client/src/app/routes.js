@@ -1,34 +1,34 @@
-import TrackerPageContainer from "../pages/tracker/tracker.container";
-import ProtocolsPage from "../pages/protocols/protocols.page";
-import StatisticsPage from "../pages/statistics/statistics.page";
-import OptionsPage from "../pages/options/options.page";
-import AccountPageContainer from "../pages/account/account.container";
+import Tracker from "../pages/tracker/tracker.container";
+import Protocols from "../pages/protocols/protocols.container";
+import Statistics from "../pages/statistics/statistics.page";
+import Options from "../pages/options/options.page";
+import Account from "../pages/account/account.container";
 
 const routes = [
 	{
 		name: "Tracker",
 		path: "/",
-		component: TrackerPageContainer,
+		component: Tracker,
 	},
 	{
 		name: "Protocols",
 		path: "/protocols",
-		component: ProtocolsPage,
+		component: Protocols,
 	},
 	{
 		name: "Statistics",
 		path: "/statistics",
-		component: StatisticsPage,
+		component: Statistics,
 	},
 	{
 		name: "Account",
 		path: "/account",
-		component: AccountPageContainer,
+		component: Account,
 	},
 	{
 		name: "Options",
 		path: "/options",
-		component: OptionsPage,
+		component: Options,
 	},
 ];
 

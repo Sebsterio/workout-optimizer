@@ -41,15 +41,14 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 
 			<nav className="row-form__nav">
 				{tabsList.map((tab) => (
-					<a
+					<button
 						key={tab}
-						href="#"
 						className="row-form__nav-item"
 						data-tab={tab}
 						onClick={switchTabs}
 					>
 						{tab}
-					</a>
+					</button>
 				))}
 			</nav>
 

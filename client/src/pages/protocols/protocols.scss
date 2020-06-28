@@ -1,0 +1,64 @@
+.protocols {
+	overflow-y: scroll;
+
+	&__wrapper {
+		max-width: 300px;
+		margin: auto;
+		display: grid;
+		grid-gap: 1em;
+	}
+
+	&__row {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+
+		button {
+			flex: 1 0 45%;
+			margin: 1px;
+			padding: 1em;
+		}
+
+		p {
+			margin: auto;
+		}
+	}
+
+	&__field {
+		height: 80px;
+		border: 1px solid black;
+		padding: 1em;
+		display: grid;
+		grid-gap: 1px;
+		grid-template-columns: repeat(4, 1fr);
+
+		&-col {
+			flex: 1 1 1;
+			display: flex;
+			flex-flow: column nowrap;
+			justify-content: stretch;
+			justify-items: stretch;
+
+			&--separated {
+				margin-right: 1em;
+			}
+		}
+
+		&-icon {
+			flex: 1 0 60%;
+			// width: 100%;
+		}
+
+		&-name {
+			flex: 1 0 40%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		&-btn {
+			flex: 1 1 100%;
+			margin: 1px;
+		}
+	}
+}

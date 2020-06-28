@@ -1,5 +1,5 @@
 import logActionTypes from "./log.types";
-import { getUpdatedEntries, getCustomRest } from "./log.utils";
+import { getUpdatedEntries } from "./log.utils";
 
 export const INITIAL_STATE = {
 	dateUpdated: null,

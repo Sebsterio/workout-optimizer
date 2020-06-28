@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
 import Column from "../../components/column/column.container";
-import ModalContainer from "../../components/modal/modal.container";
 
 import "./tracker.scss";
 
@@ -74,7 +73,6 @@ const TrackerPage = ({ cellSize }) => {
 					)
 				)}
 			</div>
-			<ModalContainer />
 		</div>
 	);
 };

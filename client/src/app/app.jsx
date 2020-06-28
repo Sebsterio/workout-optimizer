@@ -5,6 +5,7 @@ import Header from "../components/header/header";
 import AccountPage from "../pages/account/account.container";
 import Alert from "../components/alert/alert.container";
 import Spinner from "../components/spinner/spinner";
+import Modal from "../components/modal/modal.container";
 
 import routes from "./routes";
 
@@ -34,6 +35,7 @@ const App = ({ isAuthenticated, isIncognito, isLoading, loadUser }) => {
 				) : (
 					<Switch>{pages}</Switch>
 				)}
+				<Modal />
 			</main>
 		</div>
 	);

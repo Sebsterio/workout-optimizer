@@ -2,7 +2,8 @@ import shortid from "shortid";
 
 export const INITIAL_STATE = {
 	id: "id",
-	name: "name",
+	name: "The best protocol",
+	description: "Some description bla bla bla...",
 	fields: [
 		{
 			name: "arms",

@@ -3,23 +3,14 @@ import { connect } from "react-redux";
 import { openModal } from "../../redux/modal/modal.actions";
 import "./aside-field.scss";
 
+import Icon from "../icon/icon";
+
 const mapDispatchToProps = (dispatch) => ({
 	openModal: (data) => dispatch(openModal(data)),
 });
 
 const AsideField = ({ field, openModal }) => {
 	const { icon, name } = field;
-
-	let url, size, style;
-
-	if (icon) {
-		({ url, size } = icon);
-
-		style = {
-			backgroundImage: `url(${url})`,
-			backgroundSize: size,
-		};
-	}
 
 	return (
 		<div
@@ -29,7 +20,9 @@ const AsideField = ({ field, openModal }) => {
 		>
 			{icon ? (
 				<>
-					<div className="aside-field__icon" style={style}></div>
+					<div className="aside-field__icon">
+						<Icon {...icon} />
+					</div>
 					<div className="aside-field__name aside-field__name--small">
 						{name}
 					</div>
