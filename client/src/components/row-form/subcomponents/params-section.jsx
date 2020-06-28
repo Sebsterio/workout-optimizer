@@ -1,49 +1,44 @@
 import React from "react";
-
-const newDefaultParam = {
-	label: "new",
-	type: "number",
-	defaultVal: 1,
-};
+import shortid from "shortid";
+import {
+	getUniqueLabel,
+	getValueFromInput,
+	isInputValid,
+	getUpdateArray,
+	getInjectedArray,
+	getSplicedArray,
+} from "../row-form.utils";
 
 const ParamsSection = ({ details, setDetails }) => {
+	// Template param
+	const getNewDefaultParam = () => ({
+		label: getUniqueLabel(details),
+		type: "number",
+		defaultVal: 1,
+		id: shortid.generate(),
+	});
+
 	// Add new param in second-to-last position
 	const addParam = (e) => {
 		e.preventDefault();
-		const newDetails = [...details];
-		const doneParam = newDetails.pop();
-		setDetails([...newDetails, newDefaultParam, doneParam]);
+		const newParam = getNewDefaultParam();
+		setDetails(getInjectedArray(details, newParam));
 	};
 
+	// Remove details item with corresponding index
 	const removeParam = (e) => {
 		e.preventDefault();
 		const index = e.target.dataset.index;
-		const newDetails = [...details];
-		newDetails.splice(index, 1);
-		setDetails(newDetails);
+		setDetails(getSplicedArray(details, index));
 	};
 
-	const isParamValid = (name, val) => {
-		if (name !== "label") return true;
-
-		const isLabelUnique = details.every((deet) => deet.label !== val);
-		if (isLabelUnique) return true;
-
-		alert("Labels must be unique");
-	};
-
+	// Modify param prop value if valid
 	const updateParam = (e) => {
 		const { name, type, checked, value, dataset } = e.target;
 		const { index } = dataset;
-
-		const newValue =
-			type === "checkbox" ? checked : type === "number" ? Number(value) : value;
-
-		if (!isParamValid(name, newValue)) return;
-
-		const newDetails = [...details];
-		newDetails[index][name] = newValue;
-		setDetails(newDetails);
+		const newValue = getValueFromInput(type, checked, value);
+		if (isInputValid(name, newValue, details))
+			setDetails(getUpdateArray(details, index, name, newValue));
 	};
 
 	return (
@@ -65,10 +60,13 @@ const ParamsSection = ({ details, setDetails }) => {
 						{
 							// Convert 'details' objects into table rows
 							details.map((param, i) => {
-								const { label, type, defaultVal } = param;
-								if (label === "done") return;
+								const { label, type, defaultVal, id } = param;
+
+								// disable editing of 'done' param
+								if (label === "done") return null;
+
 								return (
-									<tr key={i}>
+									<tr key={id}>
 										{/* Remove btn */}
 										<td>
 											<button

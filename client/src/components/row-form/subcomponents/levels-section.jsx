@@ -1,35 +1,42 @@
 import React from "react";
-
-// TODO: validate lable unique
-// TODO: defaultVal type reflect chosen type
-
-const newDefaultDetail = { label: "new level", intensity: 1, rest: 1 };
+import shortid from "shortid";
+import {
+	getUniqueLabel,
+	getValueFromInput,
+	isInputValid,
+	getUpdateArray,
+	getSplicedArray,
+} from "../row-form.utils";
 
 const LevelsSection = ({ levels, setLevels }) => {
+	// Template level
+	const getNewDefaultLevel = () => ({
+		label: getUniqueLabel(levels),
+		intensity: 1,
+		rest: 1,
+		id: shortid.generate(),
+	});
+
+	// Push new template level to levels
 	const addLevel = (e) => {
 		e.preventDefault();
-		setLevels([...levels, newDefaultDetail]);
+		setLevels([...levels, getNewDefaultLevel()]);
 	};
 
+	// Remove levels item with corresponding index
 	const removeLevel = (e) => {
 		e.preventDefault();
 		const index = e.target.dataset.index;
-		const newDetails = [...levels];
-		newDetails.splice(index, 1);
-		setLevels(newDetails);
+		setLevels(getSplicedArray(levels, index));
 	};
 
+	// Modify level prop value if valid
 	const updateLevel = (e) => {
-		const index = e.target.dataset.index;
-		const newValue =
-			e.target.type === "checkbox"
-				? e.target.checked
-				: e.target.type === "number"
-				? Number(e.target.value)
-				: e.target.value;
-		const newDetails = [...levels];
-		newDetails[index][e.target.name] = newValue;
-		setLevels(newDetails);
+		const { name, type, checked, value, dataset } = e.target;
+		const { index } = dataset;
+		const newValue = getValueFromInput(type, checked, value);
+		if (isInputValid(name, newValue, levels))
+			setLevels(getUpdateArray(levels, index, name, newValue));
 	};
 
 	// ---------------------- Render -----------------------
@@ -50,9 +57,9 @@ const LevelsSection = ({ levels, setLevels }) => {
 
 	// Convert 'levels' objects into table rows
 	const LevelsList = levels.map((param, i) => {
-		const { label, intensity, rest } = param;
+		const { label, intensity, rest, id } = param;
 		return (
-			<tr key={label}>
+			<tr key={id}>
 				{/* Remove btn */}
 				<td>
 					<button onClick={removeLevel} data-index={i} children="-" />
