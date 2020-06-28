@@ -35,4 +35,16 @@ export const getUpdatedState = (state, payload) => {
 		const newFields = state.fields.filter((f) => f !== field);
 		return { fields: newFields };
 	}
+
+	if (mode === "duplicate-field") {
+		const { field } = payload;
+		const index = state.fields.indexOf(field);
+		const newField = {
+			...field,
+			name: field.name + " (copy)",
+		};
+		const newFields = [...state.fields];
+		newFields.splice(index, 0, newField);
+		return { fields: newFields };
+	}
 };
