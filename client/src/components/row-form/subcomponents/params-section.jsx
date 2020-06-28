@@ -1,15 +1,18 @@
 import React from "react";
 
 const newDefaultParam = {
-	label: "new parameter",
+	label: "new",
 	type: "number",
 	defaultVal: 1,
 };
 
 const ParamsSection = ({ details, setDetails }) => {
+	// Add new param in second-to-last position
 	const addParam = (e) => {
 		e.preventDefault();
-		setDetails([...details, newDefaultParam]);
+		const newDetails = [...details];
+		const doneParam = newDetails.pop();
+		setDetails([...newDetails, newDefaultParam, doneParam]);
 	};
 
 	const removeParam = (e) => {

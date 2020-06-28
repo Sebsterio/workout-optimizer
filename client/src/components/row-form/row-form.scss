@@ -2,6 +2,10 @@
 	display: grid;
 	grid-gap: 1.4rem;
 
+	&__section {
+		margin: auto;
+	}
+
 	&__row {
 		display: flex;
 		flex-flow: row nowrap;
@@ -16,6 +20,7 @@
 		flex: 1 1 60%;
 	}
 }
+
 .levels-section__input,
 .details-section__input {
 	width: 70px;
