@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import ButtonsRow from "./subcomponents/buttons-row/buttons-row";
-import LevelsRow from "./subcomponents/levels-row/levels-row";
-import DetailsRow from "./subcomponents/details-row/details-row";
-import NotesRow from "./subcomponents/notes-row/notes-row";
+import ButtonsRow from "./subcomponents/buttons-row";
+import LevelsRow from "./subcomponents/levels-row";
+import DetailsRow from "./subcomponents/details-row";
+import NotesRow from "./subcomponents/notes-row";
 import Separator from "../separator/separator";
 
 import "./log-form.scss";
