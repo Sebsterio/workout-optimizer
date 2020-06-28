@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { login, register, closeAccount } from "../../redux/user/user.actions";
 
-import Form from "./form";
+import Form from "./auth-form";
 
 const mapStateToProps = (state) => ({
 	user: state.user,

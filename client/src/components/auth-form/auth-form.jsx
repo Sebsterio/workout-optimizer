@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "./form.scss";
+import "./auth-form.scss";
 
 const Form = ({ mode, goBack, login, register, update, connect, remove }) => {
 	const [name, setName] = useState("");
