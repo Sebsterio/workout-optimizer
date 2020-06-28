@@ -36,7 +36,6 @@ const RowForm = ({ cellData, fields, closeModal, updateProtocol }) => {
 	};
 
 	const handleEditName = (e) => {
-		console.log(e);
 		const newName = e.target.value;
 		if (isUnique(newName, fields, "name")) setName(newName);
 		else alert("Names must be unique.");

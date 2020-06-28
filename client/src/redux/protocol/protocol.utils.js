@@ -12,7 +12,6 @@ export const getFieldsWithNewMaxCustomRest = (state, payload) => {
 
 export const getUpdatedState = (state, payload) => {
 	const { mode, field, newFieldData, direction } = payload;
-	console.log(payload);
 
 	if (mode === "replace-prop") {
 		return {
@@ -52,4 +51,20 @@ export const getUpdatedState = (state, payload) => {
 		newFields.splice(newIndex, 0, newFields.splice(index, 1)[0]);
 		return { fields: newFields };
 	}
+	throw Error("Invalid mode");
+};
+
+export const convertLocalProtocol = (getState) => {
+	const protocol = { ...getState().protocol };
+	protocol.fields = JSON.stringify(protocol.fields);
+	return protocol;
+};
+
+export const convertRemoteProtocol = (protocol) => {
+	return {
+		name: protocol.name,
+		description: protocol.description,
+		dateUpdated: protocol.dateUpdated,
+		fields: JSON.parse(protocol.fields),
+	};
 };

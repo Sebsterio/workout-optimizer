@@ -1,7 +1,9 @@
 import shortid from "shortid";
 
 export const INITIAL_STATE = {
-	id: "id",
+	isSyncing: false,
+	isSynced: false,
+	dateUpdated: null,
 	name: "The best protocol",
 	description: "Some description bla bla bla...",
 	fields: [

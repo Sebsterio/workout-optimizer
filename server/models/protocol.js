@@ -4,31 +4,17 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const ProtocolSchema = new Schema({
+	userId: {
+		type: String,
+		required: true,
+	},
 	name: {
 		type: String,
 		required: true,
 	},
+	dateUpdated: Date,
 	description: String,
-	fields: [
-		{
-			name: {
-				type: String,
-				required: true,
-			},
-			levels: [
-				{
-					label: {
-						type: String,
-						required: true,
-					},
-					rest: {
-						type: Number,
-						required: true,
-					},
-				},
-			],
-		},
-	],
+	fields: String,
 });
 
 const Protocol = mongoose.model("protocol", ProtocolSchema);

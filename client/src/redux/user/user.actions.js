@@ -8,6 +8,12 @@ import {
 	clearLocalLog,
 	removeRemoteLog,
 } from "../log/log.actions";
+import {
+	createRemoteProtocol,
+	syncProtocol,
+	clearLocalProtocol,
+	removeRemoteProtocol,
+} from "../protocol/protocol.actions";
 import { getConfig, getTokenConfig } from "../utils";
 
 const {
@@ -49,10 +55,9 @@ export const register = (formData) => (dispatch) => {
 	dispatch(clearError());
 	axios
 		.post("/api/auth/register", JSON.stringify(formData), getConfig())
-		.then((res) => {
-			dispatch(authSuccess(res.data));
-			dispatch(createRemoteLog());
-		})
+		.then((res) => dispatch(authSuccess(res.data)))
+		.then(() => dispatch(createRemoteLog()))
+		.then(() => dispatch(createRemoteProtocol()))
 		.catch((err) => {
 			dispatch(getError(err, "REGISTER_FAIL"));
 			dispatch(clearUserData());
@@ -64,10 +69,9 @@ export const login = (formData) => (dispatch) => {
 	dispatch(clearError());
 	axios
 		.post("/api/auth/login", JSON.stringify(formData), getConfig())
-		.then((res) => {
-			dispatch(authSuccess(res.data));
-			dispatch(syncLog());
-		})
+		.then((res) => dispatch(authSuccess(res.data)))
+		.then(() => dispatch(syncLog()))
+		.then(() => dispatch(syncProtocol()))
 		.catch((err) => {
 			dispatch(getError(err, "LOGIN_FAIL"));
 			dispatch(clearUserData());
@@ -81,6 +85,7 @@ export const closeAccount = (formData) => (dispatch, getState) => {
 		.post("api/auth/delete", JSON.stringify(formData), token)
 		.then(() => dispatch(clearUserData()))
 		.then(() => dispatch(removeRemoteLog(token)))
+		.then(() => dispatch(removeRemoteProtocol(token)))
 		.catch((err) => dispatch(getError(err, "CLOSE_ACCOUNT_FAIL")));
 };
 
@@ -89,14 +94,14 @@ export const loadUser = () => (dispatch, getState) => {
 	dispatch(userLoading());
 	axios
 		.get("/api/auth", getTokenConfig(getState))
-		.then((res) => {
-			dispatch(userLoaded(res.data));
-			dispatch(syncLog());
-		})
+		.then((res) => dispatch(userLoaded(res.data)))
+		.then(() => dispatch(syncLog()))
+		.then(() => dispatch(syncProtocol()))
 		.catch((err) => dispatch(clearUserData()));
 };
 
 export const logout = () => (dispatch) => {
 	dispatch(clearUserData());
 	dispatch(clearLocalLog());
+	dispatch(clearLocalProtocol());
 };
