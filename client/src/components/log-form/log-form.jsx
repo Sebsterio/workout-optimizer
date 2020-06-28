@@ -39,16 +39,13 @@ const LogForm = ({
 	// Update log entry in redux & db
 	const handleSubmit = (e, newIntensity, newRest) => {
 		e.preventDefault();
-		updateLog({
-			dateStr,
-			field,
-			stats: {
-				intensity: newIntensity !== undefined ? newIntensity : intensity,
-				rest: newRest !== undefined ? newRest : rest,
-				details,
-				notes,
-			},
-		});
+		const newStats = {
+			intensity: newIntensity >= 0 ? newIntensity : intensity,
+			rest: newRest >= 0 ? newRest : rest,
+		};
+		if (details.length) newStats.details = details;
+		if (notes.length) newStats.notes = notes;
+		updateLog({ dateStr, field, stats: newStats });
 		checkCustomRest(newRest);
 		closeModal();
 	};

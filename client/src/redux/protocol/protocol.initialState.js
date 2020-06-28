@@ -83,7 +83,7 @@ export const INITIAL_STATE = {
 				{ label: "kg", type: "number", defaultVal: 20, id: shortid.generate() },
 				{ label: "done", type: "checkbox" },
 			],
-			name: "upperBack",
+			name: "upper back",
 		},
 		{
 			levels: [
@@ -131,7 +131,7 @@ export const INITIAL_STATE = {
 				{ label: "kg", type: "number", defaultVal: 20, id: shortid.generate() },
 				{ label: "done", type: "checkbox" },
 			],
-			name: "lowerBack",
+			name: "lower back",
 		},
 		{
 			levels: [
