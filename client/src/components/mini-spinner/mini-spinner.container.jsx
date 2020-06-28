@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import LogSpinner from "./log-spinner.component";
+import LogSpinner from "./mini-spinner.component";
 
 const mapStateToProps = (state) => ({
-	isSyncing: state.log.isSyncing,
-	isSynced: state.log.isSynced,
+	isLogSyncing: state.log.isSyncing,
+	isLogSynced: state.log.isSynced,
+	isProtocolSyncing: state.protocol.isSyncing,
+	isProtocolSynced: state.protocol.isSynced,
 });
 
 const LogSpinnerContainer = (props) => <LogSpinner {...props} />;

@@ -1,7 +1,7 @@
 import React from "react";
 import Field from "../../components/field/field.container";
 import AsideField from "../../components/aside-field/aside-field";
-import LogSpinner from "../../components/log-spinner/log-spinner.container";
+import MiniSpinner from "../../components/mini-spinner/mini-spinner.container";
 import getDateInfo from "../../utils/date";
 import "./column.scss";
 
@@ -10,7 +10,7 @@ const Column = ({ fields, day, isAside }) => {
 		return (
 			<div className="column column--aside">
 				<div className="column__head">
-					<LogSpinner />
+					<MiniSpinner />
 				</div>
 				<div className="column__body">
 					{fields.map((field) => (
