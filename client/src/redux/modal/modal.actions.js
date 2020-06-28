@@ -1,11 +1,19 @@
 import modalActionTypes from "./modal.types";
-const { OPEN_MODAL, CLOSE_MODAL } = modalActionTypes;
 
 export const openModal = (data) => ({
-	type: OPEN_MODAL,
+	type: modalActionTypes.OPEN_MODAL,
 	payload: data,
 });
 
 export const closeModal = () => ({
-	type: CLOSE_MODAL,
+	type: modalActionTypes.CLOSE_MODAL,
+});
+
+export const pickDate = () => ({
+	type: modalActionTypes.PICK_DATE,
+});
+
+export const datePicked = (data) => ({
+	type: modalActionTypes.DATE_PICKED,
+	payload: data,
 });

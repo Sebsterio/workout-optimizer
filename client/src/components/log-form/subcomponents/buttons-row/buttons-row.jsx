@@ -7,6 +7,7 @@ const ButtonsRow = ({
 	handleSubmit,
 	handleDelete,
 	closeModal,
+	handleDuplicate,
 }) => (
 	<div className="buttons-row">
 		<button
@@ -19,10 +20,10 @@ const ButtonsRow = ({
 
 		<button
 			className="buttons-row__button buttons-row__button--reschedule"
-			onClick={(e) => e.preventDefault()}
+			onClick={handleDuplicate}
 			disabled={!entryExists}
 		>
-			Reschedule
+			Duplicate
 		</button>
 
 		<button

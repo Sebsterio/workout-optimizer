@@ -7,9 +7,22 @@ import {
 } from "./field.utils";
 import "./field.scss";
 
-const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
+const Field = ({
+	dateStr,
+	field,
+	stats,
+	restLevel,
+	openModal,
+	isPickingDate,
+	datePicked,
+}) => {
 	let intensity, details;
 	if (stats) ({ intensity, details } = stats);
+
+	const handleClick = () => {
+		if (isPickingDate) datePicked({ dateStr, field });
+		else openModal({ dateStr, field, stats, mode: "log" });
+	};
 
 	let fieldClass = "field";
 	if (intensity === 0) fieldClass += " field--planned";
@@ -28,10 +41,7 @@ const Field = ({ dateStr, field, stats, restLevel, openModal }) => {
 	)}`;
 
 	return (
-		<div
-			className={fieldClass}
-			onClick={() => openModal({ dateStr, field, stats, mode: "log" })}
-		>
+		<div className={fieldClass} onClick={handleClick}>
 			{/* Intensity marker */}
 			{intensity >= 0 && <div className={exerciseClass}> </div>}
 

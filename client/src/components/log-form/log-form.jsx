@@ -13,6 +13,7 @@ const LogForm = ({
 	updateLog,
 	updateMaxCustomRest,
 	closeModal,
+	pickDate,
 }) => {
 	const getStat = (stat, def) => (stats && stats[stat] ? stats[stat] : def);
 
@@ -59,6 +60,11 @@ const LogForm = ({
 		closeModal();
 	};
 
+	const handleDuplicate = (e) => {
+		e.preventDefault();
+		pickDate();
+	};
+
 	return (
 		<form className="log-form" action="">
 			<h1 className="modal__title">
@@ -94,6 +100,7 @@ const LogForm = ({
 				entryExists={entryExists}
 				handleSubmit={handleSubmit}
 				handleDelete={handleDelete}
+				handleDuplicate={handleDuplicate}
 				closeModal={closeModal}
 			/>
 		</form>
