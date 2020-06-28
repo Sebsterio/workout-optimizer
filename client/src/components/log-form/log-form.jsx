@@ -14,10 +14,12 @@ const LogForm = ({
 	updateMaxCustomRest,
 	closeModal,
 }) => {
-	const [notes, setNotes] = useState(stats ? stats.notes : "");
-	const [details, setDetails] = useState(stats ? stats.details : []);
-	const [intensity, setIntensity] = useState(stats ? stats.intensity : 0);
-	const [rest, setRest] = useState(stats ? stats.rest : 0);
+	const getStat = (stat, def) => (stats && stats[stat] ? stats[stat] : def);
+
+	const [notes, setNotes] = useState(getStat("notes", ""));
+	const [details, setDetails] = useState(getStat("details", []));
+	const [intensity, setIntensity] = useState(getStat("intensity", 0));
+	const [rest, setRest] = useState(getStat("rest", 0));
 
 	const entryExists = !!stats;
 
