@@ -13,7 +13,7 @@ const TextInputSection = ({ name, value, handler }) => {
 					className="row-form__text-input--wide"
 					name={name}
 					value={value}
-					onChange={(e) => handler(e.target.value)}
+					onChange={handler}
 					id={id}
 				/>
 			</div>

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./row-form.scss";
 
+import { isUnique } from "./row-form.utils";
+
 import TextInputSection from "./subcomponents/text-input-section";
 import ParamsSection from "./subcomponents/params-section";
 import LevelsSection from "./subcomponents/levels-section";
@@ -8,7 +10,7 @@ import ButtonsSection from "./subcomponents/buttons-section";
 import IconPicker from "./subcomponents/icon-picker";
 import Separator from "../separator/separator";
 
-const RowForm = ({ cellData, closeModal, updateProtocol }) => {
+const RowForm = ({ cellData, fields, closeModal, updateProtocol }) => {
 	const { field } = cellData;
 
 	const [name, setName] = useState(field.name || "");
@@ -33,11 +35,18 @@ const RowForm = ({ cellData, closeModal, updateProtocol }) => {
 		closeModal();
 	};
 
+	const handleEditName = (e) => {
+		console.log(e);
+		const newName = e.target.value;
+		if (isUnique(newName, fields, "name")) setName(newName);
+		else alert("Names must be unique.");
+	};
+
 	return (
 		<div className="row-form">
 			<h1 className="modal__title">Exercise Config</h1>
 
-			<TextInputSection name="name" value={name} handler={setName} />
+			<TextInputSection name="name" value={name} handler={handleEditName} />
 
 			<nav className="row-form__nav">
 				{tabsList.map((tab) => (

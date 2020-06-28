@@ -1,10 +1,10 @@
-export const isLabelUnique = (val, arr) =>
-	arr.every((item) => item.label !== val);
+export const isUnique = (val, arr, propName) =>
+	arr.every((item) => item[propName] !== val);
 
 export const getUniqueLabel = (arr) => {
 	let newLabel = "new";
 	let i = 1;
-	while (!isLabelUnique(newLabel, arr)) {
+	while (!isUnique(newLabel, arr, "label")) {
 		newLabel = "new-" + i;
 		i++;
 	}
@@ -16,7 +16,7 @@ export const getValueFromInput = (type, checked, value) =>
 
 export const isInputValid = (name, val, arr) => {
 	if (name === "label") {
-		if (!isLabelUnique(val, arr)) {
+		if (!isUnique(val, arr, "label")) {
 			alert("Labels must be unique");
 			return false;
 		}
