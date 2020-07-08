@@ -1,12 +1,13 @@
 import React from "react";
+import { withRouter } from "react-router";
 import "./button.scss";
 
-export const Button = ({ text, children, handler, data }) => {
+export const Button = ({ text, children, handler, data, to, history }) => {
+	// button element html attributes
 	const attributes = {
 		className: "button",
-		onClick: handler,
+		onClick: to ? () => history.push(to) : handler,
 	};
-
 	if (data) attributes[`data-${data[0]}`] = data[1];
 
 	return (
@@ -16,3 +17,5 @@ export const Button = ({ text, children, handler, data }) => {
 		</button>
 	);
 };
+
+export const LinkButton = withRouter(Button);
