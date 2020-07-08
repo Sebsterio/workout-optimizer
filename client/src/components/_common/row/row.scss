@@ -1,0 +1,23 @@
+.row {
+	display: flex;
+
+	&--wrap {
+		flex-wrap: wrap;
+	}
+
+	&--spread {
+		justify-content: space-between;
+	}
+
+	&--stretch {
+		justify-content: stretch;
+	}
+
+	&--stretch {
+		justify-content: center;
+	}
+
+	&--even {
+		justify-content: space-evenly;
+	}
+}

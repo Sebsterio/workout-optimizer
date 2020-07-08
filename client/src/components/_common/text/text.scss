@@ -1,0 +1,10 @@
+.text {
+	margin: 0;
+
+	&--small {
+		font-size: 0.7em;
+	}
+	&--secondary {
+		color: gray;
+	}
+}

@@ -1,0 +1,77 @@
+// TEMPORARY STYLES !
+
+.area-menu {
+	display: grid;
+	grid-gap: 1.4rem;
+
+	&__section {
+		margin: auto;
+	}
+
+	&__row {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
+
+	&__row-label {
+		flex: 1 1 30%;
+	}
+
+	&__text-input--wide {
+		flex: 1 1 60%;
+	}
+}
+
+.levels-section__input,
+.params-section__input {
+	width: 70px;
+	text-align: center;
+}
+
+.levels-section__row,
+.params-section__row {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+}
+.levels-section__button,
+.params-section__button {
+	margin-top: 1rem;
+}
+
+.buttons-section {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+
+	&__button {
+		flex: 1 1 45%;
+		margin: 2px;
+		padding: 0.5em;
+	}
+}
+
+.icon-picker {
+	height: 200px;
+	max-width: 300px;
+	margin: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+	display: flex;
+	flex-flow: row wrap;
+
+	&__icon {
+		width: 50px;
+		height: 50px;
+
+		&:hover {
+			transform: scale(1.2);
+		}
+
+		&--selected {
+			background-color: rgb(230, 230, 230);
+			border: 1px solid black;
+		}
+	}
+}

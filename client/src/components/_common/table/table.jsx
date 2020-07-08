@@ -27,15 +27,18 @@ export const Table = ({
 			</tr>
 		</thead>
 		<tbody>
-			{bodyRows.map((row) => (
-				<tr key={shortid.generate()}>
-					{row.map((cell) => (
-						<TableCell head key={shortid.generate()}>
-							{cell}
-						</TableCell>
-					))}
-				</tr>
-			))}
+			{bodyRows.map(
+				(row) =>
+					row && (
+						<tr key={shortid.generate()}>
+							{row.map((cell) => (
+								<TableCell head key={shortid.generate()}>
+									{cell}
+								</TableCell>
+							))}
+						</tr>
+					)
+			)}
 		</tbody>
 	</table>
 );
