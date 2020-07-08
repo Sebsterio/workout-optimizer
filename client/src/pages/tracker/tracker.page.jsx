@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import Column from "../../components/column/column.container";
+import Column from "./components/column";
 
 import "./tracker.scss";
 

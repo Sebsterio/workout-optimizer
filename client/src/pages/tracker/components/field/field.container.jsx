@@ -1,8 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { makeGetStats, makeGetRestLevel } from "../../redux/log/log.selectors";
-import { openModal, datePicked } from "../../redux/modal/modal.actions";
+import {
+	makeGetStats,
+	makeGetRestLevel,
+} from "../../../../redux/log/log.selectors";
+import { openModal, datePicked } from "../../../../redux/modal/modal.actions";
 
 import Field from "./field";
 

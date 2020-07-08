@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Form from "../../components/auth-form/auth-form.container";
+import Form from "./components/auth-form";
 
 import "./account.scss";
 

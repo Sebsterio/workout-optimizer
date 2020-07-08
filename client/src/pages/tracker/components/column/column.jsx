@@ -1,8 +1,8 @@
 import React from "react";
-import Field from "../../components/field/field.container";
-import AsideField from "../../components/aside-field/aside-field";
-import MiniSpinner from "../../components/mini-spinner/mini-spinner.container";
-import getDateInfo from "../../utils/date";
+import Field from "../field";
+import AsideField from "../aside-field";
+import MiniSpinner from "../mini-spinner";
+import getDateInfo from "../../../../utils/date";
 import "./column.scss";
 
 const Column = ({ fields, day, isAside }) => {

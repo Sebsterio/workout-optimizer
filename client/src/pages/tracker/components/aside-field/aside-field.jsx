@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { openModal } from "../../redux/modal/modal.actions";
+import { openModal } from "../../../../redux/modal/modal.actions";
 import "./aside-field.scss";
-
-import Icon from "../icon/icon";
+import Icon from "../../../../components/icon";
 
 const mapDispatchToProps = (dispatch) => ({
 	openModal: (data) => dispatch(openModal(data)),
