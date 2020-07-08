@@ -28,15 +28,15 @@ const Field = ({
 	if (intensity === 0) fieldClass += " field--planned";
 	if (intensity > 0) fieldClass += " field--active";
 	if (restLevel)
-		fieldClass +=
-			" field--recovery" + ` field--recovery-${getRestLevel(restLevel)}`;
+		fieldClass += `field--recovery field--recovery-${getRestLevel(restLevel)}`;
 
-	const exerciseClass =
-		"field__exercise" +
-		` field__exercise--intensity-${getIntensity(intensity)}`;
+	const exerciseClass = `field__exercise field__exercise--intensity-${getIntensity(
+		intensity
+	)}`;
 
-	const detailsClass =
-		"field__details" + ` field__details--${getCompletion(details)}`;
+	const detailsClass = `field__details field__details--${getCompletion(
+		details
+	)}`;
 
 	return (
 		<div className={fieldClass} onClick={handleClick}>
