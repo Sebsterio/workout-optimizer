@@ -1,9 +1,9 @@
 import React from "react";
-import "./input.scss";
 import shortid from "shortid";
+import "./input.scss";
 
 export const Input = (props) => {
-	const { type, label, handler, options, dataIndex, column, narrow } = props;
+	const { type, label, handler, options, data, column, narrow } = props;
 
 	// Input element attributes
 	const attributes = {
@@ -30,8 +30,7 @@ export const Input = (props) => {
 
 	if (label) attributes.id = shortid.generate();
 
-	if (dataIndex >= 0) attributes["data-index"] = dataIndex;
-	console.log(attributes);
+	if (data) attributes[`data-${data[0]}`] = data[1];
 
 	// Container className
 	let classes = `input input--${type}`;
@@ -64,4 +63,5 @@ export const Input = (props) => {
 };
 
 export const TextInput = (props) => <Input type="text" {...props} />;
+
 export const TextArea = (props) => <Input type="textarea" {...props} />;

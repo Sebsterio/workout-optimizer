@@ -48,7 +48,7 @@ export const LevelsSection = ({ levels, setLevels }) => {
 			name={name}
 			value={value}
 			min={0}
-			dataIndex={i}
+			data={["index", i]}
 			handler={updateLevel}
 		/>
 	);
@@ -56,7 +56,7 @@ export const LevelsSection = ({ levels, setLevels }) => {
 	const getTableRow = (level, i) => {
 		const { label, intensity, rest } = level;
 		return [
-			<Button text="-" handler={removeLevel} dataIndex={i} />,
+			<Button text="-" handler={removeLevel} data={["index", i]} />,
 			LevelInput("label", "text", label, i),
 			LevelInput("intensity", "number", intensity, i),
 			LevelInput("rest", "number", rest, i),

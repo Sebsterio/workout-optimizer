@@ -52,7 +52,7 @@ export const DetailsSection = ({ field, details, setDetails }) => {
 		));
 
 	const getTableRow = (entry, i) => [
-		<Button handler={removeEntry} dataIndex={i} text="-" />,
+		<Button handler={removeEntry} data={["index", i]} text="-" />,
 		...getRowCells(entry, i),
 	];
 

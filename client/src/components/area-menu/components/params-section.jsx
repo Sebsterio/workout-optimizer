@@ -50,7 +50,7 @@ export const ParamsSection = ({ details, setDetails }) => {
 			name={name}
 			value={value}
 			min={0}
-			dataIndex={i}
+			data={["index", i]}
 			handler={updateParam}
 			options={options ? options : null}
 		/>
@@ -63,7 +63,7 @@ export const ParamsSection = ({ details, setDetails }) => {
 		if (label === "done") return null;
 
 		return [
-			<Button text="-" handler={removeParam} dataIndex={i} />,
+			<Button text="-" handler={removeParam} data={["index", i]} />,
 			ParamInput("label", "text", label, i),
 			ParamInput("type", "select", type, i, [
 				["number", "Number"],
