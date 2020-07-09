@@ -4,11 +4,11 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { BrowserRouter } from "react-router-dom";
 
-import { store, persistor } from "./redux/store";
+import { store, persistor } from "redux/store";
 // import * as serviceWorker from "./serviceWorker";
 
-import "./index.scss";
-import AppContainer from "./app/app.container";
+import AppContainer from "containers/app";
+import "style/index.scss";
 
 ReactDOM.render(
 	<React.StrictMode>

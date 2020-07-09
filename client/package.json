@@ -6,8 +6,8 @@
 	"proxy": "http://localhost:5000",
 	"scripts": {
 		"start": "react-scripts start",
-		"build": "react-scripts build",
 		"test": "react-scripts test",
+		"build": "react-scripts build",
 		"eject": "react-scripts eject"
 	},
 	"dependencies": {
@@ -48,5 +48,6 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
-	}
+	},
+	"devDependencies": {}
 }

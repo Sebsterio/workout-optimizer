@@ -1,7 +1,7 @@
 import React from "react";
 import "./icon.scss";
 
-const Icon = ({ url, size }) => {
+export const Icon = ({ url, size }) => {
 	const iconStyle = {
 		backgroundImage: `url(${url})`,
 		backgroundSize: size,

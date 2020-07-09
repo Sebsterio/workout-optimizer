@@ -1,0 +1,85 @@
+@import "src/style/vars";
+
+$black: rgba(0, 0, 0, 0.2);
+$white: white;
+
+.field {
+	box-sizing: border-box;
+	height: 95%;
+	width: 95%;
+	overflow: hidden;
+	position: relative;
+	background: linear-gradient(rgb(225, 230, 253), rgb(200, 209, 246));
+
+	&--recovery {
+		&-1 {
+			background: linear-gradient(to right, white, rgb(184, 247, 221));
+		}
+		&-2 {
+			background: linear-gradient(
+				to right,
+				rgb(184, 247, 221),
+				rgb(119, 221, 179)
+			);
+		}
+		&-3 {
+			background: rgb(119, 221, 179);
+		}
+	}
+
+	&--planned {
+		background: rgb(182, 199, 192);
+	}
+
+	&--active {
+		background: rgb(119, 221, 179);
+	}
+
+	// ---------------- Exercise ---------------
+
+	&__exercise {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		box-sizing: border-box;
+		border: 0 solid rgb(11, 117, 16);
+
+		&--intensity-0 {
+			border-width: 1px;
+		}
+
+		&--intensity-1 {
+			border-width: 3px;
+		}
+
+		&--intensity-2 {
+			border-width: 6px;
+		}
+		&--intensity-3 {
+			border-width: 9px;
+		}
+	}
+
+	// ---------------- Details ---------------
+
+	&__details {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: center;
+		align-items: center;
+		white-space: nowrap;
+
+		&--planned {
+			color: rgb(140, 140, 140);
+		}
+		&--partial {
+			color: rgb(100, 100, 100);
+		}
+		&--done {
+			color: black;
+		}
+	}
+}

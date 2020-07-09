@@ -1,11 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import routes from "../../app/routes";
-
 import "./header.scss";
 
-const Header = (props) => {
+const Header = ({ routes }) => {
 	return (
 		<div className="header">
 			<div className="header__wrap">
