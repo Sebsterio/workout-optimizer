@@ -2,12 +2,21 @@ import React from "react";
 import { withRouter } from "react-router";
 import "./button.scss";
 
-export const Button = ({ text, children, handler, data, to, history }) => {
+export const Button = ({
+	text,
+	children,
+	handler,
+	data,
+	disabled,
+	to,
+	history,
+}) => {
 	// button element html attributes
 	const attributes = {
 		className: "button",
 		onClick: to ? () => history.push(to) : handler,
 	};
+	if (disabled) attributes.disabled = true;
 	if (data) attributes[`data-${data[0]}`] = data[1];
 
 	return (

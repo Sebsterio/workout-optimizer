@@ -30,14 +30,6 @@ const LogMenu = ({
 
 	const handleClose = () => closeModal();
 
-	const updateNotes = (e) => setNotes(e.target.value);
-
-	// Update intensity or rest in local state
-	const updateCustomLevels = (e) => {
-		if (e.target.name === "intensity") setIntensity(Number(e.target.value));
-		else if (e.target.name === "rest") setRest(Number(e.target.value));
-	};
-
 	// Save custom rest in redux to inform Fields about custom max rest
 	const checkCustomRest = (standardRest) => {
 		// Ignore if rest is non-custom or hasn't changed
@@ -62,14 +54,11 @@ const LogMenu = ({
 
 	// Delete log entry in redux & db
 	const handleDelete = (e) => {
-		// e.preventDefault();
-		console.log("asdfasdf");
 		updateLog({ field, dateStr, stats: "DELETE" });
 		closeModal();
 	};
 
 	const handleDuplicate = (e) => {
-		// 	e.preventDefault();
 		pickDate();
 	};
 
@@ -91,7 +80,7 @@ const LogMenu = ({
 
 			<Row stretch>
 				{/* prettier-ignore */}
-				<TextInput name="notes"	placeholder="Notes"	value={notes}	handler={updateNotes}	/>
+				<TextInput name="notes"	placeholder="Notes"	value={notes}	handler={setNotes}	/>
 			</Row>
 
 			<Separator text="Exercise details" />
@@ -99,7 +88,7 @@ const LogMenu = ({
 
 			<Separator text="Intensity and rest" />
 			<LevelsSection
-				{...{ field, intensity, rest, updateCustomLevels, handleSubmit }}
+				{...{ field, intensity, rest, setIntensity, setRest, handleSubmit }}
 			/>
 
 			<Separator />

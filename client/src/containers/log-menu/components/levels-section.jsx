@@ -6,7 +6,8 @@ export const LevelsSection = ({
 	field,
 	intensity,
 	rest,
-	updateCustomLevels,
+	setIntensity,
+	setRest,
 	handleSubmit,
 }) => {
 	const [customLevels, setCustomLevels] = useState(false);
@@ -17,21 +18,22 @@ export const LevelsSection = ({
 
 	return (
 		<Row>
-			<ToggleButton handler={toggleCustomLevels}>
-				{customLevels ? "Standard" : "Custom"}
-			</ToggleButton>
+			<ToggleButton
+				text={customLevels ? "Standard" : "Custom"}
+				handler={toggleCustomLevels}
+			/>
 
 			{customLevels && (
 				<>
 					<CustomLevelInput
 						name="intensity"
 						value={intensity}
-						handler={updateCustomLevels}
+						handler={(val) => setIntensity(Number(val))}
 					/>
 					<CustomLevelInput
 						name="rest"
 						value={rest}
-						handler={updateCustomLevels}
+						handler={(val) => setRest(Number(val))}
 					/>
 				</>
 			)}

@@ -17,13 +17,9 @@ export const DetailsSection = ({ field, details, setDetails }) => {
 		setDetails([...details, getDefaultEntry(field, done)]);
 	};
 
-	const updateEntry = ({ e, i, label, type }) => {
+	const updateEntry = ({ value, checked, i, label, type }) => {
 		const newValue =
-			type === "checkbox"
-				? e.target.checked
-				: type === "number"
-				? Number(e.target.value)
-				: e.target.value;
+			type === "checkbox" ? checked : type === "number" ? Number(value) : value;
 
 		const newDetails = [...details];
 		newDetails[i][label] = newValue;
@@ -47,7 +43,9 @@ export const DetailsSection = ({ field, details, setDetails }) => {
 				name={label}
 				checked={type === "checkbox" ? entry[label] : null}
 				value={entry[label]}
-				handler={(e) => updateEntry({ e, i, label, type })}
+				handler={(value, { checked }) =>
+					updateEntry({ value, checked, i, label, type })
+				}
 			/>
 		));
 

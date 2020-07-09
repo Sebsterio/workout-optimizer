@@ -34,8 +34,7 @@ export const ParamsSection = ({ details, setDetails }) => {
 	};
 
 	// Modify param prop value if valid
-	const updateParam = (e) => {
-		const { name, type, checked, value, dataset } = e.target;
+	const updateParam = (value, { name, type, checked, dataset }) => {
 		const { index } = dataset;
 		const newValue = getValueFromInput(type, checked, value);
 		if (isInputValid(name, newValue, details))

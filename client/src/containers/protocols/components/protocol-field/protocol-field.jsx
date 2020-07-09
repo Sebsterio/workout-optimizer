@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Button, Icon } from "components";
+import { Button, Icon } from "components";
 import "./protocol-field.scss";
 
 const ProtocolField = ({ field, openModal, updateProtocol }) => {

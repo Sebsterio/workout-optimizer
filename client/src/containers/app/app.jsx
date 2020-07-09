@@ -27,8 +27,8 @@ const App = ({ isAuthenticated, isIncognito, isLoading, loadUser }) => {
 	return (
 		<div className="app">
 			{userIsDefined && <Header routes={routes} />}
+			<Alert />
 			<main>
-				<Alert />
 				{isLoading ? (
 					<Spinner />
 				) : !userIsDefined ? (

@@ -14,10 +14,8 @@ import { ProtocolField } from "./components";
 const ProtocolsPage = ({ protocol, updateProtocol }) => {
 	const { name, description, fields } = protocol;
 
-	const handleChange = (e) => {
-		const newProps = {
-			[e.target.name]: e.target.value,
-		};
+	const handleChange = (value, { name }) => {
+		const newProps = { [name]: value };
 		updateProtocol({ mode: "replace-prop", newProps });
 	};
 

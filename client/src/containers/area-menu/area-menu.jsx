@@ -58,9 +58,8 @@ const AreaMenu = ({ cellData, fields, closeModal, updateProtocol }) => {
 		closeModal();
 	};
 
-	const handleEditName = (e) => {
-		const newName = e.target.value;
-		if (isUnique(newName, fields, "name")) setName(newName);
+	const handleEditName = (val) => {
+		if (isUnique(val, fields, "name")) setName(val);
 		else alert("Names must be unique.");
 	};
 

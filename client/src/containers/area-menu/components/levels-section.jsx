@@ -32,8 +32,7 @@ export const LevelsSection = ({ levels, setLevels }) => {
 	};
 
 	// Modify level prop value if valid
-	const updateLevel = (e) => {
-		const { name, type, checked, value, dataset } = e.target;
+	const updateLevel = (value, { name, type, checked, dataset }) => {
 		const { index } = dataset;
 		const newValue = getValueFromInput(type, checked, value);
 		if (isInputValid(name, newValue, levels))
