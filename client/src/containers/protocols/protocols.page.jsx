@@ -1,6 +1,15 @@
 import React from "react";
+import {
+	Page,
+	Menu,
+	Heading,
+	Row,
+	Button,
+	TextInput,
+	TextArea,
+	Separator,
+} from "components";
 import { ProtocolField } from "./components";
-import "./protocols.scss";
 
 const ProtocolsPage = ({ protocol, updateProtocol }) => {
 	const { name, description, fields } = protocol;
@@ -13,43 +22,42 @@ const ProtocolsPage = ({ protocol, updateProtocol }) => {
 	};
 
 	return (
-		<div className="page protocols">
-			<div className="protocols__wrapper">
-				<h1>ProtocolsPage</h1>
+		<Page>
+			<Menu>
+				<Heading text="Protocols Page" />
 
-				<div className="protocols__row">
-					<button disabled>Publish</button>
-					<button disabled>Download</button>
-				</div>
+				<Row>
+					<Button disabled text="Publish" />
+					<Button disabled text="Download" />
+				</Row>
 
-				<div className="protocols__row">
-					<label htmlFor="protocols-n">Protocol Name:</label>
-					<input
-						type="text"
+				<Separator text="Info" />
+
+				<Row>
+					<TextInput
 						name="name"
-						id="protocols-n"
+						label="Protocol Name:"
 						value={name || ""}
-						onChange={handleChange}
+						handler={handleChange}
 					/>
-				</div>
+				</Row>
 
-				<div className="protocols__row">
-					<label htmlFor="protocols-d" className="protocols__label">
-						Description:
-					</label>
-					<textarea
+				<Row>
+					<TextArea
 						name="description"
-						id="protocols-d"
+						label="Description:"
 						value={description || ""}
-						onChange={handleChange}
-					></textarea>
-				</div>
+						handler={handleChange}
+					/>
+				</Row>
+
+				<Separator text="Fields" />
 
 				{fields.map((field) => (
 					<ProtocolField key={field.name} field={field} />
 				))}
-			</div>
-		</div>
+			</Menu>
+		</Page>
 	);
 };
 

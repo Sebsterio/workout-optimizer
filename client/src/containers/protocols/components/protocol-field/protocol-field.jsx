@@ -1,5 +1,6 @@
 import React from "react";
-import Icon from "components/icon";
+import { Row, Button, Icon } from "components";
+import "./protocol-field.scss";
 
 const ProtocolField = ({ field, openModal, updateProtocol }) => {
 	const { name, icon } = field;
@@ -20,46 +21,28 @@ const ProtocolField = ({ field, openModal, updateProtocol }) => {
 	};
 
 	return (
-		<div className="protocols__field">
-			<div className="protocols__field-col protocols__field-col--separated">
+		<div className="protocol-field">
+			<div className="protocol-field-col protocol-field-col--separated">
 				{icon && (
-					<div className="protocols__field-icon">
+					<div className="protocol-field-icon">
 						<Icon {...icon} />
 					</div>
 				)}
-				<div className="protocols__field-name">{name}</div>
+				<div className="protocol-field-name">{name}</div>
 			</div>
 
-			<div className="protocols__field-col">
-				<button className="protocols__field-btn" onClick={handleEdit}>
-					Edit
-				</button>
+			<div className="protocol-field-col">
+				<Button handler={handleEdit} text="Edit" />
 			</div>
 
-			<div className="protocols__field-col">
-				<button className="protocols__field-btn" onClick={handleDuplicate}>
-					Duplicate
-				</button>
-				<button className="protocols__field-btn" onClick={handleDelete}>
-					Delete
-				</button>
+			<div className="protocol-field-col">
+				<Button handler={handleDuplicate} text="Duplicate" />
+				<Button handler={handleDelete} text="Delete" />
 			</div>
 
-			<div className="protocols__field-col">
-				<button
-					className="protocols__field-btn"
-					onClick={handleMove}
-					data-direction="up"
-				>
-					Up
-				</button>
-				<button
-					className="protocols__field-btn"
-					onClick={handleMove}
-					data-direction="down"
-				>
-					Down
-				</button>
+			<div className="protocol-field-col">
+				<Button text="Up" data-direction="up" handler={handleMove}></Button>
+				<Button text="Down" data-direction="down" handler={handleMove}></Button>
 			</div>
 		</div>
 	);

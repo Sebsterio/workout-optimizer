@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Form from "./components/auth-form";
+import AuthForm from "./components/auth-form";
 
 import "./account.scss";
 
@@ -55,7 +55,7 @@ const AccountPage = ({ user, logout, skipAuth, clearError }) => {
 		<div className="page account">
 			<div className="account__wrapper">
 				{form ? (
-					<Form mode={form} goBack={closeForm} />
+					<AuthForm mode={form} goBack={closeForm} />
 				) : isAuthenticated ? (
 					memberView
 				) : (
