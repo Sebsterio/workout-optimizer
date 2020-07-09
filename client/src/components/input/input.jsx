@@ -8,7 +8,7 @@ export const Input = (props) => {
 	// Input element attributes
 	const attributes = {
 		className: "input__input",
-		onChange: handler,
+		onChange: (e) => handler(e.target.value),
 	};
 
 	// Add attribute if passed as prop and condition is met

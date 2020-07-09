@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-
-import "./auth-form.scss";
+import { Menu, Button, Input, Heading, Text } from "components";
 
 const AuthForm = ({
 	mode,
@@ -18,49 +17,51 @@ const AuthForm = ({
 
 	// ---------------------- Render ----------------------
 
-	const makeInput = (type, name, label, value, handler) => (
-		<div className="form__item form__group">
-			<label htmlFor={"auth-" + name}>{label}</label>
-			<input
-				type={type}
-				name={name}
-				className={"form__input form__input-" + name}
-				id={"auth-" + name}
-				placeholder={label}
-				value={value}
-				onChange={(e) => handler(e.target.value)}
-			/>
-		</div>
+	const nameInput = (label) => (
+		<Input
+			type="text"
+			name="name"
+			label={label}
+			value={name}
+			handler={setName}
+		/>
 	);
 
-	const nameInput = (label) => makeInput("text", "name", label, name, setName);
+	const emailInput = (label) => (
+		<Input
+			type="email"
+			name="email"
+			label={label}
+			value={email}
+			handler={setEmail}
+		/>
+	);
 
-	const emailInput = (label) =>
-		makeInput("email", "email", label, email, setEmail);
+	const passwordInput = (label) => (
+		<Input
+			type="password"
+			name="password"
+			label={label}
+			value={password}
+			handler={setPassword}
+		/>
+	);
 
-	const passwordInput = (label) =>
-		makeInput("password", "password", label, password, setPassword);
-
-	const newPasswordInput = makeInput(
-		"password",
-		"new-password",
-		"New password",
-		newPassword,
-		setNewPassword
+	const newPasswordInput = (
+		<Input
+			type="password"
+			name="new-password"
+			label="New password"
+			value={newPassword}
+			handler={setNewPassword}
+		/>
 	);
 
 	const submitButton = (label, handler) => (
-		<button
-			className="form__item form__btn--submit"
-			onClick={(e) => {
-				e.preventDefault();
-				handler({ name, email, password, newPassword });
-				// if success:
-				// goBack();
-			}}
-		>
-			{label}
-		</button>
+		<Button
+			text={label}
+			handler={() => handler({ name, email, password, newPassword })}
+		/>
 	);
 
 	const formFields = {
@@ -81,7 +82,7 @@ const AuthForm = ({
 		),
 		update: (
 			<>
-				<h3>Feature currently unavailable</h3>
+				<Heading small text="Feature currently unavailable" />
 				{passwordInput("Old password")}
 				{nameInput("New name")}
 				{emailInput("New email")}
@@ -91,18 +92,24 @@ const AuthForm = ({
 		),
 		connect: (
 			<>
-				<h3>Feature currently unavailable</h3>
+				{/* My PTs: (component consiting of blocks - 1 for each connected PT) */}
+				<Heading small text="Feature currently unavailable" />
+				<Text>
+					By connecting with a PT, you authrize him/her to view and modify your
+					protocol and exercise log.
+				</Text>
 				{emailInput("PT email")}
-				{submitButton("Done", connect)}
+				{passwordInput("Your password")}
+				{submitButton("Connect", connect)}
 			</>
 		),
 		remove: (
 			<>
-				<h3>Caution!</h3>
-				<p>
+				<Heading small text="Caution!" />
+				<Text>
 					You're about to permanently remove all your data. This action cannot
 					be undone.
-				</p>
+				</Text>
 				{passwordInput("Password")}
 				{submitButton("CLOSE ACCOUNT", remove)}
 			</>
@@ -110,12 +117,10 @@ const AuthForm = ({
 	};
 
 	return (
-		<form className="form">
+		<Menu compact>
 			{formFields[mode]}
-			<button className="form__item form__btn--back" onClick={goBack}>
-				Back
-			</button>
-		</form>
+			<Button text="Back" handler={goBack} />
+		</Menu>
 	);
 };
 

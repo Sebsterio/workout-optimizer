@@ -23,7 +23,7 @@ const ProtocolsPage = ({ protocol, updateProtocol }) => {
 
 	return (
 		<Page>
-			<Menu>
+			<Menu compact>
 				<Heading text="Protocols Page" />
 
 				<Row>

@@ -1,4 +1,9 @@
 .heading {
 	margin: 0;
 	text-align: center;
+	font-size: 2rem;
+
+	&--small {
+		font-size: 1.4rem;
+	}
 }

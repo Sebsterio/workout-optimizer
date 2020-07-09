@@ -1,9 +1,12 @@
 import React from "react";
 import "./heading.scss";
 
-export const Heading = ({ children, text }) => {
+export const Heading = ({ children, text, small }) => {
+	let classes = "heading";
+	if (small) classes += " heading--small";
+
 	return (
-		<h1 className="heading">
+		<h1 className={classes}>
 			{text}
 			{children}
 		</h1>

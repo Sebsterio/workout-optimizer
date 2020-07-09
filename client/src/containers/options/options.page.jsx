@@ -1,17 +1,15 @@
 import React from "react";
-import "./options.scss";
+import { Page, Menu, Button } from "components";
 
 const clearCache = () => localStorage.clear();
 
 const OptionsPage = () => {
 	return (
-		<div className="page options">
-			<div className="options__wrapper">
-				<button className="options__btn" onClick={clearCache}>
-					Clear Cache
-				</button>
-			</div>
-		</div>
+		<Page>
+			<Menu>
+				<Button text="Clear Cache" handler={clearCache} />
+			</Menu>
+		</Page>
 	);
 };
 
