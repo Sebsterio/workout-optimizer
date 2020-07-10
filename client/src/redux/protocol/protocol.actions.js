@@ -17,6 +17,9 @@ const {
 	PROTOCOL_UP_TO_DATE,
 	PROTOCOL_SYNCED,
 	CLEAR_LOCAL_PROTOCOL,
+	PUBLISHING_PROTOCOL,
+	PROTOCOL_PUBLISHED,
+	PROTOCOL_PUBLISH_FAIL,
 } = protocolActionTypes;
 
 // ----------------- Basic -----------------
@@ -69,6 +72,18 @@ export const remoteProtocolUpdated = () => ({
 	type: REMOTE_PROTOCOL_UPDATED,
 });
 
+export const publishingProtocol = () => ({
+	type: PUBLISHING_PROTOCOL,
+});
+
+export const protocolPublished = () => ({
+	type: PROTOCOL_PUBLISHED,
+});
+
+export const protocolPublishFail = () => ({
+	type: PROTOCOL_PUBLISH_FAIL,
+});
+
 // ----------------- Thunk ------------------
 
 // POST local protocol to db
@@ -109,6 +124,7 @@ export const syncProtocol = () => (dispatch, getState) => {
 		});
 };
 
+// Update local protocol and POST it to db
 export const updateProtocol = (data) => (dispatch, getState) => {
 	const dateUpdated = new Date();
 	dispatch(updateLocalProtocol({ ...data, dateUpdated }));
@@ -131,9 +147,29 @@ export const updateProtocol = (data) => (dispatch, getState) => {
 		});
 };
 
+// DELETE protocol from db
 export const removeRemoteProtocol = (token) => (dispatch) => {
 	axios
 		.delete("/api/protocol", token)
 		.then(() => dispatch(clearLocalProtocol()))
 		.catch((err) => dispatch(getError(err, "REMOVE_REMOTE_PROTOCOL_FAIL")));
+};
+
+// Duplicate protocol in db and set copy as public
+export const publishProtocol = () => (dispatch, getState) => {
+	dispatch(publishingProtocol());
+
+	const author = getState().user.name;
+
+	axios
+		.post(
+			"/api/protocol/publish",
+			JSON.stringify({ author }),
+			getTokenConfig(getState)
+		)
+		.then(() => dispatch(protocolPublished()))
+		.catch((err) => {
+			dispatch(protocolPublishFail());
+			dispatch(getError(err, "PUBLISH_PROTOCOL_FAIL"));
+		});
 };

@@ -1,83 +1,39 @@
 import React, { useState } from "react";
-import {
-	Page,
-	Menu,
-	Heading,
-	Row,
-	Button,
-	TextInput,
-	TextArea,
-	Separator,
-} from "components";
-import { ProtocolField } from "./components";
+import { Page, Menu, Heading, Row, Button } from "components";
 
-const ProtocolsPage = ({ protocol, updateProtocol }) => {
-	const { name, description, fields } = protocol;
+import { ProtocolSnippet, ProtocolMenu } from "./components";
 
-	const [newName, setNewName] = useState(name);
-	const [newDesc, setNewDesc] = useState(description);
+const ProtocolsPage = ({ protocol }) => {
+	const [view, setView] = useState("private");
+	const [currentProtocol, setCurrentProtocol] = useState(null);
 
-	const handleSubmit = () => {
-		const newProps = {};
-		if (newName !== name) newProps.name = newName;
-		if (newDesc !== description) newProps.description = newDesc;
-		updateProtocol({ mode: "replace-prop", newProps });
-	};
-
-	const handleReset = () => {
-		setNewName(name);
-		setNewDesc(description);
-	};
+	const protocols = [protocol];
 
 	return (
 		<Page>
-			<Menu compact>
-				<Heading text="Protocols Page" />
+			{currentProtocol ? (
+				<ProtocolMenu goBack={() => setCurrentProtocol(null)} />
+			) : (
+				<Menu compact>
+					<Heading text="Protocols Page" />
 
-				<Row>
-					<Button disabled text="Publish" />
-					<Button disabled text="Download" />
-				</Row>
+					<Row>
+						<Button text="Private" handler={() => setView("private")} />
+						<Button text="Public" handler={() => setView("public")} />
+					</Row>
 
-				<Separator text="Info" />
+					{view === "private" &&
+						protocols.map((protocol) => (
+							<ProtocolSnippet
+								key={protocol.name}
+								protocol={protocol}
+								openProtocol={() => setCurrentProtocol(protocol)}
+							/>
+						))}
 
-				<Row>
-					<TextInput
-						name="name"
-						label="Protocol Name:"
-						value={newName || ""}
-						handler={setNewName}
-					/>
-				</Row>
-
-				<Row>
-					<TextArea
-						name="description"
-						label="Description:"
-						value={newDesc || ""}
-						handler={setNewDesc}
-					/>
-				</Row>
-
-				<Row>
-					<Button
-						text="Cancel"
-						handler={handleReset}
-						disabled={newName === name && newDesc === description}
-					/>
-					<Button
-						text="Save"
-						handler={handleSubmit}
-						disabled={newName === name && newDesc === description}
-					/>
-				</Row>
-
-				<Separator text="Fields" />
-
-				{fields.map((field) => (
-					<ProtocolField key={field.name} field={field} />
-				))}
-			</Menu>
+					{view === "public" && <div className="div">Coming Soon...</div>}
+				</Menu>
+			)}
 		</Page>
 	);
 };

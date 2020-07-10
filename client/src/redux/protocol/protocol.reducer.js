@@ -16,6 +16,9 @@ const {
 	PROTOCOL_UP_TO_DATE,
 	PROTOCOL_SYNCED,
 	CLEAR_LOCAL_PROTOCOL,
+	PUBLISHING_PROTOCOL,
+	PROTOCOL_PUBLISHED,
+	PROTOCOL_PUBLISH_FAIL,
 } = protocolActionTypes;
 
 const protocolReducer = (state = INITIAL_STATE, action) => {
@@ -46,7 +49,6 @@ const protocolReducer = (state = INITIAL_STATE, action) => {
 				...action.payload,
 			};
 		}
-
 		case UPDATE_MAX_CUSTOM_REST:
 			return {
 				...state,
@@ -58,12 +60,36 @@ const protocolReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				dateUpdated: action.payload.dateUpdated,
 				...getUpdatedState(state, action.payload),
+				isPublished: false,
+			};
+		}
+		case PUBLISHING_PROTOCOL: {
+			return {
+				...state,
+				isPublishing: true,
+				isPublished: false,
+			};
+		}
+		case PROTOCOL_PUBLISHED: {
+			return {
+				...state,
+				isPublishing: false,
+				isPublished: true,
+			};
+		}
+		case PROTOCOL_PUBLISH_FAIL: {
+			return {
+				...state,
+				isPublishing: false,
+				isPublished: false,
 			};
 		}
 		case CLEAR_LOCAL_PROTOCOL: {
 			return {
 				isSyncing: false,
 				isSynced: false,
+				isPublishing: false,
+				isPublished: false,
 				dateUpdated: null,
 				name: "",
 				description: "",

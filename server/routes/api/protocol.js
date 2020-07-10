@@ -20,6 +20,32 @@ router.post("/create", auth, async (req, res) => {
 	res.status(201).send();
 });
 
+// ------------------ Publish protocol -------------------
+
+router.post("/publish", auth, async (req, res) => {
+	const { userId } = req;
+	const { author } = req.body;
+
+	const privateProtocol = await Protocol.findOne({ userId });
+	if (!privateProtocol)
+		return res.status(404).json({ msg: "Remote protocol not found" });
+
+	try {
+		const publicProtocol = new Protocol({
+			name: privateProtocol.name,
+			description: privateProtocol.description,
+			dateUpdated: privateProtocol.dateUpdated,
+			userId: "public",
+			author,
+		});
+		console.log(">>>>>>>>>>>>>>>>>>>>>> ", publicProtocol);
+		await publicProtocol.save();
+		res.status(200).send();
+	} catch (err) {
+		res.status(400).json({ msg: err.message });
+	}
+});
+
 // ---------------- Update protocol -----------------
 
 // @access: protocol owner and PT

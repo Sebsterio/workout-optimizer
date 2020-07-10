@@ -3,6 +3,8 @@ import shortid from "shortid";
 export const INITIAL_STATE = {
 	isSyncing: false,
 	isSynced: false,
+	isPublishing: false,
+	isPublished: false,
 	dateUpdated: null,
 	name: "The best protocol",
 	description: "Some description bla bla bla...",

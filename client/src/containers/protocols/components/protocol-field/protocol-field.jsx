@@ -15,8 +15,7 @@ const ProtocolField = ({ field, openModal, updateProtocol }) => {
 		updateProtocol({ mode: "delete-field", field });
 	};
 
-	const handleMove = (e) => {
-		const direction = e.target.dataset.direction;
+	const handleMove = (direction) => {
 		updateProtocol({ mode: "move-field", field, direction });
 	};
 
@@ -41,8 +40,8 @@ const ProtocolField = ({ field, openModal, updateProtocol }) => {
 			</div>
 
 			<div className="protocol-field-col">
-				<Button text="Up" data-direction="up" handler={handleMove}></Button>
-				<Button text="Down" data-direction="down" handler={handleMove}></Button>
+				<Button text="Up" handler={() => handleMove("up")}></Button>
+				<Button text="Down" handler={() => handleMove("down")}></Button>
 			</div>
 		</div>
 	);

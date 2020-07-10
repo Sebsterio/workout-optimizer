@@ -1,5 +1,6 @@
 .alert {
 	max-height: 10vh;
+	overflow-y: auto;
 	padding: 1em;
 	color: rgb(175, 3, 3);
 	border: 2px solid red;

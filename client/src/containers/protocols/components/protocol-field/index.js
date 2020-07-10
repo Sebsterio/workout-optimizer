@@ -1,1 +1,1 @@
-export { default as ProtocolField } from "./protocol-field.container";
+export { default as ProtocolField } from "./protocol-field";
