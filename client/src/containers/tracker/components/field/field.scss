@@ -27,12 +27,16 @@ $white: white;
 		}
 	}
 
-	&--planned {
-		background: rgb(182, 199, 192);
-	}
-
 	&--active {
 		background: rgb(119, 221, 179);
+	}
+
+	&--selecting {
+		filter: saturate(0.25);
+
+		&:hover {
+			filter: brightness(1.2);
+		}
 	}
 
 	// ---------------- Exercise ---------------
@@ -73,10 +77,10 @@ $white: white;
 		white-space: nowrap;
 
 		&--planned {
-			color: rgb(140, 140, 140);
+			color: rgb(156, 156, 156);
 		}
 		&--partial {
-			color: rgb(100, 100, 100);
+			color: rgb(102, 102, 102);
 		}
 		&--done {
 			color: black;

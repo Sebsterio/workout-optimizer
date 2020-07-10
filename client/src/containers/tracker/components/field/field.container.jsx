@@ -14,9 +14,10 @@ const makeMapStateToProps = () => {
 	const getRestLevel = makeGetRestLevel();
 
 	return (state, props) => ({
+		// Entry duplication in progress
 		isPickingDate: state.modal.isPickingDate,
 
-		// Log entry stats (including exercise rest prop)
+		// Current day log entry (including exercise rest prop)
 		stats: getStats(state, props),
 
 		// Rest level calculated from past exercises

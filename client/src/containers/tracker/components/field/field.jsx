@@ -25,10 +25,10 @@ const Field = ({
 	};
 
 	let fieldClass = "field";
-	if (intensity === 0) fieldClass += " field--planned";
-	if (intensity > 0) fieldClass += " field--active";
+	if (intensity >= 0) fieldClass += " field--active";
 	if (restLevel)
 		fieldClass += ` field--recovery field--recovery-${getRestLevel(restLevel)}`;
+	if (isPickingDate) fieldClass += " field--selecting";
 
 	const exerciseClass = `field__exercise field__exercise--intensity-${getIntensity(
 		intensity
