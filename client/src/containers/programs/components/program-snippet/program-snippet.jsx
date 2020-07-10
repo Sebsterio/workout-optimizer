@@ -1,15 +1,16 @@
 import React from "react";
 
-import { Row } from "components";
+import { Block, Col, Row } from "components";
 
 import { Button } from "components";
 
 export const ProgramSnippet = ({ program, openProgram }) => (
-	<Row>
-		{program.name}
+	<Block wideFirstCol>
+		<Col>
+			<Row>{program.name}</Row>
+		</Col>
 		<Button text="Open" handler={openProgram} />
-		<Button text="Duplicate" disabled />
-	</Row>
+	</Block>
 );
 
 export default ProgramSnippet;

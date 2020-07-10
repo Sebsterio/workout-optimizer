@@ -9,3 +9,5 @@ export * from "./table";
 export * from "./icon";
 export * from "./spinner";
 export * from "./page";
+export * from "./block";
+export * from "./col";

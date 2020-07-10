@@ -1,0 +1,12 @@
+.block {
+	height: 80px;
+	border: 1px solid black;
+	padding: 1em;
+	display: grid;
+	grid-gap: 1px;
+	grid-template-columns: repeat(4, 1fr);
+
+	&--wide-first-col {
+		grid-template-columns: 3fr 1fr;
+	}
+}

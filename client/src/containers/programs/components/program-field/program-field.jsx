@@ -1,6 +1,5 @@
 import React from "react";
-import { Button, Icon } from "components";
-import "./program-field.scss";
+import { Button, Icon, Block, Col, Row } from "components";
 
 const ProgramField = ({ field, openModal, updateProgram }) => {
 	const { name, icon } = field;
@@ -20,30 +19,26 @@ const ProgramField = ({ field, openModal, updateProgram }) => {
 	};
 
 	return (
-		<div className="program-field">
-			<div className="program-field-col program-field-col--separated">
-				{icon && (
-					<div className="program-field-icon">
-						<Icon {...icon} />
-					</div>
-				)}
-				<div className="program-field-name">{name}</div>
-			</div>
+		<Block>
+			<Col marginRight>
+				{icon && <Icon {...icon} />}
+				<Row center>{name}</Row>
+			</Col>
 
-			<div className="program-field-col">
+			<Col>
 				<Button handler={handleEdit} text="Edit" />
-			</div>
+			</Col>
 
-			<div className="program-field-col">
+			<Col>
 				<Button handler={handleDuplicate} text="Duplicate" />
 				<Button handler={handleDelete} text="Delete" />
-			</div>
+			</Col>
 
-			<div className="program-field-col">
+			<Col>
 				<Button text="Up" handler={() => handleMove("up")}></Button>
 				<Button text="Down" handler={() => handleMove("down")}></Button>
-			</div>
-		</div>
+			</Col>
+		</Block>
 	);
 };
 

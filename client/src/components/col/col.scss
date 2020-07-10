@@ -1,0 +1,18 @@
+.column {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: stretch;
+	justify-items: stretch;
+
+	&--margin-right {
+		margin-right: 1em;
+	}
+
+	&__item {
+		flex: 1 1 100%;
+		display: flex;
+		justify-content: stretch;
+		justify-items: stretch;
+		align-items: stretch;
+	}
+}
