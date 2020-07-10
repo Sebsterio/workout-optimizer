@@ -1,13 +1,22 @@
 import React, { useState } from "react";
-import { Page, Menu, Heading, Row, Button } from "components";
+import { Page, Menu, Heading, Row, Block, Button, Spinner } from "components";
 
 import { ProgramSnippet, ProgramMenu } from "./components";
 
-const ProgramsPage = ({ program }) => {
+const ProgramsPage = ({
+	privatePrograms,
+	publicPrograms,
+	getPublicPrograms,
+}) => {
 	const [view, setView] = useState("private");
 	const [currentProgram, setCurrentProgram] = useState(null);
 
-	const programs = [program];
+	const showPrivatePrograms = () => setView("private");
+	const showPublicPrograms = () => {
+		setView("public");
+		getPublicPrograms();
+		console.log(publicPrograms);
+	};
 
 	return (
 		<Page>
@@ -18,12 +27,12 @@ const ProgramsPage = ({ program }) => {
 					<Heading text="Programs Page" />
 
 					<Row>
-						<Button text="Private" handler={() => setView("private")} />
-						<Button text="Public" handler={() => setView("public")} />
+						<Button text="Private" handler={showPrivatePrograms} />
+						<Button text="Public" handler={showPublicPrograms} />
 					</Row>
 
 					{view === "private" &&
-						programs.map((program) => (
+						privatePrograms.map((program) => (
 							<ProgramSnippet
 								key={program.name}
 								program={program}
@@ -31,7 +40,20 @@ const ProgramsPage = ({ program }) => {
 							/>
 						))}
 
-					{view === "public" && <div className="div">Coming Soon...</div>}
+					{view === "public" &&
+						(!publicPrograms.length ? (
+							<Block>
+								<Spinner />
+							</Block>
+						) : (
+							publicPrograms.map((program) => (
+								<ProgramSnippet
+									key={program.name}
+									program={program}
+									openProgram={() => setCurrentProgram(program)}
+								/>
+							))
+						))}
 				</Menu>
 			)}
 		</Page>

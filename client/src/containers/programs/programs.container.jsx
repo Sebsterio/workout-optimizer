@@ -4,10 +4,13 @@ import { connect } from "react-redux";
 import ProgramsPage from "./programs.page";
 
 const mapStateToProps = (state) => ({
-	program: state.program,
+	privatePrograms: [state.program],
+	publicPrograms: [],
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = () => ({
+	getPublicPrograms: () => {},
+});
 
 const ProgramsPageContainer = (props) => <ProgramsPage {...props} />;
 
