@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Menu, Row, Button, TextInput, TextArea, Separator } from "components";
-import { ProtocolField } from "../index";
+import { ProgramField } from "../index";
 
-const ProtocolMenu = ({
-	protocol,
+const ProgramMenu = ({
+	program,
 	goBack,
-	updateProtocol,
-	publishProtocol,
+	updateProgram,
+	publishProgram,
 	openModal,
 }) => {
-	const { name, description, fields, isPublishing, isPublished } = protocol;
+	const { name, description, fields, isPublishing, isPublished } = program;
 
 	const [newName, setNewName] = useState(name);
 	const [newDesc, setNewDesc] = useState(description);
@@ -18,7 +18,7 @@ const ProtocolMenu = ({
 		const newProps = {};
 		if (newName !== name) newProps.name = newName;
 		if (newDesc !== description) newProps.description = newDesc;
-		updateProtocol({ mode: "replace-prop", newProps });
+		updateProgram({ mode: "replace-prop", newProps });
 	};
 
 	const handleReset = () => {
@@ -34,7 +34,7 @@ const ProtocolMenu = ({
 					text={
 						isPublishing ? "Publishing" : isPublished ? "Published" : "Publish"
 					}
-					handler={publishProtocol}
+					handler={publishProgram}
 					disabled={isPublishing || isPublished}
 				/>
 				<Button disabled text="Delete" />
@@ -46,7 +46,7 @@ const ProtocolMenu = ({
 			<Row>
 				<TextInput
 					name="name"
-					label="Protocol Name:"
+					label="Program Name:"
 					value={newName || ""}
 					handler={setNewName}
 				/>
@@ -77,10 +77,10 @@ const ProtocolMenu = ({
 			<Separator text="Fields" />
 
 			{fields.map((field) => (
-				<ProtocolField
+				<ProgramField
 					key={field.name}
 					field={field}
-					updateProtocol={updateProtocol}
+					updateProgram={updateProgram}
 					openModal={openModal}
 				/>
 			))}
@@ -88,4 +88,4 @@ const ProtocolMenu = ({
 	);
 };
 
-export default ProtocolMenu;
+export default ProgramMenu;

@@ -54,17 +54,17 @@ export const getUpdatedState = (state, payload) => {
 	throw Error("Invalid mode");
 };
 
-export const convertLocalProtocol = (getState) => {
-	const protocol = { ...getState().protocol };
-	protocol.fields = JSON.stringify(protocol.fields);
-	return protocol;
+export const convertLocalProgram = (getState) => {
+	const program = { ...getState().program };
+	program.fields = JSON.stringify(program.fields);
+	return program;
 };
 
-export const convertRemoteProtocol = (protocol) => {
+export const convertRemoteProgram = (program) => {
 	return {
-		name: protocol.name,
-		description: protocol.description,
-		dateUpdated: protocol.dateUpdated,
-		fields: JSON.parse(protocol.fields),
+		name: program.name,
+		description: program.description,
+		dateUpdated: program.dateUpdated,
+		fields: JSON.parse(program.fields),
 	};
 };

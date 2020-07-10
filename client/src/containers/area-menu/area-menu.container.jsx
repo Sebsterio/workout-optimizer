@@ -1,14 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { updateProtocol } from "redux/protocol/protocol.actions";
+import { updateProgram } from "redux/program/program.actions";
 import AreaMenu from "./area-menu";
 
 const mapStateToProps = (state) => ({
-	fields: state.protocol.fields,
+	fields: state.program.fields,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	updateProtocol: (data) => dispatch(updateProtocol(data)),
+	updateProgram: (data) => dispatch(updateProgram(data)),
 });
 
 const AreaMenuContainer = (props) => <AreaMenu {...props} />;

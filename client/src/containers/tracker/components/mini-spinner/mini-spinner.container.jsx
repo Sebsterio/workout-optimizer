@@ -6,8 +6,8 @@ import MiniSpinner from "./mini-spinner.component";
 const mapStateToProps = (state) => ({
 	isLogSyncing: state.log.isSyncing,
 	isLogSynced: state.log.isSynced,
-	isProtocolSyncing: state.protocol.isSyncing,
-	isProtocolSynced: state.protocol.isSynced,
+	isProgramSyncing: state.program.isSyncing,
+	isProgramSynced: state.program.isSynced,
 });
 
 const MiniSpinnerContainer = (props) => <MiniSpinner {...props} />;

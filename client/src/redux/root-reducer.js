@@ -4,20 +4,20 @@ import storage from "redux-persist/lib/storage";
 
 import userReducer from "./user/user.reducer";
 import logReducer from "./log/log.reducer";
-import protocolReducer from "./protocol/protocol.reducer";
+import programReducer from "./program/program.reducer";
 import modalReducer from "./modal/modal.reducer";
 import errorReducer from "./error/error.reducer";
 
 const persistConfig = {
 	key: "root",
 	storage,
-	whitelist: ["user", "log", "protocol"],
+	whitelist: ["user", "log", "program"],
 };
 
 const rootReducer = combineReducers({
 	user: userReducer,
 	log: logReducer,
-	protocol: protocolReducer,
+	program: programReducer,
 	modal: modalReducer,
 	error: errorReducer,
 });

@@ -5,13 +5,13 @@ import "./mini-spinner.scss";
 const MiniSpinner = ({
 	isLogSyncing,
 	isLogSynced,
-	isProtocolSyncing,
-	isProtocolSynced,
+	isProgramSyncing,
+	isProgramSynced,
 }) => {
 	return (
 		<div className="mini-spinner">
-			{(isLogSyncing || isProtocolSyncing) && "Syncing..."}
-			{isLogSynced && isProtocolSynced && "Synced"}
+			{(isLogSyncing || isProgramSyncing) && "Syncing..."}
+			{isLogSynced && isProgramSynced && "Synced"}
 		</div>
 	);
 };

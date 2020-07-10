@@ -1,5 +1,5 @@
 import Tracker from "containers/tracker";
-import Protocols from "containers/protocols";
+import Programs from "containers/programs";
 import Statistics from "containers/statistics";
 import Options from "containers/options";
 import Account from "containers/account";
@@ -11,9 +11,9 @@ export const routes = [
 		component: Tracker,
 	},
 	{
-		name: "Protocols",
-		path: "/protocols",
-		component: Protocols,
+		name: "Programs",
+		path: "/programs",
+		component: Programs,
 	},
 	{
 		name: "Statistics",

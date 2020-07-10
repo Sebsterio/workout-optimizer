@@ -6,7 +6,7 @@ export const INITIAL_STATE = {
 	isPublishing: false,
 	isPublished: false,
 	dateUpdated: null,
-	name: "The best protocol",
+	name: "The best program",
 	description: "Some description bla bla bla...",
 	fields: [
 		{

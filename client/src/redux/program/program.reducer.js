@@ -1,47 +1,47 @@
-import protocolActionTypes from "./protocol.types";
-import { INITIAL_STATE } from "./protocol.initialState";
+import programActionTypes from "./program.types";
+import { INITIAL_STATE } from "./program.initialState";
 import {
 	getUpdatedState,
 	getFieldsWithNewMaxCustomRest,
-} from "./protocol.utils";
+} from "./program.utils";
 
 const {
 	UPDATE_MAX_CUSTOM_REST,
-	UPDATE_LOCAL_PROTOCOL,
-	CREATING_REMOTE_PROTOCOL,
-	UPDATING_REMOTE_PROTOCOL,
-	SYNCING_PROTOCOL,
-	REMOTE_PROTOCOL_CREATED,
-	REMOTE_PROTOCOL_UPDATED,
-	PROTOCOL_UP_TO_DATE,
-	PROTOCOL_SYNCED,
-	CLEAR_LOCAL_PROTOCOL,
-	PUBLISHING_PROTOCOL,
-	PROTOCOL_PUBLISHED,
-	PROTOCOL_PUBLISH_FAIL,
-} = protocolActionTypes;
+	UPDATE_LOCAL_PROGRAM,
+	CREATING_REMOTE_PROGRAM,
+	UPDATING_REMOTE_PROGRAM,
+	SYNCING_PROGRAM,
+	REMOTE_PROGRAM_CREATED,
+	REMOTE_PROGRAM_UPDATED,
+	PROGRAM_UP_TO_DATE,
+	PROGRAM_SYNCED,
+	CLEAR_LOCAL_PROGRAM,
+	PUBLISHING_PROGRAM,
+	PROGRAM_PUBLISHED,
+	PROGRAM_PUBLISH_FAIL,
+} = programActionTypes;
 
-const protocolReducer = (state = INITIAL_STATE, action) => {
+const programReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case CREATING_REMOTE_PROTOCOL:
-		case UPDATING_REMOTE_PROTOCOL:
-		case SYNCING_PROTOCOL: {
+		case CREATING_REMOTE_PROGRAM:
+		case UPDATING_REMOTE_PROGRAM:
+		case SYNCING_PROGRAM: {
 			return {
 				...state,
 				isSyncing: true,
 				isSynced: false,
 			};
 		}
-		case REMOTE_PROTOCOL_CREATED:
-		case REMOTE_PROTOCOL_UPDATED:
-		case PROTOCOL_UP_TO_DATE: {
+		case REMOTE_PROGRAM_CREATED:
+		case REMOTE_PROGRAM_UPDATED:
+		case PROGRAM_UP_TO_DATE: {
 			return {
 				...state,
 				isSyncing: false,
 				isSynced: true,
 			};
 		}
-		case PROTOCOL_SYNCED: {
+		case PROGRAM_SYNCED: {
 			return {
 				...state,
 				isSyncing: false,
@@ -55,7 +55,7 @@ const protocolReducer = (state = INITIAL_STATE, action) => {
 				fields: getFieldsWithNewMaxCustomRest(state, action.payload),
 			};
 
-		case UPDATE_LOCAL_PROTOCOL: {
+		case UPDATE_LOCAL_PROGRAM: {
 			return {
 				...state,
 				dateUpdated: action.payload.dateUpdated,
@@ -63,28 +63,28 @@ const protocolReducer = (state = INITIAL_STATE, action) => {
 				isPublished: false,
 			};
 		}
-		case PUBLISHING_PROTOCOL: {
+		case PUBLISHING_PROGRAM: {
 			return {
 				...state,
 				isPublishing: true,
 				isPublished: false,
 			};
 		}
-		case PROTOCOL_PUBLISHED: {
+		case PROGRAM_PUBLISHED: {
 			return {
 				...state,
 				isPublishing: false,
 				isPublished: true,
 			};
 		}
-		case PROTOCOL_PUBLISH_FAIL: {
+		case PROGRAM_PUBLISH_FAIL: {
 			return {
 				...state,
 				isPublishing: false,
 				isPublished: false,
 			};
 		}
-		case CLEAR_LOCAL_PROTOCOL: {
+		case CLEAR_LOCAL_PROGRAM: {
 			return {
 				isSyncing: false,
 				isSynced: false,
@@ -101,4 +101,4 @@ const protocolReducer = (state = INITIAL_STATE, action) => {
 	}
 };
 
-export default protocolReducer;
+export default programReducer;

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Create Schema
-const ProtocolSchema = new Schema({
+const ProgramSchema = new Schema({
 	userId: {
 		type: String,
 		required: true,
@@ -17,6 +17,6 @@ const ProtocolSchema = new Schema({
 	fields: String,
 });
 
-const Protocol = mongoose.model("protocol", ProtocolSchema);
+const Program = mongoose.model("program", ProgramSchema);
 
-module.exports = Protocol;
+module.exports = Program;

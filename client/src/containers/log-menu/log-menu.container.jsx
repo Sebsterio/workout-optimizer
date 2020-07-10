@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { updateLog } from "redux/log/log.actions";
-import { updateMaxCustomRest } from "redux/protocol/protocol.actions";
+import { updateMaxCustomRest } from "redux/program/program.actions";
 import { pickDate } from "redux/modal/modal.actions";
 
 import LogMenu from "./log-menu";

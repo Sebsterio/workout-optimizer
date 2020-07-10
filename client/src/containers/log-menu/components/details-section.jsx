@@ -4,7 +4,7 @@ import { Row, Input, Button, Table } from "components";
 // ---------------------- Component ------------------------
 
 export const DetailsSection = ({ field, details, setDetails }) => {
-	// Convert protocol field labels into a default newEntry object
+	// Convert program field labels into a default newEntry object
 	const getDefaultEntry = (field, done) =>
 		field.details.reduce((acc, cur) => {
 			const { label, defaultVal } = cur;

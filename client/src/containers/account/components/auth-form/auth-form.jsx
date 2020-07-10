@@ -96,7 +96,7 @@ const AuthForm = ({
 				<Heading small text="Feature currently unavailable" />
 				<Text>
 					By connecting with a PT, you authrize him/her to view and modify your
-					protocol and exercise log.
+					program and exercise log.
 				</Text>
 				{emailInput("PT email")}
 				{passwordInput("Your password")}

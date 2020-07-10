@@ -16,11 +16,11 @@ export const getDetailsString = (entry, field) => {
 	const entryParams = Object.keys(entry);
 	return (
 		field.details
-			// Pick protocol parameters that are present in log entry (a set)
+			// Pick program parameters that are present in log entry (a set)
 			.filter((param) => entryParams.includes(param.label))
 			// Exclude 'done' param
 			.filter((param) => param.label !== "done")
-			// Map protocol params into corresponding log entry values
+			// Map program params into corresponding log entry values
 			.map((param) => entry[param.label])
 			// Abbreviate etc.
 			.map((value) => {

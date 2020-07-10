@@ -34,7 +34,7 @@ const tabsList = [
 	},
 ];
 
-const AreaMenu = ({ cellData, fields, closeModal, updateProtocol }) => {
+const AreaMenu = ({ cellData, fields, closeModal, updateProgram }) => {
 	const { field } = cellData;
 
 	const [name, setName] = useState(field.name || "");
@@ -50,11 +50,11 @@ const AreaMenu = ({ cellData, fields, closeModal, updateProtocol }) => {
 		setTab(tab);
 	};
 
-	// Update protocol field in redux & db
+	// Update program field in redux & db
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const newFieldData = { name, description, levels, details, icon };
-		updateProtocol({ mode: "replace-field", field, newFieldData });
+		updateProgram({ mode: "replace-field", field, newFieldData });
 		closeModal();
 	};
 
