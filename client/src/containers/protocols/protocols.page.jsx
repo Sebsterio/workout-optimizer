@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	Page,
 	Menu,
@@ -14,9 +14,19 @@ import { ProtocolField } from "./components";
 const ProtocolsPage = ({ protocol, updateProtocol }) => {
 	const { name, description, fields } = protocol;
 
-	const handleChange = (value, { name }) => {
-		const newProps = { [name]: value };
+	const [newName, setNewName] = useState(name);
+	const [newDesc, setNewDesc] = useState(description);
+
+	const handleSubmit = () => {
+		const newProps = {};
+		if (newName !== name) newProps.name = newName;
+		if (newDesc !== description) newProps.description = newDesc;
 		updateProtocol({ mode: "replace-prop", newProps });
+	};
+
+	const handleReset = () => {
+		setNewName(name);
+		setNewDesc(description);
 	};
 
 	return (
@@ -35,8 +45,8 @@ const ProtocolsPage = ({ protocol, updateProtocol }) => {
 					<TextInput
 						name="name"
 						label="Protocol Name:"
-						value={name || ""}
-						handler={handleChange}
+						value={newName || ""}
+						handler={setNewName}
 					/>
 				</Row>
 
@@ -44,8 +54,21 @@ const ProtocolsPage = ({ protocol, updateProtocol }) => {
 					<TextArea
 						name="description"
 						label="Description:"
-						value={description || ""}
-						handler={handleChange}
+						value={newDesc || ""}
+						handler={setNewDesc}
+					/>
+				</Row>
+
+				<Row>
+					<Button
+						text="Cancel"
+						handler={handleReset}
+						disabled={newName === name && newDesc === description}
+					/>
+					<Button
+						text="Save"
+						handler={handleSubmit}
+						disabled={newName === name && newDesc === description}
 					/>
 				</Row>
 
