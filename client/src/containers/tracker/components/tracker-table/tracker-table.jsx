@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./tracker-table.scss";
 
-const TrackerTable = ({ children, tableRef, setMaxDateOffset, cellSize }) => {
+const TrackerTable = ({
+	children,
+	tableRef,
+	setFirstDayRendered,
+	cellSize,
+}) => {
 	const SCROLL_X_THRESHOLD = cellSize;
 
 	const [hasRendered, setHasRendered] = useState(false);
@@ -17,7 +22,7 @@ const TrackerTable = ({ children, tableRef, setMaxDateOffset, cellSize }) => {
 	const fakeScrollX = (direction) => {
 		const step = direction === "left" ? 1 : -1;
 		tableRef.current.scrollLeft += cellSize * step;
-		setMaxDateOffset((maxDateOffset) => maxDateOffset + step);
+		setFirstDayRendered((firstDayRendered) => firstDayRendered - step);
 	};
 
 	const handleScroll = () => {

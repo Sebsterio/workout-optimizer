@@ -4,7 +4,7 @@ import { TrackerTable, Side, Day } from "./components";
 
 const TrackerPage = ({ cellSize }) => {
 	const [cols, setCols] = useState(0); // N of cols loaded
-	const [maxDateOffset, setMaxDateOffset] = useState(0); // leftmost col
+	const [firstDayRendered, setFirstDayRendered] = useState(0); // leftmost col
 
 	const tableRef = useRef();
 
@@ -24,8 +24,8 @@ const TrackerPage = ({ cellSize }) => {
 
 		// Put "today" col in the middle
 		const newTotalCols = updateCols();
-		const futureCols = (newTotalCols - 1) / 2;
-		setMaxDateOffset(futureCols);
+		const pastCols = (newTotalCols - 1) / 2;
+		setFirstDayRendered(pastCols);
 
 		window.addEventListener("resize", updateCols);
 		return () => window.removeEventListener("resize", updateCols);
@@ -35,11 +35,11 @@ const TrackerPage = ({ cellSize }) => {
 		<Page>
 			<TrackerTable
 				tableRef={tableRef}
-				setMaxDateOffset={setMaxDateOffset}
+				setFirstDayRendered={setFirstDayRendered}
 				cellSize={cellSize}
 			>
 				<Side />
-				{Array.from({ length: cols }, (_, i) => maxDateOffset - i).map(
+				{Array.from({ length: cols }, (_, i) => firstDayRendered + i).map(
 					(dateOffset) => (
 						<Day day={dateOffset} key={dateOffset} />
 					)
