@@ -1,1 +1,1 @@
-export { default as Column } from "./column.container";
+export { default as Column } from "./column";

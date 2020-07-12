@@ -29,7 +29,6 @@ export const Input = (props) => {
 	addAttrFromProps("rows", type === "textarea", String);
 
 	if (label) attributes.id = shortid.generate();
-
 	if (data) attributes[`data-${data[0]}`] = data[1];
 
 	// Container className

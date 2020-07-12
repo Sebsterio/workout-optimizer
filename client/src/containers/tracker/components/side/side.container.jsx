@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Column from "./column";
+import Column from "./side";
 
 const mapStateToProps = (store) => ({
 	fields: store.program.fields,

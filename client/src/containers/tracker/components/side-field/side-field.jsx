@@ -5,22 +5,21 @@ import "./side-field.scss";
 export const SideField = ({ field, openModal }) => {
 	const { icon, name } = field;
 
+	let nameClass = "side-field__name";
+	if (icon) nameClass += " side-field__name--small";
+
 	return (
 		<div
 			className="side-field"
-			field={field}
 			onClick={() => openModal({ field, mode: "row" })}
 		>
-			{icon ? (
-				<>
-					<div className="side-field__icon">
-						<Icon {...icon} />
-					</div>
-					<div className="side-field__name side-field__name--small">{name}</div>
-				</>
-			) : (
-				<div className="side-field__name">{name}</div>
+			{icon && (
+				<div className="side-field__icon">
+					<Icon {...icon} />
+				</div>
 			)}
+
+			<div className={nameClass}>{name}</div>
 		</div>
 	);
 };

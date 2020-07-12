@@ -5,7 +5,7 @@ import TrackerPage from "./tracker.page";
 
 const mapStateToProps = (state) => ({
 	// cellSize: state.settings.cellSize,
-	cellSize: 100,
+	cellSize: 80,
 });
 
 const TrackerPageContainer = (props) => <TrackerPage {...props} />;

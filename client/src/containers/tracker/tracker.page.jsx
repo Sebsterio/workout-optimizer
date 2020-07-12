@@ -1,17 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Column } from "./components";
-import "./tracker.scss";
+import { Page } from "components";
+import { TrackerTable, Side, Day } from "./components";
 
 const TrackerPage = ({ cellSize }) => {
 	const [cols, setCols] = useState(0); // N of cols loaded
 	const [maxDateOffset, setMaxDateOffset] = useState(0); // leftmost col
-	const [hasRendered, setHasRendered] = useState(false);
 
 	const tableRef = useRef();
 
-	// -------------------- Layout --------------------
-
 	useEffect(() => {
+		// TODO: set in Options
+		document.documentElement.style.setProperty("--cell-size", cellSize + "px");
+
 		// Load enough columns to overflow table
 		// Minimum 2 extra cols to prevent fakeScroll infinite recursion
 		const updateCols = () => {
@@ -26,52 +26,26 @@ const TrackerPage = ({ cellSize }) => {
 		const newTotalCols = updateCols();
 		const futureCols = (newTotalCols - 1) / 2;
 		setMaxDateOffset(futureCols);
-		setHasRendered(true);
 
 		window.addEventListener("resize", updateCols);
 		return () => window.removeEventListener("resize", updateCols);
 	}, [cellSize]);
 
-	// After first render, center scroll
-	useEffect(() => {
-		const { offsetWidth, scrollWidth } = tableRef.current;
-		tableRef.current.scrollLeft = (scrollWidth - offsetWidth) / 2;
-	}, [hasRendered]);
-
-	// -------------------- Scroll --------------------
-
-	const SCROLL_X_THRESHOLD = cellSize;
-
-	// Add & remove cols && jump scroll
-	const fakeScrollX = (direction) => {
-		const step = direction === "left" ? 1 : -1;
-		tableRef.current.scrollLeft += cellSize * step;
-		setMaxDateOffset((maxDateOffset) => maxDateOffset + step);
-	};
-
-	const handleScroll = () => {
-		const { scrollLeft, offsetWidth, scrollWidth } = tableRef.current;
-		const scrollRight = scrollWidth - offsetWidth - scrollLeft;
-
-		if (scrollLeft <= SCROLL_X_THRESHOLD) fakeScrollX("left");
-		else if (scrollRight <= SCROLL_X_THRESHOLD) fakeScrollX("right");
-	};
-
-	// -------------------- Render --------------------
-
-	const cssVars = { "--cell-size": cellSize + "px" };
-
 	return (
-		<div className="page tracker" style={cssVars}>
-			<div className="tracker__table" ref={tableRef} onScroll={handleScroll}>
-				<Column isAside />
+		<Page>
+			<TrackerTable
+				tableRef={tableRef}
+				setMaxDateOffset={setMaxDateOffset}
+				cellSize={cellSize}
+			>
+				<Side />
 				{Array.from({ length: cols }, (_, i) => maxDateOffset - i).map(
 					(dateOffset) => (
-						<Column day={dateOffset} key={dateOffset} />
+						<Day day={dateOffset} key={dateOffset} />
 					)
 				)}
-			</div>
-		</div>
+			</TrackerTable>
+		</Page>
 	);
 };
 

@@ -13,11 +13,11 @@ import routes from "./routes";
 import "./app.scss";
 
 const App = ({ isAuthenticated, isIncognito, isLoading, loadUser }) => {
-	const userIsDefined = isAuthenticated || isIncognito;
-
 	useEffect(() => {
 		loadUser();
 	}, [loadUser]);
+
+	const userIsDefined = isAuthenticated || isIncognito;
 
 	const pages = routes.map((route) => {
 		const { path, component } = route;
@@ -31,10 +31,10 @@ const App = ({ isAuthenticated, isIncognito, isLoading, loadUser }) => {
 			<main>
 				{isLoading ? (
 					<Spinner />
-				) : !userIsDefined ? (
-					<AccountPage />
-				) : (
+				) : userIsDefined ? (
 					<Switch>{pages}</Switch>
+				) : (
+					<AccountPage />
 				)}
 				<Modal />
 			</main>

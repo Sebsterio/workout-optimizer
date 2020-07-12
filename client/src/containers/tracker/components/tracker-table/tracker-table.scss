@@ -1,0 +1,22 @@
+@import "src/style/vars";
+
+.tracker-table {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	flex: 1 0 0;
+	display: flex;
+	flex-flow: row nowrap;
+	overflow: scroll;
+}
+
+// TEMP
+.no-scrollbar {
+	-ms-overflow-style: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}

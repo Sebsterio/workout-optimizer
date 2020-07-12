@@ -6,28 +6,28 @@ import Account from "containers/account";
 
 export const routes = [
 	{
-		name: "Tracker",
 		path: "/",
+		name: "Tracker",
 		component: Tracker,
 	},
 	{
-		name: "Programs",
 		path: "/programs",
+		name: "Programs",
 		component: Programs,
 	},
 	{
-		name: "Statistics",
 		path: "/statistics",
+		name: "Statistics",
 		component: Statistics,
 	},
 	{
-		name: "Account",
 		path: "/account",
+		name: "Account",
 		component: Account,
 	},
 	{
-		name: "Options",
 		path: "/options",
+		name: "Options",
 		component: Options,
 	},
 ];
