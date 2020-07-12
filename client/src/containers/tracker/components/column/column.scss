@@ -3,13 +3,6 @@
 .tracker-column {
 	position: relative;
 
-	&--side {
-		position: sticky;
-		left: 0;
-		right: 100%;
-		z-index: 999;
-	}
-
 	&__head {
 		box-sizing: border-box;
 		height: $head-height;
@@ -31,10 +24,6 @@
 
 	&--today &__head {
 		background: silver;
-	}
-
-	&__weekDay {
-		margin-right: 0.3em;
 	}
 
 	&__cell {

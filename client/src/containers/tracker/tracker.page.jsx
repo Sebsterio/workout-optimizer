@@ -8,27 +8,32 @@ const TrackerPage = ({ cellSize }) => {
 
 	const tableRef = useRef();
 
+	// Put "today" col in the middle
+	const centerTable = (cols) => {
+		const pastCols = (cols - 1) / 2;
+		setFirstDayRendered(-pastCols);
+	};
+
 	useEffect(() => {
 		// TODO: set in Options
 		document.documentElement.style.setProperty("--cell-size", cellSize + "px");
 
 		// Load enough columns to overflow table
-		// Minimum 2 extra cols to prevent fakeScroll infinite recursion
-		const updateCols = () => {
+		// +2 cols to avoid infinite loops in scroll handler
+		// NOTE: don't extract (useEffect warning)
+		const updateColsToCover = () => {
 			const { offsetWidth } = tableRef.current;
-			let newTotalCols = Math.ceil(offsetWidth / cellSize) + 2;
-			if (newTotalCols % 2 === 0) newTotalCols++;
-			setCols(newTotalCols);
-			return newTotalCols;
+			let cols = Math.ceil(offsetWidth / cellSize) + 2;
+			if (cols % 2 === 0) cols++;
+			setCols(cols);
+			return cols;
 		};
 
-		// Put "today" col in the middle
-		const newTotalCols = updateCols();
-		const pastCols = (newTotalCols - 1) / 2;
-		setFirstDayRendered(pastCols);
+		const cols = updateColsToCover();
+		centerTable(cols);
 
-		window.addEventListener("resize", updateCols);
-		return () => window.removeEventListener("resize", updateCols);
+		window.addEventListener("resize", updateColsToCover);
+		return () => window.removeEventListener("resize", updateColsToCover);
 	}, [cellSize]);
 
 	return (
@@ -37,8 +42,8 @@ const TrackerPage = ({ cellSize }) => {
 				tableRef={tableRef}
 				setFirstDayRendered={setFirstDayRendered}
 				cellSize={cellSize}
+				sideColumn={<Side />}
 			>
-				<Side />
 				{Array.from({ length: cols }, (_, i) => firstDayRendered + i).map(
 					(dateOffset) => (
 						<Day day={dateOffset} key={dateOffset} />

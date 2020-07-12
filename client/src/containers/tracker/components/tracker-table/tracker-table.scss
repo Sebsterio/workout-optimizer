@@ -10,6 +10,23 @@
 	display: flex;
 	flex-flow: row nowrap;
 	overflow: scroll;
+
+	&__side {
+		position: sticky;
+		left: 0;
+		right: 100%;
+		z-index: 999;
+	}
+
+	&__fake-padding {
+		flex: 0 0 auto;
+	}
+
+	&__content {
+		flex: 0 0 auto;
+		display: flex;
+		flex-flow: row nowrap;
+	}
 }
 
 // TEMP

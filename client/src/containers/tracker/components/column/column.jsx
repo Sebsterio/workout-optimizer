@@ -1,14 +1,8 @@
 import React from "react";
 import "./column.scss";
 
-const Column = ({
-	head /* Arr */,
-	body /* Arr */,
-	isSide /* Bool */,
-	isToday /* Bool */,
-}) => {
+const Column = ({ head /* Arr */, body /* Arr */, isToday /* Bool */ }) => {
 	let classes = "tracker-column";
-	if (isSide) classes += " tracker-column--side";
 	if (isToday) classes += " tracker-column--today";
 
 	return (
