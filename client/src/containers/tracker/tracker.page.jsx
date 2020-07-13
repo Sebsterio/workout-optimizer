@@ -18,22 +18,22 @@ const TrackerPage = ({ cellSize }) => {
 		// TODO: set in Options
 		document.documentElement.style.setProperty("--cell-size", cellSize + "px");
 
-		// Load enough columns to overflow table
-		// +2 cols to avoid infinite loops in scroll handler
+		// Render enough columns to overflow table
 		// NOTE: don't extract (useEffect warning)
-		const updateColsToCover = () => {
+		const fillTable = () => {
 			const { offsetWidth } = tableRef.current;
 			let cols = Math.ceil(offsetWidth / cellSize) + 2;
 			if (cols % 2 === 0) cols++;
+
 			setCols(cols);
 			return cols;
 		};
 
-		const cols = updateColsToCover();
+		const cols = fillTable();
 		centerTable(cols);
 
-		window.addEventListener("resize", updateColsToCover);
-		return () => window.removeEventListener("resize", updateColsToCover);
+		window.addEventListener("resize", fillTable);
+		return () => window.removeEventListener("resize", fillTable);
 	}, [cellSize]);
 
 	return (

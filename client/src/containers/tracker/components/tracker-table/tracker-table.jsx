@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./tracker-table.scss";
 
 // NOTE: Using fakePadding html element instead of CSS padding prop
-// due to tableSide having {position: sticky}
+// due to tableSide having {position: sticky};
+// TODO: use {transform: translate} on tableContent
 
 const TrackerTable = ({
 	sideColumn,
@@ -11,8 +12,9 @@ const TrackerTable = ({
 	setFirstDayRendered,
 	cellSize,
 }) => {
+	const TABLE_X_PADDING = 15 * cellSize;
 	const SCROLL_X_THRESHOLD = cellSize;
-	const TABLE_X_PADDING = cellSize * 10;
+	const SCROLL_X_THRESHOLD_NEAR_EDGE = 300;
 
 	const [hasRendered, setHasRendered] = useState(false);
 	const [paddingLeft, setPaddingLeft] = useState(TABLE_X_PADDING);
@@ -25,40 +27,52 @@ const TrackerTable = ({
 		setHasRendered(true);
 	}, [hasRendered, tableRef]);
 
-	// Render cols in visible area of table and fakePadding outside of it
-	const fakeScrollX = (direction, buffer, remainingPadding) => {
-		const sign = direction === "left" ? -1 : 1;
-		const multiplier = Math.abs(Math.floor(buffer / cellSize));
-		const step = sign * multiplier;
+	// ------------------------- Scroll --------------------------
 
-		// "Shift" all cols by 1 step
-		setFirstDayRendered((firstDayRendered) => firstDayRendered + step);
+	// "Shift" cols by 1 &&
+	// jump-scroll by 1 col width to appear static in relation cols
+	const fakeScroll = (sign, space) => {
+		const stepsToShift = sign * Math.abs(Math.ceil(space / cellSize));
+		setFirstDayRendered(
+			(firstDayRendered) => firstDayRendered + stepsToShift * 1
+		);
+		tableRef.current.scrollLeft -= stepsToShift * cellSize;
+	};
 
-		// Scrolling not near edge:
-		// Adjust fakePadding to keep tableContent within visible part of table
-		if (remainingPadding > SCROLL_X_THRESHOLD) {
-			setPaddingLeft(paddingLeft + step * cellSize);
-			setPaddingRight(paddingRight - step * cellSize);
-		}
-		// Scrolling near edge:
-		// Jump-scroll to appear static in rel to newly "shifted" cols
-		else tableRef.current.scrollLeft -= step * cellSize;
+	// "Shift" cols by a number of steps &&
+	// adjust fakePadding to keep tableContent within visible part of table
+	const moveContent = (sign, buffer) => {
+		const stepsToShift = sign * (Math.abs(Math.ceil(buffer / cellSize)) + 1);
+		setFirstDayRendered((firstDayRendered) => firstDayRendered + stepsToShift);
+		setPaddingLeft(paddingLeft + stepsToShift * cellSize);
+		setPaddingRight(paddingRight - stepsToShift * cellSize);
 	};
 
 	const handleScroll = () => {
 		const { scrollLeft, offsetWidth, scrollWidth } = tableRef.current;
 		const scrollRight = scrollWidth - offsetWidth - scrollLeft;
 
-		// Width of tableContent sections that aren't visible on either side
-		const bufferLeft = scrollLeft - paddingLeft;
-		const bufferRight = scrollRight - paddingRight;
+		// Scrolling near table edge
+		if (scrollLeft < SCROLL_X_THRESHOLD_NEAR_EDGE) {
+			const surplusSpace = SCROLL_X_THRESHOLD_NEAR_EDGE - scrollLeft;
+			fakeScroll(-1, surplusSpace);
+		} else if (scrollRight < SCROLL_X_THRESHOLD_NEAR_EDGE) {
+			const surplusSpace = SCROLL_X_THRESHOLD_NEAR_EDGE - scrollRight;
+			fakeScroll(1, surplusSpace);
+		}
 
-		if (bufferLeft < SCROLL_X_THRESHOLD) {
-			fakeScrollX("left", bufferLeft, paddingLeft);
-		} else if (bufferRight < SCROLL_X_THRESHOLD) {
-			fakeScrollX("right", bufferRight, paddingRight);
+		// Scrolling near tableContent edge (i.e. getting near fakePadding)
+		else {
+			// Width of tableContent sections that aren't visible on either side
+			const bufferLeft = scrollLeft - paddingLeft;
+			const bufferRight = scrollRight - paddingRight;
+
+			if (bufferLeft < SCROLL_X_THRESHOLD) moveContent(-1, bufferLeft);
+			else if (bufferRight < SCROLL_X_THRESHOLD) moveContent(1, bufferRight);
 		}
 	};
+
+	// ------------------------- Render --------------------------
 
 	return (
 		<div className="tracker-table" ref={tableRef} onScroll={handleScroll}>
