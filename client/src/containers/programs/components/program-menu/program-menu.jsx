@@ -38,7 +38,7 @@ const ProgramMenu = ({
 					disabled={isPublishing || isPublished}
 				/>
 				<Button disabled text="Delete" />
-				<Button disabled text="Activate" />
+				<Button disabled text="Duplicate" />
 			</Row>
 
 			<Separator text="Info" />

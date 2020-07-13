@@ -1,15 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { getPublicPrograms } from "redux/programs/programs.actions";
+import { activateProgram } from "redux/program/program.actions";
+
 import ProgramsPage from "./programs.page";
 
 const mapStateToProps = (state) => ({
-	privatePrograms: [state.program],
-	publicPrograms: [],
+	activeProgram: state.program,
+	privatePrograms: state.programs.private,
+	publicPrograms: state.programs.public,
 });
 
-const mapDispatchToProps = () => ({
-	getPublicPrograms: () => {},
+const mapDispatchToProps = (dispatch) => ({
+	getPublicPrograms: (query) => dispatch(getPublicPrograms(query)),
+	activateProgram: (newProgram) => dispatch(activateProgram(newProgram)),
 });
 
 const ProgramsPageContainer = (props) => <ProgramsPage {...props} />;

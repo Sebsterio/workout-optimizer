@@ -32,9 +32,7 @@ export const Table = ({
 					row && (
 						<tr key={shortid.generate()}>
 							{row.map((cell) => (
-								<TableCell head key={shortid.generate()}>
-									{cell}
-								</TableCell>
+								<TableCell key={shortid.generate()}>{cell}</TableCell>
 							))}
 						</tr>
 					)

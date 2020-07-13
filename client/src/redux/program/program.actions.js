@@ -5,6 +5,11 @@ import { convertLocalProgram, convertRemoteProgram } from "./program.utils";
 import { getError } from "../error/error.actions";
 import { getTokenConfig } from "../utils";
 
+import {
+	addPrivateProgram,
+	removePrivateProgram,
+} from "redux/programs/programs.actions";
+
 const {
 	GET_FIELDS,
 	UPDATE_MAX_CUSTOM_REST,
@@ -20,6 +25,7 @@ const {
 	PUBLISHING_PROGRAM,
 	PROGRAM_PUBLISHED,
 	PROGRAM_PUBLISH_FAIL,
+	LOAD_PROGRAM,
 } = programActionTypes;
 
 // ----------------- Basic -----------------
@@ -82,6 +88,10 @@ export const programPublished = () => ({
 
 export const programPublishFail = () => ({
 	type: PROGRAM_PUBLISH_FAIL,
+});
+
+export const loadProgram = () => ({
+	type: LOAD_PROGRAM,
 });
 
 // ----------------- Thunk ------------------
@@ -172,4 +182,27 @@ export const publishProgram = () => (dispatch, getState) => {
 			dispatch(programPublishFail());
 			dispatch(getError(err, "PUBLISH_PROGRAM_FAIL"));
 		});
+};
+
+export const activateProgram = (newProgram) => (dispatch, getState) => {
+	// remove newProgram from privatePrograms list
+	dispatch(removePrivateProgram(newProgram));
+
+	// Push current program to private programs array
+	dispatch(addPrivateProgram(getState().program));
+
+	// Replace current program with newProgram
+	dispatch(clearLocalProgram());
+	dispatch(
+		updateProgram({
+			mode: "replace-prop",
+			newProps: {
+				name: newProgram.name,
+				description: newProgram.description,
+				fields: JSON.parse(newProgram.fields),
+			},
+		})
+	);
+
+	// TODO: POST privatePprograms (replace all)
 };

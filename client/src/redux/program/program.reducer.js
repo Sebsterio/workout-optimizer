@@ -19,6 +19,7 @@ const {
 	PUBLISHING_PROGRAM,
 	PROGRAM_PUBLISHED,
 	PROGRAM_PUBLISH_FAIL,
+	LOAD_PROGRAM,
 } = programActionTypes;
 
 const programReducer = (state = INITIAL_STATE, action) => {
@@ -94,6 +95,12 @@ const programReducer = (state = INITIAL_STATE, action) => {
 				name: "",
 				description: "",
 				fields: {},
+			};
+		}
+		case LOAD_PROGRAM: {
+			console.log(action.payload);
+			return {
+				...action.payload,
 			};
 		}
 		default:
