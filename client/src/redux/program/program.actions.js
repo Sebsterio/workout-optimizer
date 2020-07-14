@@ -184,14 +184,10 @@ export const publishProgram = () => (dispatch, getState) => {
 		});
 };
 
+// Move program to privatePrograms array and set new program
 export const activateProgram = (newProgram) => (dispatch, getState) => {
-	// remove newProgram from privatePrograms list
-	dispatch(removePrivateProgram(newProgram));
-
-	// Push current program to private programs array
-	dispatch(addPrivateProgram(getState().program));
-
-	// Replace current program with newProgram
+	dispatch(removePrivateProgram(newProgram)); // remove from private arr
+	dispatch(addPrivateProgram(getState().program)); // move to private
 	dispatch(clearLocalProgram());
 	dispatch(
 		updateProgram({
@@ -204,5 +200,5 @@ export const activateProgram = (newProgram) => (dispatch, getState) => {
 		})
 	);
 
-	// TODO: POST privatePprograms (replace all)
+	// TODO: POST privatePrograms
 };

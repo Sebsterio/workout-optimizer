@@ -9,6 +9,7 @@ const ProgramsPage = ({
 	publicPrograms,
 	getPublicPrograms,
 	activateProgram,
+	isDownloading,
 }) => {
 	const [view, setView] = useState("private");
 	const [programViewed, setProgramViewed] = useState(null);
@@ -26,6 +27,11 @@ const ProgramsPage = ({
 		getPublicPrograms();
 	};
 
+	// TODO: pagination
+	const getMorePrograms = () => {
+		getPublicPrograms();
+	};
+
 	// --------------- active program ---------------
 
 	const editActiveProgram = () => {
@@ -40,8 +46,8 @@ const ProgramsPage = ({
 	// --------------- other programs ---------------
 
 	const viewProgram = (program) => {
-		setEditingActiveProgram(false);
 		setProgramViewed(program);
+		setEditingActiveProgram(false);
 	};
 
 	const stopViewingProgram = () => {
@@ -58,64 +64,73 @@ const ProgramsPage = ({
 
 	return (
 		<Page>
-			{editingActiveProgram ? (
-				<ProgramMenu goBack={stopEditingActiveProgram} />
-			) : programViewed ? (
-				<ProgramDetails
-					program={programViewed}
-					activate={handleActivate}
-					goBack={stopViewingProgram}
-				/>
-			) : (
-				<Menu compact>
-					<Heading text="Programs Page" />
+			{
+				// Edit active program
+				editingActiveProgram ? (
+					<ProgramMenu goBack={stopEditingActiveProgram} />
+				) : // View non-active program
+				programViewed ? (
+					<ProgramDetails
+						program={programViewed}
+						activate={handleActivate}
+						goBack={stopViewingProgram}
+					/>
+				) : (
+					// Lists of programs
+					<Menu compact>
+						<Heading text="Programs Page" />
 
-					<Row>
-						<Button
-							text="Private"
-							handler={showPrivatePrograms}
-							disabled={view === "private"}
-						/>
-						<Button
-							text="Public"
-							handler={showPublicPrograms}
-							disabled={view === "public"}
-						/>
-					</Row>
-
-					{view === "private" && (
-						<>
-							<ProgramSnippet
-								isActive
-								program={activeProgram}
-								openProgram={editActiveProgram}
+						<Row>
+							<Button
+								text="Private"
+								handler={showPrivatePrograms}
+								disabled={view === "private"}
 							/>
-							{privatePrograms.map((program) => (
-								<ProgramSnippet
-									key={program.name}
-									program={program}
-									openProgram={() => viewProgram(program)}
-								/>
-							))}
-						</>
-					)}
+							<Button
+								text="Public"
+								handler={showPublicPrograms}
+								disabled={view === "public"}
+							/>
+						</Row>
 
-					{view === "public" &&
-						(!publicPrograms.length ? (
-							<Block>
-								<Spinner />
-							</Block>
-						) : (
-							publicPrograms.map((program) => (
+						{view === "private" && (
+							<>
 								<ProgramSnippet
-									key={program.name}
-									program={program}
-									openProgram={() => viewProgram(program)}
+									isActive
+									program={activeProgram}
+									openProgram={editActiveProgram}
 								/>
-							))
-						))}
-				</Menu>
-			)}
+								{privatePrograms.map((program) => (
+									<ProgramSnippet
+										key={program.id}
+										program={program}
+										openProgram={() => viewProgram(program)}
+									/>
+								))}
+							</>
+						)}
+
+						{view === "public" && (
+							<>
+								{publicPrograms.map((program) => (
+									<ProgramSnippet
+										key={program.id}
+										program={program}
+										openProgram={() => viewProgram(program)}
+									/>
+								))}
+								{isDownloading ? (
+									<Block>
+										<Spinner />
+									</Block>
+								) : (
+									<Button text="More" handler={getMorePrograms} />
+								)}
+							</>
+						)}
+					</Menu>
+				)
+			}
 		</Page>
 	);
 };

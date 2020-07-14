@@ -10,6 +10,7 @@ const mapStateToProps = (state) => ({
 	activeProgram: state.program,
 	privatePrograms: state.programs.private,
 	publicPrograms: state.programs.public,
+	isDownloading: state.programs.downloading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
