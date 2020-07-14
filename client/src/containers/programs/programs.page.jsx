@@ -74,6 +74,7 @@ const ProgramsPage = ({
 						program={programViewed}
 						activate={handleActivate}
 						goBack={stopViewingProgram}
+						isActive={programViewed._id === activeProgram._id}
 					/>
 				) : (
 					// Lists of programs
@@ -102,7 +103,7 @@ const ProgramsPage = ({
 								/>
 								{privatePrograms.map((program) => (
 									<ProgramSnippet
-										key={program.id}
+										key={program._id}
 										program={program}
 										openProgram={() => viewProgram(program)}
 									/>
@@ -114,7 +115,7 @@ const ProgramsPage = ({
 							<>
 								{publicPrograms.map((program) => (
 									<ProgramSnippet
-										key={program.id}
+										key={program._id}
 										program={program}
 										openProgram={() => viewProgram(program)}
 									/>

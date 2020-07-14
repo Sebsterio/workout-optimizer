@@ -11,7 +11,7 @@ import {
 import {
 	createRemoteProgram,
 	syncProgram,
-	clearLocalProgram,
+	resetLocalProgram,
 	removeRemoteProgram,
 } from "../program/program.actions";
 import { getConfig, getTokenConfig } from "../utils";
@@ -51,13 +51,17 @@ export const clearUserData = () => ({
 // ---------------------- Thunk --------------------------
 
 // Register and get new token
-export const register = (formData) => (dispatch) => {
+export const register = (formData) => (dispatch, getState) => {
 	dispatch(clearError());
 	axios
 		.post("/api/auth/register", JSON.stringify(formData), getConfig())
 		.then((res) => dispatch(authSuccess(res.data)))
 		.then(() => dispatch(createRemoteLog()))
-		.then(() => dispatch(createRemoteProgram()))
+		.then(() => {
+			// create remoteProgram if localProgram has been modified
+			const { isPublished } = getState().program;
+			if (!isPublished) dispatch(createRemoteProgram());
+		})
 		.catch((err) => {
 			dispatch(getError(err, "REGISTER_FAIL"));
 			dispatch(clearUserData());
@@ -67,6 +71,7 @@ export const register = (formData) => (dispatch) => {
 // Log in and get new token
 export const login = (formData) => (dispatch) => {
 	dispatch(clearError());
+	dispatch(userLoading());
 	axios
 		.post("/api/auth/login", JSON.stringify(formData), getConfig())
 		.then((res) => dispatch(authSuccess(res.data)))
@@ -78,17 +83,6 @@ export const login = (formData) => (dispatch) => {
 		});
 };
 
-export const closeAccount = (formData) => (dispatch, getState) => {
-	dispatch(clearError());
-	const token = getTokenConfig(getState);
-	axios
-		.post("api/auth/delete", JSON.stringify(formData), token)
-		.then(() => dispatch(clearUserData()))
-		.then(() => dispatch(removeRemoteLog(token)))
-		.then(() => dispatch(removeRemoteProgram(token)))
-		.catch((err) => dispatch(getError(err, "CLOSE_ACCOUNT_FAIL")));
-};
-
 // Get user data using locally saved token
 export const loadUser = () => (dispatch, getState) => {
 	dispatch(userLoading());
@@ -97,11 +91,26 @@ export const loadUser = () => (dispatch, getState) => {
 		.then((res) => dispatch(userLoaded(res.data)))
 		.then(() => dispatch(syncLog()))
 		.then(() => dispatch(syncProgram()))
+		// NOTE: don't getError - causes redundant alert
 		.catch((err) => dispatch(clearUserData()));
 };
 
 export const logout = () => (dispatch) => {
 	dispatch(clearUserData());
 	dispatch(clearLocalLog());
-	dispatch(clearLocalProgram());
+	dispatch(resetLocalProgram());
+};
+
+export const closeAccount = (formData) => (dispatch, getState) => {
+	dispatch(clearError());
+	const token = getTokenConfig(getState);
+	axios
+		.post("api/auth/delete", JSON.stringify(formData), token)
+		.then(() => {
+			dispatch(clearUserData());
+			dispatch(removeRemoteLog(token));
+			dispatch(removeRemoteProgram(token)); // <<<< change
+		})
+		.then(() => localStorage.clear())
+		.catch((err) => dispatch(getError(err, "CLOSE_ACCOUNT_FAIL")));
 };

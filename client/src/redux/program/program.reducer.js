@@ -1,13 +1,14 @@
 import programActionTypes from "./program.types";
 import { INITIAL_STATE } from "./program.initialState";
 import {
-	getUpdatedState,
+	getUpdatedFields,
 	getFieldsWithNewMaxCustomRest,
 } from "./program.utils";
 
 const {
 	UPDATE_MAX_CUSTOM_REST,
 	UPDATE_LOCAL_PROGRAM,
+	UPDATE_LOCAL_PROGRAM_FIELDS,
 	CREATING_REMOTE_PROGRAM,
 	UPDATING_REMOTE_PROGRAM,
 	SYNCING_PROGRAM,
@@ -20,6 +21,7 @@ const {
 	PROGRAM_PUBLISHED,
 	PROGRAM_PUBLISH_FAIL,
 	LOAD_PROGRAM,
+	RESET_LOCAL_PROGRAM,
 } = programActionTypes;
 
 const programReducer = (state = INITIAL_STATE, action) => {
@@ -59,8 +61,15 @@ const programReducer = (state = INITIAL_STATE, action) => {
 		case UPDATE_LOCAL_PROGRAM: {
 			return {
 				...state,
+				...action.payload,
+				isPublished: false,
+			};
+		}
+		case UPDATE_LOCAL_PROGRAM_FIELDS: {
+			return {
+				...state,
 				dateUpdated: action.payload.dateUpdated,
-				...getUpdatedState(state, action.payload),
+				fields: [...getUpdatedFields(state, action.payload)],
 				isPublished: false,
 			};
 		}
@@ -97,8 +106,12 @@ const programReducer = (state = INITIAL_STATE, action) => {
 				fields: {},
 			};
 		}
+		case RESET_LOCAL_PROGRAM: {
+			return {
+				...INITIAL_STATE,
+			};
+		}
 		case LOAD_PROGRAM: {
-			console.log(action.payload);
 			return {
 				...action.payload,
 			};

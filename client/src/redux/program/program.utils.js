@@ -10,26 +10,18 @@ export const getFieldsWithNewMaxCustomRest = (state, payload) => {
 	});
 };
 
-export const getUpdatedState = (state, payload) => {
+export const getUpdatedFields = (state, payload) => {
 	const { mode, field, newFieldData, direction } = payload;
 
-	if (mode === "replace-prop") {
-		return {
-			...payload.newProps,
-		};
-	}
-
 	if (mode === "replace-field") {
-		const newFields = state.fields.map((f) => {
+		return state.fields.map((f) => {
 			if (f === field) return { ...newFieldData };
 			return f;
 		});
-		return { fields: newFields };
 	}
 
 	if (mode === "delete-field") {
-		const newFields = state.fields.filter((f) => f !== field);
-		return { fields: newFields };
+		return state.fields.filter((f) => f !== field);
 	}
 
 	if (mode === "duplicate-field") {
@@ -40,7 +32,7 @@ export const getUpdatedState = (state, payload) => {
 		};
 		const newFields = [...state.fields];
 		newFields.splice(index, 0, newField);
-		return { fields: newFields };
+		return newFields;
 	}
 
 	if (mode === "move-field") {
@@ -49,7 +41,7 @@ export const getUpdatedState = (state, payload) => {
 		const newIndex = index + step;
 		const newFields = [...state.fields];
 		newFields.splice(newIndex, 0, newFields.splice(index, 1)[0]);
-		return { fields: newFields };
+		return newFields;
 	}
 	throw Error("Invalid mode");
 };
@@ -61,10 +53,7 @@ export const convertLocalProgram = (getState) => {
 };
 
 export const convertRemoteProgram = (program) => {
-	return {
-		name: program.name,
-		description: program.description,
-		dateUpdated: program.dateUpdated,
-		fields: JSON.parse(program.fields),
-	};
+	const { id, name, description, dateUpdated } = program;
+	const fields = JSON.parse(program.fields);
+	return { id, name, description, dateUpdated, fields };
 };

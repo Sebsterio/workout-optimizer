@@ -18,7 +18,7 @@ const ProgramMenu = ({
 		const newProps = {};
 		if (newName !== name) newProps.name = newName;
 		if (newDesc !== description) newProps.description = newDesc;
-		updateProgram({ mode: "replace-prop", newProps });
+		updateProgram(newProps);
 	};
 
 	const handleReset = () => {

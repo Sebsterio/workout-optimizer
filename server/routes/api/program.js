@@ -10,12 +10,20 @@ const router = express.Router();
 // @access: program owner only
 
 router.post("/create", auth, async (req, res) => {
-	const { userId } = req;
-	const newProgram = new Program({ userId, ...req.body });
+	const { userId, body } = req;
+	const { name, description, dateUpdated, fields } = body;
+
+	const newProgram = new Program({
+		userId,
+		name,
+		description,
+		dateUpdated,
+		fields,
+	});
 	const program = await newProgram.save();
 	if (!program)
 		return res.status(500).json({ msg: "Something went wrong saving program" });
-	res.status(201).send();
+	res.status(201).send({ _id: program._id });
 });
 
 // ---------------- Update own program -----------------
@@ -25,12 +33,16 @@ router.post("/create", auth, async (req, res) => {
 router.post("/update", auth, async (req, res) => {
 	try {
 		const { userId } = req;
-		const { name, description, fields, dateUpdated } = req.body;
+		const { _id, name, description, fields, dateUpdated } = req.body;
 
-		const program = await Program.findOne({ userId });
-		if (!program) throw Error("Program not found");
+		const program = await Program.findById(_id);
+		if (!program) {
+			return res.status(404).send();
+		}
+		if (program.userId !== userId) {
+			return res.status(401).json({ msg: "Unauthorized" });
+		}
 
-		program.userId = userId;
 		program.name = name;
 		program.description = description;
 		program.fields = fields;
@@ -51,11 +63,18 @@ module.exports = router;
 
 router.post("/sync", auth, async (req, res) => {
 	const { userId } = req;
+	const { _id } = req.body;
+
+	const program = await Program.findById(_id);
+	if (!program) {
+		return res.status(404).json({ msg: "Remote program not found" });
+	}
+	if (program.userId !== userId && program.userId !== "public") {
+		return res.status(401).json({ msg: "Unauthorized" });
+	}
+
 	const localDate = req.body.dateUpdatedLocal;
 	const dateUpdatedLocal = localDate ? new Date(localDate).getTime() : 0;
-
-	const program = await Program.findOne({ userId });
-	if (!program) return res.status(404).json({ msg: "Program not found" });
 	const dateUpdatedRemote = program.dateUpdated
 		? program.dateUpdated.getTime()
 		: 0;
@@ -84,21 +103,26 @@ router.delete("/", auth, async (req, res) => {
 // ------------------ Publish program -------------------
 
 router.post("/publish", auth, async (req, res) => {
-	const { userId } = req;
-	const { author } = req.body;
-
-	const privateProgram = await Program.findOne({ userId });
-	if (!privateProgram)
-		return res.status(404).json({ msg: "Remote program not found" });
-
 	try {
+		const { userId } = req;
+		const { author, _id } = req.body;
+
+		const privateProgram = await Program.findById(_id);
+		if (!privateProgram) {
+			return res.status(404).json({ msg: "Remote program not found" });
+		}
+		if (privateProgram.userId !== userId) {
+			return res.status(401).json({ msg: "Unauthorized" });
+		}
+
+		const { name, description, dateUpdated, fields } = privateProgram;
 		const publicProgram = new Program({
-			userId: "public",
-			name: privateProgram.name,
-			description: privateProgram.description,
-			dateUpdated: privateProgram.dateUpdated,
-			fields: privateProgram.fields,
 			author,
+			userId: "public",
+			name,
+			description,
+			dateUpdated,
+			fields,
 		});
 		await publicProgram.save();
 		res.status(200).send();
@@ -116,7 +140,7 @@ router.get("/public", async (req, res) => {
 		// const { query } = req;
 		const programs = await Program.find({ userId: "public" }).limit(10);
 		if (!programs.length)
-			return res.status(404).json({ msg: "Programs not found" });
+			return res.status(404).json({ msg: "No programs found" });
 		else res.status(200).json(programs);
 	} catch (e) {
 		res.status(400).json({ msg: e.message });

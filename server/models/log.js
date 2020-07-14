@@ -8,6 +8,7 @@ const LogSchema = new Schema({
 		required: true,
 	},
 	PTs: [String], // PT userIDs
+	programId: String, // ObjectId of corresponding program
 	dateUpdated: Date,
 	entries: [
 		{

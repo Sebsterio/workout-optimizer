@@ -28,11 +28,11 @@ router.post("/sync", auth, async (req, res) => {
 	// const inquiringUserId = req.userId;
 	// const logOwnerUserId = null;
 	const { userId } = req;
-	const localDate = req.body.dateUpdatedLocal;
-	const dateUpdatedLocal = localDate ? new Date().getTime(localDate) : 0;
-
 	const log = await Log.findOne({ userId });
 	if (!log) return res.status(404).json({ msg: "Log not found" });
+
+	const localDate = req.body.dateUpdatedLocal;
+	const dateUpdatedLocal = localDate ? new Date().getTime(localDate) : 0;
 	const dateUpdatedRemote = log.dateUpdated ? log.dateUpdated.getTime() : 0;
 
 	if (dateUpdatedRemote === dateUpdatedLocal) return res.status(204).send();
@@ -57,6 +57,29 @@ router.delete("/", auth, async (req, res) => {
 	}
 });
 
+// ----------------------- Update prop ------------------------
+
+// @access: log owner and  PT
+
+router.post("/update", auth, async (req, res) => {
+	const { userId } = req;
+	const { programId, dateUpdated } = req.body;
+
+	console.log("programId ", programId);
+
+	try {
+		const log = await Log.findOne({ userId });
+		if (!log) throw Error("Log not found");
+
+		log.dateUpdated = dateUpdated;
+		log.programId = programId;
+		await log.save();
+
+		res.status(200).send();
+	} catch (err) {
+		res.status(400).json({ msg: err.message });
+	}
+});
 // ---------------- Add / update / remove entry -----------------
 
 // @access: log owner and  PT

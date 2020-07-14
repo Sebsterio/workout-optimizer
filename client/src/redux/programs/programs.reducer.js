@@ -38,8 +38,14 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 		case ADD_PRIVATE_PROGRAM: {
-			const { name, description, fields } = action.payload;
-			const newProgram = { name, description, fields: JSON.stringify(fields) };
+			const { _id, name, description, fields, dateUpdated } = action.payload;
+			const newProgram = {
+				_id,
+				name,
+				description,
+				dateUpdated,
+				fields: JSON.stringify(fields),
+			};
 			return {
 				...state,
 				private: [newProgram, ...state.private],

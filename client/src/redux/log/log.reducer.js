@@ -6,7 +6,7 @@ export const INITIAL_STATE = {
 	isSyncing: false,
 	isSynced: false,
 	entries: {},
-	maxCustomRest: {},
+	programId: null, // standard program
 };
 
 const {
@@ -16,7 +16,8 @@ const {
 	SYNCING_LOG,
 	LOG_UP_TO_DATE,
 	LOG_SYNCED,
-	UPDATE_LOCAL_LOG,
+	UPDATE_LOCAL_LOG_PROGRAM_ID,
+	UPDATE_LOCAL_LOG_ENTRIES,
 	UPDATING_REMOTE_LOG,
 	REMOTE_LOG_UPDATED,
 } = logActionTypes;
@@ -45,15 +46,21 @@ const logReducer = (state = INITIAL_STATE, action) => {
 			return {
 				isSyncing: false,
 				isSynced: true,
-				dateUpdated: action.payload.dateUpdated,
-				entries: action.payload.entries,
+				...action.payload,
 			};
 		}
-		case UPDATE_LOCAL_LOG: {
+		case UPDATE_LOCAL_LOG_ENTRIES: {
 			return {
 				...state,
 				dateUpdated: action.payload.dateUpdated,
 				entries: getUpdatedEntries(state, action.payload),
+			};
+		}
+		case UPDATE_LOCAL_LOG_PROGRAM_ID: {
+			return {
+				...state,
+				dateUpdated: action.payload.dateUpdated,
+				programId: action.payload.id,
 			};
 		}
 		case CLEAR_LOCAL_LOG: {

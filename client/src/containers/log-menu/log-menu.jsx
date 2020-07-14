@@ -13,7 +13,7 @@ import "./log-menu.scss";
 
 const LogMenu = ({
 	cellData: { field, dateStr, stats },
-	updateLog,
+	updateLogEntry,
 	updateMaxCustomRest,
 	closeModal,
 	pickDate,
@@ -47,14 +47,14 @@ const LogMenu = ({
 		};
 		if (details.length) newStats.details = details;
 		if (notes.length) newStats.notes = notes;
-		updateLog({ dateStr, field, stats: newStats });
+		updateLogEntry({ dateStr, field, stats: newStats });
 		checkCustomRest(newRest);
 		closeModal();
 	};
 
 	// Delete log entry in redux & db
 	const handleDelete = (e) => {
-		updateLog({ field, dateStr, stats: "DELETE" });
+		updateLogEntry({ field, dateStr, stats: "DELETE" });
 		closeModal();
 	};
 

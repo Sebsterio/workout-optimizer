@@ -1,8 +1,10 @@
 import axios from "axios";
 
 import programActionTypes from "./program.types";
+import { getError } from "redux/error/error.actions";
+import { updateLogProgramId } from "redux/log/log.actions";
+
 import { convertLocalProgram, convertRemoteProgram } from "./program.utils";
-import { getError } from "../error/error.actions";
 import { getTokenConfig } from "../utils";
 
 import {
@@ -14,6 +16,7 @@ const {
 	GET_FIELDS,
 	UPDATE_MAX_CUSTOM_REST,
 	UPDATE_LOCAL_PROGRAM,
+	UPDATE_LOCAL_PROGRAM_FIELDS,
 	CREATING_REMOTE_PROGRAM,
 	UPDATING_REMOTE_PROGRAM,
 	SYNCING_PROGRAM,
@@ -26,6 +29,7 @@ const {
 	PROGRAM_PUBLISHED,
 	PROGRAM_PUBLISH_FAIL,
 	LOAD_PROGRAM,
+	RESET_LOCAL_PROGRAM,
 } = programActionTypes;
 
 // ----------------- Basic -----------------
@@ -69,6 +73,10 @@ export const updateLocalProgram = (data) => ({
 	type: UPDATE_LOCAL_PROGRAM,
 	payload: data,
 });
+export const updateLocalProgramFields = (data) => ({
+	type: UPDATE_LOCAL_PROGRAM_FIELDS,
+	payload: data,
+});
 
 export const updatingRemoteProgram = () => ({
 	type: UPDATING_REMOTE_PROGRAM,
@@ -94,32 +102,81 @@ export const loadProgram = () => ({
 	type: LOAD_PROGRAM,
 });
 
+export const resetLocalProgram = () => ({
+	type: RESET_LOCAL_PROGRAM,
+});
+
 // ----------------- Thunk ------------------
 
-// POST local program to db
+// Assign id to local program and POST to db
 export const createRemoteProgram = () => (dispatch, getState) => {
 	dispatch(creatingRemoteProgram());
-	const remoteProgram = convertLocalProgram(getState);
+
 	axios
 		.post(
 			"/api/program/create",
-			JSON.stringify(remoteProgram),
+			JSON.stringify(convertLocalProgram(getState)),
 			getTokenConfig(getState)
 		)
-		.then(() => dispatch(remoteProgramCreated()))
+		.then((res) => {
+			const { _id } = res.data;
+			dispatch(remoteProgramCreated());
+			dispatch(updateLocalProgram({ _id }));
+			dispatch(updateLogProgramId(_id));
+		})
 		.catch((err) => {
 			dispatch(getError(err, "CREATE_REMOTE_PROGRAM_ERROR"));
+		});
+};
+
+// Modify local program and POST it to db
+export const updateProgram = (data) => (dispatch, getState) => {
+	const { isPublished } = getState().program;
+	const dateUpdated = new Date();
+
+	// Update local program with data
+	const { mode } = data;
+	if (mode) dispatch(updateLocalProgramFields({ ...data, dateUpdated }));
+	else dispatch(updateLocalProgram({ ...data, dateUpdated }));
+
+	// If customizing a public program, create new remote program
+	if (isPublished) dispatch(createRemoteProgram());
+	// If modifying private program, update remote program
+	else dispatch(updateRemoteProgram(dateUpdated));
+};
+
+// POST and replace whole program (or create it if doesn't exist)
+const updateRemoteProgram = (dateUpdated) => (dispatch, getState) => {
+	if (getState().user.isIncognito) return;
+
+	dispatch(updatingRemoteProgram());
+	axios
+		.post(
+			"api/program/update",
+			JSON.stringify({ ...convertLocalProgram(getState), dateUpdated }),
+			getTokenConfig(getState)
+		)
+		.then(() => dispatch(remoteProgramUpdated()))
+		.catch((err) => {
+			dispatch(getError(err, "UPDATE_REMOTE_PROGRAM_ERROR"));
 		});
 };
 
 // GET program from db
 export const syncProgram = () => (dispatch, getState) => {
 	dispatch(syncingProgram());
+
+	const _id = getState().log.programId;
+
+	// Ignore if using standard program (initial)
+	if (!_id) return dispatch(programUpToDate());
+
 	const dateUpdatedLocal = getState().program.dateUpdated;
 	axios
+		// TODO: use GET and stringify date correctly to pass as query
 		.post(
 			"/api/program/sync",
-			JSON.stringify({ dateUpdatedLocal }),
+			JSON.stringify({ _id, dateUpdatedLocal }),
 			getTokenConfig(getState)
 		)
 		.then((res) => {
@@ -134,47 +191,37 @@ export const syncProgram = () => (dispatch, getState) => {
 		});
 };
 
-// Update local program and POST it to db
-export const updateProgram = (data) => (dispatch, getState) => {
-	const dateUpdated = new Date();
-	dispatch(updateLocalProgram({ ...data, dateUpdated }));
+// Copy program to privatePrograms and set new program
+export const activateProgram = (newProgram) => (dispatch, getState) => {
+	const { _id, isPublished, name, description, dateUpdated } = newProgram;
+	const fields = JSON.parse(newProgram.fields);
 
-	if (getState().user.isIncognito) return;
-
-	dispatch(updatingRemoteProgram());
-	const remoteProgram = convertLocalProgram(getState);
-
-	// POST and replace whole program
-	axios
-		.post(
-			"api/program/update",
-			JSON.stringify({ ...remoteProgram, dateUpdated }),
-			getTokenConfig(getState)
-		)
-		.then(() => dispatch(remoteProgramUpdated()))
-		.catch((err) => {
-			dispatch(getError(err, "UPDATE_REMOTE_PROGRAM_ERROR"));
-		});
-};
-
-// DELETE program from db
-export const removeRemoteProgram = (token) => (dispatch) => {
-	axios
-		.delete("/api/program", token)
-		.then(() => dispatch(clearLocalProgram()))
-		.catch((err) => dispatch(getError(err, "REMOVE_REMOTE_PROGRAM_FAIL")));
+	dispatch(removePrivateProgram(newProgram)); // remove from private arr
+	dispatch(addPrivateProgram(getState().program)); // move to private
+	dispatch(updateLogProgramId(_id));
+	dispatch(clearLocalProgram());
+	dispatch(
+		updateLocalProgram({
+			_id,
+			isPublished,
+			name,
+			description,
+			dateUpdated,
+			fields,
+		})
+	);
 };
 
 // Duplicate program in db and set copy as public
 export const publishProgram = () => (dispatch, getState) => {
 	dispatch(publishingProgram());
 
+	const { _id } = getState().program;
 	const author = getState().user.name;
-
 	axios
 		.post(
 			"/api/program/publish",
-			JSON.stringify({ author }),
+			JSON.stringify({ author, _id }),
 			getTokenConfig(getState)
 		)
 		.then(() => dispatch(programPublished()))
@@ -184,21 +231,10 @@ export const publishProgram = () => (dispatch, getState) => {
 		});
 };
 
-// Move program to privatePrograms array and set new program
-export const activateProgram = (newProgram) => (dispatch, getState) => {
-	dispatch(removePrivateProgram(newProgram)); // remove from private arr
-	dispatch(addPrivateProgram(getState().program)); // move to private
-	dispatch(clearLocalProgram());
-	dispatch(
-		updateProgram({
-			mode: "replace-prop",
-			newProps: {
-				name: newProgram.name,
-				description: newProgram.description,
-				fields: JSON.parse(newProgram.fields),
-			},
-		})
-	);
-
-	// TODO: POST privatePrograms
+// DELETE program from db
+export const removeRemoteProgram = (token) => (dispatch) => {
+	axios
+		.delete("/api/program", token)
+		.then(() => dispatch(clearLocalProgram()))
+		.catch((err) => dispatch(getError(err, "REMOVE_REMOTE_PROGRAM_FAIL")));
 };

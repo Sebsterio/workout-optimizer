@@ -16,7 +16,8 @@ const {
 	SYNCING_LOG,
 	LOG_UP_TO_DATE,
 	LOG_SYNCED,
-	UPDATE_LOCAL_LOG,
+	UPDATE_LOCAL_LOG_PROGRAM_ID,
+	UPDATE_LOCAL_LOG_ENTRIES,
 	UPDATING_REMOTE_LOG,
 	REMOTE_LOG_UPDATED,
 } = logActionTypes;
@@ -49,8 +50,13 @@ export const logSynced = (data) => ({
 	payload: data,
 });
 
-export const updateLocalLog = (data) => ({
-	type: UPDATE_LOCAL_LOG,
+export const updateLocalLogProgramId = (data) => ({
+	type: UPDATE_LOCAL_LOG_PROGRAM_ID,
+	payload: data,
+});
+
+export const updateLocalLogEntries = (data) => ({
+	type: UPDATE_LOCAL_LOG_ENTRIES,
 	payload: data,
 });
 
@@ -88,38 +94,39 @@ export const createRemoteLog = () => (dispatch, getState) => {
 		});
 };
 
-// GET log from db
-export const syncLog = () => (dispatch, getState) => {
-	dispatch(syncingLog());
-	const dateUpdatedLocal = getState().log.dateUpdated;
+// Update log programId prop
+export const updateLogProgramId = (id) => (dispatch) => {
+	const dateUpdated = new Date();
+	dispatch(updateLocalLogProgramId({ id, dateUpdated }));
+	dispatch(updateRemoteLogProgramId(id, dateUpdated));
+};
+
+// POST programId prop to db
+const updateRemoteLogProgramId = (id, dateUpdated) => (dispatch, getState) => {
+	if (getState().user.isIncognito) return;
+
+	dispatch(updatingRemoteLog());
 	axios
 		.post(
-			"/api/log/sync",
-			JSON.stringify({ dateUpdatedLocal }),
+			"api/log/update",
+			JSON.stringify({ programId: id, dateUpdated }),
 			getTokenConfig(getState)
 		)
-		.then((res) => {
-			if (res.status === 204) dispatch(logUpToDate());
-			else {
-				const remoteLog = res.data;
-				const localLog = {
-					dateUpdated: remoteLog.dateUpdated,
-					PTs: remoteLog.PTs,
-					entries: convertRemoteEntries(remoteLog.entries),
-				};
-				dispatch(logSynced(localLog));
-			}
-		})
+		.then(() => dispatch(remoteLogUpdated()))
 		.catch((err) => {
-			dispatch(getError(err, "SYNC_LOG_ERROR"));
+			dispatch(getError(err, "UPDATE_REMOTE_LOG_ERROR"));
 		});
 };
 
-// Add/update/remove entry locally & POST/DELETE to db
-export const updateLog = (data) => (dispatch, getState) => {
+// Add/update/remove entry locally
+export const updateLogEntry = (data) => (dispatch) => {
 	const dateUpdated = new Date();
-	dispatch(updateLocalLog({ ...data, dateUpdated }));
+	dispatch(updateLocalLogEntries({ ...data, dateUpdated }));
+	dispatch(updateRemoteLogEntry(data, dateUpdated));
+};
 
+// POST/DELETE entry to db
+const updateRemoteLogEntry = (data, dateUpdated) => (dispatch, getState) => {
 	if (getState().user.isIncognito) return;
 
 	dispatch(updatingRemoteLog());
@@ -139,6 +146,29 @@ export const updateLog = (data) => (dispatch, getState) => {
 		.catch((err) => {
 			dispatch(getError(err, "UPDATE_REMOTE_LOG_ERROR"));
 		});
+};
+
+// GET log from db
+export const syncLog = () => async (dispatch, getState) => {
+	dispatch(syncingLog());
+	try {
+		const dateUpdatedLocal = getState().log.dateUpdated;
+		const res = await axios.post(
+			"/api/log/sync",
+			JSON.stringify({ dateUpdatedLocal }),
+			getTokenConfig(getState)
+		);
+		if (res.status === 204) return dispatch(logUpToDate());
+		else {
+			const remoteLog = res.data;
+			const { dateUpdated, PTs, programId } = remoteLog;
+			const entries = convertRemoteEntries(remoteLog.entries);
+			const localLog = { dateUpdated, PTs, programId, entries };
+			return dispatch(logSynced(localLog));
+		}
+	} catch (err) {
+		return dispatch(getError(err, "SYNC_LOG_ERROR"));
+	}
 };
 
 export const removeRemoteLog = (token) => (dispatch) => {

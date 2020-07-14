@@ -4,9 +4,10 @@ export const INITIAL_STATE = {
 	isSyncing: false,
 	isSynced: false,
 	isPublishing: false,
-	isPublished: false,
+	isPublished: true,
+	_id: null, // = standard program
 	dateUpdated: null,
-	name: "The best program",
+	name: "Standard program",
 	description: "Some description bla bla bla...",
 	fields: [
 		{
