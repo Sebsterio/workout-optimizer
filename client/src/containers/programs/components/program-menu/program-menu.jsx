@@ -18,6 +18,9 @@ const ProgramMenu = ({
 		isPublic,
 	} = program;
 
+	console.log("------------------");
+	console.log(fields);
+
 	const [newName, setNewName] = useState(name);
 	const [newDesc, setNewDesc] = useState(description);
 

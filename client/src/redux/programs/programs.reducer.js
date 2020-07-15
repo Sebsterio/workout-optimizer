@@ -1,16 +1,19 @@
 import { programsActionTypes } from "./programs.types";
-import { getFilteredArray, getUpdatedArray } from "./programs.utils";
+import { getFilteredArray } from "./programs.utils";
 
 const {
+	// multiple
 	DOWNLOADING_PROGRAMS,
 	PROGRAMS_DOWNLAD_SUCCESS,
 	PROGRAMS_DOWNLAD_FAIL,
+	REMOVING_ALL_REMOTE_PROGRAMS,
+	ALL_REMOTE_PROGRAMS_REMOVED,
+	CLEAR_LOCAL_PROGRAMS,
+	// single
 	ADD_PRIVATE_PROGRAM,
-	UPDATE_PRIVATE_PROGRAM,
 	REMOVE_LOCAL_PRIVATE_PROGRAM,
 	REMOVING_REMOTE_PROGRAM,
 	REMOTE_PROGRAM_REMOVED,
-	CLEAR_LOCAL_PROGRAMS,
 } = programsActionTypes;
 
 const INITIAL_STATE = {
@@ -22,13 +25,15 @@ const INITIAL_STATE = {
 
 const programsReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case REMOVING_REMOTE_PROGRAM: {
+		case REMOVING_REMOTE_PROGRAM:
+		case REMOVING_ALL_REMOTE_PROGRAMS: {
 			return {
 				...state,
 				updating: true,
 			};
 		}
-		case REMOTE_PROGRAM_REMOVED: {
+		case REMOTE_PROGRAM_REMOVED:
+		case ALL_REMOTE_PROGRAMS_REMOVED: {
 			return {
 				...state,
 				updating: false,
@@ -63,12 +68,6 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				private: [newProgram, ...getFilteredArray(state.private, newProgram)],
-			};
-		}
-		case UPDATE_PRIVATE_PROGRAM: {
-			return {
-				...state,
-				private: [...getUpdatedArray(state.private, action.payload)],
 			};
 		}
 		case REMOVE_LOCAL_PRIVATE_PROGRAM: {

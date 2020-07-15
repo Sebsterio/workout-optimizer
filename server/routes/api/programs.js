@@ -25,6 +25,7 @@ router.get("/public", async (req, res) => {
 
 // @access: user
 
+// Get all except current program (:id)
 router.get("/private/:id", auth, async (req, res) => {
 	try {
 		const { userId, params } = req;

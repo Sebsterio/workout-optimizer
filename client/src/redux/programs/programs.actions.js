@@ -9,16 +9,21 @@ import {
 } from "redux/program/program.actions";
 
 const {
+	// multiple
 	DOWNLOADING_PROGRAMS,
 	PROGRAMS_DOWNLAD_SUCCESS,
 	PROGRAMS_DOWNLAD_FAIL,
+	REMOVING_ALL_REMOTE_PROGRAMS,
+	ALL_REMOTE_PROGRAMS_REMOVED,
+	CLEAR_LOCAL_PROGRAMS,
+	// single
 	ADD_PRIVATE_PROGRAM,
-	UPDATE_PRIVATE_PROGRAM,
 	REMOVE_LOCAL_PRIVATE_PROGRAM,
 	REMOVING_REMOTE_PROGRAM,
 	REMOTE_PROGRAM_REMOVED,
-	CLEAR_LOCAL_PROGRAMS,
 } = programsActionTypes;
+
+// --- multiple programs ---
 
 export const downloadingPrograms = () => ({
 	type: DOWNLOADING_PROGRAMS,
@@ -31,15 +36,23 @@ export const programsDownloadFail = (data) => ({
 	type: PROGRAMS_DOWNLAD_FAIL,
 	payload: data,
 });
+export const removingAllRemotePrograms = () => ({
+	type: REMOVING_ALL_REMOTE_PROGRAMS,
+});
+
+export const allRemoteProgramsRemoved = () => ({
+	type: ALL_REMOTE_PROGRAMS_REMOVED,
+});
+
+export const clearLocalPrograms = () => ({
+	type: CLEAR_LOCAL_PROGRAMS,
+});
+
+// --- single program local ---
 
 export const addPrivateProgram = (data) => ({
 	type: ADD_PRIVATE_PROGRAM,
 	payload: data,
-});
-
-export const updatePrivateProgram = (id, data) => ({
-	type: UPDATE_PRIVATE_PROGRAM,
-	payload: { id, data },
 });
 
 export const removeLocalPrivateProgram = (data) => ({
@@ -47,16 +60,14 @@ export const removeLocalPrivateProgram = (data) => ({
 	payload: data,
 });
 
+// --- single program remote ---
+
 export const removingRemoteProgram = () => ({
 	type: REMOVING_REMOTE_PROGRAM,
 });
 
 export const remoteProgramRemoved = () => ({
 	type: REMOTE_PROGRAM_REMOVED,
-});
-
-export const clearLocalPrograms = () => ({
-	type: CLEAR_LOCAL_PROGRAMS,
 });
 
 // ----------------------- Thunk --------------------------
@@ -92,6 +103,20 @@ export const getPublicPrograms = (query) => (dispatch) => {
 		});
 };
 
+// DELETE all private programs corresponding to userId
+export const removeAllPrograms = () => (dispatch, getState) => {
+	dispatch(clearLocalPrograms());
+	dispatch(removingAllRemotePrograms());
+	axios
+		.delete("/api/programs/", getTokenConfig(getState))
+		.then(() => dispatch(allRemoteProgramsRemoved()))
+		.catch((err) => dispatch(getError(err, "REMOVE_ALL_REMOTE_PROGRAMS_FAIL")));
+};
+
+export const duplicateProgram = () => (dispatch) => {
+	console.log("--DUPLICATE (STUB)--");
+};
+
 // Remove program from privatePrograms list
 export const removeProgram = (program) => (dispatch, getState) => {
 	const { _id } = program;
@@ -116,16 +141,4 @@ const removeRemotePrivateProgram = (_id) => (dispatch, getState) => {
 		.delete("/api/program/" + _id, getTokenConfig(getState))
 		.then(() => dispatch(remoteProgramRemoved()))
 		.catch((err) => dispatch(getError(err, "REMOVE_REMOTE_PROGRAM_FAIL")));
-};
-
-//
-// TODO
-//
-
-export const duplicateProgram = () => (dispatch) => {
-	console.log("--DUPLICATE (STUB)--");
-};
-
-export const removeAllPrograms = () => (dispatch) => {
-	console.log("--DUPLICATE (STUB)--");
 };

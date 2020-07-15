@@ -50,11 +50,17 @@ export const getConvertedLocalProgram = (getState) =>
 	convertLocalProgram(getState().program);
 
 export const convertLocalProgram = (program) => {
-	program.fields = JSON.stringify(program.fields);
-	return program;
+	const newProgram = {
+		...program,
+		fields: JSON.stringify(program.fields),
+	};
+	return newProgram;
 };
 
 export const convertRemoteProgram = (program) => {
-	program.fields = JSON.parse(program.fields);
-	return program;
+	const newProgram = {
+		...program,
+		fields: JSON.parse(program.fields),
+	};
+	return newProgram;
 };

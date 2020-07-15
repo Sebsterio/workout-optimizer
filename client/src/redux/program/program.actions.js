@@ -5,7 +5,6 @@ import { getError } from "redux/error/error.actions";
 import { updateLogProgramId } from "redux/log/log.actions";
 import {
 	addPrivateProgram,
-	updatePrivateProgram,
 	removeLocalPrivateProgram,
 } from "redux/programs/programs.actions";
 
@@ -113,7 +112,7 @@ export const resetLocalProgram = () => ({
 
 // Modify local program and POST it to db
 export const updateProgram = (data) => (dispatch, getState) => {
-	const { isPublic, _id } = getState().program;
+	const { isPublic } = getState().program;
 	const dateUpdated = new Date();
 
 	// Update local program with data
@@ -122,15 +121,13 @@ export const updateProgram = (data) => (dispatch, getState) => {
 	else dispatch(updateLocalProgram({ ...data, dateUpdated }));
 
 	// If customizing a public program, create new remote program
-	if (isPublic) {
-		dispatch(createRemoteProgram(_id));
-	}
+	if (isPublic) dispatch(createRemoteProgram());
 	// If modifying private program, update remote program
 	else dispatch(updateRemoteProgram(dateUpdated));
 };
 
 // POST current program to db and save new id
-export const createRemoteProgram = (oldId) => (dispatch, getState) => {
+export const createRemoteProgram = () => (dispatch, getState) => {
 	dispatch(creatingRemoteProgram());
 
 	axios
@@ -143,7 +140,6 @@ export const createRemoteProgram = (oldId) => (dispatch, getState) => {
 			const { _id } = res.data;
 			dispatch(remoteProgramCreated());
 			dispatch(updateLocalProgram({ _id, isPublic: false }));
-			dispatch(updatePrivateProgram(oldId, { _id, isPublic: false }));
 			dispatch(updateLogProgramId(_id));
 		})
 		.catch((err) => {
@@ -197,15 +193,11 @@ export const syncProgram = () => (dispatch, getState) => {
 };
 
 // Replace current program and save newProgram id in log
-export const activateProgram = (newProgram, shouldDropCurrentProgram) => (
-	dispatch,
-	getState
-) => {
+export const activateProgram = (newProgram) => (dispatch, getState) => {
 	if (newProgram) {
 		// Update private programs list
 		dispatch(removeLocalPrivateProgram(newProgram));
-		if (!shouldDropCurrentProgram)
-			dispatch(addPrivateProgram(getConvertedLocalProgram(getState)));
+		dispatch(addPrivateProgram(getConvertedLocalProgram(getState)));
 
 		// Update current program
 		dispatch(clearLocalProgram());
