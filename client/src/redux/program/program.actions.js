@@ -10,6 +10,7 @@ import {
 
 import {
 	getConvertedLocalProgram,
+	convertLocalProgram,
 	convertRemoteProgram,
 } from "./program.utils";
 import { getTokenConfig } from "../utils";
@@ -124,6 +125,19 @@ export const updateProgram = (data) => (dispatch, getState) => {
 	if (isPublic) dispatch(createRemoteProgram());
 	// If modifying private program, update remote program
 	else dispatch(updateRemoteProgram(dateUpdated));
+};
+
+// Copy a program and activate the copy
+export const duplicateProgram = () => (dispatch, getState) => {
+	const currentProgram = getState().program;
+
+	// Move current program to private programs list
+	dispatch(addPrivateProgram(convertLocalProgram(currentProgram)));
+
+	// Create new remote program and set it as current program
+	const newName = currentProgram.name + " (copy)";
+	dispatch(updateLocalProgram({ name: newName }));
+	dispatch(createRemoteProgram());
 };
 
 // POST current program to db and save new id

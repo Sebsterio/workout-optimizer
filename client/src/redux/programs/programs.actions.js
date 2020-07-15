@@ -117,10 +117,6 @@ export const removeAllPrograms = () => (dispatch, getState) => {
 
 // --------- single program ---------
 
-export const duplicateProgram = () => (dispatch) => {
-	console.log("--DUPLICATE (STUB)--");
-};
-
 // Remove program from privatePrograms list
 export const removeProgram = (program) => (dispatch, getState) => {
 	const { _id } = program;

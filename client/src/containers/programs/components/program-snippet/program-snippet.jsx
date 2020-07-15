@@ -18,6 +18,7 @@ export const ProgramSnippet = ({
 	const isStandardProgram = !_id;
 	const nothingToRemove = isStandardProgram && noPrivatePrograms;
 
+	// On public list
 	if (isPublic)
 		return (
 			<Block twoFields highlight={isActive}>
@@ -25,26 +26,30 @@ export const ProgramSnippet = ({
 					<Text>{name}</Text>
 					<Text secondary>{author}</Text>
 				</Col>
+
 				<Button text="View" handler={open} />
 			</Block>
 		);
 
+	// On private list OR current
 	return (
 		<Block threeFields highlight={isActive}>
 			<Text>{name}</Text>
 
 			<Col>
 				<Button text="Delete" handler={remove} disabled={nothingToRemove} />
-				<Button text="Duplicate" handler={duplicate} />
+
+				{isActive ? (
+					<Button text="Duplicate" handler={duplicate} />
+				) : (
+					<Button text="Activate" handler={activate} />
+				)}
 			</Col>
 
 			{isActive ? (
 				<Button text="Edit" handler={open} />
 			) : (
-				<Col>
-					<Button text="Activate" handler={activate} />
-					<Button text="View" handler={open} />
-				</Col>
+				<Button text="View" handler={open} />
 			)}
 		</Block>
 	);
