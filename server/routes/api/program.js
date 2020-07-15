@@ -69,7 +69,7 @@ router.post("/sync", auth, async (req, res) => {
 	if (!program) {
 		return res.status(404).json({ msg: "Remote program not found" });
 	}
-	if (program.userId !== userId && program.userId !== "public") {
+	if (program.userId !== userId && !program.isPublic) {
 		return res.status(401).json({ msg: "Unauthorized" });
 	}
 
@@ -118,7 +118,7 @@ router.post("/publish", auth, async (req, res) => {
 		const { name, description, dateUpdated, fields } = privateProgram;
 		const publicProgram = new Program({
 			author,
-			userId: "public",
+			isPublic: true,
 			name,
 			description,
 			dateUpdated,
@@ -138,7 +138,7 @@ router.post("/publish", auth, async (req, res) => {
 router.get("/public", async (req, res) => {
 	try {
 		// const { query } = req;
-		const programs = await Program.find({ userId: "public" }).limit(10);
+		const programs = await Program.find({ isPublic: true }).limit(10);
 		if (!programs.length)
 			return res.status(404).json({ msg: "No programs found" });
 		else res.status(200).json(programs);

@@ -9,7 +9,14 @@ const ProgramMenu = ({
 	publishProgram,
 	openModal,
 }) => {
-	const { name, description, fields, isPublishing, isPublished } = program;
+	const {
+		name,
+		description,
+		fields,
+		isPublishing,
+		isPublished,
+		isPublic,
+	} = program;
 
 	const [newName, setNewName] = useState(name);
 	const [newDesc, setNewDesc] = useState(description);
@@ -18,6 +25,12 @@ const ProgramMenu = ({
 		const newProps = {};
 		if (newName !== name) newProps.name = newName;
 		if (newDesc !== description) newProps.description = newDesc;
+
+		// If modifying public program, ensure name change
+		if (isPublic && newName === name) {
+			newProps.name = newName + " (custom)";
+			setNewName(newProps.name);
+		}
 		updateProgram(newProps);
 	};
 
@@ -35,7 +48,7 @@ const ProgramMenu = ({
 						isPublishing ? "Publishing" : isPublished ? "Published" : "Publish"
 					}
 					handler={publishProgram}
-					disabled={isPublishing || isPublished}
+					disabled={isPublishing || isPublished || isPublic}
 				/>
 				<Button disabled text="Delete" />
 				<Button disabled text="Duplicate" />

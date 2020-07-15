@@ -1,5 +1,5 @@
 import { programsActionTypes } from "./programs.types";
-import { getFilteredArray } from "./programs.utils";
+import { getFilteredArray, convertCurrentProgram } from "./programs.utils";
 
 const {
 	DOWNLOADING_PROGRAMS,
@@ -38,14 +38,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 		case ADD_PRIVATE_PROGRAM: {
-			const { _id, name, description, fields, dateUpdated } = action.payload;
-			const newProgram = {
-				_id,
-				name,
-				description,
-				dateUpdated,
-				fields: JSON.stringify(fields),
-			};
+			const newProgram = convertCurrentProgram(action.payload);
 			return {
 				...state,
 				private: [newProgram, ...state.private],

@@ -4,7 +4,8 @@ export const INITIAL_STATE = {
 	isSyncing: false,
 	isSynced: false,
 	isPublishing: false,
-	isPublished: true,
+	isPublished: true, // does a public copy exist
+	isPublic: true, // is this a public copy
 	_id: null, // = standard program
 	dateUpdated: null,
 	name: "Standard program",

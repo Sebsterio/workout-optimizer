@@ -100,10 +100,11 @@ const programReducer = (state = INITIAL_STATE, action) => {
 				isSynced: false,
 				isPublishing: false,
 				isPublished: false,
+				isPublic: false,
 				dateUpdated: null,
 				name: "",
 				description: "",
-				fields: {},
+				fields: [],
 			};
 		}
 		case RESET_LOCAL_PROGRAM: {

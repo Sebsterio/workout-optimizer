@@ -53,7 +53,14 @@ export const convertLocalProgram = (getState) => {
 };
 
 export const convertRemoteProgram = (program) => {
-	const { id, name, description, dateUpdated } = program;
+	const {
+		_id,
+		isPublic,
+		isPublished,
+		name,
+		description,
+		dateUpdated,
+	} = program;
 	const fields = JSON.parse(program.fields);
-	return { id, name, description, dateUpdated, fields };
+	return { _id, isPublic, isPublished, name, description, dateUpdated, fields };
 };

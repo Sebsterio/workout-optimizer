@@ -108,7 +108,23 @@ export const resetLocalProgram = () => ({
 
 // ----------------- Thunk ------------------
 
-// Assign id to local program and POST to db
+// Modify local program and POST it to db
+export const updateProgram = (data) => (dispatch, getState) => {
+	const { isPublic } = getState().program;
+	const dateUpdated = new Date();
+
+	// Update local program with data
+	const { mode } = data;
+	if (mode) dispatch(updateLocalProgramFields({ ...data, dateUpdated }));
+	else dispatch(updateLocalProgram({ ...data, dateUpdated }));
+
+	// If customizing a public program, create new remote program
+	if (isPublic) dispatch(createRemoteProgram());
+	// If modifying private program, update remote program
+	else dispatch(updateRemoteProgram(dateUpdated));
+};
+
+// POST current program to db
 export const createRemoteProgram = () => (dispatch, getState) => {
 	dispatch(creatingRemoteProgram());
 
@@ -121,7 +137,7 @@ export const createRemoteProgram = () => (dispatch, getState) => {
 		.then((res) => {
 			const { _id } = res.data;
 			dispatch(remoteProgramCreated());
-			dispatch(updateLocalProgram({ _id }));
+			dispatch(updateLocalProgram({ _id, isPublic: false }));
 			dispatch(updateLogProgramId(_id));
 		})
 		.catch((err) => {
@@ -129,23 +145,7 @@ export const createRemoteProgram = () => (dispatch, getState) => {
 		});
 };
 
-// Modify local program and POST it to db
-export const updateProgram = (data) => (dispatch, getState) => {
-	const { isPublished } = getState().program;
-	const dateUpdated = new Date();
-
-	// Update local program with data
-	const { mode } = data;
-	if (mode) dispatch(updateLocalProgramFields({ ...data, dateUpdated }));
-	else dispatch(updateLocalProgram({ ...data, dateUpdated }));
-
-	// If customizing a public program, create new remote program
-	if (isPublished) dispatch(createRemoteProgram());
-	// If modifying private program, update remote program
-	else dispatch(updateRemoteProgram(dateUpdated));
-};
-
-// POST and replace whole program (or create it if doesn't exist)
+// POST and replace whole program
 const updateRemoteProgram = (dateUpdated) => (dispatch, getState) => {
 	if (getState().user.isIncognito) return;
 
@@ -166,9 +166,8 @@ const updateRemoteProgram = (dateUpdated) => (dispatch, getState) => {
 export const syncProgram = () => (dispatch, getState) => {
 	dispatch(syncingProgram());
 
+	// Ignore if using standard (initial) program
 	const _id = getState().log.programId;
-
-	// Ignore if using standard program (initial)
 	if (!_id) return dispatch(programUpToDate());
 
 	const dateUpdatedLocal = getState().program.dateUpdated;
@@ -191,25 +190,17 @@ export const syncProgram = () => (dispatch, getState) => {
 		});
 };
 
-// Copy program to privatePrograms and set new program
+// Copy current program to privatePrograms and set new program as current
 export const activateProgram = (newProgram) => (dispatch, getState) => {
-	const { _id, isPublished, name, description, dateUpdated } = newProgram;
-	const fields = JSON.parse(newProgram.fields);
-
-	dispatch(removePrivateProgram(newProgram)); // remove from private arr
-	dispatch(addPrivateProgram(getState().program)); // move to private
-	dispatch(updateLogProgramId(_id));
+	// remove newProgram from private arr
+	dispatch(removePrivateProgram(newProgram));
+	// move currentProgram to private arr
+	dispatch(addPrivateProgram(getState().program));
+	// set newProgram as currentProgram
 	dispatch(clearLocalProgram());
-	dispatch(
-		updateLocalProgram({
-			_id,
-			isPublished,
-			name,
-			description,
-			dateUpdated,
-			fields,
-		})
-	);
+	dispatch(updateLocalProgram(convertRemoteProgram(newProgram)));
+	// save newProgram id in log
+	dispatch(updateLogProgramId(newProgram._id));
 };
 
 // Duplicate program in db and set copy as public
