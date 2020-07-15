@@ -24,17 +24,19 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 		case PROGRAMS_DOWNLAD_SUCCESS: {
+			const { group, data } = action.payload;
 			return {
 				...state,
 				downloading: false,
-				public: [...action.payload],
+				[group]: [...data],
 			};
 		}
 		case PROGRAMS_DOWNLAD_FAIL: {
+			const { group } = action.payload;
 			return {
 				...state,
 				downloading: false,
-				public: [],
+				[group]: [],
 			};
 		}
 		case ADD_PRIVATE_PROGRAM: {

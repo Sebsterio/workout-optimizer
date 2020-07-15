@@ -55,8 +55,6 @@ router.post("/update", auth, async (req, res) => {
 	}
 });
 
-module.exports = router;
-
 // ------------------- Get own program -------------------
 
 // @access: program owner and  PT
@@ -131,18 +129,4 @@ router.post("/publish", auth, async (req, res) => {
 	}
 });
 
-// ---------------- Get public programs -----------------
-
-// @access: all
-
-router.get("/public", async (req, res) => {
-	try {
-		// const { query } = req;
-		const programs = await Program.find({ isPublic: true }).limit(10);
-		if (!programs.length)
-			return res.status(404).json({ msg: "No programs found" });
-		else res.status(200).json(programs);
-	} catch (e) {
-		res.status(400).json({ msg: e.message });
-	}
-});
+module.exports = router;

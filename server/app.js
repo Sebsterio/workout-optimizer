@@ -8,6 +8,7 @@ const compression = require("compression");
 const authRoutes = require("./routes/api/auth");
 const logRoutes = require("./routes/api/log");
 const programRoutes = require("./routes/api/program");
+const programsRoutes = require("./routes/api/programs");
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/log", logRoutes);
 app.use("/api/program", programRoutes);
+app.use("/api/programs", programsRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {

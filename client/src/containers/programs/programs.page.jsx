@@ -7,9 +7,10 @@ const ProgramsPage = ({
 	activeProgram,
 	privatePrograms,
 	publicPrograms,
-	getPublicPrograms,
-	activateProgram,
 	isDownloading,
+	getPublicPrograms,
+	getPrivatePrograms,
+	activateProgram,
 }) => {
 	const [view, setView] = useState("private");
 	const [programViewed, setProgramViewed] = useState(null);
@@ -18,7 +19,7 @@ const ProgramsPage = ({
 	// --------------- program lists ---------------
 
 	const showPrivatePrograms = () => {
-		// TODO: updatePrivatePrograms() - GET remote if more recent than local
+		getPrivatePrograms();
 		setView("private");
 	};
 
@@ -101,13 +102,15 @@ const ProgramsPage = ({
 									program={activeProgram}
 									openProgram={editActiveProgram}
 								/>
-								{privatePrograms.map((program) => (
-									<ProgramSnippet
-										key={program._id}
-										program={program}
-										openProgram={() => viewProgram(program)}
-									/>
-								))}
+								{privatePrograms
+									.filter((program) => program._id !== activateProgram._id)
+									.map((program) => (
+										<ProgramSnippet
+											key={program._id}
+											program={program}
+											openProgram={() => viewProgram(program)}
+										/>
+									))}
 							</>
 						)}
 
