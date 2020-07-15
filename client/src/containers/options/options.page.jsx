@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Page, Menu, Button } from "components";
 
-const clearCache = () => localStorage.clear();
-
 const OptionsPage = () => {
+	const [cacheExists, setCacheExists] = useState(!!localStorage.length);
+
+	const clearCache = () => {
+		localStorage.clear();
+		setCacheExists(!!localStorage.length);
+	};
+
 	return (
 		<Page>
 			<Menu>
-				<Button text="Clear Cache" handler={clearCache} />
+				<Button
+					text={cacheExists ? "Clear cache" : "Cache cleared"}
+					handler={clearCache}
+					disabled={!cacheExists}
+				/>
 			</Menu>
 		</Page>
 	);
