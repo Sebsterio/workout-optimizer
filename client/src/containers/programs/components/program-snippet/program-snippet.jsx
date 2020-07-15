@@ -8,6 +8,7 @@ export const ProgramSnippet = ({
 	program,
 	isPublic,
 	isActive,
+	noPrivatePrograms,
 	open,
 	activate,
 	remove,
@@ -15,6 +16,7 @@ export const ProgramSnippet = ({
 }) => {
 	const { _id, name, author } = program;
 	const isStandardProgram = !_id;
+	const nothingToRemove = isStandardProgram && noPrivatePrograms;
 
 	if (isPublic)
 		return (
@@ -32,7 +34,7 @@ export const ProgramSnippet = ({
 			<Text>{name}</Text>
 
 			<Col>
-				<Button text="Delete" handler={remove} disabled={isStandardProgram} />
+				<Button text="Delete" handler={remove} disabled={nothingToRemove} />
 				<Button text="Duplicate" handler={duplicate} />
 			</Col>
 

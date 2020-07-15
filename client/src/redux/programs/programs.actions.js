@@ -3,7 +3,10 @@ import axios from "axios";
 import { programsActionTypes } from "./programs.types";
 import { getError } from "../error/error.actions";
 import { getTokenConfig } from "../utils";
-import { activateProgram } from "redux/program/program.actions";
+import {
+	activateProgram,
+	clearLocalProgram,
+} from "redux/program/program.actions";
 
 const {
 	DOWNLOADING_PROGRAMS,
@@ -58,11 +61,11 @@ export const clearLocalPrograms = () => ({
 
 // ----------------------- Thunk --------------------------
 
-export const getPrivatePrograms = (query) => (dispatch, getState) => {
+export const getPrivatePrograms = () => (dispatch, getState) => {
 	dispatch(downloadingPrograms());
 
-	let endpoint = "/api/programs/private";
-	if (query) endpoint += "?" + query;
+	const currentProgramId = getState().program._id;
+	const endpoint = "/api/programs/private/" + currentProgramId;
 
 	axios
 		.get(endpoint, getTokenConfig(getState))
@@ -95,16 +98,19 @@ export const removeProgram = (program) => (dispatch, getState) => {
 
 	dispatch(removeLocalPrivateProgram(program));
 
-	// if removing currentProgram, replace with next private one or reset it
+	// Removing currentProgram: replace with next private one OR reset it
 	if (getState().program._id === _id) {
-		console.log("------------------------");
 		const privatePrograms = getState().programs.private;
-		dispatch(
-			activateProgram(privatePrograms.length ? privatePrograms[0] : null)
-		);
+		const nextProgram = privatePrograms.length ? privatePrograms[0] : null;
+		dispatch(clearLocalProgram());
+		dispatch(activateProgram(nextProgram, true));
 	}
 
-	// DELETE program from db
+	if (!program.isPublic) removeRemotePrivateProgram(_id);
+};
+
+// DELETE program from db
+const removeRemotePrivateProgram = (_id) => (dispatch, getState) => {
 	dispatch(removingRemoteProgram());
 	axios
 		.delete("/api/program/" + _id, getTokenConfig(getState))

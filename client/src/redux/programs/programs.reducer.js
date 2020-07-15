@@ -59,6 +59,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		// Unshift program or move to front if already present
 		case ADD_PRIVATE_PROGRAM: {
 			const newProgram = action.payload;
+			if (!newProgram) return state;
 			return {
 				...state,
 				private: [newProgram, ...getFilteredArray(state.private, newProgram)],

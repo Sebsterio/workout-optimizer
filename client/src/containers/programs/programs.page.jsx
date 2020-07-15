@@ -98,6 +98,7 @@ const ProgramsPage = ({
 							<>
 								<ProgramSnippet
 									isActive
+									noPrivatePrograms={!privatePrograms.length}
 									program={activeProgram}
 									open={editActiveProgram}
 								/>
@@ -106,16 +107,14 @@ const ProgramsPage = ({
 										<Spinner />
 									</Block>
 								) : (
-									privatePrograms
-										.filter((program) => program._id !== activeProgram._id)
-										.map((program) => (
-											<ProgramSnippet
-												key={program._id}
-												program={program}
-												open={() => viewProgram(program)}
-												activate={() => handleActivate(program)}
-											/>
-										))
+									privatePrograms.map((program) => (
+										<ProgramSnippet
+											key={program._id}
+											program={program}
+											open={() => viewProgram(program)}
+											activate={() => handleActivate(program)}
+										/>
+									))
 								)}
 							</>
 						)}

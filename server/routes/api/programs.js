@@ -25,11 +25,14 @@ router.get("/public", async (req, res) => {
 
 // @access: user
 
-router.get("/private", auth, async (req, res) => {
+router.get("/private/:id", auth, async (req, res) => {
 	try {
-		// const { query } = req;
-		const { userId } = req;
-		const programs = await Program.find({ userId });
+		const { userId, params } = req;
+		const { id } = params;
+
+		const programs = await (await Program.find({ userId })).filter(
+			(program) => program._id !== id
+		);
 		if (!programs.length)
 			return res.status(404).json({ msg: "No programs found" });
 		else res.status(200).json(programs);

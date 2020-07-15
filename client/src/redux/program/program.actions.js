@@ -6,9 +6,13 @@ import { updateLogProgramId } from "redux/log/log.actions";
 import {
 	addPrivateProgram,
 	updatePrivateProgram,
+	removeLocalPrivateProgram,
 } from "redux/programs/programs.actions";
 
-import { convertLocalProgram, convertRemoteProgram } from "./program.utils";
+import {
+	getConvertedLocalProgram,
+	convertRemoteProgram,
+} from "./program.utils";
 import { getTokenConfig } from "../utils";
 
 const {
@@ -132,7 +136,7 @@ export const createRemoteProgram = (oldId) => (dispatch, getState) => {
 	axios
 		.post(
 			"/api/program/create",
-			JSON.stringify(convertLocalProgram(getState)),
+			JSON.stringify(getConvertedLocalProgram(getState)),
 			getTokenConfig(getState)
 		)
 		.then((res) => {
@@ -155,7 +159,7 @@ const updateRemoteProgram = (dateUpdated) => (dispatch, getState) => {
 	axios
 		.post(
 			"api/program/update",
-			JSON.stringify({ ...convertLocalProgram(getState), dateUpdated }),
+			JSON.stringify({ ...getConvertedLocalProgram(getState), dateUpdated }),
 			getTokenConfig(getState)
 		)
 		.then(() => dispatch(remoteProgramUpdated()))
@@ -193,16 +197,22 @@ export const syncProgram = () => (dispatch, getState) => {
 };
 
 // Replace current program and save newProgram id in log
-export const activateProgram = (newProgram) => (dispatch) => {
-	console.log(newProgram);
+export const activateProgram = (newProgram, shouldDropCurrentProgram) => (
+	dispatch,
+	getState
+) => {
 	if (newProgram) {
-		// todo: move currentProgram to privatePrograms (stringify)
-		dispatch(addPrivateProgram(newProgram));
+		// Update private programs list
+		dispatch(removeLocalPrivateProgram(newProgram));
+		if (!shouldDropCurrentProgram)
+			dispatch(addPrivateProgram(getConvertedLocalProgram(getState)));
+
+		// Update current program
 		dispatch(clearLocalProgram());
 		dispatch(updateLocalProgram(convertRemoteProgram(newProgram)));
 		dispatch(updateLogProgramId(newProgram._id));
 	} else {
-		// activate standard program
+		// Activate standard program
 		dispatch(resetLocalProgram());
 		dispatch(updateLogProgramId(null));
 	}
