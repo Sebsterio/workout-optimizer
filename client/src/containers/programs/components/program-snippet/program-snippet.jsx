@@ -4,14 +4,48 @@ import { Block, Col, Text } from "components";
 
 import { Button } from "components";
 
-export const ProgramSnippet = ({ program, openProgram, isActive }) => (
-	<Block wideFirstCol highlight={isActive}>
-		<Col>
-			<Text>{program.name}</Text>
-			<Text secondary>{program.author}</Text>
-		</Col>
-		<Button text={isActive ? "Edit" : "View"} handler={openProgram} />
-	</Block>
-);
+export const ProgramSnippet = ({
+	program,
+	isPublic,
+	isActive,
+	open,
+	activate,
+	remove,
+	duplicate,
+}) => {
+	const { _id, name, author } = program;
+	const isStandardProgram = !_id;
+
+	if (isPublic)
+		return (
+			<Block twoFields highlight={isActive}>
+				<Col>
+					<Text>{name}</Text>
+					<Text secondary>{author}</Text>
+				</Col>
+				<Button text="View" handler={open} />
+			</Block>
+		);
+
+	return (
+		<Block threeFields highlight={isActive}>
+			<Text>{name}</Text>
+
+			<Col>
+				<Button text="Delete" handler={remove} disabled={isStandardProgram} />
+				<Button text="Duplicate" handler={duplicate} />
+			</Col>
+
+			{isActive ? (
+				<Button text="Edit" handler={open} />
+			) : (
+				<Col>
+					<Button text="Activate" handler={activate} />
+					<Button text="View" handler={open} />
+				</Col>
+			)}
+		</Block>
+	);
+};
 
 export default ProgramSnippet;

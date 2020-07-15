@@ -85,13 +85,16 @@ router.post("/sync", auth, async (req, res) => {
 
 // @access: program owner only
 
-router.delete("/", auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
 	try {
-		const { userId } = req;
-		const program = await Program.findOne({ userId });
-		if (!program) throw Error("Program does not exist");
+		const { userId, params } = req;
+		const { id } = params;
 
-		await Program.findOneAndRemove({ userId });
+		const program = await Program.findById(id);
+		if (!program) throw Error("Program does not exist");
+		if (program.userId !== userId) throw Error("Unauthorized");
+
+		await Program.findByIdAndRemove(id);
 		res.status(200).send();
 	} catch (e) {
 		res.status(400).json({ msg: e.message });

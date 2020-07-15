@@ -39,3 +39,17 @@ router.get("/private", auth, async (req, res) => {
 });
 
 module.exports = router;
+
+// -------------------- Delete all own programs -------------------
+
+// @access: program owner only
+
+router.delete("/private", auth, async (req, res) => {
+	try {
+		const { userId } = req;
+		await Program.remove({ userId });
+		res.status(200).send();
+	} catch (e) {
+		res.status(400).json({ msg: e.message });
+	}
+});

@@ -1,19 +1,22 @@
 import axios from "axios";
 
 import userActionTypes from "./user.types";
-import { getError, clearError } from "../error/error.actions";
+import { getError, clearError } from "redux/error/error.actions";
 import {
 	createRemoteLog,
 	syncLog,
 	clearLocalLog,
 	removeRemoteLog,
-} from "../log/log.actions";
+} from "redux/log/log.actions";
 import {
 	createRemoteProgram,
 	syncProgram,
 	resetLocalProgram,
-	removeRemoteProgram,
-} from "../program/program.actions";
+} from "redux/program/program.actions";
+import {
+	removeAllPrograms,
+	clearLocalPrograms,
+} from "redux/programs/programs.actions";
 import { getConfig, getTokenConfig } from "../utils";
 
 const {
@@ -99,6 +102,7 @@ export const logout = () => (dispatch) => {
 	dispatch(clearUserData());
 	dispatch(clearLocalLog());
 	dispatch(resetLocalProgram());
+	dispatch(clearLocalPrograms());
 };
 
 export const closeAccount = (formData) => (dispatch, getState) => {
@@ -107,9 +111,9 @@ export const closeAccount = (formData) => (dispatch, getState) => {
 	axios
 		.post("api/auth/delete", JSON.stringify(formData), token)
 		.then(() => {
-			dispatch(clearUserData());
+			dispatch(logout());
 			dispatch(removeRemoteLog(token));
-			dispatch(removeRemoteProgram(token)); // <<<< change
+			dispatch(removeAllPrograms(token)); // <<<< change
 		})
 		.then(() => localStorage.clear())
 		.catch((err) => dispatch(getError(err, "CLOSE_ACCOUNT_FAIL")));

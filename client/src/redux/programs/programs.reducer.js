@@ -1,22 +1,39 @@
 import { programsActionTypes } from "./programs.types";
-import { getFilteredArray, convertCurrentProgram } from "./programs.utils";
+import { getFilteredArray, getUpdatedArray } from "./programs.utils";
 
 const {
 	DOWNLOADING_PROGRAMS,
 	PROGRAMS_DOWNLAD_SUCCESS,
 	PROGRAMS_DOWNLAD_FAIL,
 	ADD_PRIVATE_PROGRAM,
-	REMOVE_PRIVATE_PROGRAM,
+	UPDATE_PRIVATE_PROGRAM,
+	REMOVE_LOCAL_PRIVATE_PROGRAM,
+	REMOVING_REMOTE_PROGRAM,
+	REMOTE_PROGRAM_REMOVED,
+	CLEAR_LOCAL_PROGRAMS,
 } = programsActionTypes;
 
 const INITIAL_STATE = {
 	downloading: false,
+	updating: false,
 	private: [],
 	public: [],
 };
 
 const programsReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case REMOVING_REMOTE_PROGRAM: {
+			return {
+				...state,
+				updating: true,
+			};
+		}
+		case REMOTE_PROGRAM_REMOVED: {
+			return {
+				...state,
+				updating: false,
+			};
+		}
 		case DOWNLOADING_PROGRAMS: {
 			return {
 				...state,
@@ -39,18 +56,29 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 				[group]: [],
 			};
 		}
+		// Unshift program or move to front if already present
 		case ADD_PRIVATE_PROGRAM: {
-			const newProgram = convertCurrentProgram(action.payload);
+			const newProgram = action.payload;
 			return {
 				...state,
-				private: [newProgram, ...state.private],
+				private: [newProgram, ...getFilteredArray(state.private, newProgram)],
 			};
 		}
-		case REMOVE_PRIVATE_PROGRAM: {
+		case UPDATE_PRIVATE_PROGRAM: {
 			return {
 				...state,
-				private: getFilteredArray(state.private, action.payload),
+				private: [...getUpdatedArray(state.private, action.payload)],
 			};
+		}
+		case REMOVE_LOCAL_PRIVATE_PROGRAM: {
+			return {
+				...state,
+				private: [...getFilteredArray(state.private, action.payload)],
+			};
+		}
+
+		case CLEAR_LOCAL_PROGRAMS: {
+			return INITIAL_STATE;
 		}
 
 		default:

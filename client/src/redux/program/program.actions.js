@@ -3,14 +3,13 @@ import axios from "axios";
 import programActionTypes from "./program.types";
 import { getError } from "redux/error/error.actions";
 import { updateLogProgramId } from "redux/log/log.actions";
+import {
+	addPrivateProgram,
+	updatePrivateProgram,
+} from "redux/programs/programs.actions";
 
 import { convertLocalProgram, convertRemoteProgram } from "./program.utils";
 import { getTokenConfig } from "../utils";
-
-import {
-	addPrivateProgram,
-	removePrivateProgram,
-} from "redux/programs/programs.actions";
 
 const {
 	GET_FIELDS,
@@ -110,7 +109,7 @@ export const resetLocalProgram = () => ({
 
 // Modify local program and POST it to db
 export const updateProgram = (data) => (dispatch, getState) => {
-	const { isPublic } = getState().program;
+	const { isPublic, _id } = getState().program;
 	const dateUpdated = new Date();
 
 	// Update local program with data
@@ -119,13 +118,15 @@ export const updateProgram = (data) => (dispatch, getState) => {
 	else dispatch(updateLocalProgram({ ...data, dateUpdated }));
 
 	// If customizing a public program, create new remote program
-	if (isPublic) dispatch(createRemoteProgram());
+	if (isPublic) {
+		dispatch(createRemoteProgram(_id));
+	}
 	// If modifying private program, update remote program
 	else dispatch(updateRemoteProgram(dateUpdated));
 };
 
-// POST current program to db
-export const createRemoteProgram = () => (dispatch, getState) => {
+// POST current program to db and save new id
+export const createRemoteProgram = (oldId) => (dispatch, getState) => {
 	dispatch(creatingRemoteProgram());
 
 	axios
@@ -138,6 +139,7 @@ export const createRemoteProgram = () => (dispatch, getState) => {
 			const { _id } = res.data;
 			dispatch(remoteProgramCreated());
 			dispatch(updateLocalProgram({ _id, isPublic: false }));
+			dispatch(updatePrivateProgram(oldId, { _id, isPublic: false }));
 			dispatch(updateLogProgramId(_id));
 		})
 		.catch((err) => {
@@ -190,17 +192,20 @@ export const syncProgram = () => (dispatch, getState) => {
 		});
 };
 
-// Copy current program to privatePrograms and set new program as current
-export const activateProgram = (newProgram) => (dispatch, getState) => {
-	// remove newProgram from private arr
-	dispatch(removePrivateProgram(newProgram));
-	// move currentProgram to private arr
-	dispatch(addPrivateProgram(getState().program));
-	// set newProgram as currentProgram
-	dispatch(clearLocalProgram());
-	dispatch(updateLocalProgram(convertRemoteProgram(newProgram)));
-	// save newProgram id in log
-	dispatch(updateLogProgramId(newProgram._id));
+// Replace current program and save newProgram id in log
+export const activateProgram = (newProgram) => (dispatch) => {
+	console.log(newProgram);
+	if (newProgram) {
+		// todo: move currentProgram to privatePrograms (stringify)
+		dispatch(addPrivateProgram(newProgram));
+		dispatch(clearLocalProgram());
+		dispatch(updateLocalProgram(convertRemoteProgram(newProgram)));
+		dispatch(updateLogProgramId(newProgram._id));
+	} else {
+		// activate standard program
+		dispatch(resetLocalProgram());
+		dispatch(updateLogProgramId(null));
+	}
 };
 
 // Duplicate program in db and set copy as public
@@ -220,12 +225,4 @@ export const publishProgram = () => (dispatch, getState) => {
 			dispatch(programPublishFail());
 			dispatch(getError(err, "PUBLISH_PROGRAM_FAIL"));
 		});
-};
-
-// DELETE program from db
-export const removeRemoteProgram = (token) => (dispatch) => {
-	axios
-		.delete("/api/program", token)
-		.then(() => dispatch(clearLocalProgram()))
-		.catch((err) => dispatch(getError(err, "REMOVE_REMOTE_PROGRAM_FAIL")));
 };

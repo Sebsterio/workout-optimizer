@@ -1,14 +1,14 @@
-export const getFilteredArray = (array, itemToRemove) => [
-	...array.filter((item) => item !== itemToRemove),
-];
+export const getFilteredArray = (array, itemToRemove) =>
+	array.filter((item) => item !== itemToRemove);
 
-export const convertCurrentProgram = (program) => {
-	const { _id, name, description, fields, dateUpdated } = program;
-	return {
-		_id,
-		name,
-		description,
-		dateUpdated,
-		fields: JSON.stringify(fields),
-	};
+export const getUpdatedArray = (array, payload) => {
+	const { id, data } = payload;
+	return array.map((el) => {
+		if (el._id !== id) return el;
+		else
+			return {
+				...el,
+				...data,
+			};
+	});
 };

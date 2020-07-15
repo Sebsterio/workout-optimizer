@@ -9,12 +9,16 @@
 	grid-template-columns: repeat(4, 1fr);
 	overflow-x: auto;
 
-	&--wide-first-col {
+	&--one-field {
+		grid-template-columns: 1fr;
+	}
+
+	&--two-fields {
 		grid-template-columns: 3fr 1fr;
 	}
 
-	&--one-field {
-		grid-template-columns: 1fr;
+	&--three-fields {
+		grid-template-columns: 2fr 1fr 1fr;
 	}
 
 	&--highlight {

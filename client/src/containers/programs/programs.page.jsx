@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Page, Menu, Heading, Row, Block, Button, Spinner } from "components";
-
 import { ProgramSnippet, ProgramMenu, ProgramDetails } from "./components";
 
 const ProgramsPage = ({
@@ -55,8 +54,8 @@ const ProgramsPage = ({
 		setProgramViewed(null);
 	};
 
-	const handleActivate = () => {
-		activateProgram(programViewed);
+	const handleActivate = (program) => {
+		activateProgram(program);
 		setProgramViewed(null);
 		setView("private");
 	};
@@ -73,7 +72,7 @@ const ProgramsPage = ({
 				programViewed ? (
 					<ProgramDetails
 						program={programViewed}
-						activate={handleActivate}
+						activate={() => handleActivate(programViewed)}
 						goBack={stopViewingProgram}
 						isActive={programViewed._id === activeProgram._id}
 					/>
@@ -100,17 +99,24 @@ const ProgramsPage = ({
 								<ProgramSnippet
 									isActive
 									program={activeProgram}
-									openProgram={editActiveProgram}
+									open={editActiveProgram}
 								/>
-								{privatePrograms
-									.filter((program) => program._id !== activateProgram._id)
-									.map((program) => (
-										<ProgramSnippet
-											key={program._id}
-											program={program}
-											openProgram={() => viewProgram(program)}
-										/>
-									))}
+								{isDownloading ? (
+									<Block>
+										<Spinner />
+									</Block>
+								) : (
+									privatePrograms
+										.filter((program) => program._id !== activeProgram._id)
+										.map((program) => (
+											<ProgramSnippet
+												key={program._id}
+												program={program}
+												open={() => viewProgram(program)}
+												activate={() => handleActivate(program)}
+											/>
+										))
+								)}
 							</>
 						)}
 
@@ -118,9 +124,11 @@ const ProgramsPage = ({
 							<>
 								{publicPrograms.map((program) => (
 									<ProgramSnippet
+										isPublic
 										key={program._id}
 										program={program}
-										openProgram={() => viewProgram(program)}
+										open={() => viewProgram(program)}
+										activate={() => handleActivate(program)}
 									/>
 								))}
 								{isDownloading ? (

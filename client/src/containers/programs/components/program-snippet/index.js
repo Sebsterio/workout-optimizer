@@ -1,2 +1,1 @@
-export * from "./program-snippet";
-export { default } from "./program-snippet";
+export { default as ProgramSnippet } from "./program-snippet.container";
