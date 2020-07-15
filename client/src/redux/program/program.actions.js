@@ -129,7 +129,6 @@ export const updateProgram = (data) => (dispatch, getState) => {
 // POST current program to db and save new id
 export const createRemoteProgram = () => (dispatch, getState) => {
 	dispatch(creatingRemoteProgram());
-
 	axios
 		.post(
 			"/api/program/create",
@@ -150,7 +149,6 @@ export const createRemoteProgram = () => (dispatch, getState) => {
 // POST and replace whole program
 const updateRemoteProgram = (dateUpdated) => (dispatch, getState) => {
 	if (getState().user.isIncognito) return;
-
 	dispatch(updatingRemoteProgram());
 	axios
 		.post(

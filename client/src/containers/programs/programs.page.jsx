@@ -124,6 +124,7 @@ const ProgramsPage = ({
 								{publicPrograms.map((program) => (
 									<ProgramSnippet
 										isPublic
+										isActive={program._id === activateProgram._id}
 										key={program._id}
 										program={program}
 										open={() => viewProgram(program)}

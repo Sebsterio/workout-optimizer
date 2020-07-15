@@ -72,6 +72,8 @@ export const remoteProgramRemoved = () => ({
 
 // ----------------------- Thunk --------------------------
 
+// --------- multiple programs ---------
+
 export const getPrivatePrograms = () => (dispatch, getState) => {
 	dispatch(downloadingPrograms());
 
@@ -113,6 +115,8 @@ export const removeAllPrograms = () => (dispatch, getState) => {
 		.catch((err) => dispatch(getError(err, "REMOVE_ALL_REMOTE_PROGRAMS_FAIL")));
 };
 
+// --------- single program ---------
+
 export const duplicateProgram = () => (dispatch) => {
 	console.log("--DUPLICATE (STUB)--");
 };
@@ -131,7 +135,7 @@ export const removeProgram = (program) => (dispatch, getState) => {
 		dispatch(activateProgram(nextProgram, true));
 	}
 
-	if (!program.isPublic) removeRemotePrivateProgram(_id);
+	if (!program.isPublic) dispatch(removeRemotePrivateProgram(_id));
 };
 
 // DELETE program from db
