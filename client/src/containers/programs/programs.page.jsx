@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Page, Menu, Heading, Row, Block, Button, Spinner } from "components";
 import { ProgramSnippet, ProgramMenu, ProgramDetails } from "./components";
 
@@ -15,10 +15,13 @@ const ProgramsPage = ({
 	const [programViewed, setProgramViewed] = useState(null);
 	const [editingActiveProgram, setEditingActiveProgram] = useState(false);
 
+	useEffect(() => {
+		getPrivatePrograms();
+	}, [getPrivatePrograms]);
+
 	// --------------- program lists ---------------
 
 	const showPrivatePrograms = () => {
-		getPrivatePrograms();
 		setView("private");
 	};
 
@@ -27,8 +30,8 @@ const ProgramsPage = ({
 		getPublicPrograms();
 	};
 
-	// TODO: pagination
 	const getMorePrograms = () => {
+		// TODO: pagination
 		getPublicPrograms();
 	};
 
