@@ -8,12 +8,14 @@ const Header = ({ routes }) => {
 		<div className="header">
 			<div className="header__wrap">
 				<nav>
-					{routes.map((route) => (
-						<NavLink className="nav-item" to={route.path} key={route.name}>
-							{route.name}
-						</NavLink>
-						// add label; hidden except when navLink active
-					))}
+					{routes
+						.filter((route) => route.inNavBar)
+						.map((route) => (
+							<NavLink className="nav-item" to={route.path} key={route.path}>
+								{route.name}
+							</NavLink>
+							// add label; hidden except when navLink active
+						))}
 					{/* desktop only */}
 				</nav>
 			</div>

@@ -1,160 +1,54 @@
-import React, { useState, useEffect } from "react";
-import { Page, Menu, Heading, Row, Block, Button, Spinner } from "components";
-import { ProgramSnippet, ProgramMenu, ProgramDetails } from "./components";
+import React from "react";
+import { Redirect } from "react-router-dom";
 
-const ProgramsPage = ({
-	activeProgram,
-	privatePrograms,
-	publicPrograms,
-	isDownloading,
-	getPublicPrograms,
-	getPrivatePrograms,
-	activateProgram,
-}) => {
-	const [view, setView] = useState("private");
-	const [programViewed, setProgramViewed] = useState(null);
-	const [editingActiveProgram, setEditingActiveProgram] = useState(false);
+import { Page, Menu, Button, Heading, Row } from "components";
+import { ProgramsListPrivate, ProgramsListPublic } from "./components";
 
-	useEffect(() => {
-		getPrivatePrograms();
-	}, [getPrivatePrograms]);
+const ProgramsPage = ({ match, history, activateProgram, openModal }) => {
+	const { list } = match.params;
 
-	// --------------- program lists ---------------
+	if (!list) return <Redirect to="programs/private" />;
 
-	const showPrivatePrograms = () => {
-		setView("private");
-	};
+	// ------------------- handlers -------------------
 
-	const showPublicPrograms = () => {
-		setView("public");
-		getPublicPrograms();
-	};
+	const openPrivateList = () => history.replace("/programs/private");
 
-	const getMorePrograms = () => {
-		// TODO: pagination
-		getPublicPrograms();
-	};
+	const openPublicList = () => history.replace("/programs/public");
 
-	// --------------- active program ---------------
+	const editCurrentProgram = () => history.push("/edit-program");
 
-	const editActiveProgram = () => {
-		setEditingActiveProgram(true);
-		setProgramViewed(null);
-	};
-
-	const stopEditingActiveProgram = () => {
-		setEditingActiveProgram(false);
-	};
-
-	// --------------- other programs ---------------
-
-	const viewProgram = (program) => {
-		setProgramViewed(program);
-		setEditingActiveProgram(false);
-	};
-
-	const stopViewingProgram = () => {
-		setProgramViewed(null);
-	};
-
-	const handleActivate = (program) => {
-		activateProgram(program);
-		setProgramViewed(null);
-		setView("private");
-	};
+	const viewProgram = (program) =>
+		openModal({ mode: "program", data: program });
 
 	// ------------------- render -------------------
 
-	const isViewedActive = programViewed
-		? programViewed._id === activeProgram._id
-		: null;
-	const isViewedDownloaded = false; // <<<< TEMP
-
 	return (
 		<Page>
-			{editingActiveProgram ? (
-				// Edit active program
-				<ProgramMenu goBack={stopEditingActiveProgram} />
-			) : programViewed ? (
-				// View non-active program
-				<ProgramDetails
-					program={programViewed}
-					isActive={isViewedActive}
-					isDownloaded={isViewedDownloaded}
-					activate={() => handleActivate(programViewed)}
-					goBack={stopViewingProgram}
-				/>
-			) : (
-				// Lists of programs
-				<Menu compact>
-					<Heading text="Programs Page" />
+			<Menu compact>
+				<Heading text="Programs Page" />
 
-					<Row>
-						<Button
-							text="Private"
-							handler={showPrivatePrograms}
-							disabled={view === "private"}
-						/>
-						<Button
-							text="Public"
-							handler={showPublicPrograms}
-							disabled={view === "public"}
-						/>
-					</Row>
+				<Row>
+					<Button
+						text="Private"
+						handler={openPrivateList}
+						disabled={list === "private"}
+					/>
+					<Button
+						text="Public"
+						handler={openPublicList}
+						disabled={list === "public"}
+					/>
+				</Row>
 
-					{view === "private" && (
-						<>
-							<ProgramSnippet
-								isActive
-								noPrivatePrograms={!privatePrograms.length}
-								program={activeProgram}
-								open={editActiveProgram}
-							/>
-							{isDownloading ? (
-								<Block>
-									<Spinner />
-								</Block>
-							) : (
-								privatePrograms.map((program) => (
-									<ProgramSnippet
-										key={program._id}
-										program={program}
-										open={() => viewProgram(program)}
-										activate={() => handleActivate(program)}
-									/>
-								))
-							)}
-						</>
-					)}
+				{list === "private" && (
+					<ProgramsListPrivate
+						editCurrentProgram={editCurrentProgram}
+						viewProgram={viewProgram}
+					/>
+				)}
 
-					{view === "public" && (
-						<>
-							{publicPrograms.map((program) => {
-								const isActive = program._id === activeProgram._id;
-								const isDownloaded = false; // <<<< TEMP
-								return (
-									<ProgramSnippet
-										isPublic
-										isActive={isActive}
-										isDownloaded={isDownloaded}
-										key={program._id}
-										program={program}
-										open={() => viewProgram(program)}
-										activate={() => handleActivate(program)}
-									/>
-								);
-							})}
-							{isDownloading ? (
-								<Block>
-									<Spinner />
-								</Block>
-							) : (
-								<Button text="More" handler={getMorePrograms} />
-							)}
-						</>
-					)}
-				</Menu>
-			)}
+				{list === "public" && <ProgramsListPublic viewProgram={viewProgram} />}
+			</Menu>
 		</Page>
 	);
 };

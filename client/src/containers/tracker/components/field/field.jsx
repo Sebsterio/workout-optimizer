@@ -21,7 +21,7 @@ const Field = ({
 
 	const handleClick = () => {
 		if (isPickingDate) datePicked({ dateStr, field });
-		else openModal({ dateStr, field, stats, mode: "log" });
+		else openModal({ mode: "log", data: { dateStr, field, stats } });
 	};
 
 	let fieldClass = "field";

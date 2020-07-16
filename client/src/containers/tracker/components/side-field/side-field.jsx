@@ -11,7 +11,7 @@ export const SideField = ({ field, openModal }) => {
 	return (
 		<div
 			className="side-field"
-			onClick={() => openModal({ field, mode: "row" })}
+			onClick={() => openModal({ mode: "row", data: { field } })}
 		>
 			{icon && (
 				<div className="side-field__icon">

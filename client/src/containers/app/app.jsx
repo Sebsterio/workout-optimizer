@@ -8,7 +8,7 @@ import AccountPage from "containers/account";
 import Header from "components/header";
 import Spinner from "components/spinner";
 
-import routes from "./routes";
+import routes from "routes";
 
 import "./app.scss";
 

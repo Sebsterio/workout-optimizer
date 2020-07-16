@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { makeGetStats, makeGetRestLevel } from "redux/log/log.selectors";
+import { getIsPickingDate } from "redux/modal/modal.selectors";
 import { openModal, datePicked } from "redux/modal/modal.actions";
 
 import Field from "./field";
@@ -18,7 +19,7 @@ const makeMapStateToProps = () => {
 		restLevel: getRestLevel(state, props),
 
 		// Is entry duplication in progress
-		isPickingDate: state.modal.isPickingDate,
+		isPickingDate: getIsPickingDate(state),
 	});
 };
 

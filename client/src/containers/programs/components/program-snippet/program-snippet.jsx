@@ -5,23 +5,27 @@ import { Block, Col, Text } from "components";
 import { Button } from "components";
 
 export const ProgramSnippet = ({
+	// parent
 	program,
+	isCurrent,
 	isPublic,
-	isActive,
 	noPrivatePrograms,
 	open,
+	// redux
+	isActivated,
 	activate,
 	remove,
 	duplicate,
 }) => {
 	const { _id, name, author } = program;
+
 	const isStandardProgram = !_id;
 	const nothingToRemove = isStandardProgram && noPrivatePrograms;
 
 	// Is on public list
 	if (isPublic)
 		return (
-			<Block twoFields highlight={isActive}>
+			<Block twoFields highlight={isActivated}>
 				<Col>
 					<Text>{name}</Text>
 					<Text secondary>{author}</Text>
@@ -33,20 +37,20 @@ export const ProgramSnippet = ({
 
 	// Is on private list OR is current
 	return (
-		<Block threeFields highlight={isActive}>
+		<Block threeFields highlight={isCurrent}>
 			<Text>{name}</Text>
 
 			<Col>
 				<Button text="Delete" handler={remove} disabled={nothingToRemove} />
 
-				{isActive ? (
+				{isCurrent ? (
 					<Button text="Duplicate" handler={duplicate} />
 				) : (
 					<Button text="Activate" handler={activate} />
 				)}
 			</Col>
 
-			{isActive ? (
+			{isCurrent ? (
 				<Button text="Edit" handler={open} />
 			) : (
 				<Button text="View" handler={open} />

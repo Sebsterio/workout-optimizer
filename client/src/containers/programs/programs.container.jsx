@@ -1,25 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import {
-	getPublicPrograms,
-	getPrivatePrograms,
-} from "redux/programs/programs.operations";
 import { activateProgram } from "redux/program/program.operations";
+import { openModal, closeModal } from "redux/modal/modal.actions";
 
 import ProgramsPage from "./programs.page";
 
 const mapStateToProps = (state) => ({
 	activeProgram: state.program,
-	privatePrograms: state.programs.private,
-	publicPrograms: state.programs.public,
-	isDownloading: state.programs.downloading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	getPublicPrograms: (query) => dispatch(getPublicPrograms(query)),
-	getPrivatePrograms: () => dispatch(getPrivatePrograms()),
-	activateProgram: (newProgram) => dispatch(activateProgram(newProgram)),
+	openModal: (data) => dispatch(openModal(data)),
+	closeModal: () => dispatch(closeModal()),
+	activateProgram: (data) => dispatch(activateProgram(data)),
 });
 
 const ProgramsPageContainer = (props) => <ProgramsPage {...props} />;

@@ -4,7 +4,7 @@ import { Button, Icon, Block, Col, Row } from "components";
 const ProgramField = ({ field, openModal, updateProgram }) => {
 	const { name, icon } = field;
 
-	const handleEdit = () => openModal({ field, mode: "row" });
+	const handleEdit = () => openModal({ mode: "row", data: { field } });
 
 	const handleDuplicate = () => {
 		updateProgram({ mode: "duplicate-field", field });

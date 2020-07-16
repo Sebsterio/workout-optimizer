@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Menu, Row, Button, TextInput, TextArea, Separator } from "components";
-import { ProgramField } from "../index";
+import { ProgramField } from "./components";
 
 const ProgramMenu = ({
 	program,
-	goBack,
 	updateProgram,
 	publishProgram,
 	openModal,
+	history,
 }) => {
 	const {
 		name,
@@ -42,7 +42,7 @@ const ProgramMenu = ({
 	return (
 		<Menu compact>
 			<Row>
-				<Button text="Back" handler={goBack} />
+				<Button text="Back" handler={history.goBack} />
 				<Button
 					text={
 						isPublishing ? "Publishing" : isPublished ? "Published" : "Publish"
