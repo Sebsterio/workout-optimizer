@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import programActionTypes from "./program.types";
+import { programActionTypes as $ } from "./program.types";
 import { getError } from "redux/error/error.actions";
 import { updateLogProgramId } from "redux/log/log.actions";
 import {
@@ -15,98 +15,78 @@ import {
 } from "./program.utils";
 import { getTokenConfig } from "../utils";
 
-const {
-	GET_FIELDS,
-	UPDATE_MAX_CUSTOM_REST,
-	UPDATE_LOCAL_PROGRAM,
-	UPDATE_LOCAL_PROGRAM_FIELDS,
-	CREATING_REMOTE_PROGRAM,
-	UPDATING_REMOTE_PROGRAM,
-	SYNCING_PROGRAM,
-	REMOTE_PROGRAM_CREATED,
-	REMOTE_PROGRAM_UPDATED,
-	PROGRAM_UP_TO_DATE,
-	PROGRAM_SYNCED,
-	CLEAR_LOCAL_PROGRAM,
-	PUBLISHING_PROGRAM,
-	PROGRAM_PUBLISHED,
-	PROGRAM_PUBLISH_FAIL,
-	LOAD_PROGRAM,
-	RESET_LOCAL_PROGRAM,
-} = programActionTypes;
-
 // ----------------- Basic -----------------
 
 export const getFields = () => ({
-	type: GET_FIELDS,
+	type: $.GET_FIELDS,
 });
 
 export const updateMaxCustomRest = (data) => ({
-	type: UPDATE_MAX_CUSTOM_REST,
+	type: $.UPDATE_MAX_CUSTOM_REST,
 	payload: data,
 });
 
 export const clearLocalProgram = () => ({
-	type: CLEAR_LOCAL_PROGRAM,
+	type: $.CLEAR_LOCAL_PROGRAM,
 });
 
 export const creatingRemoteProgram = () => ({
-	type: CREATING_REMOTE_PROGRAM,
+	type: $.CREATING_REMOTE_PROGRAM,
 });
 
 export const remoteProgramCreated = (data) => ({
-	type: REMOTE_PROGRAM_CREATED,
+	type: $.REMOTE_PROGRAM_CREATED,
 	payload: data,
 });
 
 export const syncingProgram = () => ({
-	type: SYNCING_PROGRAM,
+	type: $.SYNCING_PROGRAM,
 });
 
 export const programUpToDate = () => ({
-	type: PROGRAM_UP_TO_DATE,
+	type: $.PROGRAM_UP_TO_DATE,
 });
 
 export const programSynced = (data) => ({
-	type: PROGRAM_SYNCED,
+	type: $.PROGRAM_SYNCED,
 	payload: data,
 });
 
 export const updateLocalProgram = (data) => ({
-	type: UPDATE_LOCAL_PROGRAM,
+	type: $.UPDATE_LOCAL_PROGRAM,
 	payload: data,
 });
 export const updateLocalProgramFields = (data) => ({
-	type: UPDATE_LOCAL_PROGRAM_FIELDS,
+	type: $.UPDATE_LOCAL_PROGRAM_FIELDS,
 	payload: data,
 });
 
 export const updatingRemoteProgram = () => ({
-	type: UPDATING_REMOTE_PROGRAM,
+	type: $.UPDATING_REMOTE_PROGRAM,
 });
 
 export const remoteProgramUpdated = () => ({
-	type: REMOTE_PROGRAM_UPDATED,
+	type: $.REMOTE_PROGRAM_UPDATED,
 });
 
 export const publishingProgram = () => ({
-	type: PUBLISHING_PROGRAM,
+	type: $.PUBLISHING_PROGRAM,
 });
 
 export const programPublished = () => ({
-	type: PROGRAM_PUBLISHED,
+	type: $.PROGRAM_PUBLISHED,
 });
 
 export const programPublishFail = () => ({
-	type: PROGRAM_PUBLISH_FAIL,
+	type: $.PROGRAM_PUBLISH_FAIL,
 });
 
 export const loadProgram = () => ({
-	type: LOAD_PROGRAM,
+	type: $.LOAD_PROGRAM,
 });
 
 export const resetLocalProgram = () => ({
-	type: RESET_LOCAL_PROGRAM,
+	type: $.RESET_LOCAL_PROGRAM,
 });
 
 // ----------------- Thunk ------------------

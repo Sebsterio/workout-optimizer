@@ -1,16 +1,14 @@
-import errorActionTypes from "./error.types";
-
-const { GET_ERROR, CLEAR_ERROR } = errorActionTypes;
+import { errorActionTypes as $ } from "./error.types";
 
 export const getError = (data) => {
 	return {
-		type: GET_ERROR,
+		type: $.GET_ERROR,
 		payload: data,
 	};
 };
 
 export const clearError = () => {
 	return {
-		type: CLEAR_ERROR,
+		type: $.CLEAR_ERROR,
 	};
 };

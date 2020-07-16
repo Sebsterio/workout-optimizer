@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import userActionTypes from "./user.types";
+import { userActionTypes as $ } from "./user.types";
 import { getError, clearError } from "redux/error/error.actions";
 import {
 	createRemoteLog,
@@ -19,36 +19,28 @@ import {
 } from "redux/programs/programs.actions";
 import { getConfig, getTokenConfig } from "../utils";
 
-const {
-	USER_LOADED,
-	USER_LOADING,
-	AUTH_SUCCESS,
-	SKIP_AUTH,
-	CLEAR_USER_DATA,
-} = userActionTypes;
-
 // ---------------------- Basic --------------------------
 
 const userLoading = () => ({
-	type: USER_LOADING,
+	type: $.USER_LOADING,
 });
 
 const userLoaded = (data) => ({
-	type: USER_LOADED,
+	type: $.USER_LOADED,
 	payload: data,
 });
 
 export const authSuccess = (data) => ({
-	type: AUTH_SUCCESS,
+	type: $.AUTH_SUCCESS,
 	payload: data,
 });
 
 export const skipAuth = () => ({
-	type: SKIP_AUTH,
+	type: $.SKIP_AUTH,
 });
 
 export const clearUserData = () => ({
-	type: CLEAR_USER_DATA,
+	type: $.CLEAR_USER_DATA,
 });
 
 // ---------------------- Thunk --------------------------

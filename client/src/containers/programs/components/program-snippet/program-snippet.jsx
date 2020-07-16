@@ -18,7 +18,7 @@ export const ProgramSnippet = ({
 	const isStandardProgram = !_id;
 	const nothingToRemove = isStandardProgram && noPrivatePrograms;
 
-	// On public list
+	// Is on public list
 	if (isPublic)
 		return (
 			<Block twoFields highlight={isActive}>
@@ -31,7 +31,7 @@ export const ProgramSnippet = ({
 			</Block>
 		);
 
-	// On private list OR current
+	// Is on private list OR is current
 	return (
 		<Block threeFields highlight={isActive}>
 			<Text>{name}</Text>

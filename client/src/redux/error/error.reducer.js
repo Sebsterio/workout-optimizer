@@ -1,6 +1,4 @@
-import errorActionTypes from "./error.types";
-
-const { GET_ERROR, CLEAR_ERROR } = errorActionTypes;
+import { errorActionTypes as $ } from "./error.types";
 
 const INITIAL_STATE = {
 	msg: "",
@@ -10,7 +8,7 @@ const INITIAL_STATE = {
 
 const errorReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case GET_ERROR: {
+		case $.GET_ERROR: {
 			const { response, message } = action.payload;
 			if (response)
 				return {
@@ -31,7 +29,7 @@ const errorReducer = (state = INITIAL_STATE, action) => {
 					id: "UNKNOWN_ERROR",
 				};
 		}
-		case CLEAR_ERROR: {
+		case $.CLEAR_ERROR: {
 			return {
 				msg: "",
 				status: null,

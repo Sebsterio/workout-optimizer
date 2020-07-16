@@ -65,87 +65,96 @@ const ProgramsPage = ({
 
 	// ------------------- render -------------------
 
+	const isViewedActive = programViewed
+		? programViewed._id === activeProgram._id
+		: null;
+	const isViewedDownloaded = false; // <<<< TEMP
+
 	return (
 		<Page>
-			{
+			{editingActiveProgram ? (
 				// Edit active program
-				editingActiveProgram ? (
-					<ProgramMenu goBack={stopEditingActiveProgram} />
-				) : // View non-active program
-				programViewed ? (
-					<ProgramDetails
-						program={programViewed}
-						activate={() => handleActivate(programViewed)}
-						goBack={stopViewingProgram}
-						isActive={programViewed._id === activeProgram._id}
-					/>
-				) : (
-					// Lists of programs
-					<Menu compact>
-						<Heading text="Programs Page" />
+				<ProgramMenu goBack={stopEditingActiveProgram} />
+			) : programViewed ? (
+				// View non-active program
+				<ProgramDetails
+					program={programViewed}
+					isActive={isViewedActive}
+					isDownloaded={isViewedDownloaded}
+					activate={() => handleActivate(programViewed)}
+					goBack={stopViewingProgram}
+				/>
+			) : (
+				// Lists of programs
+				<Menu compact>
+					<Heading text="Programs Page" />
 
-						<Row>
-							<Button
-								text="Private"
-								handler={showPrivatePrograms}
-								disabled={view === "private"}
+					<Row>
+						<Button
+							text="Private"
+							handler={showPrivatePrograms}
+							disabled={view === "private"}
+						/>
+						<Button
+							text="Public"
+							handler={showPublicPrograms}
+							disabled={view === "public"}
+						/>
+					</Row>
+
+					{view === "private" && (
+						<>
+							<ProgramSnippet
+								isActive
+								noPrivatePrograms={!privatePrograms.length}
+								program={activeProgram}
+								open={editActiveProgram}
 							/>
-							<Button
-								text="Public"
-								handler={showPublicPrograms}
-								disabled={view === "public"}
-							/>
-						</Row>
-
-						{view === "private" && (
-							<>
-								<ProgramSnippet
-									isActive
-									noPrivatePrograms={!privatePrograms.length}
-									program={activeProgram}
-									open={editActiveProgram}
-								/>
-								{isDownloading ? (
-									<Block>
-										<Spinner />
-									</Block>
-								) : (
-									privatePrograms.map((program) => (
-										<ProgramSnippet
-											key={program._id}
-											program={program}
-											open={() => viewProgram(program)}
-											activate={() => handleActivate(program)}
-										/>
-									))
-								)}
-							</>
-						)}
-
-						{view === "public" && (
-							<>
-								{publicPrograms.map((program) => (
+							{isDownloading ? (
+								<Block>
+									<Spinner />
+								</Block>
+							) : (
+								privatePrograms.map((program) => (
 									<ProgramSnippet
-										isPublic
-										isActive={program._id === activeProgram._id}
 										key={program._id}
 										program={program}
 										open={() => viewProgram(program)}
 										activate={() => handleActivate(program)}
 									/>
-								))}
-								{isDownloading ? (
-									<Block>
-										<Spinner />
-									</Block>
-								) : (
-									<Button text="More" handler={getMorePrograms} />
-								)}
-							</>
-						)}
-					</Menu>
-				)
-			}
+								))
+							)}
+						</>
+					)}
+
+					{view === "public" && (
+						<>
+							{publicPrograms.map((program) => {
+								const isActive = program._id === activeProgram._id;
+								const isDownloaded = false; // <<<< TEMP
+								return (
+									<ProgramSnippet
+										isPublic
+										isActive={isActive}
+										isDownloaded={isDownloaded}
+										key={program._id}
+										program={program}
+										open={() => viewProgram(program)}
+										activate={() => handleActivate(program)}
+									/>
+								);
+							})}
+							{isDownloading ? (
+								<Block>
+									<Spinner />
+								</Block>
+							) : (
+								<Button text="More" handler={getMorePrograms} />
+							)}
+						</>
+					)}
+				</Menu>
+			)}
 		</Page>
 	);
 };

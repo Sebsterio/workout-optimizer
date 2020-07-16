@@ -1,12 +1,4 @@
-import userActionTypes from "./user.types";
-
-const {
-	USER_LOADED,
-	USER_LOADING,
-	AUTH_SUCCESS,
-	SKIP_AUTH,
-	CLEAR_USER_DATA,
-} = userActionTypes;
+import { userActionTypes as $ } from "./user.types";
 
 const INITIAL_STATE = {
 	token: null,
@@ -19,17 +11,17 @@ const INITIAL_STATE = {
 
 const userReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case SKIP_AUTH:
+		case $.SKIP_AUTH:
 			return {
 				...state,
 				isIncognito: true,
 			};
-		case USER_LOADING:
+		case $.USER_LOADING:
 			return {
 				...state,
 				isLoading: true,
 			};
-		case USER_LOADED:
+		case $.USER_LOADED:
 			return {
 				...state,
 				isIncognito: false,
@@ -37,8 +29,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				isAuthenticated: true,
 				...action.payload,
 			};
-		case AUTH_SUCCESS:
-			// localStorage.setItem("token", action.payload.token);
+		case $.AUTH_SUCCESS:
 			return {
 				...state,
 				isIncognito: false,
@@ -46,8 +37,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				isAuthenticated: true,
 				...action.payload,
 			};
-		case CLEAR_USER_DATA:
-			// localStorage.removeItem("token");
+		case $.CLEAR_USER_DATA:
 			return {
 				isIncognito: false,
 				isLoading: false,

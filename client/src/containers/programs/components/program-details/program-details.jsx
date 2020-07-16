@@ -2,7 +2,14 @@ import React from "react";
 import { Menu, Row, Button, Text, Separator } from "components";
 import { FieldSnippet } from "../index";
 
-const ProgramDetails = ({ program, goBack, activate, isActive }) => {
+const ProgramDetails = ({
+	program,
+	isActive,
+	isDownloaded,
+	goBack,
+	activate,
+	download,
+}) => {
 	const { name, description, fields, dateUpdated } = program;
 	const fieldsArr = JSON.parse(fields);
 
@@ -10,6 +17,11 @@ const ProgramDetails = ({ program, goBack, activate, isActive }) => {
 		<Menu compact>
 			<Row>
 				<Button text="Back" handler={goBack} />
+				<Button
+					text={isDownloaded ? "Downloaded" : "Download"}
+					handler={download}
+					disabled={isDownloaded}
+				/>
 				<Button
 					text={isActive ? "Activated" : "Activate"}
 					handler={activate}

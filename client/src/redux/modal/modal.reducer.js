@@ -1,4 +1,4 @@
-import modalActionTypes from "./modal.types";
+import { modalActionTypes as $ } from "./modal.types";
 
 const INITIAL_STATE = {
 	isOpen: false,
@@ -8,14 +8,14 @@ const INITIAL_STATE = {
 
 const modalReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case modalActionTypes.OPEN_MODAL:
+		case $.OPEN_MODAL:
 			return {
 				cellData: action.payload,
 				isOpen: true,
 				isPickingDate: false,
 			};
 
-		case modalActionTypes.CLOSE_MODAL:
+		case $.CLOSE_MODAL:
 			return {
 				cellData: {},
 				isOpen: false,
@@ -23,7 +23,7 @@ const modalReducer = (state = INITIAL_STATE, action) => {
 			};
 
 		// Close modal preserving cellData
-		case modalActionTypes.PICK_DATE:
+		case $.PICK_DATE:
 			console.log("pickDate in reducer");
 			return {
 				...state,
@@ -32,7 +32,7 @@ const modalReducer = (state = INITIAL_STATE, action) => {
 			};
 
 		// Open modal replacing cellData.dateStr
-		case modalActionTypes.DATE_PICKED: {
+		case $.DATE_PICKED: {
 			const { field, dateStr } = action.payload;
 			return {
 				isOpen: true,

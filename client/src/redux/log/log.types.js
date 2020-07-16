@@ -1,4 +1,4 @@
-const logActionTypes = {
+export const logActionTypes = {
 	// local log
 	CLEAR_LOCAL_LOG: "CLEAR_LOCAL_LOG",
 	UPDATE_LOCAL_LOG_PROGRAM_ID: "UPDATE_LOCAL_LOG_PROGRAM_ID",
@@ -17,5 +17,3 @@ const logActionTypes = {
 	UPDATING_REMOTE_LOG: "UPDATING_REMOTE_LOG",
 	REMOTE_LOG_UPDATED: "REMOTE_LOG_UPDATED",
 };
-
-export default logActionTypes;

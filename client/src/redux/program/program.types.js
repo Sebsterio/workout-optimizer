@@ -1,4 +1,4 @@
-const programActionTypes = {
+export const programActionTypes = {
 	GET_FIELDS: "GET_FIELDS",
 	UPDATE_MAX_CUSTOM_REST: "UPDATE_MAX_CUSTOM_REST",
 	UPDATE_LOCAL_PROGRAM: "UPDATE_LOCAL_PROGRAM",
@@ -17,5 +17,3 @@ const programActionTypes = {
 	LOAD_PROGRAM: "LOAD_PROGRAM",
 	RESET_LOCAL_PROGRAM: "RESET_LOCAL_PROGRAM",
 };
-
-export default programActionTypes;
