@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Menu, Block, Button, Spinner } from "components";
+import { Block, Button, Spinner } from "components";
 import { ProgramSnippet } from "../index";
 
 const ProgramsList = ({
@@ -12,7 +12,7 @@ const ProgramsList = ({
 	getPrograms,
 }) => {
 	useEffect(() => {
-		getPrograms();
+		if (!programs.length) getPrograms();
 	}, [getPrograms]);
 
 	return (

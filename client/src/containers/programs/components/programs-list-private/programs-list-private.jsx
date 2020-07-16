@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Menu, Block, Spinner } from "components";
+import { Block, Spinner, Button } from "components";
 import { ProgramSnippet } from "../index";
 
 const ProgramsList = ({
@@ -14,7 +14,7 @@ const ProgramsList = ({
 	getPrograms,
 }) => {
 	useEffect(() => {
-		getPrograms();
+		if (!programs.length) getPrograms();
 	}, [getPrograms]);
 
 	return (
@@ -39,6 +39,7 @@ const ProgramsList = ({
 					/>
 				))
 			)}
+			<Button text="Refresh" handler={getPrograms} />
 		</>
 	);
 };

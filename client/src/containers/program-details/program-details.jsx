@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Col, Row, Button, Heading, Text, Separator } from "components";
+import { Menu, Row, Button, Heading, Text, Separator } from "components";
 import { FieldSnippet } from "../programs/components/index";
 
 const ProgramDetails = ({

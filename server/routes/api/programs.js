@@ -32,8 +32,9 @@ router.get("/private/:id", auth, async (req, res) => {
 		const { id } = params;
 
 		const programs = await (await Program.find({ userId })).filter(
-			(program) => program._id !== id
+			(program) => String(program._id) !== id
 		);
+
 		if (!programs.length)
 			return res.status(404).json({ msg: "No programs found" });
 		else res.status(200).json(programs);
