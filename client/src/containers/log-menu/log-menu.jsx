@@ -12,7 +12,7 @@ import { DetailsSection, LevelsSection } from "./components";
 import "./log-menu.scss";
 
 const LogMenu = ({
-	cellData: { field, dateStr, stats },
+	cellData: { field, dateStr, dateOffset, stats },
 	updateLogEntry,
 	updateMaxCustomRest,
 	closeModal,
@@ -29,6 +29,8 @@ const LogMenu = ({
 	const [rest, setRest] = useState(getStat("rest", 0));
 
 	const handleClose = () => closeModal();
+
+	const isFuture = dateOffset < 0;
 
 	// Save custom rest in redux to inform Fields about custom max rest
 	const checkCustomRest = (standardRest) => {
@@ -84,7 +86,7 @@ const LogMenu = ({
 			</Row>
 
 			<Separator text="Exercise details" />
-			<DetailsSection {...{ field, details, setDetails }} />
+			<DetailsSection {...{ field, details, isFuture, setDetails }} />
 
 			<Separator text="Intensity and rest" />
 			<LevelsSection

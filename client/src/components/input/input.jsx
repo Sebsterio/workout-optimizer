@@ -23,6 +23,7 @@ export const Input = (props) => {
 	addAttrFromProps("min");
 	addAttrFromProps("max");
 	addAttrFromProps("placeholder");
+	addAttrFromProps("disabled");
 	addAttrFromProps("checked", type === "checkbox");
 	addAttrFromProps("type", type !== "textarea");
 	addAttrFromProps("cols", type === "textarea", String);

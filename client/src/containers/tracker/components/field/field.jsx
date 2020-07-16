@@ -9,6 +9,7 @@ import "./field.scss";
 
 const Field = ({
 	dateStr,
+	dateOffset,
 	field,
 	stats,
 	restLevel,
@@ -21,7 +22,8 @@ const Field = ({
 
 	const handleClick = () => {
 		if (isPickingDate) datePicked({ dateStr, field });
-		else openModal({ mode: "log", data: { dateStr, field, stats } });
+		else
+			openModal({ mode: "log", data: { dateStr, dateOffset, field, stats } });
 	};
 
 	let fieldClass = "field";

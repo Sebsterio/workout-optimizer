@@ -3,7 +3,7 @@ import { Row, Input, Button, Table } from "components";
 
 // ---------------------- Component ------------------------
 
-export const DetailsSection = ({ field, details, setDetails }) => {
+export const DetailsSection = ({ field, isFuture, details, setDetails }) => {
 	// Convert program field labels into a default newEntry object
 	const getDefaultEntry = (field, done) =>
 		field.details.reduce((acc, cur) => {
@@ -46,6 +46,7 @@ export const DetailsSection = ({ field, details, setDetails }) => {
 				handler={(value, { checked }) =>
 					updateEntry({ value, checked, i, label, type })
 				}
+				disabled={label === "done" && isFuture}
 			/>
 		));
 
@@ -66,7 +67,11 @@ export const DetailsSection = ({ field, details, setDetails }) => {
 
 			<Row center>
 				<Button text="New plan" handler={(e) => addEntry(e, false)} />
-				<Button text="New log" handler={(e) => addEntry(e, true)} />
+				<Button
+					text="New log"
+					handler={(e) => addEntry(e, true)}
+					disabled={isFuture}
+				/>
 			</Row>
 		</>
 	);
