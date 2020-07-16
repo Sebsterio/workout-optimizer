@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { loadUser } from "redux/user/user.actions";
+import { loadUser } from "redux/user/user.operations";
 
 import App from "./app";
 

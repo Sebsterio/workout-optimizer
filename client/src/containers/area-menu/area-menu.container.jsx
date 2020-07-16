@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { updateProgram } from "redux/program/program.actions";
+import { updateProgram } from "redux/program/program.operations";
 import AreaMenu from "./area-menu";
 
 const mapStateToProps = (state) => ({

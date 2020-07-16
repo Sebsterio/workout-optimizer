@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import {
 	getPublicPrograms,
 	getPrivatePrograms,
-} from "redux/programs/programs.actions";
-import { activateProgram } from "redux/program/program.actions";
+} from "redux/programs/programs.operations";
+import { activateProgram } from "redux/program/program.operations";
 
 import ProgramsPage from "./programs.page";
 

@@ -93,11 +93,6 @@ const programReducer = (state = INITIAL_STATE, action) => {
 				...INITIAL_STATE,
 			};
 		}
-		case $.LOAD_PROGRAM: {
-			return {
-				...action.payload,
-			};
-		}
 		default:
 			return state;
 	}

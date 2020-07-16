@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { updateLogEntry } from "redux/log/log.actions";
+import { updateLogEntry } from "redux/log/log.operations";
 import { updateMaxCustomRest } from "redux/program/program.actions";
 import { pickDate } from "redux/modal/modal.actions";
 

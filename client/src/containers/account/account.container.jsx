@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { logout, skipAuth } from "redux/user/user.actions";
+import { skipAuth } from "redux/user/user.actions";
+import { logout } from "redux/user/user.operations";
 import { clearError } from "redux/error/error.actions";
 
 import AccountPage from "./account.page";

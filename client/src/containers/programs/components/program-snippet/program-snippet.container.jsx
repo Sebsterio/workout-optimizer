@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { removeProgram } from "redux/programs/programs.actions";
-import { duplicateProgram } from "redux/program/program.actions";
+import { removeProgram } from "redux/programs/programs.operations";
+import { duplicateProgram } from "redux/program/program.operations";
 
 import ProgramsSnippet from "./program-snippet";
 
