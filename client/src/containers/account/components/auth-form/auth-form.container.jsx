@@ -5,10 +5,6 @@ import { login, register, closeAccount } from "redux/user/user.operations";
 
 import Form from "./auth-form";
 
-const mapStateToProps = (state) => ({
-	user: state.user,
-});
-
 const mapDispatchToProps = (dispatch) => ({
 	login: (data) => dispatch(login(data)),
 	register: (data) => dispatch(register(data)),
@@ -19,4 +15,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 const AuthFormContainer = (props) => <Form {...props} />;
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthFormContainer);
+export default connect(null, mapDispatchToProps)(AuthFormContainer);

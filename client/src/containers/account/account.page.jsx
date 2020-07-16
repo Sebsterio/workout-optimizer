@@ -17,13 +17,15 @@ const AccountPage = ({ user, logout, skipAuth, clearError }) => {
 
 	const { isAuthenticated, isLocal } = user;
 
+	const welcomeMsg = `Welcome${user && `, ${user.name}`}`;
+
 	return (
 		<Page>
 			{form ? (
 				<AuthForm mode={form} goBack={closeForm} />
 			) : isAuthenticated ? (
 				<Menu compact>
-					<Heading text={`Welcome, ${user && user.name}`} />
+					<Heading text={welcomeMsg} />
 					<Button text="Log out" handler={logout} />
 					<Button text="Connect with PT" handler={() => openForm("connect")} />
 					<Button text="Manage account" handler={() => openForm("update")} />

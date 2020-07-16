@@ -2,11 +2,11 @@ import { userActionTypes as $ } from "./user.types";
 
 const INITIAL_STATE = {
 	token: null,
-	isIncognito: false,
-	isLoading: false,
-	isAuthenticated: false,
 	name: null,
 	_id: null,
+	isLoading: false,
+	isAuthenticated: false,
+	isIncognito: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {

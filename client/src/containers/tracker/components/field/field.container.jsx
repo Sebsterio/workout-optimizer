@@ -1,11 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import {
-	makeGetStats,
-	makeGetRestLevel,
-} from "../../../../redux/log/log.selectors";
-import { openModal, datePicked } from "../../../../redux/modal/modal.actions";
+import { makeGetStats, makeGetRestLevel } from "redux/log/log.selectors";
+import { openModal, datePicked } from "redux/modal/modal.actions";
 
 import Field from "./field";
 
@@ -14,14 +11,14 @@ const makeMapStateToProps = () => {
 	const getRestLevel = makeGetRestLevel();
 
 	return (state, props) => ({
-		// Entry duplication in progress
-		isPickingDate: state.modal.isPickingDate,
-
 		// Current day log entry (including exercise rest prop)
 		stats: getStats(state, props),
 
 		// Rest level calculated from past exercises
 		restLevel: getRestLevel(state, props),
+
+		// Is entry duplication in progress
+		isPickingDate: state.modal.isPickingDate,
 	});
 };
 
