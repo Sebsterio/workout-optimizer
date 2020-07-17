@@ -12,12 +12,12 @@ const ProgramDetails = ({
 	// withRouter
 	history,
 	// TODO
-	isDownloaded = true,
+	isSaved = true,
 }) => {
 	const { name, description, fields, dateUpdated } = program;
 	const fieldsArr = JSON.parse(fields);
 
-	const download = () => {};
+	const save = () => {};
 
 	const handleActivate = () => {
 		activateProgram();
@@ -30,9 +30,9 @@ const ProgramDetails = ({
 			<Row>
 				<Button text="Back" handler={closeModal} />
 				<Button
-					text={isDownloaded ? "Downloaded" : "Download"}
-					handler={download}
-					disabled={isDownloaded}
+					text={isSaved ? "Saved" : "Save"}
+					handler={save}
+					disabled={isSaved}
 				/>
 				<Button
 					text={isActivated ? "Activated" : "Activate"}

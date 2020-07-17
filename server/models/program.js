@@ -9,10 +9,12 @@ const ProgramSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	isPublic: Boolean,
 	dateUpdated: Date,
 	description: String,
 	fields: String,
+	isPublic: Boolean,
+	// users who have saved it (and still have it)
+	users: [String],
 });
 
 const Program = mongoose.model("program", ProgramSchema);

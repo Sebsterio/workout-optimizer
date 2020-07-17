@@ -13,7 +13,7 @@ const ProgramsList = ({
 }) => {
 	useEffect(() => {
 		if (!programs.length) getPrograms();
-	}, [getPrograms]);
+	}, [programs, getPrograms]);
 
 	return (
 		<>

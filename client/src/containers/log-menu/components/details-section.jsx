@@ -43,10 +43,10 @@ export const DetailsSection = ({ field, isFuture, details, setDetails }) => {
 				name={label}
 				checked={type === "checkbox" ? entry[label] : null}
 				value={entry[label]}
+				disabled={label === "done" && isFuture}
 				handler={(value, { checked }) =>
 					updateEntry({ value, checked, i, label, type })
 				}
-				disabled={label === "done" && isFuture}
 			/>
 		));
 

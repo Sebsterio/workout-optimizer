@@ -7,8 +7,9 @@ const LogSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	PTs: [String], // PT userIDs
-	programId: String, // ObjectId of corresponding program
+	// ObjectId of corresponding program
+	// stored in log for now as log syncs according to dateUpdated prop
+	programId: String,
 	dateUpdated: Date,
 	entries: [
 		{

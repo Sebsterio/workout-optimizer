@@ -125,6 +125,16 @@ export const syncProgram = () => (dispatch, getState) => {
 		});
 };
 
+// add userId to public program and add program to private list
+export const savePublicProgram = (program) => (dispatch, getState) => {
+	console.log("Yo");
+
+	// POST userId to public program in db
+
+	// then:
+	// dispatch(addPrivateProgram(program));
+};
+
 // Replace current program and save newProgram id in log
 export const activateProgram = (newProgram) => (dispatch, getState) => {
 	if (newProgram) {
@@ -137,7 +147,7 @@ export const activateProgram = (newProgram) => (dispatch, getState) => {
 		dispatch(updateLocalProgram(convertRemoteProgram(newProgram)));
 		dispatch(updateLogProgramId(newProgram._id));
 	} else {
-		// Activate standard program
+		// Activate standard program (initial)
 		dispatch(resetLocalProgram());
 		dispatch(updateLogProgramId(null));
 	}

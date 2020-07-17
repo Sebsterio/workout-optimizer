@@ -30,7 +30,7 @@ const LogMenu = ({
 
 	const handleClose = () => closeModal();
 
-	const isFuture = dateOffset < 0;
+	const isFuture = dateOffset > 0;
 
 	// Save custom rest in redux to inform Fields about custom max rest
 	const checkCustomRest = (standardRest) => {

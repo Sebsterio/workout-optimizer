@@ -3,7 +3,7 @@ import { userActionTypes as $ } from "./user.types";
 const INITIAL_STATE = {
 	token: null,
 	name: null,
-	_id: null,
+	id: null,
 	isLoading: false,
 	isAuthenticated: false,
 	isIncognito: false,

@@ -20,7 +20,7 @@ const UserSchema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
-	logs: [String], // log IDs
+	mentors: [String], // Mentors' userIDs
 });
 
 const User = mongoose.model("user", UserSchema);
