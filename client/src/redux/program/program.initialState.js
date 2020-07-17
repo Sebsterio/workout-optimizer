@@ -6,7 +6,7 @@ export const INITIAL_STATE = {
 	isPublishing: false,
 	isPublished: true, // does a public copy exist
 	isPublic: true, // is this a public copy
-	_id: null, // = standard program
+	id: null, // = standard program
 	dateUpdated: null,
 	name: "Standard program",
 	description: "Some description bla bla bla...",

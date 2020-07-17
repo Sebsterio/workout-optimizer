@@ -39,7 +39,7 @@ export const convertLocalEntry = (entryName, entryValue) => ({
 export const convertLocalEntries = (entries) =>
 	Object.entries(entries).map((entry) => convertLocalEntry(entry[0], entry[1]));
 
-// Convert imported remote log entries
+// Convert fetched remote log entries
 export const convertRemoteEntries = (entries) => {
 	const newEntries = {};
 	entries.forEach((entry) => {
@@ -48,4 +48,12 @@ export const convertRemoteEntries = (entries) => {
 		newEntries[entryName] = content;
 	});
 	return newEntries;
+};
+
+// Convert fetched log
+export const convertRemoteLog = (remoteLog) => {
+	return {
+		...remoteLog,
+		entries: convertRemoteEntries(remoteLog.entries),
+	};
 };

@@ -17,9 +17,9 @@ export const ProgramSnippet = ({
 	remove,
 	duplicate,
 }) => {
-	const { _id, name, author } = program;
+	const { id, name, author } = program;
 
-	const isStandardProgram = !_id;
+	const isStandardProgram = !id;
 	const nothingToRemove = isStandardProgram && noPrivatePrograms;
 
 	// Is on public list

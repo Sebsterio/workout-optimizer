@@ -4,26 +4,14 @@ import { getFilteredArray } from "./programs.utils";
 const INITIAL_STATE = {
 	downloading: false,
 	updating: false,
-	private: [],
-	public: [],
+	saved: [], // Present in user's programsList
+	fetched: [], // Kept temporarily (not persisted)
 };
 
 const programsReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case $.REMOVING_REMOTE_PROGRAM:
-		case $.REMOVING_ALL_REMOTE_PROGRAMS: {
-			return {
-				...state,
-				updating: true,
-			};
-		}
-		case $.REMOTE_PROGRAM_REMOVED:
-		case $.ALL_REMOTE_PROGRAMS_REMOVED: {
-			return {
-				...state,
-				updating: false,
-			};
-		}
+		// ---------- Download remote programs ----------
+
 		case $.DOWNLOADING_PROGRAMS: {
 			return {
 				...state,
@@ -39,29 +27,48 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 		case $.PROGRAMS_DOWNLAD_FAIL: {
-			const { group } = action.payload;
 			return {
 				...state,
 				downloading: false,
-				[group]: [],
 			};
 		}
+
+		// ---------- Update/remove remote program(s) ----------
+
+		case $.REMOVING_REMOTE_PROGRAM:
+		case $.REMOVING_ALL_REMOTE_PROGRAMS:
+		case $.UPDATING_REMOTE_PUBLIC_PROGRAM: {
+			return {
+				...state,
+				updating: true,
+			};
+		}
+		case $.REMOTE_PROGRAM_REMOVED:
+		case $.ALL_REMOTE_PROGRAMS_REMOVED:
+		case $.REMOTE_PUBLIC_PROGRAM_UPDATED: {
+			return {
+				...state,
+				updating: false,
+			};
+		}
+
+		// ---------- Update/remove local program(s) ----------
+
 		// Unshift program or move to front if already present
 		case $.ADD_PRIVATE_PROGRAM: {
 			const newProgram = action.payload;
 			if (!newProgram || !newProgram.name) return state;
 			return {
 				...state,
-				private: [newProgram, ...getFilteredArray(state.private, newProgram)],
+				saved: [newProgram, ...getFilteredArray(state.saved, newProgram)],
 			};
 		}
 		case $.REMOVE_LOCAL_PRIVATE_PROGRAM: {
 			return {
 				...state,
-				private: [...getFilteredArray(state.private, action.payload)],
+				saved: [...getFilteredArray(state.saved, action.payload)],
 			};
 		}
-
 		case $.CLEAR_LOCAL_PROGRAMS: {
 			return INITIAL_STATE;
 		}

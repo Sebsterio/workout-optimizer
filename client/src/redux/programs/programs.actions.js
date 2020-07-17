@@ -5,14 +5,16 @@ import { programsActionTypes as $ } from "./programs.types";
 export const downloadingPrograms = () => ({
 	type: $.DOWNLOADING_PROGRAMS,
 });
+
 export const programsDownloadSuccess = (data) => ({
 	type: $.PROGRAMS_DOWNLAD_SUCCESS,
 	payload: data,
 });
-export const programsDownloadFail = (data) => ({
+
+export const programsDownloadFail = () => ({
 	type: $.PROGRAMS_DOWNLAD_FAIL,
-	payload: data,
 });
+
 export const removingAllRemotePrograms = () => ({
 	type: $.REMOVING_ALL_REMOTE_PROGRAMS,
 });
@@ -32,7 +34,7 @@ export const addPrivateProgram = (data) => ({
 	payload: data,
 });
 
-export const removeLocalPrivateProgram = (data) => ({
+export const removeLocalSavedProgram = (data) => ({
 	type: $.REMOVE_LOCAL_PRIVATE_PROGRAM,
 	payload: data,
 });
@@ -45,4 +47,12 @@ export const removingRemoteProgram = () => ({
 
 export const remoteProgramRemoved = () => ({
 	type: $.REMOTE_PROGRAM_REMOVED,
+});
+
+export const updatingRemotePublicProgram = () => ({
+	type: $.UPDATING_REMOTE_PUBLIC_PROGRAM,
+});
+
+export const remotePublicProgramUpdated = () => ({
+	type: $.REMOTE_PUBLIC_PROGRAM_UPDATED,
 });

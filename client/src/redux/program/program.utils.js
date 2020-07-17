@@ -46,16 +46,13 @@ export const getUpdatedFields = (state, payload) => {
 	throw Error("Invalid mode");
 };
 
-export const getConvertedLocalProgram = (getState) =>
+export const getConvertedLocalCurrentProgram = (getState) =>
 	convertLocalProgram(getState().program);
 
-export const convertLocalProgram = (program) => {
-	const newProgram = {
-		...program,
-		fields: JSON.stringify(program.fields),
-	};
-	return newProgram;
-};
+export const convertLocalProgram = (program) => ({
+	...program,
+	fields: JSON.stringify(program.fields),
+});
 
 export const convertRemoteProgram = (program) => {
 	const newProgram = {

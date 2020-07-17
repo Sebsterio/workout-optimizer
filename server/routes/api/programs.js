@@ -2,16 +2,16 @@ const express = require("express");
 
 const auth = require("../../middleware/auth");
 const Program = require("../../models/program");
+const ProgramsList = require("../../models/programs-list");
 
 const router = express.Router();
 
-// ---------------- Get public programs -----------------
+// ---------------------- Get public programs -----------------------
 
 // @access: all
 
 router.get("/public", async (req, res) => {
 	try {
-		// const { query } = req;
 		const programs = await Program.find({ isPublic: true }).limit(10);
 		if (!programs.length)
 			return res.status(404).json({ msg: "No programs found" });
@@ -21,31 +21,57 @@ router.get("/public", async (req, res) => {
 	}
 });
 
-// ---------------- Get private programs -----------------
+// ------------------------ Get own programs -------------------------
 
 // @access: user
 
-// Get all except current program (:id)
-router.get("/private/:id", auth, async (req, res) => {
+// Get all programs from user's programs list except current program
+router.get("/saved", auth, async (req, res) => {
 	try {
-		const { userId, params } = req;
-		const { id } = params;
+		const { userId } = req;
 
-		const programs = await (await Program.find({ userId })).filter(
-			(program) => String(program._id) !== id
-		);
+		// Get list of user's programs IDs
+		const programsList = await ProgramsList.findOne({ userId });
+		if (!programsList)
+			return res.status(404).json({ msg: "Programs list not found" });
 
-		if (!programs.length)
-			return res.status(404).json({ msg: "No programs found" });
-		else res.status(200).json(programs);
+		const { current, all } = programsList;
+		if (!all.length) return res.status(404).json({ msg: "No programs found" });
+
+		// Exclude current program
+		all = all.filter((programId) => programId !== current);
+
+		// Get array of actual programs
+		const programIdsRegex = all.map((programId) => `(${programId})`).join("|");
+		const programs = await Program.find({ id: { $regex: programIdsRegex } });
+
+		res.status(200).json(programs);
 	} catch (e) {
 		res.status(400).json({ msg: e.message });
 	}
 });
 
-module.exports = router;
+// -------------------- Delete own program -------------------
 
-// -------------------- Delete all own programs -------------------
+// @access: program owner only
+
+router.delete("/:id", auth, async (req, res) => {
+	try {
+		const { userId, params } = req;
+		const { id } = params;
+
+		const program = await Program.findOne({ id });
+		if (!program) throw Error("Program does not exist");
+		if (program.userId !== userId) throw Error("Unauthorized");
+
+		await Program.findOneAndRemove({ id });
+		res.status(200).send();
+	} catch (e) {
+		res.status(400).json({ msg: e.message });
+	}
+});
+
+// ---------------- Delete all own private programs ----------------
 
 // @access: program owner only
 
@@ -58,3 +84,7 @@ router.delete("/private", auth, async (req, res) => {
 		res.status(400).json({ msg: e.message });
 	}
 });
+
+// ----------------------------------------------------------------
+
+module.exports = router;

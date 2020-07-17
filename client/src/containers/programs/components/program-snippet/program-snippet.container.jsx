@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getIsActivated } from "redux/program/program.selectors";
 import {
 	activateProgram,
-	duplicateProgram,
+	duplicateCurrentProgram,
 } from "redux/program/program.operations";
 import { removeProgram } from "redux/programs/programs.operations";
 
@@ -17,7 +17,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch, props) => ({
 	activate: () => dispatch(activateProgram(props.program)),
 	remove: () => dispatch(removeProgram(props.program)),
-	duplicate: () => dispatch(duplicateProgram(props.program)),
+	duplicate: () => dispatch(duplicateCurrentProgram(props.program)),
 });
 
 const ProgramsSnippetContainer = (props) => <ProgramsSnippet {...props} />;

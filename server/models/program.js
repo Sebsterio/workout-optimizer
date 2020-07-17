@@ -4,17 +4,14 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const ProgramSchema = new Schema({
+	name: String,
+	id: String,
 	userId: String,
-	name: {
-		type: String,
-		required: true,
-	},
 	dateUpdated: Date,
 	description: String,
 	fields: String,
 	isPublic: Boolean,
-	// users who have saved it (and still have it)
-	users: [String],
+	author: String,
 });
 
 const Program = mongoose.model("program", ProgramSchema);

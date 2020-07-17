@@ -37,11 +37,11 @@ router.post("/register", async (req, res) => {
 		const savedUser = await newUser.save();
 		if (!savedUser) throw Error("Error saving the user");
 
-		const token = jwt.sign({ userId: savedUser._id }, process.env.JWT_SECRET);
+		const token = jwt.sign({ userId: savedUser.id }, process.env.JWT_SECRET);
 
 		res.status(200).json({
 			token,
-			_id: savedUser._id,
+			id: savedUser.id,
 			name: savedUser.name,
 		});
 	} catch (e) {
@@ -64,12 +64,12 @@ router.post("/login", async (req, res) => {
 		const isMatch = await bcrypt.compare(password, user.password);
 		if (!isMatch) throw Error("Invalid credentials");
 
-		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+		const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
 		if (!token) throw Error("Couldn't sign the token");
 
 		res.status(200).json({
 			token,
-			id: user._id,
+			id: user.id,
 			name: user.name,
 		});
 	} catch (e) {
@@ -88,7 +88,7 @@ router.get("/", auth, async (req, res) => {
 		if (!user) throw Error("User Does not exist");
 
 		res.status(200).json({
-			id: user._id,
+			id: user.id,
 			name: user.name,
 		});
 	} catch (e) {
@@ -116,5 +116,7 @@ router.post("/delete", auth, async (req, res) => {
 		res.status(400).json({ msg: e.message });
 	}
 });
+
+// ----------------------------------------------------------------
 
 module.exports = router;

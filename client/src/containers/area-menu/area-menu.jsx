@@ -34,7 +34,7 @@ const tabsList = [
 	},
 ];
 
-const AreaMenu = ({ cellData, fields, closeModal, updateProgram }) => {
+const AreaMenu = ({ cellData, fields, closeModal, updateCurrentProgram }) => {
 	const { field } = cellData;
 
 	const [name, setName] = useState(field.name || "");
@@ -54,7 +54,7 @@ const AreaMenu = ({ cellData, fields, closeModal, updateProgram }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const newFieldData = { name, description, levels, details, icon };
-		updateProgram({ mode: "replace-field", field, newFieldData });
+		updateCurrentProgram({ mode: "replace-field", field, newFieldData });
 		closeModal();
 	};
 

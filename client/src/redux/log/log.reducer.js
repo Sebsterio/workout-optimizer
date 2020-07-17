@@ -43,13 +43,6 @@ const logReducer = (state = INITIAL_STATE, action) => {
 				entries: getUpdatedEntries(state, action.payload),
 			};
 		}
-		case $.UPDATE_LOCAL_LOG_PROGRAM_ID: {
-			return {
-				...state,
-				dateUpdated: action.payload.dateUpdated,
-				programId: action.payload.id,
-			};
-		}
 		case $.CLEAR_LOCAL_LOG: {
 			return {
 				isSyncing: false,

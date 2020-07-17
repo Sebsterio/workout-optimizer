@@ -4,8 +4,8 @@ import { ProgramField } from "./components";
 
 const ProgramMenu = ({
 	program,
-	updateProgram,
-	publishProgram,
+	updateCurrentProgram,
+	publishCurrentProgram,
 	openModal,
 	history,
 }) => {
@@ -31,7 +31,7 @@ const ProgramMenu = ({
 			newProps.name = newName + " (custom)";
 			setNewName(newProps.name);
 		}
-		updateProgram(newProps);
+		updateCurrentProgram(newProps);
 	};
 
 	const handleReset = () => {
@@ -47,7 +47,7 @@ const ProgramMenu = ({
 					text={
 						isPublishing ? "Publishing" : isPublished ? "Published" : "Publish"
 					}
-					handler={publishProgram}
+					handler={publishCurrentProgram}
 					disabled={isPublishing || isPublished || isPublic}
 				/>
 				<Button disabled text="Delete" />
@@ -93,7 +93,7 @@ const ProgramMenu = ({
 				<ProgramField
 					key={field.name}
 					field={field}
-					updateProgram={updateProgram}
+					updateCurrentProgram={updateCurrentProgram}
 					openModal={openModal}
 				/>
 			))}

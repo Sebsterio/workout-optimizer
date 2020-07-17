@@ -24,9 +24,6 @@ router.post("/create", auth, async (req, res) => {
 // @access: log owner and  PT
 
 router.post("/sync", auth, async (req, res) => {
-	// TODO: verfiy userId against lowOnwer's id and PTs array
-	// const inquiringUserId = req.userId;
-	// const logOwnerUserId = null;
 	const { userId } = req;
 	const log = await Log.findOne({ userId });
 	if (!log) return res.status(404).json({ msg: "Log not found" });
@@ -57,29 +54,6 @@ router.delete("/", auth, async (req, res) => {
 	}
 });
 
-// ----------------------- Update prop ------------------------
-
-// @access: log owner and  PT
-
-router.post("/update", auth, async (req, res) => {
-	const { userId } = req;
-	const { programId, dateUpdated } = req.body;
-
-	console.log("programId ", programId);
-
-	try {
-		const log = await Log.findOne({ userId });
-		if (!log) throw Error("Log not found");
-
-		log.dateUpdated = dateUpdated;
-		log.programId = programId;
-		await log.save();
-
-		res.status(200).send();
-	} catch (err) {
-		res.status(400).json({ msg: err.message });
-	}
-});
 // ---------------- Add / update / remove entry -----------------
 
 // @access: log owner and  PT
@@ -116,5 +90,7 @@ router.post("/entry", auth, async (req, res) => {
 		res.status(400).json({ msg: err.message });
 	}
 });
+
+// ----------------------------------------------------------------
 
 module.exports = router;

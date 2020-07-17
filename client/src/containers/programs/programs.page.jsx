@@ -2,25 +2,18 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 import { Page, Menu, Button, Heading, Row } from "components";
-import { ProgramsListPrivate, ProgramsListPublic } from "./components";
+import { ProgramsListSaved, ProgramsListFetched } from "./components";
 
-const ProgramsPage = ({ match, history, activateProgram, openModal }) => {
+const ProgramsPage = ({ match, history }) => {
 	const { list } = match.params;
 
 	if (!list) return <Redirect to="programs/private" />;
-
-	// ------------------- handlers -------------------
 
 	const openPrivateList = () => history.replace("/programs/private");
 
 	const openPublicList = () => history.replace("/programs/public");
 
 	const editCurrentProgram = () => history.push("/edit-program");
-
-	const viewProgram = (program) =>
-		openModal({ mode: "program", data: program });
-
-	// ------------------- render -------------------
 
 	return (
 		<Page>
@@ -41,13 +34,10 @@ const ProgramsPage = ({ match, history, activateProgram, openModal }) => {
 				</Row>
 
 				{list === "private" && (
-					<ProgramsListPrivate
-						editCurrentProgram={editCurrentProgram}
-						viewProgram={viewProgram}
-					/>
+					<ProgramsListSaved editCurrentProgram={editCurrentProgram} />
 				)}
 
-				{list === "public" && <ProgramsListPublic viewProgram={viewProgram} />}
+				{list === "public" && <ProgramsListFetched />}
 			</Menu>
 		</Page>
 	);

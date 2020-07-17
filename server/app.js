@@ -9,6 +9,7 @@ const authRoutes = require("./routes/api/auth");
 const logRoutes = require("./routes/api/log");
 const programRoutes = require("./routes/api/program");
 const programsRoutes = require("./routes/api/programs");
+const ProgramsListRoutes = require("./routes/api/programs-list");
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/log", logRoutes);
 app.use("/api/program", programRoutes);
 app.use("/api/programs", programsRoutes);
+app.use("/api/programs-list", ProgramsListRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {

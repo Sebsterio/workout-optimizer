@@ -6,16 +6,19 @@ import { ProgramSnippet } from "../index";
 const ProgramsList = ({
 	// parent
 	editCurrentProgram,
-	viewProgram,
 	// redux
 	currentProgram,
 	programs,
 	isDownloading,
 	getPrograms,
+	openModal,
 }) => {
 	useEffect(() => {
 		if (!programs.length) getPrograms();
 	}, [programs, getPrograms]);
+
+	const viewProgram = (program) =>
+		openModal({ mode: "program", data: program });
 
 	return (
 		<>
@@ -33,7 +36,7 @@ const ProgramsList = ({
 			) : (
 				programs.map((program) => (
 					<ProgramSnippet
-						key={program._id}
+						key={program.id}
 						program={program}
 						open={() => viewProgram(program)}
 					/>

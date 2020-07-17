@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import {
-	updateProgram,
-	publishProgram,
+	updateCurrentProgram,
+	publishCurrentProgram,
 } from "redux/program/program.operations";
 import { openModal } from "redux/modal/modal.actions";
 
@@ -14,8 +14,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	updateProgram: (data) => dispatch(updateProgram(data)),
-	publishProgram: () => dispatch(publishProgram()),
+	updateCurrentProgram: (data) => dispatch(updateCurrentProgram(data)),
+	publishCurrentProgram: () => dispatch(publishCurrentProgram()),
 	openModal: (data) => dispatch(openModal(data)),
 });
 

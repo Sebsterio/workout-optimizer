@@ -1,21 +1,21 @@
 import React from "react";
 import { Button, Icon, Block, Col, Row } from "components";
 
-const ProgramField = ({ field, openModal, updateProgram }) => {
+const ProgramField = ({ field, openModal, updateCurrentProgram }) => {
 	const { name, icon } = field;
 
 	const handleEdit = () => openModal({ mode: "row", data: { field } });
 
 	const handleDuplicate = () => {
-		updateProgram({ mode: "duplicate-field", field });
+		updateCurrentProgram({ mode: "duplicate-field", field });
 	};
 
 	const handleDelete = () => {
-		updateProgram({ mode: "delete-field", field });
+		updateCurrentProgram({ mode: "delete-field", field });
 	};
 
 	const handleMove = (direction) => {
-		updateProgram({ mode: "move-field", field, direction });
+		updateCurrentProgram({ mode: "move-field", field, direction });
 	};
 
 	return (

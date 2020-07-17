@@ -5,7 +5,7 @@ export const updateMaxCustomRest = (data) => ({
 	payload: data,
 });
 
-export const clearLocalProgram = () => ({
+export const clearLocalCurrentProgram = () => ({
 	type: $.CLEAR_LOCAL_PROGRAM,
 });
 
@@ -31,11 +31,11 @@ export const programSynced = (data) => ({
 	payload: data,
 });
 
-export const updateLocalProgram = (data) => ({
+export const updateLocalCurrentProgram = (data) => ({
 	type: $.UPDATE_LOCAL_PROGRAM,
 	payload: data,
 });
-export const updateLocalProgramFields = (data) => ({
+export const updateLocalCurrentProgramFields = (data) => ({
 	type: $.UPDATE_LOCAL_PROGRAM_FIELDS,
 	payload: data,
 });
@@ -48,11 +48,11 @@ export const remoteProgramUpdated = () => ({
 	type: $.REMOTE_PROGRAM_UPDATED,
 });
 
-export const publishingProgram = () => ({
+export const publishingCurrentProgram = () => ({
 	type: $.PUBLISHING_PROGRAM,
 });
 
-export const programPublished = () => ({
+export const currentProgramPublished = () => ({
 	type: $.PROGRAM_PUBLISHED,
 });
 
@@ -60,6 +60,6 @@ export const programPublishFail = () => ({
 	type: $.PROGRAM_PUBLISH_FAIL,
 });
 
-export const resetLocalProgram = () => ({
+export const resetLocalCurrentProgram = () => ({
 	type: $.RESET_LOCAL_PROGRAM,
 });

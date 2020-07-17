@@ -15,11 +15,15 @@ import {
 import { clearLocalLog } from "redux/log/log.actions";
 import {
 	createRemoteProgram,
-	syncProgram,
+	syncCurrentProgram,
 } from "redux/program/program.operations";
-import { resetLocalProgram } from "redux/program/program.actions";
+import { resetLocalCurrentProgram } from "redux/program/program.actions";
 import { removeAllPrograms } from "redux/programs/programs.operations";
 import { clearLocalPrograms } from "redux/programs/programs.actions";
+import {
+	createRemoteProgramsList,
+	removeRemoteProgramsList,
+} from "redux/programs-list/programs-list.operations";
 
 import { getConfig, getTokenConfig } from "../utils";
 
@@ -32,6 +36,7 @@ export const register = (formData) => (dispatch, getState) => {
 		.post("/api/auth/register", JSON.stringify(formData), getConfig())
 		.then((res) => dispatch(authSuccess(res.data)))
 		.then(() => dispatch(createRemoteLog()))
+		.then(() => dispatch(createRemoteProgramsList()))
 		.then(() => {
 			// create remoteProgram if localProgram has been modified
 			const { isPublished } = getState().program;
@@ -51,7 +56,7 @@ export const login = (formData) => (dispatch) => {
 		.post("/api/auth/login", JSON.stringify(formData), getConfig())
 		.then((res) => dispatch(authSuccess(res.data)))
 		.then(() => dispatch(syncLog()))
-		.then(() => dispatch(syncProgram()))
+		.then(() => dispatch(syncCurrentProgram()))
 		.catch((err) => {
 			dispatch(getError(err, "LOGIN_FAIL"));
 			dispatch(clearUserData());
@@ -65,7 +70,7 @@ export const loadUser = () => (dispatch, getState) => {
 		.get("/api/auth", getTokenConfig(getState))
 		.then((res) => dispatch(userLoaded(res.data)))
 		.then(() => dispatch(syncLog()))
-		.then(() => dispatch(syncProgram()))
+		.then(() => dispatch(syncCurrentProgram()))
 		// NOTE: don't getError - causes redundant alert
 		.catch((err) => dispatch(clearUserData()));
 };
@@ -74,7 +79,7 @@ export const loadUser = () => (dispatch, getState) => {
 export const logout = () => (dispatch) => {
 	dispatch(clearUserData());
 	dispatch(clearLocalLog());
-	dispatch(resetLocalProgram());
+	dispatch(resetLocalCurrentProgram());
 	dispatch(clearLocalPrograms());
 };
 
@@ -82,13 +87,14 @@ export const logout = () => (dispatch) => {
 export const closeAccount = (formData) => (dispatch, getState) => {
 	dispatch(clearError());
 	const token = getTokenConfig(getState);
+	dispatch(removeRemoteLog(token));
+	dispatch(removeRemoteProgramsList(token));
+	dispatch(removeAllPrograms(token)); // <<<< change
 	axios
 		.post("api/auth/delete", JSON.stringify(formData), token)
 		.then(() => {
 			dispatch(logout());
-			dispatch(removeRemoteLog(token));
-			dispatch(removeAllPrograms(token)); // <<<< change
+			localStorage.clear();
 		})
-		.then(() => localStorage.clear())
 		.catch((err) => dispatch(getError(err, "CLOSE_ACCOUNT_FAIL")));
 };

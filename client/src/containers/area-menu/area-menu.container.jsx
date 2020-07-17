@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { updateProgram } from "redux/program/program.operations";
+import { updateCurrentProgram } from "redux/program/program.operations";
 import AreaMenu from "./area-menu";
 
 const mapStateToProps = (state) => ({
@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	updateProgram: (data) => dispatch(updateProgram(data)),
+	updateCurrentProgram: (data) => dispatch(updateCurrentProgram(data)),
 });
 
 const AreaMenuContainer = (props) => <AreaMenu {...props} />;
