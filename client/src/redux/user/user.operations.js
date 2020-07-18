@@ -18,7 +18,7 @@ import {
 	syncCurrentProgram,
 } from "redux/program/program.operations";
 import { resetLocalCurrentProgram } from "redux/program/program.actions";
-import { removeAllPrograms } from "redux/programs/programs.operations";
+import { removeAllPrivatePrograms } from "redux/programs/programs.operations";
 import { clearLocalPrograms } from "redux/programs/programs.actions";
 import {
 	createRemoteProgramsList,
@@ -89,7 +89,7 @@ export const closeAccount = (formData) => (dispatch, getState) => {
 	const token = getTokenConfig(getState);
 	dispatch(removeRemoteLog(token));
 	dispatch(removeRemoteProgramsList(token));
-	dispatch(removeAllPrograms(token)); // <<<< change
+	dispatch(removeAllPrivatePrograms(token)); // <<<< change
 	axios
 		.post("api/auth/delete", JSON.stringify(formData), token)
 		.then(() => {

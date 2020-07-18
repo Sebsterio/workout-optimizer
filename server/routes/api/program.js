@@ -38,21 +38,14 @@ router.post("/update", auth, async (req, res) => {
 		const { id, name, description, fields, dateUpdated } = req.body;
 
 		const program = await Program.findOne({ id });
-		if (!program) {
-			return res.status(404).send();
-		}
-		if (program.userId !== userId) {
+
+		if (!program) return res.status(404).send();
+		if (program.userId !== userId)
 			return res.status(401).json({ msg: "Unauthorized" });
-		}
 
 		await Program.findOneAndUpdate(
 			{ id },
-			{
-				name,
-				description,
-				fields,
-				dateUpdated,
-			}
+			{ name, description, fields, dateUpdated }
 		);
 
 		res.status(200).send();

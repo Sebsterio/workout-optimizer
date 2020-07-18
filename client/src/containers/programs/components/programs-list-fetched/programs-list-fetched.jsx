@@ -22,7 +22,7 @@ const ProgramsList = ({
 			{programs.map((program) => {
 				return (
 					<ProgramSnippet
-						isPublic
+						isFetched
 						key={program.id}
 						program={program}
 						open={() => viewProgram(program)}

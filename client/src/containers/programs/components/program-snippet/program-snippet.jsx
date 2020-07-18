@@ -8,10 +8,11 @@ export const ProgramSnippet = ({
 	// parent
 	program,
 	isCurrent,
-	isPublic,
+	isFetched,
 	noPrivatePrograms,
 	open,
 	// redux
+	isSaved,
 	isActivated,
 	activate,
 	remove,
@@ -22,12 +23,15 @@ export const ProgramSnippet = ({
 	const isStandardProgram = !id;
 	const nothingToRemove = isStandardProgram && noPrivatePrograms;
 
-	// Is on public list
-	if (isPublic)
+	// Is in fetched array
+	if (isFetched)
 		return (
-			<Block twoFields highlight={isActivated}>
+			<Block twoFields highlight={isActivated} greyedOut={isSaved}>
 				<Col>
-					<Text>{name}</Text>
+					<Text>
+						{name}
+						{isSaved && " (saved)"}
+					</Text>
 					<Text secondary>{author}</Text>
 				</Col>
 
@@ -35,7 +39,7 @@ export const ProgramSnippet = ({
 			</Block>
 		);
 
-	// Is on private list OR is current
+	// Is in saved array OR is current
 	return (
 		<Block threeFields highlight={isCurrent}>
 			<Text>{name}</Text>

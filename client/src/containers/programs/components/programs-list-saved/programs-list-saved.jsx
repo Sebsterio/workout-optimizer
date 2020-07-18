@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Block, Spinner, Button } from "components";
 import { ProgramSnippet } from "../index";
@@ -13,9 +13,12 @@ const ProgramsList = ({
 	getPrograms,
 	openModal,
 }) => {
+	const [hasRendered, setHasRendered] = useState(false);
+
 	useEffect(() => {
-		if (!programs.length) getPrograms();
-	}, [programs, getPrograms]);
+		if (!hasRendered) getPrograms();
+		setHasRendered(true);
+	}, [getPrograms, hasRendered, setHasRendered]);
 
 	const viewProgram = (program) =>
 		openModal({ mode: "program", data: program });

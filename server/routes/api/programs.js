@@ -35,11 +35,10 @@ router.get("/saved", auth, async (req, res) => {
 		if (!programsList)
 			return res.status(404).json({ msg: "Programs list not found" });
 
-		const { current, all } = programsList;
-		if (!all.length) return res.status(404).json({ msg: "No programs found" });
-
 		// Exclude current program
+		let { current, all } = programsList;
 		all = all.filter((programId) => programId !== current);
+		if (!all.length) return res.status(404).json({ msg: "No programs found" });
 
 		// Get array of actual programs
 		const programIdsRegex = all.map((programId) => `(${programId})`).join("|");

@@ -19,10 +19,11 @@ import { getError } from "../error/error.actions";
 
 // -----------------------------------------------------------
 
-// POST programs-list to db
+// POST programs-list to db // ISSUE: comment inaccurate
 export const createRemoteProgramsList = () => (dispatch, getState) => {
 	dispatch(creatingRemoteProgramsList());
 
+	// TODO: check if this makes sense. Should't be programsList?
 	const localPrograms = getState().programs;
 
 	const newProgramsList = {
@@ -44,7 +45,7 @@ export const createRemoteProgramsList = () => (dispatch, getState) => {
 		});
 };
 
-// Update program IDs in local list and PUT entire state to db
+// Update program IDs in progrmsList and PUT changes to remote programsList
 export const updateProgramsList = ({ current, add, remove }) => (
 	dispatch,
 	getState
@@ -68,11 +69,11 @@ export const updateProgramsList = ({ current, add, remove }) => (
 };
 
 // GET programs list if newer than local
-// TODO: use query params
-export const syncProgramsList = (id) => async (dispatch, getState) => {
+// TODO: POST programs list if newer than remote
+export const syncProgramsList = () => async (dispatch, getState) => {
 	dispatch(syncingProgramList());
+	const dateUpdatedLocal = getState().programsList.dateUpdated;
 	try {
-		const dateUpdatedLocal = getState().log.dateUpdated;
 		const res = await axios.post(
 			"/api/programs-list/sync",
 			JSON.stringify({ dateUpdatedLocal }),
@@ -85,7 +86,7 @@ export const syncProgramsList = (id) => async (dispatch, getState) => {
 	}
 };
 
-// DELETE programs-list from db
+// DELETE entire programs-list from db
 export const removeRemoteProgramsList = () => (dispatch, getState) => {
 	dispatch(clearLocalProgramsList());
 	dispatch(removingRemoteProgramsList());

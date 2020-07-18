@@ -8,8 +8,8 @@ import {
 const programReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case $.CREATING_REMOTE_PROGRAM:
-		case $.UPDATING_REMOTE_PROGRAM:
-		case $.SYNCING_PROGRAM: {
+		case $.UPDATING_REMOTE_CURRENT_PROGRAM:
+		case $.SYNCING_CURRENT_PROGRAM: {
 			return {
 				...state,
 				isSyncing: true,
@@ -17,15 +17,15 @@ const programReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 		case $.REMOTE_PROGRAM_CREATED:
-		case $.REMOTE_PROGRAM_UPDATED:
-		case $.PROGRAM_UP_TO_DATE: {
+		case $.REMOTE_CURRENT_PROGRAM_UPDATED:
+		case $.CURRENT_PROGRAM_UP_TO_DATE: {
 			return {
 				...state,
 				isSyncing: false,
 				isSynced: true,
 			};
 		}
-		case $.PROGRAM_SYNCED: {
+		case $.CURRENT_PROGRAM_SYNCED: {
 			return {
 				...state,
 				isSyncing: false,
@@ -54,28 +54,28 @@ const programReducer = (state = INITIAL_STATE, action) => {
 				isPublished: false,
 			};
 		}
-		case $.PUBLISHING_PROGRAM: {
+		case $.PUBLISHING_CURRENT_PROGRAM: {
 			return {
 				...state,
 				isPublishing: true,
 				isPublished: false,
 			};
 		}
-		case $.PROGRAM_PUBLISHED: {
+		case $.CURRENT_PROGRAM_PUBLISHED: {
 			return {
 				...state,
 				isPublishing: false,
 				isPublished: true,
 			};
 		}
-		case $.PROGRAM_PUBLISH_FAIL: {
+		case $.CURRENT_PROGRAM_PUBLISH_FAIL: {
 			return {
 				...state,
 				isPublishing: false,
 				isPublished: false,
 			};
 		}
-		case $.CLEAR_LOCAL_PROGRAM: {
+		case $.CLEAR_LOCAL_CURRENT_PROGRAM: {
 			return {
 				isSyncing: false,
 				isSynced: false,
@@ -88,7 +88,7 @@ const programReducer = (state = INITIAL_STATE, action) => {
 				fields: [],
 			};
 		}
-		case $.RESET_LOCAL_PROGRAM: {
+		case $.RESET_LOCAL_CURRENT_PROGRAM: {
 			return {
 				...INITIAL_STATE,
 			};

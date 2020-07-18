@@ -6,8 +6,8 @@ export const downloadingPrograms = () => ({
 	type: $.DOWNLOADING_PROGRAMS,
 });
 
-export const programsDownloadSuccess = (data) => ({
-	type: $.PROGRAMS_DOWNLAD_SUCCESS,
+export const programsDownloaded = (data) => ({
+	type: $.PROGRAMS_DOWNLADED,
 	payload: data,
 });
 
@@ -15,12 +15,12 @@ export const programsDownloadFail = () => ({
 	type: $.PROGRAMS_DOWNLAD_FAIL,
 });
 
-export const removingAllRemotePrograms = () => ({
-	type: $.REMOVING_ALL_REMOTE_PROGRAMS,
+export const removingAllRemotePrivatePrograms = () => ({
+	type: $.REMOVING_ALL_REMOTE_PRIVATE_PROGRAMS,
 });
 
-export const allRemoteProgramsRemoved = () => ({
-	type: $.ALL_REMOTE_PROGRAMS_REMOVED,
+export const allRemotePrivateProgramsRemoved = () => ({
+	type: $.ALL_REMOTE_PRIVATE_PROGRAMS_REMOVED,
 });
 
 export const clearLocalPrograms = () => ({
@@ -29,13 +29,13 @@ export const clearLocalPrograms = () => ({
 
 // --- single program local ---
 
-export const addPrivateProgram = (data) => ({
-	type: $.ADD_PRIVATE_PROGRAM,
+export const addSavedProgram = (data) => ({
+	type: $.ADD_SAVED_PROGRAM,
 	payload: data,
 });
 
 export const removeLocalSavedProgram = (data) => ({
-	type: $.REMOVE_LOCAL_PRIVATE_PROGRAM,
+	type: $.REMOVE_LOCAL_SAVED_PROGRAM,
 	payload: data,
 });
 

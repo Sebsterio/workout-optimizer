@@ -18,7 +18,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 				downloading: true,
 			};
 		}
-		case $.PROGRAMS_DOWNLAD_SUCCESS: {
+		case $.PROGRAMS_DOWNLADED: {
 			const { group, data } = action.payload;
 			return {
 				...state,
@@ -36,7 +36,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		// ---------- Update/remove remote program(s) ----------
 
 		case $.REMOVING_REMOTE_PROGRAM:
-		case $.REMOVING_ALL_REMOTE_PROGRAMS:
+		case $.REMOVING_ALL_REMOTE_PRIVATE_PROGRAMS:
 		case $.UPDATING_REMOTE_PUBLIC_PROGRAM: {
 			return {
 				...state,
@@ -44,7 +44,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 		case $.REMOTE_PROGRAM_REMOVED:
-		case $.ALL_REMOTE_PROGRAMS_REMOVED:
+		case $.ALL_REMOTE_PRIVATE_PROGRAMS_REMOVED:
 		case $.REMOTE_PUBLIC_PROGRAM_UPDATED: {
 			return {
 				...state,
@@ -55,7 +55,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		// ---------- Update/remove local program(s) ----------
 
 		// Unshift program or move to front if already present
-		case $.ADD_PRIVATE_PROGRAM: {
+		case $.ADD_SAVED_PROGRAM: {
 			const newProgram = action.payload;
 			if (!newProgram || !newProgram.name) return state;
 			return {
@@ -63,7 +63,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 				saved: [newProgram, ...getFilteredArray(state.saved, newProgram)],
 			};
 		}
-		case $.REMOVE_LOCAL_PRIVATE_PROGRAM: {
+		case $.REMOVE_LOCAL_SAVED_PROGRAM: {
 			return {
 				...state,
 				saved: [...getFilteredArray(state.saved, action.payload)],

@@ -6,21 +6,23 @@ const ProgramDetails = ({
 	// parent
 	program,
 	// redux
+	isSaved,
 	isActivated,
-	activateProgram,
+	save,
+	activate,
 	closeModal,
 	// withRouter
 	history,
-	// TODO
-	isSaved = true,
 }) => {
 	const { name, description, fields, dateUpdated } = program;
 	const fieldsArr = JSON.parse(fields);
 
-	const save = () => {};
-
+	const handleSave = () => {
+		save();
+		closeModal();
+	};
 	const handleActivate = () => {
-		activateProgram();
+		activate();
 		closeModal();
 		history.replace("/programs/private");
 	};
@@ -31,7 +33,7 @@ const ProgramDetails = ({
 				<Button text="Back" handler={closeModal} />
 				<Button
 					text={isSaved ? "Saved" : "Save"}
-					handler={save}
+					handler={handleSave}
 					disabled={isSaved}
 				/>
 				<Button

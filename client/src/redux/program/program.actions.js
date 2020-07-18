@@ -6,7 +6,7 @@ export const updateMaxCustomRest = (data) => ({
 });
 
 export const clearLocalCurrentProgram = () => ({
-	type: $.CLEAR_LOCAL_PROGRAM,
+	type: $.CLEAR_LOCAL_CURRENT_PROGRAM,
 });
 
 export const creatingRemoteProgram = () => ({
@@ -18,16 +18,16 @@ export const remoteProgramCreated = (data) => ({
 	payload: data,
 });
 
-export const syncingProgram = () => ({
-	type: $.SYNCING_PROGRAM,
+export const syncingCurrentProgram = () => ({
+	type: $.SYNCING_CURRENT_PROGRAM,
 });
 
-export const programUpToDate = () => ({
-	type: $.PROGRAM_UP_TO_DATE,
+export const currentProgramUpToDate = () => ({
+	type: $.CURRENT_PROGRAM_UP_TO_DATE,
 });
 
-export const programSynced = (data) => ({
-	type: $.PROGRAM_SYNCED,
+export const currentProgramSynced = (data) => ({
+	type: $.CURRENT_PROGRAM_SYNCED,
 	payload: data,
 });
 
@@ -40,26 +40,26 @@ export const updateLocalCurrentProgramFields = (data) => ({
 	payload: data,
 });
 
-export const updatingRemoteProgram = () => ({
-	type: $.UPDATING_REMOTE_PROGRAM,
+export const updatingRemoteCurrentProgram = () => ({
+	type: $.UPDATING_REMOTE_CURRENT_PROGRAM,
 });
 
-export const remoteProgramUpdated = () => ({
-	type: $.REMOTE_PROGRAM_UPDATED,
+export const remoteCurrentProgramUpdated = () => ({
+	type: $.REMOTE_CURRENT_PROGRAM_UPDATED,
 });
 
 export const publishingCurrentProgram = () => ({
-	type: $.PUBLISHING_PROGRAM,
+	type: $.PUBLISHING_CURRENT_PROGRAM,
 });
 
 export const currentProgramPublished = () => ({
-	type: $.PROGRAM_PUBLISHED,
+	type: $.CURRENT_PROGRAM_PUBLISHED,
 });
 
-export const programPublishFail = () => ({
-	type: $.PROGRAM_PUBLISH_FAIL,
+export const currentProgramPublishFail = () => ({
+	type: $.CURRENT_PROGRAM_PUBLISH_FAIL,
 });
 
 export const resetLocalCurrentProgram = () => ({
-	type: $.RESET_LOCAL_PROGRAM,
+	type: $.RESET_LOCAL_CURRENT_PROGRAM,
 });

@@ -5,20 +5,20 @@ import {
 	clearLocalCurrentProgram,
 	creatingRemoteProgram,
 	remoteProgramCreated,
-	syncingProgram,
-	programUpToDate,
-	programSynced,
+	syncingCurrentProgram,
+	currentProgramUpToDate,
+	currentProgramSynced,
 	updateLocalCurrentProgram,
 	updateLocalCurrentProgramFields,
-	updatingRemoteProgram,
-	remoteProgramUpdated,
+	updatingRemoteCurrentProgram,
+	remoteCurrentProgramUpdated,
 	publishingCurrentProgram,
 	currentProgramPublished,
-	programPublishFail,
+	currentProgramPublishFail,
 	resetLocalCurrentProgram,
 } from "./program.actions";
 import {
-	addPrivateProgram,
+	addSavedProgram,
 	removeLocalSavedProgram,
 } from "redux/programs/programs.actions";
 import { updateProgramsList } from "redux/programs-list/programs-list.operations";
@@ -53,8 +53,8 @@ export const updateCurrentProgram = (data) => (dispatch, getState) => {
 export const duplicateCurrentProgram = () => (dispatch, getState) => {
 	const currentProgram = getState().program;
 
-	// Move current program to private programs list
-	dispatch(addPrivateProgram(convertLocalProgram(currentProgram)));
+	// Copy current program to saved programs array
+	dispatch(addSavedProgram(convertLocalProgram(currentProgram)));
 
 	// Create new remote program and set it as current program
 	const newName = currentProgram.name + " (copy)";
@@ -85,7 +85,7 @@ export const createRemoteProgram = () => (dispatch, getState) => {
 const updateRemoteCurrentProgram = (dateUpdated) => (dispatch, getState) => {
 	if (getState().user.isIncognito) return;
 
-	dispatch(updatingRemoteProgram());
+	dispatch(updatingRemoteCurrentProgram());
 	axios
 		.post(
 			"api/program/update",
@@ -95,20 +95,21 @@ const updateRemoteCurrentProgram = (dateUpdated) => (dispatch, getState) => {
 			}),
 			getTokenConfig(getState)
 		)
-		.then(() => dispatch(remoteProgramUpdated()))
+		.then(() => dispatch(remoteCurrentProgramUpdated()))
 		.catch((err) => {
 			dispatch(getError(err, "UPDATE_REMOTE_PROGRAM_ERROR"));
 		});
 };
 
 // GET current program from db if newer than local
+// TODO: PST if newer than remote
 export const syncCurrentProgram = () => (dispatch, getState) => {
-	dispatch(syncingProgram());
+	const id = getState().log.programId;
 
 	// Ignore if using standard (initial) program
-	const id = getState().log.programId;
-	if (!id) return dispatch(programUpToDate());
+	if (!id) return;
 
+	dispatch(syncingCurrentProgram());
 	const dateUpdatedLocal = getState().program.dateUpdated;
 	axios
 		// TODO: use GET and stringify date correctly to pass as query
@@ -118,10 +119,10 @@ export const syncCurrentProgram = () => (dispatch, getState) => {
 			getTokenConfig(getState)
 		)
 		.then((res) => {
-			if (res.status === 204) dispatch(programUpToDate());
+			if (res.status === 204) dispatch(currentProgramUpToDate());
 			else {
 				const localProgram = convertRemoteProgram(res.data);
-				dispatch(programSynced(localProgram));
+				dispatch(currentProgramSynced(localProgram));
 			}
 		})
 		.catch((err) => {
@@ -132,16 +133,21 @@ export const syncCurrentProgram = () => (dispatch, getState) => {
 // Replace current program and save newProgram id in log
 export const activateProgram = (newProgram) => (dispatch, getState) => {
 	if (newProgram) {
-		// Update saved programs list
+		const { isPublic, id } = newProgram;
+		// Update saved programs array
 		dispatch(removeLocalSavedProgram(newProgram));
-		dispatch(addPrivateProgram(getConvertedLocalCurrentProgram(getState)));
+		dispatch(addSavedProgram(getConvertedLocalCurrentProgram(getState)));
 
 		// Update current program
 		dispatch(clearLocalCurrentProgram());
 		dispatch(updateLocalCurrentProgram(convertRemoteProgram(newProgram)));
 
-		// Update reference to current program on programs-list
-		dispatch(updateProgramsList({ current: newProgram.id }));
+		// Update programs-list
+		const programsListData = {
+			current: id,
+			add: isPublic ? id : null,
+		};
+		dispatch(updateProgramsList(programsListData));
 	} else {
 		// Activate standard program (initial)
 		dispatch(resetLocalCurrentProgram());
@@ -163,7 +169,7 @@ export const publishCurrentProgram = () => (dispatch, getState) => {
 		)
 		.then(() => dispatch(currentProgramPublished()))
 		.catch((err) => {
-			dispatch(programPublishFail());
+			dispatch(currentProgramPublishFail());
 			dispatch(getError(err, "PUBLISH_CURRENT_PROGRAM_FAIL"));
 		});
 };

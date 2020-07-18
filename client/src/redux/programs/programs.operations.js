@@ -4,11 +4,12 @@ import { getTokenConfig } from "../utils";
 
 import {
 	downloadingPrograms,
-	programsDownloadSuccess,
+	programsDownloaded,
 	programsDownloadFail,
-	removingAllRemotePrograms,
-	allRemoteProgramsRemoved,
+	removingAllRemotePrivatePrograms,
+	allRemotePrivateProgramsRemoved,
 	clearLocalPrograms,
+	addSavedProgram,
 	removeLocalSavedProgram,
 	removingRemoteProgram,
 	remoteProgramRemoved,
@@ -20,28 +21,26 @@ import { updateProgramsList } from "redux/programs-list/programs-list.operations
 
 // ----------------------- Multiple Programs -------------------------
 
-// GET all programs listed in users programs-list db collection (except current)
-export const getSavedPrograms = () => (dispatch, getState) => {
+// GET all programs listed in user's programs-list (except current program)
+// Save in programs.saved (replace all)
+export const downloadSavedPrograms = () => (dispatch, getState) => {
 	dispatch(downloadingPrograms());
 	axios
 		.get("/api/programs/saved", getTokenConfig(getState))
 		.then((res) => {
-			dispatch(programsDownloadSuccess({ group: "saved", data: res.data }));
+			dispatch(programsDownloaded({ group: "saved", data: res.data }));
 		})
 		.catch((err) => dispatch(programsDownloadFail()));
 };
 
 // GET N public programs
-export const getPublicPrograms = (query) => (dispatch) => {
+// Save in programs.fetched (replace all)
+export const downloadPublicPrograms = (query) => (dispatch) => {
 	dispatch(downloadingPrograms());
-
-	let endpoint = "/api/programs/public";
-	if (query) endpoint += "?" + query;
-
 	axios
-		.get(endpoint)
+		.get(`/api/programs/public${query ? "?" + query : ""}`)
 		.then((res) => {
-			dispatch(programsDownloadSuccess({ group: "fetched", data: res.data }));
+			dispatch(programsDownloaded({ group: "fetched", data: res.data }));
 		})
 		.catch((err) => {
 			dispatch(getError(err, "SYNC_PROGRAMS_ERROR"));
@@ -50,20 +49,28 @@ export const getPublicPrograms = (query) => (dispatch) => {
 };
 
 // DELETE all private programs corresponding to userId
-export const removeAllPrograms = () => (dispatch, getState) => {
+// Clear programs.saved & programs.fetched
+export const removeAllPrivatePrograms = () => (dispatch, getState) => {
 	dispatch(clearLocalPrograms());
-	dispatch(removingAllRemotePrograms());
+	dispatch(removingAllRemotePrivatePrograms());
 	axios
 		.delete("/api/programs/", getTokenConfig(getState))
-		.then(() => dispatch(allRemoteProgramsRemoved()))
+		.then(() => dispatch(allRemotePrivateProgramsRemoved()))
 		.catch((err) => dispatch(getError(err, "REMOVE_ALL_REMOTE_PROGRAMS_FAIL")));
 };
 
 // ------------------------ Single Program -------------------------
 
+// Add program to programs array and programs-list
+export const saveFetchedProgram = (newProgram) => (dispatch) => {
+	const { id } = newProgram;
+	dispatch(addSavedProgram(newProgram));
+	dispatch(updateProgramsList({ add: id }));
+};
+
 // Remove program from saved programs array and programs-list
-export const removeProgram = (program) => (dispatch, getState) => {
-	const { id } = program;
+export const removeSavedProgram = (program) => (dispatch, getState) => {
+	const { id, isPublic } = program;
 
 	dispatch(removeLocalSavedProgram(program));
 	dispatch(updateProgramsList({ remove: id }));
@@ -76,7 +83,7 @@ export const removeProgram = (program) => (dispatch, getState) => {
 		dispatch(activateProgram(nextProgram));
 	}
 
-	if (!program.isPublic) dispatch(removeRemotePrivateProgram(id));
+	if (!isPublic) dispatch(removeRemotePrivateProgram(id));
 };
 
 // DELETE program from db
