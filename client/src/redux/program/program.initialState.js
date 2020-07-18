@@ -1,6 +1,6 @@
 import shortid from "shortid";
 
-export const INITIAL_STATE = {
+export const standardProgram = {
 	isSyncing: false,
 	isSynced: false,
 	isPublishing: false,

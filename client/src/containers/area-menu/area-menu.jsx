@@ -50,11 +50,10 @@ const AreaMenu = ({ cellData, fields, closeModal, updateCurrentProgram }) => {
 		setTab(tab);
 	};
 
-	// Update program field in redux & db
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const newFieldData = { name, description, levels, details, icon };
-		updateCurrentProgram({ mode: "replace-field", field, newFieldData });
+		const newField = { name, description, levels, details, icon };
+		updateCurrentProgram({ fieldToReplace: { oldField: field, newField } });
 		closeModal();
 	};
 

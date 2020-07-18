@@ -1,3 +1,12 @@
+import {
+	replaceArrayItem,
+	deleteArrayItem,
+	duplicateArrayItem,
+	moveArrayItem,
+} from "utils/array";
+
+// ------------------------------- Update -------------------------------
+
 export const getFieldsWithNewMaxCustomRest = (state, payload) => {
 	const { field, rest } = payload;
 	if (!rest) return state.fields;
@@ -10,41 +19,41 @@ export const getFieldsWithNewMaxCustomRest = (state, payload) => {
 	});
 };
 
-export const getUpdatedFields = (state, payload) => {
-	const { mode, field, newFieldData, direction } = payload;
+export const getUpdatedFields = (fields, payload) => {
+	const {
+		fieldToAdd,
+		fieldToReplace,
+		fieldToDuplicate,
+		fieldToDelete,
+		fieldToMove,
+	} = payload;
 
-	if (mode === "replace-field") {
-		return state.fields.map((f) => {
-			if (f === field) return { ...newFieldData };
-			return f;
-		});
+	let newFields = [...fields];
+
+	if (fieldToAdd) newFields = [fieldToAdd, ...fields];
+
+	if (fieldToDelete) newFields = deleteArrayItem(fields, fieldToDelete);
+
+	if (fieldToDuplicate) {
+		const modifier = (field) => ({ ...field, name: field.name + " (copy)" });
+		newFields = duplicateArrayItem(fields, fieldToDuplicate, modifier);
 	}
 
-	if (mode === "delete-field") {
-		return state.fields.filter((f) => f !== field);
+	if (fieldToReplace) {
+		const { oldField, newField } = fieldToReplace;
+		newFields = replaceArrayItem(newFields, oldField, newField);
 	}
 
-	if (mode === "duplicate-field") {
-		const index = state.fields.indexOf(field);
-		const newField = {
-			...field,
-			name: field.name + " (copy)",
-		};
-		const newFields = [...state.fields];
-		newFields.splice(index, 0, newField);
-		return newFields;
+	if (fieldToMove) {
+		const { field, direction } = fieldToMove;
+		const steps = direction === "up" ? -1 : direction === "down" ? 1 : 0;
+		newFields = moveArrayItem(newFields, field, steps);
 	}
 
-	if (mode === "move-field") {
-		const step = direction === "up" ? -1 : direction === "down" ? 1 : 0;
-		const index = state.fields.indexOf(field);
-		const newIndex = index + step;
-		const newFields = [...state.fields];
-		newFields.splice(newIndex, 0, newFields.splice(index, 1)[0]);
-		return newFields;
-	}
-	throw Error("Invalid mode");
+	return newFields;
 };
+
+// ---------------------------- Conversion ------------------------------
 
 export const getConvertedLocalCurrentProgram = (getState) =>
 	convertLocalProgram(getState().program);

@@ -7,15 +7,15 @@ const ProgramField = ({ field, openModal, updateCurrentProgram }) => {
 	const handleEdit = () => openModal({ mode: "row", data: { field } });
 
 	const handleDuplicate = () => {
-		updateCurrentProgram({ mode: "duplicate-field", field });
+		updateCurrentProgram({ fieldToDuplicate: field });
 	};
 
 	const handleDelete = () => {
-		updateCurrentProgram({ mode: "delete-field", field });
+		updateCurrentProgram({ fieldToDelete: field });
 	};
 
 	const handleMove = (direction) => {
-		updateCurrentProgram({ mode: "move-field", field, direction });
+		updateCurrentProgram({ fieldToMove: { field, direction } });
 	};
 
 	return (

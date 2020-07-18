@@ -9,7 +9,6 @@ import {
 	currentProgramUpToDate,
 	currentProgramSynced,
 	updateLocalCurrentProgram,
-	updateLocalCurrentProgramFields,
 	updatingRemoteCurrentProgram,
 	remoteCurrentProgramUpdated,
 	publishingCurrentProgram,
@@ -38,13 +37,12 @@ export const updateCurrentProgram = (data) => (dispatch, getState) => {
 	const { isPublic } = getState().program;
 	const dateUpdated = new Date();
 
-	// Update local program with data
-	const { mode } = data;
-	if (mode) dispatch(updateLocalCurrentProgramFields({ ...data, dateUpdated }));
-	else dispatch(updateLocalCurrentProgram({ ...data, dateUpdated }));
+	// Update local current program with data and set isPublic to false
+	dispatch(updateLocalCurrentProgram({ ...data, dateUpdated }));
 
 	// If customizing a public program, create new remote program
 	if (isPublic) dispatch(createRemoteProgram());
+	//
 	// If modifying private program, update remote program
 	else dispatch(updateRemoteCurrentProgram(dateUpdated));
 };

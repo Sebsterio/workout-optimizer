@@ -35,10 +35,6 @@ export const updateLocalCurrentProgram = (data) => ({
 	type: $.UPDATE_LOCAL_PROGRAM,
 	payload: data,
 });
-export const updateLocalCurrentProgramFields = (data) => ({
-	type: $.UPDATE_LOCAL_PROGRAM_FIELDS,
-	payload: data,
-});
 
 export const updatingRemoteCurrentProgram = () => ({
 	type: $.UPDATING_REMOTE_CURRENT_PROGRAM,
@@ -61,5 +57,5 @@ export const currentProgramPublishFail = () => ({
 });
 
 export const resetLocalCurrentProgram = () => ({
-	type: $.RESET_LOCAL_CURRENT_PROGRAM,
+	type: $.LOAD_STANDARD_PROGRAM,
 });

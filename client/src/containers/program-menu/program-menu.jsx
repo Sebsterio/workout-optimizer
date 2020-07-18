@@ -31,13 +31,15 @@ const ProgramMenu = ({
 			newProps.name = newName + " (custom)";
 			setNewName(newProps.name);
 		}
-		updateCurrentProgram(newProps);
+		updateCurrentProgram({ props: newProps });
 	};
 
 	const handleReset = () => {
 		setNewName(name);
 		setNewDesc(description);
 	};
+
+	// const handleAddField = () => updateCurrentProgram({ fieldToAdd: ...... });
 
 	return (
 		<Menu compact>
@@ -88,6 +90,13 @@ const ProgramMenu = ({
 			</Row>
 
 			<Separator text="Fields" />
+
+			{/* <Row>
+				<Button
+					text="New field"
+					handler={handleAddField}
+				/>
+			</Row> */}
 
 			{fields.map((field) => (
 				<ProgramField

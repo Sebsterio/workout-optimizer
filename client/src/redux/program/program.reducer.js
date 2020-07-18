@@ -1,12 +1,26 @@
 import { programActionTypes as $ } from "./program.types";
-import { INITIAL_STATE } from "./program.initialState";
+import { standardProgram } from "./program.initialState";
 import {
 	getUpdatedFields,
 	getFieldsWithNewMaxCustomRest,
 } from "./program.utils";
 
+const INITIAL_STATE = {
+	isSyncing: false,
+	isSynced: false,
+	isPublishing: false,
+	isPublished: false,
+	isPublic: false,
+	dateUpdated: null,
+	name: "",
+	description: "",
+	fields: [],
+};
+
 const programReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		// ----------------- Sync etc. ------------------
+
 		case $.CREATING_REMOTE_PROGRAM:
 		case $.UPDATING_REMOTE_CURRENT_PROGRAM:
 		case $.SYNCING_CURRENT_PROGRAM: {
@@ -33,27 +47,9 @@ const programReducer = (state = INITIAL_STATE, action) => {
 				...action.payload,
 			};
 		}
-		case $.UPDATE_MAX_CUSTOM_REST:
-			return {
-				...state,
-				fields: getFieldsWithNewMaxCustomRest(state, action.payload),
-			};
 
-		case $.UPDATE_LOCAL_PROGRAM: {
-			return {
-				...state,
-				...action.payload,
-				isPublished: false,
-			};
-		}
-		case $.UPDATE_LOCAL_PROGRAM_FIELDS: {
-			return {
-				...state,
-				dateUpdated: action.payload.dateUpdated,
-				fields: [...getUpdatedFields(state, action.payload)],
-				isPublished: false,
-			};
-		}
+		// ----------------- Publish ------------------
+
 		case $.PUBLISHING_CURRENT_PROGRAM: {
 			return {
 				...state,
@@ -75,20 +71,34 @@ const programReducer = (state = INITIAL_STATE, action) => {
 				isPublished: false,
 			};
 		}
-		case $.CLEAR_LOCAL_CURRENT_PROGRAM: {
+
+		// ------------------- Update --------------------
+
+		case $.UPDATE_LOCAL_PROGRAM: {
+			const { dateUpdated, props } = action.payload;
+			const { fields } = state;
 			return {
-				isSyncing: false,
-				isSynced: false,
-				isPublishing: false,
+				...state,
+				dateUpdated,
 				isPublished: false,
-				isPublic: false,
-				dateUpdated: null,
-				name: "",
-				description: "",
-				fields: [],
+				fields: getUpdatedFields(fields, action.payload),
+				...props, // last (overwrite rest)
 			};
 		}
-		case $.RESET_LOCAL_CURRENT_PROGRAM: {
+
+		case $.UPDATE_MAX_CUSTOM_REST:
+			return {
+				...state,
+				fields: getFieldsWithNewMaxCustomRest(state, action.payload),
+			};
+
+		case $.LOAD_STANDARD_PROGRAM: {
+			return {
+				...standardProgram,
+			};
+		}
+
+		case $.CLEAR_LOCAL_CURRENT_PROGRAM: {
 			return {
 				...INITIAL_STATE,
 			};
