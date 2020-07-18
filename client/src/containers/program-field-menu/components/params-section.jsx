@@ -8,7 +8,7 @@ import {
 	getUpdatedArray,
 	getInjectedArray,
 	getSplicedArray,
-} from "../area-menu.utils";
+} from "../program-field-menu.utils";
 
 export const ParamsSection = ({ details, setDetails }) => {
 	// Template for adding a new param

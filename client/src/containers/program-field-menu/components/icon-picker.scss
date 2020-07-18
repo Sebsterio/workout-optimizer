@@ -1,0 +1,23 @@
+.icon-picker {
+	height: 200px;
+	max-width: 300px;
+	margin: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+	display: flex;
+	flex-flow: row wrap;
+
+	&__icon {
+		width: 50px;
+		height: 50px;
+
+		&:hover {
+			transform: scale(1.2);
+		}
+
+		&--selected {
+			background-color: rgb(230, 230, 230);
+			border: 1px solid black;
+		}
+	}
+}

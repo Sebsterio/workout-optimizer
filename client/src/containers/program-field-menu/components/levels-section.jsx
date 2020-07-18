@@ -7,7 +7,7 @@ import {
 	isInputValid,
 	getUpdatedArray,
 	getSplicedArray,
-} from "../area-menu.utils";
+} from "../program-field-menu.utils";
 
 export const LevelsSection = ({ levels, setLevels }) => {
 	// Template level

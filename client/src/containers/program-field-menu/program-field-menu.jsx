@@ -2,14 +2,13 @@ import React, { useState } from "react";
 
 import { Separator, Menu, Row, Heading, Button, TextInput } from "components";
 
-import { isUnique } from "./area-menu.utils";
+import { isUnique } from "./program-field-menu.utils";
 import {
 	DescriptionSection,
 	ParamsSection,
 	LevelsSection,
 	IconPicker,
 } from "./components";
-import "./area-menu.scss";
 
 const tabsList = [
 	{
@@ -34,7 +33,12 @@ const tabsList = [
 	},
 ];
 
-const AreaMenu = ({ cellData, fields, closeModal, updateCurrentProgram }) => {
+const ProgramFieldMenu = ({
+	cellData,
+	fields,
+	closeModal,
+	updateCurrentProgram,
+}) => {
 	const { field } = cellData;
 
 	const [name, setName] = useState(field.name || "");
@@ -105,4 +109,4 @@ const AreaMenu = ({ cellData, fields, closeModal, updateCurrentProgram }) => {
 	);
 };
 
-export default AreaMenu;
+export default ProgramFieldMenu;

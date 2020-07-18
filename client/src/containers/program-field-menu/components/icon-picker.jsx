@@ -2,6 +2,8 @@ import React from "react";
 import { Icon } from "components";
 import { icons } from "assets/icons";
 
+import "./icon-picker.scss";
+
 export const IconPicker = ({ icon, setIcon }) => {
 	const getClass = (url) =>
 		"icon-picker__icon" +
