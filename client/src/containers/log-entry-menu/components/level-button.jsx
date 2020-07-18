@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./level-button.scss";
+
 export const LevelButton = ({
 	label,
 	intensity,

@@ -23,7 +23,10 @@ const Field = ({
 	const handleClick = () => {
 		if (isPickingDate) datePicked({ dateStr, field });
 		else
-			openModal({ mode: "log", data: { dateStr, dateOffset, field, stats } });
+			openModal({
+				mode: "log-entry",
+				data: { dateStr, dateOffset, field, stats },
+			});
 	};
 
 	let fieldClass = "field";

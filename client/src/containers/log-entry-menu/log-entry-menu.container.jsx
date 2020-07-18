@@ -5,7 +5,7 @@ import { updateLogEntry } from "redux/log/log.operations";
 import { updateMaxCustomRest } from "redux/program/program.actions";
 import { pickDate } from "redux/modal/modal.actions";
 
-import LogMenu from "./log-menu";
+import LogEntryMenu from "./log-entry-menu";
 
 const mapDispatchToProps = (dispatch) => ({
 	updateLogEntry: (data) => dispatch(updateLogEntry(data)),
@@ -13,6 +13,6 @@ const mapDispatchToProps = (dispatch) => ({
 	pickDate: () => dispatch(pickDate()),
 });
 
-const LogMenuContainer = (props) => <LogMenu {...props} />;
+const LogEntryMenuContainer = (props) => <LogEntryMenu {...props} />;
 
-export default connect(null, mapDispatchToProps)(LogMenuContainer);
+export default connect(null, mapDispatchToProps)(LogEntryMenuContainer);

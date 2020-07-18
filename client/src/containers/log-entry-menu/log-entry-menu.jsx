@@ -9,9 +9,8 @@ import {
 	Separator,
 } from "components";
 import { DetailsSection, LevelsSection } from "./components";
-import "./log-menu.scss";
 
-const LogMenu = ({
+const LogEntryMenu = ({
 	cellData: { field, dateStr, dateOffset, stats },
 	updateLogEntry,
 	updateMaxCustomRest,
@@ -105,4 +104,4 @@ const LogMenu = ({
 	);
 };
 
-export default LogMenu;
+export default LogEntryMenu;
