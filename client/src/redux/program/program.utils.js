@@ -1,11 +1,9 @@
 import {
+	removeArrayItem,
 	replaceArrayItem,
-	deleteArrayItem,
 	duplicateArrayItem,
 	moveArrayItem,
 } from "utils/array";
-
-// ------------------------------- Update -------------------------------
 
 export const getFieldsWithNewMaxCustomRest = (state, payload) => {
 	const { field, rest } = payload;
@@ -32,7 +30,7 @@ export const getUpdatedFields = (fields, payload) => {
 
 	if (fieldToAdd) newFields = [fieldToAdd, ...fields];
 
-	if (fieldToDelete) newFields = deleteArrayItem(fields, fieldToDelete);
+	if (fieldToDelete) newFields = removeArrayItem(fields, fieldToDelete);
 
 	if (fieldToDuplicate) {
 		const modifier = (field) => ({ ...field, name: field.name + " (copy)" });
@@ -51,22 +49,4 @@ export const getUpdatedFields = (fields, payload) => {
 	}
 
 	return newFields;
-};
-
-// ---------------------------- Conversion ------------------------------
-
-export const getConvertedLocalCurrentProgram = (getState) =>
-	convertLocalProgram(getState().program);
-
-export const convertLocalProgram = (program) => ({
-	...program,
-	fields: JSON.stringify(program.fields),
-});
-
-export const convertRemoteProgram = (program) => {
-	const newProgram = {
-		...program,
-		fields: JSON.parse(program.fields),
-	};
-	return newProgram;
 };

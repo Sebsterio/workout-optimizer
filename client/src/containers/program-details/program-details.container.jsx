@@ -7,8 +7,11 @@ import {
 	getIsSaved,
 } from "redux/programs-list/programs-list.selectors";
 
-import { activateProgram } from "redux/program/program.operations";
-import { saveFetchedProgram } from "redux/programs/programs.operations";
+import {
+	saveFetchedProgram,
+	activateSavedProgram,
+	activateFetchedProgram,
+} from "redux/programs/programs.operations";
 import { closeModal } from "redux/modal/modal.actions";
 
 import ProgramDetails from "./program-details";
@@ -20,7 +23,8 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch, props) => ({
 	save: () => dispatch(saveFetchedProgram(props.program)),
-	activate: () => dispatch(activateProgram(props.program)),
+	activateSaved: () => dispatch(activateSavedProgram(props.program)),
+	activateFetched: () => dispatch(activateFetchedProgram(props.program)),
 	closeModal: () => dispatch(closeModal()),
 });
 

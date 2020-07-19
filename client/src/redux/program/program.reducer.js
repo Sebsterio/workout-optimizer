@@ -1,16 +1,20 @@
 import { programActionTypes as $ } from "./program.types";
-import { standardProgram } from "./program.initialState";
+import { standardProgram } from "./standardProgram";
 import {
 	getUpdatedFields,
 	getFieldsWithNewMaxCustomRest,
 } from "./program.utils";
 
 const INITIAL_STATE = {
+	// status
 	isSyncing: false,
 	isSynced: false,
 	isPublishing: false,
-	isPublished: false,
-	isPublic: false,
+	isPublished: false, // does a public copy exist
+	isPublic: false, // is this a public copy
+
+	// data
+	id: undefined, // null === standard program
 	dateUpdated: null,
 	name: "",
 	description: "",
@@ -19,7 +23,7 @@ const INITIAL_STATE = {
 
 const programReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		// ----------------- Sync etc. ------------------
+		// ------- Create remote, Update remote, Sync ------
 
 		case $.CREATING_REMOTE_PROGRAM:
 		case $.UPDATING_REMOTE_CURRENT_PROGRAM:
@@ -37,6 +41,15 @@ const programReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				isSyncing: false,
 				isSynced: true,
+			};
+		}
+		case $.REMOTE_PROGRAM_CREATE_FAIL:
+		case $.REMOTE_CURRENT_PROGRAM_UPDATE_FAIL:
+		case $.CURRENT_PROGRAM_SYNC_FAIL: {
+			return {
+				...state,
+				isSyncing: false,
+				isSynced: false,
 			};
 		}
 		case $.CURRENT_PROGRAM_SYNCED: {
@@ -72,37 +85,38 @@ const programReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 
-		// ------------------- Update --------------------
+		// ---------------- Update local -----------------
 
-		case $.UPDATE_LOCAL_PROGRAM: {
-			const { dateUpdated, props } = action.payload;
+		case $.UPDATE_LOCAL_CURRENT_PROGRAM: {
+			const { dateUpdated, replaceProps } = action.payload;
 			const { fields } = state;
+			console.log(action.payload);
 			return {
 				...state,
 				dateUpdated,
 				isPublished: false,
 				fields: getUpdatedFields(fields, action.payload),
-				...props, // last (overwrite rest)
+				...replaceProps, // last (overwrite rest)
 			};
 		}
-
 		case $.UPDATE_MAX_CUSTOM_REST:
 			return {
 				...state,
 				fields: getFieldsWithNewMaxCustomRest(state, action.payload),
 			};
 
+		case $.LOAD_PROGRAM: {
+			return { ...action.payload };
+		}
+
 		case $.LOAD_STANDARD_PROGRAM: {
-			return {
-				...standardProgram,
-			};
+			return { ...standardProgram };
 		}
 
 		case $.CLEAR_LOCAL_CURRENT_PROGRAM: {
-			return {
-				...INITIAL_STATE,
-			};
+			return { ...INITIAL_STATE };
 		}
+
 		default:
 			return state;
 	}

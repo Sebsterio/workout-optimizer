@@ -1,9 +1,9 @@
 import { programsActionTypes as $ } from "./programs.types";
-import { getFilteredArray } from "./programs.utils";
+import { getStateWithRemovedProgram } from "./programs.utils";
 
 const INITIAL_STATE = {
-	downloading: false,
-	updating: false,
+	isDownloading: false,
+	isUpdating: false,
 	saved: [], // Present in user's programsList
 	fetched: [], // Kept temporarily (not persisted)
 };
@@ -15,21 +15,23 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		case $.DOWNLOADING_PROGRAMS: {
 			return {
 				...state,
-				downloading: true,
+				isDownloading: true,
 			};
 		}
+
 		case $.PROGRAMS_DOWNLADED: {
 			const { group, data } = action.payload;
 			return {
 				...state,
-				downloading: false,
+				isDownloading: false,
 				[group]: [...data],
 			};
 		}
+
 		case $.PROGRAMS_DOWNLAD_FAIL: {
 			return {
 				...state,
-				downloading: false,
+				isDownloading: false,
 			};
 		}
 
@@ -40,35 +42,40 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		case $.UPDATING_REMOTE_PUBLIC_PROGRAM: {
 			return {
 				...state,
-				updating: true,
+				isUpdating: true,
 			};
 		}
+
 		case $.REMOTE_PROGRAM_REMOVED:
 		case $.ALL_REMOTE_PRIVATE_PROGRAMS_REMOVED:
 		case $.REMOTE_PUBLIC_PROGRAM_UPDATED: {
 			return {
 				...state,
-				updating: false,
+				isUpdating: false,
 			};
 		}
 
-		// ---------- Update/remove local program(s) ----------
+		// ---------- Update local state ----------
 
 		// Unshift program or move to front if already present
-		case $.ADD_SAVED_PROGRAM: {
+		case $.ADD_LOCAL_SAVED_PROGRAM: {
 			const newProgram = action.payload;
-			if (!newProgram || !newProgram.name) return state;
 			return {
 				...state,
-				saved: [newProgram, ...getFilteredArray(state.saved, newProgram)],
+				saved: [
+					newProgram,
+					...getStateWithRemovedProgram(state.saved, newProgram),
+				],
 			};
 		}
+
 		case $.REMOVE_LOCAL_SAVED_PROGRAM: {
 			return {
 				...state,
-				saved: [...getFilteredArray(state.saved, action.payload)],
+				saved: getStateWithRemovedProgram(state.saved, action.payload),
 			};
 		}
+
 		case $.CLEAR_LOCAL_PROGRAMS: {
 			return INITIAL_STATE;
 		}

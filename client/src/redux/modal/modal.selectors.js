@@ -1,4 +1,4 @@
-export const getIsOpen = (state) => !!state.modal.mode;
+export const getIsOpen = (state) => state.modal.isOpen;
 
 export const getMode = (state) => state.modal.mode;
 

@@ -1,8 +1,6 @@
 import { logActionTypes as $ } from "./log.types";
 
-export const clearLocalLog = () => ({
-	type: $.CLEAR_LOCAL_LOG,
-});
+// -------------- Create remote ---------------
 
 export const creatingRemoteLog = () => ({
 	type: $.CREATING_REMOTE_LOG,
@@ -12,6 +10,12 @@ export const remoteLogCreated = (data) => ({
 	type: $.REMOTE_LOG_CREATED,
 	payload: data,
 });
+
+export const createRemoteLogFail = () => ({
+	type: $.CREATE_REMOTE_LOG_FAIL,
+});
+
+// ------------------ Sync --------------------
 
 export const syncingLog = () => ({
 	type: $.SYNCING_LOG,
@@ -26,15 +30,11 @@ export const logSynced = (data) => ({
 	payload: data,
 });
 
-export const updateLocalLogProgramId = (data) => ({
-	type: $.UPDATE_LOCAL_LOG_PROGRAM_ID,
-	payload: data,
+export const syncLogFail = () => ({
+	type: $.SYNC_LOG_FAIL,
 });
 
-export const updateLocalLogEntries = (data) => ({
-	type: $.UPDATE_LOCAL_LOG_ENTRIES,
-	payload: data,
-});
+// -------------- Update remote -----------------
 
 export const updatingRemoteLog = () => ({
 	type: $.UPDATING_REMOTE_LOG,
@@ -42,4 +42,19 @@ export const updatingRemoteLog = () => ({
 
 export const remoteLogUpdated = () => ({
 	type: $.REMOTE_LOG_UPDATED,
+});
+
+export const updateRemoteLogFail = () => ({
+	type: $.UPDATE_REMOTE_LOG_FAIL,
+});
+
+// -------------- Update local -----------------
+
+export const updateLocalLogEntries = (data) => ({
+	type: $.UPDATE_LOCAL_LOG_ENTRIES,
+	payload: data,
+});
+
+export const clearLocalLog = () => ({
+	type: $.CLEAR_LOCAL_LOG,
 });

@@ -1,6 +1,7 @@
 import { modalActionTypes as $ } from "./modal.types";
 
 const INITIAL_STATE = {
+	isOpen: false, // needed for pickDate
 	isPickingDate: false,
 	mode: null,
 	data: {},
@@ -11,12 +12,14 @@ const modalReducer = (state = INITIAL_STATE, action) => {
 		case $.OPEN_MODAL:
 			return {
 				...state,
+				isOpen: true,
 				...action.payload,
 			};
 
 		case $.CLOSE_MODAL:
 			return {
 				...state,
+				isOpen: false,
 				data: {},
 				mode: null,
 			};
@@ -26,7 +29,7 @@ const modalReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				isPickingDate: true,
-				mode: null,
+				isOpen: false,
 			};
 
 		// Open modal replacing data

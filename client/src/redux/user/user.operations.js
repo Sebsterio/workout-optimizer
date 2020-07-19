@@ -1,87 +1,115 @@
 import axios from "axios";
 
-import {
-	userLoading,
-	userLoaded,
-	authSuccess,
-	clearUserData,
-} from "./user.actions";
+// user
+import * as $ from "./user.actions";
+
+// error
 import { getError, clearError } from "redux/error/error.actions";
+
+// log
 import {
 	createRemoteLog,
 	syncLog,
 	removeRemoteLog,
 } from "redux/log/log.operations";
 import { clearLocalLog } from "redux/log/log.actions";
+
+// current-program
 import {
 	createRemoteProgram,
 	syncCurrentProgram,
 } from "redux/program/program.operations";
-import { resetLocalCurrentProgram } from "redux/program/program.actions";
-import { removeAllPrivatePrograms } from "redux/programs/programs.operations";
+import { loadStandardProgram } from "redux/program/program.actions";
+
+// programs
+import { removeAllRemotePrivatePrograms } from "redux/programs/programs.operations";
 import { clearLocalPrograms } from "redux/programs/programs.actions";
+
+// programs-list
 import {
+	syncProgramsList,
 	createRemoteProgramsList,
 	removeRemoteProgramsList,
 } from "redux/programs-list/programs-list.operations";
+import { clearLocalProgramsList } from "redux/programs-list/programs-list.actions";
 
+// other
 import { getConfig, getTokenConfig } from "../utils";
 
-// -------------------------------------------------------------------
+// ------------------------ loadUser ------------------------------
 
-// Register and get new token
+// Get user data using a locally saved token
+// If not registered, fresh start
+export const loadUser = () => (dispatch, getState) => {
+	dispatch($.userLoading());
+	axios
+		.get("/api/auth", getTokenConfig(getState))
+		.then((res) => {
+			dispatch($.userLoaded(res.data));
+			dispatch(syncLog());
+			return dispatch(syncProgramsList()); // blocking
+		})
+		.then(() => dispatch(syncCurrentProgram()))
+		// NOTE: Don't getError (causes redundant alert on startup)
+		.catch(() => dispatch(logout()));
+};
+
+// ------------------------ loadUser ------------------------------
+
+// Create user db collection; get new token; create other db collections
 export const register = (formData) => (dispatch, getState) => {
 	dispatch(clearError());
+	dispatch($.userLoading());
 	axios
 		.post("/api/auth/register", JSON.stringify(formData), getConfig())
-		.then((res) => dispatch(authSuccess(res.data)))
-		.then(() => dispatch(createRemoteLog()))
-		.then(() => dispatch(createRemoteProgramsList()))
-		.then(() => {
-			// create remoteProgram if localProgram has been modified
+		.then((res) => {
+			dispatch($.authSuccess(res.data));
+			dispatch(createRemoteLog());
+			dispatch(createRemoteProgramsList());
+
+			// If local currentProgram has been modified, create remote program
 			const { isPublished } = getState().program;
 			if (!isPublished) dispatch(createRemoteProgram());
 		})
 		.catch((err) => {
 			dispatch(getError(err, "REGISTER_FAIL"));
-			dispatch(clearUserData());
+			dispatch($.clearUserData());
 		});
 };
 
-// Log in and get new token
+// -------------------------- login ------------------------------
+
+// Get new token and sync store
 export const login = (formData) => (dispatch) => {
 	dispatch(clearError());
-	dispatch(userLoading());
+	dispatch($.userLoading());
 	axios
 		.post("/api/auth/login", JSON.stringify(formData), getConfig())
-		.then((res) => dispatch(authSuccess(res.data)))
-		.then(() => dispatch(syncLog()))
+		.then((res) => {
+			dispatch($.authSuccess(res.data));
+			dispatch(syncLog());
+			return dispatch(syncProgramsList()); // blocking
+		})
 		.then(() => dispatch(syncCurrentProgram()))
 		.catch((err) => {
 			dispatch(getError(err, "LOGIN_FAIL"));
-			dispatch(clearUserData());
+			dispatch($.clearUserData());
 		});
 };
 
-// Get user data using a locally saved token
-export const loadUser = () => (dispatch, getState) => {
-	dispatch(userLoading());
-	axios
-		.get("/api/auth", getTokenConfig(getState))
-		.then((res) => dispatch(userLoaded(res.data)))
-		.then(() => dispatch(syncLog()))
-		.then(() => dispatch(syncCurrentProgram()))
-		// NOTE: don't getError - causes redundant alert
-		.catch((err) => dispatch(clearUserData()));
+// -------------------------- logout ------------------------------
+
+// Clear store and persistor; fresh start
+export const logout = () => (dispatch) => {
+	dispatch($.clearUserData());
+	dispatch(clearLocalLog());
+	dispatch(clearLocalPrograms());
+	dispatch(clearLocalProgramsList());
+	dispatch(loadStandardProgram());
+	localStorage.clear();
 };
 
-// Clear store
-export const logout = () => (dispatch) => {
-	dispatch(clearUserData());
-	dispatch(clearLocalLog());
-	dispatch(resetLocalCurrentProgram());
-	dispatch(clearLocalPrograms());
-};
+// ----------------------- closeAccount ----------------------------
 
 // Remove all user data from db
 export const closeAccount = (formData) => (dispatch, getState) => {
@@ -89,12 +117,9 @@ export const closeAccount = (formData) => (dispatch, getState) => {
 	const token = getTokenConfig(getState);
 	dispatch(removeRemoteLog(token));
 	dispatch(removeRemoteProgramsList(token));
-	dispatch(removeAllPrivatePrograms(token)); // <<<< change
+	dispatch(removeAllRemotePrivatePrograms(token));
 	axios
 		.post("api/auth/delete", JSON.stringify(formData), token)
-		.then(() => {
-			dispatch(logout());
-			localStorage.clear();
-		})
+		.then(() => dispatch(logout()))
 		.catch((err) => dispatch(getError(err, "CLOSE_ACCOUNT_FAIL")));
 };

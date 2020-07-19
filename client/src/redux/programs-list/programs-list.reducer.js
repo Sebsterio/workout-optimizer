@@ -1,48 +1,100 @@
 import { programsListActionTypes as $ } from "./programs-list.types";
 
-import { getUpdateAllList } from "./programs-list.utils";
+import { getUpdatedAllList } from "./programs-list.utils";
 
 const INITIAL_STATE = {
-	updating: false,
+	// status
+	isSyncing: false,
+	isSynced: false,
+	isUpdating: false,
+	isUpdated: false,
+
+	// data
 	dateUpdated: null,
 	current: null,
-	all: [],
+	all: [null],
 };
 
 const programsReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case $.CREATING_REMOTE_PROGRAMS_LIST:
-		case $.UPDATING_REMOTE_PROGRAMS_LIST:
-		case $.SYNCING_PROGRAMS_LIST:
-		case $.REMOVING_REMOTE_PROGRAMS_LIST: {
+		// ------- sync ------
+
+		case $.SYNCING_PROGRAMS_LIST: {
 			return {
 				...state,
-				updating: true,
+				isSyncing: true,
+				isSynced: false,
 			};
 		}
-		case $.REMOTE_PROGRAMS_LIST_CREATED:
-		case $.REMOTE_PROGRAMS_LIST_UPDATED:
-		case $.PROGRAMS_LIST_UP_TO_DATE:
-		case $.REMOTE_PROGRAMS_LIST_REMOVED: {
-			return {
-				...state,
-				updating: false,
-			};
-		}
+
 		case $.PROGRAMS_LIST_SYNCED: {
-			// replace state
 			return {
-				updating: false,
+				...state,
+				isSyncing: false,
+				isSynced: true,
 				...action.payload,
 			};
 		}
+
+		case $.PROGRAMS_LIST_UP_TO_DATE: {
+			return {
+				...state,
+				isSyncing: false,
+				isSynced: true,
+			};
+		}
+
+		case $.SYNC_PROGRAMS_LIST_FAIL: {
+			return {
+				...state,
+				isSyncing: false,
+				isSynced: false,
+			};
+		}
+
+		// ------- create/update/remove remote ------
+
+		case $.CREATING_REMOTE_PROGRAMS_LIST:
+		case $.UPDATING_REMOTE_PROGRAMS_LIST:
+		case $.REMOVING_REMOTE_PROGRAMS_LIST: {
+			return {
+				...state,
+				isUpdating: true,
+				isUpdated: false,
+			};
+		}
+
+		case $.REMOTE_PROGRAMS_LIST_CREATED:
+		case $.REMOTE_PROGRAMS_LIST_UPDATED:
+		case $.REMOTE_PROGRAMS_LIST_REMOVED: {
+			return {
+				...state,
+				isUpdating: false,
+				isUpdated: true,
+			};
+		}
+
+		case $.CREATE_REMOTE_PROGRAMS_LIST_FAIL:
+		case $.UPDATE_REMOTE_PROGRAMS_LIST_FAIL:
+		case $.REMOVE_REMOTE_PROGRAMS_LIST_FAIL: {
+			return {
+				...state,
+				isUpdating: false,
+				isUpdated: false,
+			};
+		}
+
+		// ------- update local ------
+
 		case $.UPDATE_LOCAL_PROGRAMS_LIST: {
 			const { current, add, remove, dateUpdated } = action.payload;
 			return {
 				...state,
+				isUpdated: false,
 				dateUpdated,
-				current,
-				all: getUpdateAllList(state.all, add, remove),
+				// current can be null (standard program)
+				current: current !== undefined ? current : state.current,
+				all: getUpdatedAllList(state.all, add, remove),
 			};
 		}
 		case $.CLEAR_LOCAL_PROGRAMS_LIST: {

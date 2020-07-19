@@ -62,7 +62,7 @@ router.post("/sync", auth, async (req, res) => {
 	const { userId } = req;
 	const { id } = req.body;
 
-	const program = await Program.findById(id);
+	const program = await Program.findOne({ id });
 	if (!program) {
 		return res.status(404).json({ msg: "Remote program not found" });
 	}

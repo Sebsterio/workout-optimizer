@@ -16,11 +16,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				isIncognito: true,
 			};
+
 		case $.USER_LOADING:
 			return {
 				...state,
 				isLoading: true,
 			};
+
 		case $.USER_LOADED:
 			return {
 				...state,
@@ -29,6 +31,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				isAuthenticated: true,
 				...action.payload,
 			};
+
 		case $.AUTH_SUCCESS:
 			return {
 				...state,
@@ -37,14 +40,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				isAuthenticated: true,
 				...action.payload,
 			};
+
 		case $.CLEAR_USER_DATA:
 			return {
-				isIncognito: false,
-				isLoading: false,
-				isAuthenticated: false,
-				name: null,
-				id: null,
-				token: null,
+				...INITIAL_STATE,
 			};
 		default:
 			return state;

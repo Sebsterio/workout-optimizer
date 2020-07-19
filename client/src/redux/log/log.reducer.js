@@ -21,12 +21,21 @@ const logReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 		case $.REMOTE_LOG_CREATED:
-		case $.REMOTE_LOG_UPDATED:
-		case $.LOG_UP_TO_DATE: {
+		case $.LOG_UP_TO_DATE:
+		case $.REMOTE_LOG_UPDATED: {
 			return {
 				...state,
 				isSyncing: false,
 				isSynced: true,
+			};
+		}
+		case $.CREATE_REMOTE_LOG_FAIL:
+		case $.SYNC_LOG_FAIL:
+		case $.UPDATE_REMOTE_LOG_FAIL: {
+			return {
+				...state,
+				isSyncing: false,
+				isSynced: false,
 			};
 		}
 		case $.LOG_SYNCED: {

@@ -29,6 +29,7 @@ const errorReducer = (state = INITIAL_STATE, action) => {
 					id: "UNKNOWN_ERROR",
 				};
 		}
+
 		case $.CLEAR_ERROR: {
 			return {
 				msg: "",

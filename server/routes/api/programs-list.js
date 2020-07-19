@@ -24,17 +24,14 @@ router.post("/", auth, async (req, res) => {
 
 router.put("/", auth, async (req, res) => {
 	const { userId, body } = req;
-	const { current, add, remove, dateUpdated } = body;
+	const { current, all, dateUpdated } = body;
+
 	try {
-		const list = await ProgramsList.findOne({ userId });
+		const list = await ProgramsList.findOneAndUpdate(
+			{ userId },
+			{ $set: { current, all, dateUpdated } }
+		);
 		if (!list) throw Error("List not found");
-
-		if (current) list.current = current;
-		if (add) list.all.push(add);
-		if (remove) list.all = list.all.filter((id) => id !== remove);
-		list.dateUpdated = dateUpdated;
-		await list.save();
-
 		res.status(200).send();
 	} catch (err) {
 		res.status(400).json({ msg: err.message });

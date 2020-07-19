@@ -6,10 +6,13 @@ import {
 	getIsSaved,
 } from "redux/programs-list/programs-list.selectors";
 import {
-	activateProgram,
 	duplicateCurrentProgram,
+	removeCurrentProgram,
 } from "redux/program/program.operations";
-import { removeSavedProgram } from "redux/programs/programs.operations";
+import {
+	activateSavedProgram,
+	removeSavedProgram,
+} from "redux/programs/programs.operations";
 
 import ProgramsSnippet from "./program-snippet";
 
@@ -19,8 +22,13 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-	activate: () => dispatch(activateProgram(props.program)),
-	remove: () => dispatch(removeSavedProgram(props.program)),
+	activateSaved: () => dispatch(activateSavedProgram(props.program)),
+	remove: () =>
+		dispatch(
+			props.isCurrent
+				? removeCurrentProgram()
+				: removeSavedProgram(props.program)
+		),
 	duplicate: () => dispatch(duplicateCurrentProgram(props.program)),
 });
 

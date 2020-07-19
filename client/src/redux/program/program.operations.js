@@ -1,173 +1,176 @@
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 
+// current-program
+import * as $ from "./program.actions";
+
+// programs
+import { removeRemotePrivateProgram } from "redux/programs/programs.operations";
 import {
-	clearLocalCurrentProgram,
-	creatingRemoteProgram,
-	remoteProgramCreated,
-	syncingCurrentProgram,
-	currentProgramUpToDate,
-	currentProgramSynced,
-	updateLocalCurrentProgram,
-	updatingRemoteCurrentProgram,
-	remoteCurrentProgramUpdated,
-	publishingCurrentProgram,
-	currentProgramPublished,
-	currentProgramPublishFail,
-	resetLocalCurrentProgram,
-} from "./program.actions";
-import {
-	addSavedProgram,
+	addLocalSavedProgram,
 	removeLocalSavedProgram,
 } from "redux/programs/programs.actions";
-import { updateProgramsList } from "redux/programs-list/programs-list.operations";
-import { getError } from "redux/error/error.actions";
-
 import {
 	getConvertedLocalCurrentProgram,
 	convertLocalProgram,
 	convertRemoteProgram,
-} from "./program.utils";
+} from "redux/programs/programs.utils";
+
+// programs-list
+import { updateProgramsList } from "redux/programs-list/programs-list.operations";
+
+// error
+import { getError } from "redux/error/error.actions";
+
+// other
+
 import { getTokenConfig } from "../utils";
 
-// -------------------------------------------------------------------
+// --------------------- updateCurrentProgram ----------------------
 
 // Modify current program and POST it to db
+// If customizing a public program, create new remote program
 export const updateCurrentProgram = (data) => (dispatch, getState) => {
 	const { isPublic } = getState().program;
 	const dateUpdated = new Date();
 
-	// Update local current program with data and set isPublic to false
-	dispatch(updateLocalCurrentProgram({ ...data, dateUpdated }));
-
-	// If customizing a public program, create new remote program
+	dispatch($.updateLocalCurrentProgram({ ...data, dateUpdated }));
 	if (isPublic) dispatch(createRemoteProgram());
-	//
-	// If modifying private program, update remote program
 	else dispatch(updateRemoteCurrentProgram(dateUpdated));
 };
 
-// Copy current program and activate the copy
+// --------------------- duplicateCurrentProgram ----------------------
+
+// Create new remote program and set it as current program
+// Save old current program to saved programs array
 export const duplicateCurrentProgram = () => (dispatch, getState) => {
 	const currentProgram = getState().program;
-
-	// Copy current program to saved programs array
-	dispatch(addSavedProgram(convertLocalProgram(currentProgram)));
-
-	// Create new remote program and set it as current program
 	const newName = currentProgram.name + " (copy)";
-	dispatch(updateLocalCurrentProgram({ name: newName }));
+
+	dispatch(addLocalSavedProgram(convertLocalProgram(currentProgram)));
+	dispatch($.updateLocalCurrentProgram({ replaceProps: { name: newName } }));
 	dispatch(createRemoteProgram());
+	// NOTE: not updating programs-list because 'current' is already in 'all'
 };
 
-// Assign new ID to current program and POST program to db
+// --------------------- createRemoteProgram ----------------------
+
+// Assign new ID to current program; POST it to db; update programs-list
 export const createRemoteProgram = () => (dispatch, getState) => {
-	dispatch(creatingRemoteProgram());
+	if (getState().user.isIncognito) return;
+
+	dispatch($.creatingRemoteProgram());
+
 	const id = uuid();
-	const remoteProgram = { ...getConvertedLocalCurrentProgram(getState), id };
+	const remoteProgram = getConvertedLocalCurrentProgram(getState);
+	remoteProgram.id = id;
+	const data = JSON.stringify(remoteProgram);
+	const token = getTokenConfig(getState);
+
 	axios
-		.post(
-			"/api/program/create",
-			JSON.stringify(remoteProgram),
-			getTokenConfig(getState)
-		)
+		.post("/api/program/create", data, token)
 		.then(() => {
-			dispatch(remoteProgramCreated());
-			dispatch(updateLocalCurrentProgram({ id, isPublic: false }));
+			dispatch($.remoteProgramCreated());
+			dispatch(
+				$.updateLocalCurrentProgram({ replaceProps: { id, isPublic: false } })
+			);
 			dispatch(updateProgramsList({ current: id, add: id }));
 		})
-		.catch((err) => dispatch(getError(err, "CREATE_REMOTE_PROGRAM_ERROR")));
+		.catch((err) => {
+			dispatch($.remoteProgramCreateFail());
+			dispatch(getError(err, "CREATE_REMOTE_PROGRAM_ERROR"));
+		});
 };
+
+// ------------------ updateRemoteCurrentProgram -------------------
 
 // POST and replace whole program
 const updateRemoteCurrentProgram = (dateUpdated) => (dispatch, getState) => {
 	if (getState().user.isIncognito) return;
 
-	dispatch(updatingRemoteCurrentProgram());
+	dispatch($.updatingRemoteCurrentProgram());
+
+	const data = JSON.stringify({
+		...getConvertedLocalCurrentProgram(getState),
+		dateUpdated,
+	});
+	const token = getTokenConfig(getState);
+
 	axios
-		.post(
-			"api/program/update",
-			JSON.stringify({
-				...getConvertedLocalCurrentProgram(getState),
-				dateUpdated,
-			}),
-			getTokenConfig(getState)
-		)
-		.then(() => dispatch(remoteCurrentProgramUpdated()))
+		.post("api/program/update", data, token)
+		.then(() => dispatch($.remoteCurrentProgramUpdated()))
 		.catch((err) => {
+			dispatch($.remoteCurrentProgramUpdateFail());
 			dispatch(getError(err, "UPDATE_REMOTE_PROGRAM_ERROR"));
 		});
 };
 
-// GET current program from db if newer than local
-// TODO: PST if newer than remote
+// --------------------- syncCurrentProgram ----------------------
+
+// Sync current program by ID matching programsList.current,
+// GET if newer than local
+// TODO: POST if newer than remote
 export const syncCurrentProgram = () => (dispatch, getState) => {
-	const id = getState().log.programId;
+	const id = getState().programsList.current;
+	if (!id) return dispatch($.loadStandardProgram());
 
-	// Ignore if using standard (initial) program
-	if (!id) return;
+	if (getState().user.isIncognito) return;
 
-	dispatch(syncingCurrentProgram());
+	dispatch($.syncingCurrentProgram());
+
 	const dateUpdatedLocal = getState().program.dateUpdated;
+	const data = JSON.stringify({ id, dateUpdatedLocal });
+	const token = getTokenConfig(getState);
+
 	axios
 		// TODO: use GET and stringify date correctly to pass as query
-		.post(
-			"/api/program/sync",
-			JSON.stringify({ id, dateUpdatedLocal }),
-			getTokenConfig(getState)
-		)
+		.post("/api/program/sync", data, token)
 		.then((res) => {
-			if (res.status === 204) dispatch(currentProgramUpToDate());
-			else {
-				const localProgram = convertRemoteProgram(res.data);
-				dispatch(currentProgramSynced(localProgram));
-			}
+			if (res.status === 204) dispatch($.currentProgramUpToDate());
+			else dispatch($.currentProgramSynced(convertRemoteProgram(res.data)));
 		})
 		.catch((err) => {
+			dispatch($.currentProgramSyncFail());
 			dispatch(getError(err, "SYNC_LOG_ERROR"));
 		});
 };
 
-// Replace current program and save newProgram id in log
-export const activateProgram = (newProgram) => (dispatch, getState) => {
-	if (newProgram) {
-		const { isPublic, id } = newProgram;
-		// Update saved programs array
-		dispatch(removeLocalSavedProgram(newProgram));
-		dispatch(addSavedProgram(getConvertedLocalCurrentProgram(getState)));
-
-		// Update current program
-		dispatch(clearLocalCurrentProgram());
-		dispatch(updateLocalCurrentProgram(convertRemoteProgram(newProgram)));
-
-		// Update programs-list
-		const programsListData = {
-			current: id,
-			add: isPublic ? id : null,
-		};
-		dispatch(updateProgramsList(programsListData));
-	} else {
-		// Activate standard program (initial)
-		dispatch(resetLocalCurrentProgram());
-		dispatch(updateProgramsList({ current: null }));
-	}
-};
+// --------------------- publishCurrentProgram ----------------------
 
 // Duplicate program in db and set copy as public
 export const publishCurrentProgram = () => (dispatch, getState) => {
-	dispatch(publishingCurrentProgram());
+	dispatch($.publishingCurrentProgram());
 
 	const { id } = getState().program;
 	const author = getState().user.name;
+	const data = JSON.stringify({ author, id });
+	const token = getTokenConfig(getState);
+
 	axios
-		.post(
-			"/api/program/publish",
-			JSON.stringify({ author, id }),
-			getTokenConfig(getState)
-		)
-		.then(() => dispatch(currentProgramPublished()))
+		.post("/api/program/publish", data, token)
+		.then(() => dispatch($.currentProgramPublished()))
 		.catch((err) => {
-			dispatch(currentProgramPublishFail());
+			dispatch($.currentProgramPublishFail());
 			dispatch(getError(err, "PUBLISH_CURRENT_PROGRAM_FAIL"));
 		});
+};
+
+// --------------------- removeCurrentProgram ----------------------
+
+// Replace currentProgram with next saved one OR reset it
+export const removeCurrentProgram = () => (dispatch, getState) => {
+	const { id, isPublic } = getState().program;
+	const savedPrograms = getState().programs.saved;
+	const wasLast = !savedPrograms.length;
+
+	if (wasLast) {
+		dispatch($.loadStandardProgram());
+		dispatch(updateProgramsList({ current: null, remove: id }));
+	} else {
+		const newCurrentProgram = savedPrograms[0];
+		dispatch($.loadProgram(convertRemoteProgram(newCurrentProgram)));
+		dispatch(removeLocalSavedProgram(newCurrentProgram));
+		dispatch(updateProgramsList({ current: newCurrentProgram.id, remove: id }));
+	}
+	if (!isPublic) dispatch(removeRemotePrivateProgram(id));
 };

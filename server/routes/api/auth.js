@@ -7,6 +7,25 @@ const User = require("../../models/user");
 
 const router = express.Router();
 
+// ---------------- Get user data ----------------
+
+// @access: private (token)
+
+router.get("/", auth, async (req, res) => {
+	try {
+		const { userId } = req;
+		const user = await User.findById(userId).select("-password");
+		if (!user) throw Error("User Does not exist");
+
+		res.status(200).json({
+			id: user.id,
+			name: user.name,
+		});
+	} catch (e) {
+		res.status(400).json({ msg: e.message });
+	}
+});
+
 // ------------------- Register -------------------
 
 // @access: public
@@ -69,25 +88,6 @@ router.post("/login", async (req, res) => {
 
 		res.status(200).json({
 			token,
-			id: user.id,
-			name: user.name,
-		});
-	} catch (e) {
-		res.status(400).json({ msg: e.message });
-	}
-});
-
-// ---------------- Get user data ----------------
-
-// @access: private (token)
-
-router.get("/", auth, async (req, res) => {
-	try {
-		const { userId } = req;
-		const user = await User.findById(userId).select("-password");
-		if (!user) throw Error("User Does not exist");
-
-		res.status(200).json({
 			id: user.id,
 			name: user.name,
 		});

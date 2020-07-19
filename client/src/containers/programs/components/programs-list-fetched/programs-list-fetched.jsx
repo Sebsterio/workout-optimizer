@@ -10,6 +10,7 @@ const ProgramsList = ({
 	getPrograms,
 	openModal,
 }) => {
+	// Fetch public programs if not already fetched
 	useEffect(() => {
 		if (!programs.length) getPrograms();
 	}, [programs, getPrograms]);

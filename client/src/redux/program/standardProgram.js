@@ -4,8 +4,8 @@ export const standardProgram = {
 	isSyncing: false,
 	isSynced: false,
 	isPublishing: false,
-	isPublished: true, // does a public copy exist
-	isPublic: true, // is this a public copy
+	isPublished: true,
+	isPublic: true,
 	id: null, // = standard program
 	dateUpdated: null,
 	name: "Standard program",

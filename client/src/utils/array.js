@@ -1,8 +1,14 @@
 export const replaceArrayItem = (arr, oldItem, newItem) =>
 	arr.map((item) => (item === oldItem ? newItem : item));
 
-export const deleteArrayItem = (array, item) =>
+export const removeArrayItem = (array, item) =>
 	array.filter((curItem) => curItem !== item);
+
+// unpure
+export const extractArrayItem = (array, item) => {
+	const index = array.indexOf(item);
+	return array.splice(index, 0);
+};
 
 export const duplicateArrayItem = (array, item, modifier) => {
 	const index = array.indexOf(item);

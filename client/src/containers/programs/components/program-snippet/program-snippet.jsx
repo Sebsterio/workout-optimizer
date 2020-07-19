@@ -14,13 +14,13 @@ export const ProgramSnippet = ({
 	// redux
 	isSaved,
 	isActivated,
-	activate,
+	activateSaved,
 	remove,
 	duplicate,
 }) => {
 	const { id, name, author } = program;
 
-	const isStandardProgram = !id;
+	const isStandardProgram = !id || id === "standard";
 	const nothingToRemove = isStandardProgram && noPrivatePrograms;
 
 	// Is in fetched array
@@ -28,10 +28,7 @@ export const ProgramSnippet = ({
 		return (
 			<Block twoFields highlight={isActivated} greyedOut={isSaved}>
 				<Col>
-					<Text>
-						{name}
-						{isSaved && " (saved)"}
-					</Text>
+					<Text>{name}</Text>
 					<Text secondary>{author}</Text>
 				</Col>
 
@@ -50,7 +47,7 @@ export const ProgramSnippet = ({
 				{isCurrent ? (
 					<Button text="Duplicate" handler={duplicate} />
 				) : (
-					<Button text="Activate" handler={activate} />
+					<Button text="Activate" handler={activateSaved} />
 				)}
 			</Col>
 

@@ -7,9 +7,18 @@ import { openModal } from "redux/modal/modal.actions";
 import ProgramsListSaved from "./programs-list-saved";
 
 const mapStateToProps = (state) => ({
+	// current program
 	currentProgram: state.program,
+	currentProgramisSyncing: state.program.isSyncing,
+
+	// programs data
 	programs: state.programs.saved,
-	isDownloading: state.programs.downloading,
+	programsAreDownloading: state.programs.isDownloading,
+
+	// programs list
+	programsList: state.programsList.all,
+	listIsSynced: state.programsList.isSynced,
+	listIsSyncing: state.programsList.isSyncing,
 });
 const mapDispatchToProps = (dispatch) => ({
 	getPrograms: () => dispatch(downloadSavedPrograms()),

@@ -1,9 +1,10 @@
 import { programsActionTypes as $ } from "./programs.types";
 
-// --- multiple programs ---
+// --- Download multiple programs ---
 
-export const downloadingPrograms = () => ({
+export const downloadingPrograms = (note) => ({
 	type: $.DOWNLOADING_PROGRAMS,
+	note,
 });
 
 export const programsDownloaded = (data) => ({
@@ -11,9 +12,12 @@ export const programsDownloaded = (data) => ({
 	payload: data,
 });
 
-export const programsDownloadFail = () => ({
+export const programsDownloadFail = (note) => ({
 	type: $.PROGRAMS_DOWNLAD_FAIL,
+	note,
 });
+
+// --- Remove multiple remote private programs ---
 
 export const removingAllRemotePrivatePrograms = () => ({
 	type: $.REMOVING_ALL_REMOTE_PRIVATE_PROGRAMS,
@@ -27,19 +31,17 @@ export const clearLocalPrograms = () => ({
 	type: $.CLEAR_LOCAL_PROGRAMS,
 });
 
-// --- single program local ---
+// --- Update single remote public program ---
 
-export const addSavedProgram = (data) => ({
-	type: $.ADD_SAVED_PROGRAM,
-	payload: data,
+export const updatingRemotePublicProgram = () => ({
+	type: $.UPDATING_REMOTE_PUBLIC_PROGRAM,
 });
 
-export const removeLocalSavedProgram = (data) => ({
-	type: $.REMOVE_LOCAL_SAVED_PROGRAM,
-	payload: data,
+export const remotePublicProgramUpdated = () => ({
+	type: $.REMOTE_PUBLIC_PROGRAM_UPDATED,
 });
 
-// --- single program remote ---
+// --- Remove single program ---
 
 export const removingRemoteProgram = () => ({
 	type: $.REMOVING_REMOTE_PROGRAM,
@@ -49,10 +51,14 @@ export const remoteProgramRemoved = () => ({
 	type: $.REMOTE_PROGRAM_REMOVED,
 });
 
-export const updatingRemotePublicProgram = () => ({
-	type: $.UPDATING_REMOTE_PUBLIC_PROGRAM,
+// --- Update local state  ---
+
+export const addLocalSavedProgram = (data) => ({
+	type: $.ADD_LOCAL_SAVED_PROGRAM,
+	payload: data,
 });
 
-export const remotePublicProgramUpdated = () => ({
-	type: $.REMOTE_PUBLIC_PROGRAM_UPDATED,
+export const removeLocalSavedProgram = (data) => ({
+	type: $.REMOVE_LOCAL_SAVED_PROGRAM,
+	payload: data,
 });

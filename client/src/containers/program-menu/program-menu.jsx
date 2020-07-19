@@ -31,7 +31,7 @@ const ProgramMenu = ({
 			newProps.name = newName + " (custom)";
 			setNewName(newProps.name);
 		}
-		updateCurrentProgram({ props: newProps });
+		updateCurrentProgram({ replaceProps: newProps });
 	};
 
 	const handleReset = () => {

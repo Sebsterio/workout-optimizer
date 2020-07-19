@@ -1,99 +1,86 @@
 import axios from "axios";
 
+import * as $ from "./programs-list.actions";
+import { getError } from "../error/error.actions";
+import { getConvertedLocalProgramsList } from "./programs-list.utils";
 import { getTokenConfig } from "../utils";
 
-import {
-	creatingRemoteProgramsList,
-	remoteProgramsListCreated,
-	updateLocalProgramsList,
-	updatingRemoteProgramsList,
-	remoteProgramsListUpdated,
-	syncingProgramList,
-	programsListUpToDate,
-	programsListSynced,
-	clearLocalProgramsList,
-	removingRemoteProgramsList,
-	remoteProgramsListRemoved,
-} from "./programs-list.actions";
-import { getError } from "../error/error.actions";
+// ------------------- createRemoteProgramsList ------------------------
 
-// -----------------------------------------------------------
-
-// POST programs-list to db // ISSUE: comment inaccurate
+// POST local programs-list to db
 export const createRemoteProgramsList = () => (dispatch, getState) => {
-	dispatch(creatingRemoteProgramsList());
+	dispatch($.creatingRemoteProgramsList());
 
-	// TODO: check if this makes sense. Should't be programsList?
-	const localPrograms = getState().programs;
-
-	const newProgramsList = {
-		dateUpdated: localPrograms.dateUpdated,
-		userId: getState().user.id,
-		current: getState().program.id,
-		all: localPrograms.saved.map((p) => p.id),
-	};
+	const data = JSON.stringify(getConvertedLocalProgramsList(getState));
+	const token = getTokenConfig(getState);
 
 	axios
-		.post(
-			"/api/programs-list",
-			JSON.stringify(newProgramsList),
-			getTokenConfig(getState)
-		)
-		.then(() => dispatch(remoteProgramsListCreated()))
+		.post("/api/programs-list", data, token)
+		.then(() => dispatch($.remoteProgramsListCreated()))
 		.catch((err) => {
+			dispatch($.createRemoteProgramsListFail());
 			dispatch(getError(err, "CREATE_REMOTE_PROGRAMS_LIST_ERROR"));
 		});
 };
 
-// Update program IDs in progrmsList and PUT changes to remote programsList
+// ---------------------- updateProgramsList ---------------------------
+
+// Update programsList content (IDs of saved programs)
+// PUT entire programsList to db
 export const updateProgramsList = ({ current, add, remove }) => (
 	dispatch,
 	getState
 ) => {
 	const dateUpdated = new Date();
-	dispatch(updateLocalProgramsList({ current, add, remove, dateUpdated }));
-
+	dispatch($.updateLocalProgramsList({ current, add, remove, dateUpdated }));
 	if (getState().user.isIncognito) return;
 
-	dispatch(updatingRemoteProgramsList());
+	dispatch($.updatingRemoteProgramsList());
+
+	const data = JSON.stringify(getConvertedLocalProgramsList(getState));
+	const token = getTokenConfig(getState);
+
 	axios
-		.put(
-			"/api/programs-list",
-			JSON.stringify({ current, add, remove, dateUpdated }),
-			getTokenConfig(getState)
-		)
-		.then(() => dispatch(remoteProgramsListUpdated()))
+		.put("/api/programs-list", data, token)
+		.then(() => dispatch($.remoteProgramsListUpdated()))
 		.catch((err) => {
+			dispatch($.updateRemoteProgramsListFail());
 			dispatch(getError(err, "UPDATE_REMOTE_LOG_ERROR"));
 		});
 };
 
-// GET programs list if newer than local
-// TODO: POST programs list if newer than remote
+// ----------------------- syncProgramsList ----------------------------
+
+// GET user's programsList if newer than local
+// TODO: POST if newer than remote
 export const syncProgramsList = () => async (dispatch, getState) => {
-	dispatch(syncingProgramList());
+	dispatch($.syncingProgramList());
+
 	const dateUpdatedLocal = getState().programsList.dateUpdated;
+	const data = JSON.stringify({ dateUpdatedLocal });
+	const token = getTokenConfig(getState);
+
 	try {
-		const res = await axios.post(
-			"/api/programs-list/sync",
-			JSON.stringify({ dateUpdatedLocal }),
-			getTokenConfig(getState)
-		);
-		if (res.status === 204) return dispatch(programsListUpToDate());
-		else return dispatch(programsListSynced(res.data));
+		const res = await axios.post("/api/programs-list/sync", data, token);
+		if (res.status === 204) return dispatch($.programsListUpToDate());
+		else return dispatch($.programsListSynced(res.data));
 	} catch (err) {
+		dispatch($.syncProgramsListFail());
 		return dispatch(getError(err, "SYNC_LOG_ERROR"));
 	}
 };
 
+// ------------------- removeRemoteProgramsList ------------------------
+
 // DELETE entire programs-list from db
 export const removeRemoteProgramsList = () => (dispatch, getState) => {
-	dispatch(clearLocalProgramsList());
-	dispatch(removingRemoteProgramsList());
+	dispatch($.removingRemoteProgramsList());
+	const token = getTokenConfig(getState);
 	axios
-		.delete("/api/programs-list", getTokenConfig(getState))
-		.then(() => dispatch(remoteProgramsListRemoved()))
+		.delete("/api/programs-list", token)
+		.then(() => dispatch($.remoteProgramsListRemoved()))
 		.catch((err) => {
+			dispatch($.removeRemoteProgramsListFail());
 			dispatch(getError(err, "REMOVE_REMOTE_PROGRAMS_LIST_ERROR"));
 		});
 };

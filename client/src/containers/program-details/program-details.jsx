@@ -5,11 +5,13 @@ import { FieldSnippet } from "../programs/components/index";
 const ProgramDetails = ({
 	// parent
 	program,
-	// redux
+	// state
 	isSaved,
 	isActivated,
+	// dispatch
 	save,
-	activate,
+	activateSaved,
+	activateFetched,
 	closeModal,
 	// withRouter
 	history,
@@ -22,7 +24,8 @@ const ProgramDetails = ({
 		closeModal();
 	};
 	const handleActivate = () => {
-		activate();
+		if (isSaved) activateSaved();
+		else activateFetched();
 		closeModal();
 		history.replace("/programs/private");
 	};
