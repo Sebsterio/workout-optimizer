@@ -10,11 +10,7 @@ import {
 	addLocalSavedProgram,
 	removeLocalSavedProgram,
 } from "redux/programs/programs.actions";
-import {
-	getConvertedLocalCurrentProgram,
-	convertLocalProgram,
-	convertRemoteProgram,
-} from "redux/programs/programs.utils";
+import { getConvertedLocalCurrentProgram } from "redux/programs/programs.utils";
 
 // programs-list
 import { updateProgramsList } from "redux/programs-list/programs-list.operations";
@@ -34,13 +30,13 @@ export const updateCurrentProgram = (data) => (dispatch, getState) => {
 	const dateModified = new Date();
 
 	dispatch($.updateLocalCurrentProgram({ ...data, dateModified }));
-	if (isPublic) dispatch(createRemoteProgram());
+	if (isPublic) dispatch(customizeCurrentProgram());
 	else dispatch(updateRemoteCurrentProgram(dateModified));
 };
 
 // --------------------- duplicateCurrentProgram ----------------------
 
-// Create new remote program and set it as current program
+// Create new program and set it as current program
 // Save old current program to saved programs array
 export const duplicateCurrentProgram = () => (dispatch, getState) => {
 	const currentProgram = getState().program;
@@ -48,32 +44,33 @@ export const duplicateCurrentProgram = () => (dispatch, getState) => {
 
 	dispatch(addLocalSavedProgram(currentProgram));
 	dispatch($.updateLocalCurrentProgram({ replaceProps: { name: newName } }));
+	dispatch(customizeCurrentProgram());
+};
+
+// --------------------- customizeCurrentProgram ----------------------
+
+// Assign new ID to current program
+export const customizeCurrentProgram = () => (dispatch) => {
+	const payload = { replaceProps: { id: uuid(), isPublic: false } };
+	dispatch($.updateLocalCurrentProgram(payload));
+	dispatch(updateProgramsList());
 	dispatch(createRemoteProgram());
-	// NOTE: not updating programs-list because 'current' is already in 'all'
 };
 
 // --------------------- createRemoteProgram ----------------------
 
-// Assign new ID to current program; POST it to db; update programs-list
+// POST currentProgram to db
 export const createRemoteProgram = () => (dispatch, getState) => {
 	if (isIncognito(getState)) return;
 	dispatch($.creatingRemoteProgram());
 
-	const id = uuid();
 	const remoteProgram = getConvertedLocalCurrentProgram(getState);
-	remoteProgram.id = id;
 	const data = JSON.stringify(remoteProgram);
 	const token = getTokenConfig(getState);
 
 	axios
 		.post("/api/program/create", data, token)
-		.then(() => {
-			dispatch($.remoteProgramCreated());
-			dispatch(
-				$.updateLocalCurrentProgram({ replaceProps: { id, isPublic: false } })
-			);
-			dispatch(updateProgramsList());
-		})
+		.then(() => dispatch($.remoteProgramCreated()))
 		.catch((err) => {
 			dispatch($.remoteProgramCreateFail());
 			dispatch(getError(err, "CREATE_REMOTE_PROGRAM_ERROR"));
