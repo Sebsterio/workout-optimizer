@@ -46,7 +46,7 @@ export const duplicateCurrentProgram = () => (dispatch, getState) => {
 	const currentProgram = getState().program;
 	const newName = currentProgram.name + " (copy)";
 
-	dispatch(addLocalSavedProgram(convertLocalProgram(currentProgram)));
+	dispatch(addLocalSavedProgram(currentProgram));
 	dispatch($.updateLocalCurrentProgram({ replaceProps: { name: newName } }));
 	dispatch(createRemoteProgram());
 	// NOTE: not updating programs-list because 'current' is already in 'all'
