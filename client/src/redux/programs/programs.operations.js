@@ -1,7 +1,5 @@
 import axios from "axios";
 
-import { getTokenConfig } from "../utils";
-
 // programs
 import * as $ from "./programs.actions";
 import { getSavedProgramById, convertRemotePrograms } from "./programs.utils";
@@ -14,6 +12,9 @@ import { updateProgramsList } from "redux/programs-list/programs-list.operations
 
 // error
 import { getError } from "../error/error.actions";
+
+// other
+import { getTokenConfig, isIncognito } from "../utils";
 
 // ----------------------- syncPrograms -------------------------
 
@@ -98,9 +99,12 @@ export const removeSavedProgram = (program) => (dispatch) => {
 
 // DELETE program from db by programId
 export const removeRemotePrivateProgram = (id) => (dispatch, getState) => {
+	if (isIncognito(getState)) return;
 	dispatch($.removingRemoteProgram());
+
 	const endpoint = "/api/programs/" + id;
 	const token = getTokenConfig(getState);
+
 	axios
 		.delete(endpoint, token)
 		.then(() => dispatch($.remoteProgramRemoved()))

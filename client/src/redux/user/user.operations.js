@@ -41,15 +41,16 @@ import { getConfig, getTokenConfig } from "../utils";
 // If not registered, fresh start
 export const loadUser = () => (dispatch, getState) => {
 	dispatch($.userLoading());
+	const token = getTokenConfig(getState);
 	axios
-		.get("/api/auth", getTokenConfig(getState))
+		.get("/api/auth", token)
 		.then((res) => {
 			dispatch($.userLoaded(res.data));
 			dispatch(syncLog());
 			dispatch(syncPrograms());
 		})
 		// NOTE: Don't getError (causes redundant alert on startup)
-		.catch(() => dispatch(logout()));
+		.catch(() => dispatch($.loadUserFail()));
 };
 
 // ------------------------ loadUser ------------------------------

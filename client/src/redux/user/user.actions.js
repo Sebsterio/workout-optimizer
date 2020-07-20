@@ -8,6 +8,9 @@ export const userLoaded = (data) => ({
 	type: $.USER_LOADED,
 	payload: data,
 });
+export const loadUserFail = () => ({
+	type: $.LOAD_USER_FAIL,
+});
 
 export const authSuccess = (data) => ({
 	type: $.AUTH_SUCCESS,

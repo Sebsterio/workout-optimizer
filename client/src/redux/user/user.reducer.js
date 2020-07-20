@@ -32,6 +32,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
 				...action.payload,
 			};
 
+		case $.LOAD_USER_FAIL:
+			return {
+				...state,
+				isLoading: false,
+			};
+
 		case $.AUTH_SUCCESS:
 			return {
 				...state,

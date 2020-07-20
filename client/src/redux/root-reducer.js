@@ -19,7 +19,7 @@ const persistConfig = {
 const programsPersistConfig = {
 	key: "programs",
 	storage,
-	whitelist: ["private"],
+	whitelist: ["saved"],
 };
 
 const rootReducer = combineReducers({
