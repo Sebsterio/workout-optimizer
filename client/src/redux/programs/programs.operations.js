@@ -98,7 +98,9 @@ export const activateSavedProgram = (data) => (dispatch, getState) => {
 
 // ------------------------- removeSavedProgram ---------------------------
 
-// Remove program data from saved programs array and ID from programs-list
+// Remove program data from saved programs array
+// Remove program ID from programs-list
+// Remove remote program if is private
 export const removeSavedProgram = (program) => (dispatch) => {
 	const { id, isPublic } = program;
 	dispatch($.removeLocalSavedProgram(program));
@@ -108,7 +110,7 @@ export const removeSavedProgram = (program) => (dispatch) => {
 
 // --------------------- removeRemotePrivateProgram -----------------------
 
-// DELETE program from db
+// DELETE program from db by programId
 export const removeRemotePrivateProgram = (id) => (dispatch, getState) => {
 	dispatch($.removingRemoteProgram());
 	const endpoint = "/api/programs/" + id;
