@@ -17,7 +17,6 @@ const ProgramDetails = ({
 	history,
 }) => {
 	const { name, description, fields, dateUpdated } = program;
-	const fieldsArr = JSON.parse(fields);
 
 	const handleSave = () => {
 		save();
@@ -54,7 +53,7 @@ const ProgramDetails = ({
 
 			<Separator text="Fields" />
 
-			{fieldsArr.map((field, i) => (
+			{fields.map((field, i) => (
 				<FieldSnippet field={field} key={i} />
 			))}
 		</Menu>

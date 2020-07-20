@@ -1,19 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import {
-	getIsActivated,
-	getIsSaved,
-} from "redux/programs-list/programs-list.selectors";
+// program
 import {
 	duplicateCurrentProgram,
 	removeCurrentProgram,
 } from "redux/program/program.operations";
+import { getIsActivated } from "redux/program/program.selectors";
+
+// programs
 import {
 	activateSavedProgram,
 	removeSavedProgram,
 } from "redux/programs/programs.operations";
+import { getIsSaved } from "redux/programs/programs.selectors";
 
+// child
 import ProgramsSnippet from "./program-snippet";
 
 const mapStateToProps = (state, props) => ({

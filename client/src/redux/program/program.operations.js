@@ -57,7 +57,6 @@ export const duplicateCurrentProgram = () => (dispatch, getState) => {
 // Assign new ID to current program; POST it to db; update programs-list
 export const createRemoteProgram = () => (dispatch, getState) => {
 	if (isIncognito(getState)) return;
-
 	dispatch($.creatingRemoteProgram());
 
 	const id = uuid();
@@ -73,7 +72,7 @@ export const createRemoteProgram = () => (dispatch, getState) => {
 			dispatch(
 				$.updateLocalCurrentProgram({ replaceProps: { id, isPublic: false } })
 			);
-			dispatch(updateProgramsList({ current: id, add: id }));
+			dispatch(updateProgramsList());
 		})
 		.catch((err) => {
 			dispatch($.remoteProgramCreateFail());
@@ -86,7 +85,6 @@ export const createRemoteProgram = () => (dispatch, getState) => {
 // POST and replace whole program
 const updateRemoteCurrentProgram = (dateUpdated) => (dispatch, getState) => {
 	if (isIncognito(getState)) return;
-
 	dispatch($.updatingRemoteCurrentProgram());
 
 	const data = JSON.stringify({
@@ -106,20 +104,15 @@ const updateRemoteCurrentProgram = (dateUpdated) => (dispatch, getState) => {
 
 // --------------------- syncCurrentProgram ----------------------
 
-// Sync current program by ID matching programsList.current,
+// Sync current program by ID matching remoteProgramsList.current,
 // GET if newer than local
 // TODO: POST if newer than remote
 export const syncCurrentProgram = () => (dispatch, getState) => {
-	const id = getState().programsList.current;
-
-	if (id === "standard") return dispatch($.loadStandardProgram());
-
 	if (isIncognito(getState)) return;
-
 	dispatch($.syncingCurrentProgram());
 
-	const dateUpdatedLocal = getState().program.dateUpdated;
-	const data = JSON.stringify({ id, dateUpdatedLocal });
+	const { dateUpdated } = getState().program;
+	const data = JSON.stringify({ dateUpdated });
 	const token = getTokenConfig(getState);
 
 	axios
@@ -165,12 +158,12 @@ export const removeCurrentProgram = () => (dispatch, getState) => {
 
 	if (wasLast) {
 		dispatch($.loadStandardProgram());
-		dispatch(updateProgramsList({ current: "standard", remove: id }));
 	} else {
 		const newCurrentProgram = savedPrograms[0];
-		dispatch($.loadProgram(convertRemoteProgram(newCurrentProgram)));
+		dispatch($.loadProgram(newCurrentProgram));
 		dispatch(removeLocalSavedProgram(newCurrentProgram));
-		dispatch(updateProgramsList({ current: newCurrentProgram.id, remove: id }));
 	}
+	// db
 	if (!isPublic) dispatch(removeRemotePrivateProgram(id));
+	dispatch(updateProgramsList());
 };

@@ -26,10 +26,10 @@ export const createRemoteProgramsList = () => (dispatch, getState) => {
 // ---------------------- updateProgramsList ---------------------------
 
 // Update programsList content (IDs of saved programs)
-// PUT entire programsList to db
-export const updateProgramsList = (payload) => (dispatch, getState) => {
+// PUT current and saved programIds to db
+export const updateProgramsList = () => (dispatch, getState) => {
 	const dateUpdated = new Date();
-	dispatch($.updateLocalProgramsList({ ...payload, dateUpdated }));
+	dispatch($.updateLocalProgramsList({ dateUpdated }));
 
 	if (isIncognito(getState)) return;
 
@@ -45,27 +45,6 @@ export const updateProgramsList = (payload) => (dispatch, getState) => {
 			dispatch($.updateRemoteProgramsListFail());
 			dispatch(getError(err, "UPDATE_REMOTE_LOG_ERROR"));
 		});
-};
-
-// ----------------------- syncProgramsList ----------------------------
-
-// GET user's programsList if newer than local
-// TODO: POST if newer than remote
-export const syncProgramsList = () => async (dispatch, getState) => {
-	dispatch($.syncingProgramList());
-
-	const dateUpdatedLocal = getState().programsList.dateUpdated;
-	const data = JSON.stringify({ dateUpdatedLocal });
-	const token = getTokenConfig(getState);
-
-	try {
-		const res = await axios.post("/api/programs-list/sync", data, token);
-		if (res.status === 204) return dispatch($.programsListUpToDate());
-		else return dispatch($.programsListSynced(res.data));
-	} catch (err) {
-		dispatch($.syncProgramsListFail());
-		return dispatch(getError(err, "SYNC_LOG_ERROR"));
-	}
 };
 
 // ------------------- removeRemoteProgramsList ------------------------

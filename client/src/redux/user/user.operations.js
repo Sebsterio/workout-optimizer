@@ -27,7 +27,6 @@ import { clearLocalPrograms } from "redux/programs/programs.actions";
 
 // programs-list
 import {
-	syncProgramsList,
 	createRemoteProgramsList,
 	removeRemoteProgramsList,
 } from "redux/programs-list/programs-list.operations";
@@ -47,9 +46,8 @@ export const loadUser = () => (dispatch, getState) => {
 		.then((res) => {
 			dispatch($.userLoaded(res.data));
 			dispatch(syncLog());
-			return dispatch(syncProgramsList()); // blocking
+			dispatch(syncCurrentProgram());
 		})
-		.then(() => dispatch(syncCurrentProgram()))
 		// NOTE: Don't getError (causes redundant alert on startup)
 		.catch(() => dispatch(logout()));
 };
@@ -88,9 +86,8 @@ export const login = (formData) => (dispatch) => {
 		.then((res) => {
 			dispatch($.authSuccess(res.data));
 			dispatch(syncLog());
-			return dispatch(syncProgramsList()); // blocking
+			dispatch(syncCurrentProgram());
 		})
-		.then(() => dispatch(syncCurrentProgram()))
 		.catch((err) => {
 			dispatch(getError(err, "LOGIN_FAIL"));
 			dispatch($.clearUserData());

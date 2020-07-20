@@ -6,17 +6,16 @@ export const getStateWithRemovedProgram = (array, itemToRemove) =>
 
 // ---------------------------- Conversion ------------------------------
 
-// Sort according to programs-list (skip current program)
-// Insert standard program where programId===null
-export const convertRemotePrivatePrograms = (programs, getState) => {
-	const { all, current } = getState().programsList;
-	return all
-		.filter((programId) => programId !== current)
-		.map((programId) =>
-			programId === "standard"
-				? programs.find((program) => program.id === programId)
-				: convertLocalProgram(standardProgram)
-		);
+export const convertRemotePrograms = (programs) => {
+	return programs.map((program) => convertRemoteProgram(program));
+};
+
+export const convertRemoteProgram = (program) => {
+	if (program === "standard") return standardProgram;
+	return {
+		...program,
+		fields: JSON.parse(program.fields),
+	};
 };
 
 export const getConvertedLocalCurrentProgram = (getState) =>
@@ -26,11 +25,3 @@ export const convertLocalProgram = (program) => ({
 	...program,
 	fields: JSON.stringify(program.fields),
 });
-
-export const convertRemoteProgram = (program) => {
-	const newProgram = {
-		...program,
-		fields: JSON.parse(program.fields),
-	};
-	return newProgram;
-};

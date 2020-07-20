@@ -1,18 +1,11 @@
 import { programsListActionTypes as $ } from "./programs-list.types";
 
-import { getUpdatedAllList } from "./programs-list.utils";
-
 const INITIAL_STATE = {
-	// status
 	isSyncing: false,
 	isSynced: false,
 	isUpdating: false,
 	isUpdated: false,
-
-	// data
 	dateUpdated: null,
-	current: "standard",
-	all: ["standard"],
 };
 
 const programsReducer = (state = INITIAL_STATE, action) => {
@@ -87,13 +80,10 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		// ------- update local ------
 
 		case $.UPDATE_LOCAL_PROGRAMS_LIST: {
-			const { current, add, remove, dateUpdated } = action.payload;
 			return {
 				...state,
 				isUpdated: false,
-				dateUpdated,
-				current: current ? current : state.current,
-				all: getUpdatedAllList(state.all, add, remove),
+				...action.payload,
 			};
 		}
 		case $.CLEAR_LOCAL_PROGRAMS_LIST: {

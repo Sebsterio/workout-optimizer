@@ -25,7 +25,7 @@ router.get("/public", async (req, res) => {
 
 // @access: user
 
-// Get all programs from user's programs list except current program
+// Get data of all programs corresponding to user's saved-programs-list
 router.get("/saved", auth, async (req, res) => {
 	try {
 		const { userId } = req;
@@ -35,20 +35,23 @@ router.get("/saved", auth, async (req, res) => {
 		if (!programsList)
 			return res.status(404).json({ msg: "Programs list not found" });
 
-		// Exclude current program & standard program
-		let { current, all } = programsList;
-		all = all.filter(
-			(programId) => programId !== current && programId !== "standard"
+		// Get programs data
+		const programIds = programsList.saved;
+		const programIdsRegex = programIds
+			.map((programId) => `(${programId})`)
+			.join("|");
+		const foundPrograms = await Program.find({
+			id: { $regex: programIdsRegex },
+		});
+
+		// Sort found programs in accordance to programsList
+		const sortedPrograms = saved.map((id) =>
+			id === "standard"
+				? id
+				: foundPrograms.find((program) => program.id === id)
 		);
 
-		if (!all.length)
-			return res.status(404).json({ msg: "Programs list empty" });
-
-		// Get array of programs data
-		const programIdsRegex = all.map((programId) => `(${programId})`).join("|");
-		const programs = await Program.find({ id: { $regex: programIdsRegex } });
-
-		res.status(200).json(programs);
+		res.status(200).json(sortedPrograms);
 	} catch (e) {
 		res.status(400).json({ msg: e.message });
 	}

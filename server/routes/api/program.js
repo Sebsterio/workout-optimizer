@@ -3,6 +3,7 @@ const express = require("express");
 
 const auth = require("../../middleware/auth");
 const Program = require("../../models/program");
+const ProgramsList = require("../../models/programs-list");
 
 const router = express.Router();
 
@@ -54,30 +55,39 @@ router.post("/update", auth, async (req, res) => {
 	}
 });
 
-// ------------------- Get own program -------------------
+// ---------------- Get own current program ----------------
 
 // @access: program owner and  PT
 
 router.post("/sync", auth, async (req, res) => {
-	const { userId } = req;
-	const { id } = req.body;
+	try {
+		const { userId, body } = req;
+		const { dateUpdated } = body;
 
-	const program = await Program.findOne({ id });
-	if (!program) {
-		return res.status(404).json({ msg: "Remote program not found" });
+		// Get list of user's programs IDs
+		const programsList = await ProgramsList.findOne({ userId });
+		if (!programsList)
+			return res.status(404).json({ msg: "Programs list not found" });
+
+		// Get program data
+		const currentProgramId = programsList.current;
+		const program = await Program.findOne({ id: currentProgramId });
+		if (!program) {
+			return res.status(404).json({ msg: "Remote program not found" });
+		}
+
+		// Determine which version is more recent
+		const dateUpdatedLocal = dateUpdated ? new Date(dateUpdated).getTime() : 0;
+		const dateUpdatedRemote = program.dateUpdated
+			? program.dateUpdated.getTime()
+			: 0;
+
+		// Send response
+		if (dateUpdatedRemote === dateUpdatedLocal) return res.status(204).send();
+		else res.status(200).json(program);
+	} catch (e) {
+		res.status(400).json({ msg: e.message });
 	}
-	if (program.userId !== userId && !program.isPublic) {
-		return res.status(401).json({ msg: "Unauthorized" });
-	}
-
-	const localDate = req.body.dateUpdatedLocal;
-	const dateUpdatedLocal = localDate ? new Date(localDate).getTime() : 0;
-	const dateUpdatedRemote = program.dateUpdated
-		? program.dateUpdated.getTime()
-		: 0;
-
-	if (dateUpdatedRemote === dateUpdatedLocal) return res.status(204).send();
-	else res.status(200).json(program);
 });
 
 // ------------------ Publish program -------------------
