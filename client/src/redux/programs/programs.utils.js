@@ -1,10 +1,16 @@
 import { standardProgram } from "redux/program/standardProgram";
 
-// TODO: remove
+// --------------------------- Redux -----------------------------
+
 export const getStateWithRemovedProgram = (array, itemToRemove) =>
 	array.filter((item) => item.id !== itemToRemove.id);
 
-// ---------------------------- Conversion ------------------------------
+// --------------------------- Selectors -----------------------------
+
+export const getSavedProgramById = (id, getState) =>
+	getState().programs.saved.find((program) => program.id === id);
+
+// -------------------------- Conversion -----------------------------
 
 export const convertRemotePrograms = (programs) => {
 	return programs.map((program) => convertRemoteProgram(program));

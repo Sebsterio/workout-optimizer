@@ -4,7 +4,7 @@ import { getTokenConfig } from "../utils";
 
 // programs
 import * as $ from "./programs.actions";
-import { convertRemotePrograms } from "./programs.utils";
+import { getSavedProgramById, convertRemotePrograms } from "./programs.utils";
 
 // current-program
 import { loadProgram } from "redux/program/program.actions";
@@ -59,31 +59,15 @@ export const saveFetchedProgram = (program) => (dispatch) => {
 
 // --------------------------- activateProgram ----------------------------
 
-// Relay to correct function
-export const activateProgram = (program) => (dispatch) => {
-	if (program.isPublic) dispatch(activateFetchedProgram(program));
-	else dispatch(activateSavedProgram(program));
-};
-
-// ----------------------- activateFetchedProgram -------------------------
-
 // Set newProgram as currentProgram
 // Save old currentProgram in saved programs
-export const activateFetchedProgram = (newProgram) => (dispatch, getState) => {
+// Remove newProgram from saved programs if is present
+export const activateProgram = (program) => (dispatch, getState) => {
 	const currentProgram = getState().program;
+	const savedProgram = getSavedProgramById(program.id, getState);
 	dispatch($.addLocalSavedProgram(currentProgram));
-	dispatch(loadProgram(newProgram));
-	dispatch(updateProgramsList());
-};
-// ------------------------ activateSavedProgram --------------------------
-
-// Swap currentProgram and newProgram
-// update programsList
-export const activateSavedProgram = (newProgram) => (dispatch, getState) => {
-	const currentProgram = getState().program;
-	dispatch($.addLocalSavedProgram(currentProgram));
-	dispatch($.removeLocalSavedProgram(newProgram));
-	dispatch(loadProgram(newProgram));
+	dispatch(loadProgram(program));
+	if (savedProgram) dispatch($.removeLocalSavedProgram(savedProgram));
 	dispatch(updateProgramsList());
 };
 

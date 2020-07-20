@@ -10,8 +10,7 @@ const ProgramDetails = ({
 	isActivated,
 	// dispatch
 	save,
-	activateSaved,
-	activateFetched,
+	activate,
 	closeModal,
 	// withRouter
 	history,
@@ -23,8 +22,7 @@ const ProgramDetails = ({
 		closeModal();
 	};
 	const handleActivate = () => {
-		if (isSaved) activateSaved();
-		else activateFetched();
+		activate();
 		closeModal();
 		history.replace("/programs/private");
 	};
@@ -36,7 +34,7 @@ const ProgramDetails = ({
 				<Button
 					text={isSaved ? "Saved" : "Save"}
 					handler={handleSave}
-					disabled={isSaved}
+					disabled={isSaved || isActivated}
 				/>
 				<Button
 					text={isActivated ? "Activated" : "Activate"}

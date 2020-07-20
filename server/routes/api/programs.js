@@ -37,19 +37,25 @@ router.get("/saved", auth, async (req, res) => {
 
 		// Get programs data
 		const programIds = programsList.saved;
+
 		const programIdsRegex = programIds
 			.map((programId) => `(${programId})`)
 			.join("|");
+
 		const foundPrograms = await Program.find({
 			id: { $regex: programIdsRegex },
 		});
 
+		console.log("###### foundPrograms: ", foundPrograms.length);
+
 		// Sort found programs in accordance to programsList
-		const sortedPrograms = saved.map((id) =>
+		const sortedPrograms = programIds.map((id) =>
 			id === "standard"
 				? id
 				: foundPrograms.find((program) => program.id === id)
 		);
+
+		console.log("sortedPrograms ", sortedPrograms);
 
 		res.status(200).json(sortedPrograms);
 	} catch (e) {

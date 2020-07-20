@@ -38,6 +38,8 @@ export const updateProgramsList = () => (dispatch, getState) => {
 	const data = JSON.stringify(getConvertedLocalProgramsList(getState));
 	const token = getTokenConfig(getState);
 
+	console.log(data);
+
 	axios
 		.put("/api/programs-list", data, token)
 		.then(() => dispatch($.remoteProgramsListUpdated()))

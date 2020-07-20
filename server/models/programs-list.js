@@ -7,9 +7,20 @@ const ProgramsListSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	current: String,
-	all: [String],
-	dateUpdated: Date,
+	current: {
+		type: String,
+		required: true,
+	},
+	saved: [
+		{
+			type: String,
+			required: true,
+		},
+	],
+	dateUpdated: {
+		type: Date,
+		required: true,
+	},
 });
 
 const ProgramsList = mongoose.model("programs-list", ProgramsListSchema);

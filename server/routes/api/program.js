@@ -66,15 +66,19 @@ router.post("/sync", auth, async (req, res) => {
 
 		// Get list of user's programs IDs
 		const programsList = await ProgramsList.findOne({ userId });
+
 		if (!programsList)
 			return res.status(404).json({ msg: "Programs list not found" });
 
 		// Get program data
 		const currentProgramId = programsList.current;
-		const program = await Program.findOne({ id: currentProgramId });
-		if (!program) {
+		const program =
+			currentProgramId === "standard"
+				? "standard"
+				: await Program.findOne({ id: currentProgramId });
+
+		if (!program)
 			return res.status(404).json({ msg: "Remote program not found" });
-		}
 
 		// Determine which version is more recent
 		const dateUpdatedLocal = dateUpdated ? new Date(dateUpdated).getTime() : 0;

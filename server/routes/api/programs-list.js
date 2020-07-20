@@ -28,10 +28,13 @@ router.put("/", auth, async (req, res) => {
 	try {
 		const { userId, body } = req;
 		const { current, saved, dateUpdated } = body;
+		console.log({ current, saved, dateUpdated });
+
 		const list = await ProgramsList.findOneAndUpdate(
 			{ userId },
 			{ $set: { current, saved, dateUpdated } }
 		);
+		console.log(list);
 		if (!list) throw Error("List not found");
 		res.status(200).send();
 	} catch (err) {
