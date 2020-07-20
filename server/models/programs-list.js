@@ -17,10 +17,7 @@ const ProgramsListSchema = new Schema({
 			required: true,
 		},
 	],
-	dateUpdated: {
-		type: Date,
-		required: true,
-	},
+	dateUpdated: Date,
 });
 
 const ProgramsList = mongoose.model("programs-list", ProgramsListSchema);

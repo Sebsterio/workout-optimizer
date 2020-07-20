@@ -4,12 +4,24 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const ProgramSchema = new Schema({
-	name: String,
-	id: String,
-	userId: String,
+	name: {
+		type: String,
+		required: true,
+	},
+	id: {
+		type: String,
+		required: true,
+	},
+	userId: {
+		type: String,
+		required: true,
+	},
 	dateUpdated: Date,
+	fields: {
+		type: String,
+		required: true,
+	},
 	description: String,
-	fields: String,
 	isPublic: Boolean,
 	author: String,
 });
