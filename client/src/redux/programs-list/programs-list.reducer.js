@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 	isSynced: false,
 	isUpdating: false,
 	isUpdated: false,
-	dateUpdated: null,
+	dateModified: null,
 };
 
 const programsReducer = (state = INITIAL_STATE, action) => {

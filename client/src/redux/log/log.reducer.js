@@ -2,7 +2,7 @@ import { logActionTypes as $ } from "./log.types";
 import { getUpdatedEntries } from "./log.utils";
 
 export const INITIAL_STATE = {
-	dateUpdated: null,
+	dateModified: null,
 	isSyncing: false,
 	isSynced: false,
 	entries: {},
@@ -48,7 +48,7 @@ const logReducer = (state = INITIAL_STATE, action) => {
 		case $.UPDATE_LOCAL_LOG_ENTRIES: {
 			return {
 				...state,
-				dateUpdated: action.payload.dateUpdated,
+				dateModified: action.payload.dateModified,
 				entries: getUpdatedEntries(state, action.payload),
 			};
 		}
@@ -56,7 +56,7 @@ const logReducer = (state = INITIAL_STATE, action) => {
 			return {
 				isSyncing: false,
 				isSynced: false,
-				dateUpdated: null,
+				dateModified: null,
 				entries: {},
 			};
 		}

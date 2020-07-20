@@ -15,7 +15,7 @@ const ProgramDetails = ({
 	// withRouter
 	history,
 }) => {
-	const { name, description, fields, dateUpdated } = program;
+	const { name, description, fields, dateModified } = program;
 
 	const handleSave = () => {
 		save();
@@ -46,7 +46,7 @@ const ProgramDetails = ({
 			<Heading small text={name}></Heading>
 			<Text>{description}</Text>
 			<Text size="small" secondary>
-				Last updated: {new Date(dateUpdated).toDateString()}
+				Last updated: {new Date(dateModified).toDateString()}
 			</Text>
 
 			<Separator text="Fields" />

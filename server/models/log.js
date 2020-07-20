@@ -7,7 +7,7 @@ const LogSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	dateUpdated: Date,
+	dateModified: Date,
 	entries: [
 		{
 			dateStr: String,

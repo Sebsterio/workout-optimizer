@@ -13,14 +13,14 @@ const router = express.Router();
 
 router.post("/create", auth, async (req, res) => {
 	const { userId, body } = req;
-	const { id, name, description, dateUpdated, fields } = body;
+	const { id, name, description, dateModified, fields } = body;
 
 	const newProgram = new Program({
 		id,
 		userId,
 		name,
 		description,
-		dateUpdated,
+		dateModified,
 		fields,
 	});
 	const program = await newProgram.save();
@@ -36,7 +36,7 @@ router.post("/create", auth, async (req, res) => {
 router.post("/update", auth, async (req, res) => {
 	try {
 		const { userId } = req;
-		const { id, name, description, fields, dateUpdated } = req.body;
+		const { id, name, description, fields, dateModified } = req.body;
 
 		const program = await Program.findOne({ id });
 
@@ -46,7 +46,7 @@ router.post("/update", auth, async (req, res) => {
 
 		await Program.findOneAndUpdate(
 			{ id },
-			{ name, description, fields, dateUpdated }
+			{ name, description, fields, dateModified }
 		);
 
 		res.status(200).send();
@@ -62,7 +62,7 @@ router.post("/update", auth, async (req, res) => {
 router.post("/sync", auth, async (req, res) => {
 	try {
 		const { userId, body } = req;
-		const { dateUpdated } = body;
+		const { dateModified } = body;
 
 		// Get list of user's programs IDs
 		const programsList = await ProgramsList.findOne({ userId });
@@ -81,13 +81,15 @@ router.post("/sync", auth, async (req, res) => {
 			return res.status(404).json({ msg: "Remote program not found" });
 
 		// Determine which version is more recent
-		const dateUpdatedLocal = dateUpdated ? new Date(dateUpdated).getTime() : 0;
-		const dateUpdatedRemote = program.dateUpdated
-			? program.dateUpdated.getTime()
+		const dateModifiedLocal = dateModified
+			? new Date(dateModified).getTime()
+			: 0;
+		const dateModifiedRemote = program.dateModified
+			? program.dateModified.getTime()
 			: 0;
 
 		// Send response
-		if (dateUpdatedRemote === dateUpdatedLocal) return res.status(204).send();
+		if (dateModifiedRemote === dateModifiedLocal) return res.status(204).send();
 		else res.status(200).json(program);
 	} catch (e) {
 		res.status(400).json({ msg: e.message });
@@ -109,13 +111,13 @@ router.post("/publish", auth, async (req, res) => {
 			return res.status(401).json({ msg: "Unauthorized" });
 		}
 
-		const { name, description, dateUpdated, fields } = privateProgram;
+		const { name, description, dateModified, fields } = privateProgram;
 		const publicProgram = new Program({
 			author,
 			isPublic: true,
 			name,
 			description,
-			dateUpdated,
+			dateModified,
 			fields,
 		});
 		const savedProgram = await publicProgram.save();

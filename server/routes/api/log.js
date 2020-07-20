@@ -11,8 +11,8 @@ const router = express.Router();
 
 router.post("/create", auth, async (req, res) => {
 	const { userId } = req;
-	const { dateUpdated, PTs, entries } = req.body;
-	const newLog = new Log({ userId, dateUpdated, PTs, entries });
+	const { dateModified, PTs, entries } = req.body;
+	const newLog = new Log({ userId, dateModified, PTs, entries });
 	const log = await newLog.save();
 	if (!log)
 		return res.status(500).json({ msg: "Something went wrong saving the log" });
@@ -28,11 +28,11 @@ router.post("/sync", auth, async (req, res) => {
 	const log = await Log.findOne({ userId });
 	if (!log) return res.status(404).json({ msg: "Log not found" });
 
-	const localDate = req.body.dateUpdatedLocal;
-	const dateUpdatedLocal = localDate ? new Date().getTime(localDate) : 0;
-	const dateUpdatedRemote = log.dateUpdated ? log.dateUpdated.getTime() : 0;
+	const localDate = req.body.dateModifiedLocal;
+	const dateModifiedLocal = localDate ? new Date().getTime(localDate) : 0;
+	const dateModifiedRemote = log.dateModified ? log.dateModified.getTime() : 0;
 
-	if (dateUpdatedRemote === dateUpdatedLocal) return res.status(204).send();
+	if (dateModifiedRemote === dateModifiedLocal) return res.status(204).send();
 	else res.status(200).json(log);
 });
 
@@ -60,7 +60,7 @@ router.delete("/", auth, async (req, res) => {
 
 router.post("/entry", auth, async (req, res) => {
 	const { userId } = req;
-	const { dateStr, content, dateUpdated } = req.body;
+	const { dateStr, content, dateModified } = req.body;
 
 	try {
 		const log = await Log.findOne({ userId });
@@ -82,7 +82,7 @@ router.post("/entry", auth, async (req, res) => {
 		} else {
 			throw Error("Unable to remove a non-existing entry");
 		}
-		log.dateUpdated = dateUpdated;
+		log.dateModified = dateModified;
 		await log.save();
 
 		res.status(200).send();

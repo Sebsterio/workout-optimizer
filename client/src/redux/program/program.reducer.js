@@ -15,7 +15,7 @@ const INITIAL_STATE = {
 
 	// data
 	id: null,
-	dateUpdated: null,
+	dateModified: null,
 	name: "",
 	description: "",
 	fields: [],
@@ -88,12 +88,12 @@ const programReducer = (state = INITIAL_STATE, action) => {
 		// ---------------- Update local -----------------
 
 		case $.UPDATE_LOCAL_CURRENT_PROGRAM: {
-			const { dateUpdated, replaceProps } = action.payload;
+			const { dateModified, replaceProps } = action.payload;
 			const { fields } = state;
 			console.log(action.payload);
 			return {
 				...state,
-				dateUpdated,
+				dateModified,
 				isPublished: false,
 				fields: getUpdatedFields(fields, action.payload),
 				...replaceProps, // last (overwrite rest)

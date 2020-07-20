@@ -16,7 +16,7 @@ const ProgramSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	dateUpdated: Date,
+	dateModified: Date,
 	fields: {
 		type: String,
 		required: true,

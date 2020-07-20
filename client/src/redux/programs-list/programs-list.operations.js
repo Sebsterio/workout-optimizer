@@ -28,8 +28,8 @@ export const createRemoteProgramsList = () => (dispatch, getState) => {
 // Update programsList content (IDs of saved programs)
 // PUT current and saved programIds to db
 export const updateProgramsList = () => (dispatch, getState) => {
-	const dateUpdated = new Date();
-	dispatch($.updateLocalProgramsList({ dateUpdated }));
+	const dateModified = new Date();
+	dispatch($.updateLocalProgramsList({ dateModified }));
 
 	if (isIncognito(getState)) return;
 

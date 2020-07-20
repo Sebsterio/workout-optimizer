@@ -31,11 +31,11 @@ import { getTokenConfig, isIncognito } from "../utils";
 // If customizing a public program, create new remote program
 export const updateCurrentProgram = (data) => (dispatch, getState) => {
 	const { isPublic } = getState().program;
-	const dateUpdated = new Date();
+	const dateModified = new Date();
 
-	dispatch($.updateLocalCurrentProgram({ ...data, dateUpdated }));
+	dispatch($.updateLocalCurrentProgram({ ...data, dateModified }));
 	if (isPublic) dispatch(createRemoteProgram());
-	else dispatch(updateRemoteCurrentProgram(dateUpdated));
+	else dispatch(updateRemoteCurrentProgram(dateModified));
 };
 
 // --------------------- duplicateCurrentProgram ----------------------
@@ -83,13 +83,13 @@ export const createRemoteProgram = () => (dispatch, getState) => {
 // ------------------ updateRemoteCurrentProgram -------------------
 
 // POST and replace whole program
-const updateRemoteCurrentProgram = (dateUpdated) => (dispatch, getState) => {
+const updateRemoteCurrentProgram = (dateModified) => (dispatch, getState) => {
 	if (isIncognito(getState)) return;
 	dispatch($.updatingRemoteCurrentProgram());
 
 	const data = JSON.stringify({
 		...getConvertedLocalCurrentProgram(getState),
-		dateUpdated,
+		dateModified,
 	});
 	const token = getTokenConfig(getState);
 
@@ -111,8 +111,8 @@ export const syncCurrentProgram = () => (dispatch, getState) => {
 	if (isIncognito(getState)) return;
 	dispatch($.syncingCurrentProgram());
 
-	const { dateUpdated } = getState().program;
-	const data = JSON.stringify({ dateUpdated });
+	const { dateModified } = getState().program;
+	const data = JSON.stringify({ dateModified });
 	const token = getTokenConfig(getState);
 
 	axios

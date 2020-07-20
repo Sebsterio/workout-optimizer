@@ -7,7 +7,7 @@ export const standardProgram = {
 	isPublished: true,
 	isPublic: true,
 	id: "standard",
-	dateUpdated: null,
+	dateModified: null,
 	name: "Standard program",
 	description: "Some description bla bla bla...",
 	fields: [

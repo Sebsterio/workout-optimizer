@@ -20,7 +20,7 @@ export const createRemoteLog = () => (dispatch, getState) => {
 
 	const localLog = getState().log;
 	const newRemoteLog = {
-		dateUpdated: localLog.dateUpdated,
+		dateModified: localLog.dateModified,
 		userId: getState().user.id,
 		entries: convertLocalEntries(localLog.entries),
 	};
@@ -46,8 +46,8 @@ export const syncLog = () => async (dispatch, getState) => {
 	dispatch($.syncingLog());
 
 	try {
-		const dateUpdatedLocal = getState().log.dateUpdated;
-		const data = JSON.stringify({ dateUpdatedLocal });
+		const dateModifiedLocal = getState().log.dateModified;
+		const data = JSON.stringify({ dateModifiedLocal });
 		const token = getTokenConfig(getState);
 
 		const res = await axios.post("/api/log/sync", data, token);
@@ -65,8 +65,8 @@ export const syncLog = () => async (dispatch, getState) => {
 // Add/update/remove local log entry &&
 // POST and replace whole entry or DELETE if empty
 export const updateLogEntry = (data) => (dispatch, getState) => {
-	const dateUpdated = new Date();
-	dispatch($.updateLocalLogEntries({ ...data, dateUpdated }));
+	const dateModified = new Date();
+	dispatch($.updateLocalLogEntries({ ...data, dateModified }));
 
 	if (isIncognito(getState)) return;
 
@@ -75,7 +75,7 @@ export const updateLogEntry = (data) => (dispatch, getState) => {
 	const entryName = data.dateStr.replace(/ /g, "_");
 	const entryValue = getState().log.entries[entryName];
 	const remoteEntry = convertLocalEntry(entryName, entryValue);
-	const json = JSON.stringify({ ...remoteEntry, dateUpdated });
+	const json = JSON.stringify({ ...remoteEntry, dateModified });
 	const token = getTokenConfig(getState);
 
 	axios
