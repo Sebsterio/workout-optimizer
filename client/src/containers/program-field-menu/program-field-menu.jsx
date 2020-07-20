@@ -68,7 +68,7 @@ const ProgramFieldMenu = ({
 
 	return (
 		<Menu>
-			<Heading>Exercise Config</Heading>
+			<Heading>Edit Field</Heading>
 			<TextInput
 				name="name"
 				label="name"

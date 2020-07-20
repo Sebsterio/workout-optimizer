@@ -34,8 +34,9 @@ const modalReducer = (state = INITIAL_STATE, action) => {
 
 		// Open modal replacing data
 		case $.DATE_PICKED: {
-			const { field, dateStr } = action.payload.data;
+			const { field, dateStr } = action.payload;
 			return {
+				...state,
 				isOpen: true,
 				isPickingDate: false,
 				data: {
