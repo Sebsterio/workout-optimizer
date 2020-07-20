@@ -25,28 +25,39 @@ router.get("/public", async (req, res) => {
 
 // @access: user
 
-// Get data of all programs corresponding to user's saved-programs-list
-router.get("/saved", auth, async (req, res) => {
+// Get all programs corresponding to user's remote programs-list if newer than local
+router.post("/sync", auth, async (req, res) => {
 	try {
-		const { userId } = req;
+		const { userId, body } = req;
+		const { dateModified } = body;
 
 		// Get list of user's programs IDs
 		const programsList = await ProgramsList.findOne({ userId });
+
 		if (!programsList)
 			return res.status(404).json({ msg: "Programs list not found" });
 
-		// Get programs data
-		const programIds = programsList.saved;
+		// Determine which version is more recent
+		const dateModifiedLocal = dateModified
+			? new Date(dateModified).getTime()
+			: 0;
+		const dateModifiedRemote = programsList.dateModified
+			? programsList.dateModified.getTime()
+			: 0;
 
+		if (dateModifiedRemote === dateModifiedLocal) return res.status(204).send();
+
+		// Get programs data
+		const { current, saved } = programsList;
+		const programIds = [current, ...saved];
 		const programIdsRegex = programIds
 			.map((programId) => `(${programId})`)
 			.join("|");
-
 		const foundPrograms = await Program.find({
 			id: { $regex: programIdsRegex },
 		});
 
-		// Sort found programs in accordance to programsList
+		// Sort found programs in same order as programsList (current first)
 		const sortedPrograms = programIds.map((id) =>
 			id === "standard"
 				? id

@@ -1,9 +1,7 @@
 const express = require("express");
-// import { v4 as uuid } from "uuid";
 
 const auth = require("../../middleware/auth");
 const Program = require("../../models/program");
-const ProgramsList = require("../../models/programs-list");
 
 const router = express.Router();
 
@@ -52,47 +50,6 @@ router.post("/update", auth, async (req, res) => {
 		res.status(200).send();
 	} catch (err) {
 		res.status(400).json({ msg: err.message });
-	}
-});
-
-// ---------------- Get own current program ----------------
-
-// @access: program owner and  PT
-
-router.post("/sync", auth, async (req, res) => {
-	try {
-		const { userId, body } = req;
-		const { dateModified } = body;
-
-		// Get list of user's programs IDs
-		const programsList = await ProgramsList.findOne({ userId });
-
-		if (!programsList)
-			return res.status(404).json({ msg: "Programs list not found" });
-
-		// Get program data
-		const currentProgramId = programsList.current;
-		const program =
-			currentProgramId === "standard"
-				? "standard"
-				: await Program.findOne({ id: currentProgramId });
-
-		if (!program)
-			return res.status(404).json({ msg: "Remote program not found" });
-
-		// Determine which version is more recent
-		const dateModifiedLocal = dateModified
-			? new Date(dateModified).getTime()
-			: 0;
-		const dateModifiedRemote = program.dateModified
-			? program.dateModified.getTime()
-			: 0;
-
-		// Send response
-		if (dateModifiedRemote === dateModifiedLocal) return res.status(204).send();
-		else res.status(200).json(program);
-	} catch (e) {
-		res.status(400).json({ msg: e.message });
 	}
 });
 

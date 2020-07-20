@@ -102,32 +102,6 @@ const updateRemoteCurrentProgram = (dateModified) => (dispatch, getState) => {
 		});
 };
 
-// --------------------- syncCurrentProgram ----------------------
-
-// Sync current program by ID matching remoteProgramsList.current,
-// GET if newer than local
-// TODO: POST if newer than remote
-export const syncCurrentProgram = () => (dispatch, getState) => {
-	if (isIncognito(getState)) return;
-	dispatch($.syncingCurrentProgram());
-
-	const { dateModified } = getState().program;
-	const data = JSON.stringify({ dateModified });
-	const token = getTokenConfig(getState);
-
-	axios
-		// TODO: use GET and stringify date correctly to pass as query
-		.post("/api/program/sync", data, token)
-		.then((res) => {
-			if (res.status === 204) dispatch($.currentProgramUpToDate());
-			else dispatch($.currentProgramSynced(convertRemoteProgram(res.data)));
-		})
-		.catch((err) => {
-			dispatch($.currentProgramSyncFail());
-			dispatch(getError(err, "SYNC_LOG_ERROR"));
-		});
-};
-
 // --------------------- publishCurrentProgram ----------------------
 
 // Duplicate program with given id in db and set copy as public

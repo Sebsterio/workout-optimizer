@@ -16,11 +16,8 @@ const ProgramsList = ({
 	programs,
 	programsAreDownloading,
 	// dispatch
-	getPrograms,
 	openModal,
 }) => {
-	// TODO: download programs data once programs-list has synced
-
 	const viewProgram = (program) =>
 		openModal({ mode: "program", data: program });
 
@@ -54,7 +51,6 @@ const ProgramsList = ({
 							open={() => viewProgram(program)}
 						/>
 					))}
-					<Button text="Refresh" handler={getPrograms} />
 				</>
 			)}
 		</>

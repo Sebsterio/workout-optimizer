@@ -15,14 +15,14 @@ import {
 import { clearLocalLog } from "redux/log/log.actions";
 
 // current-program
-import {
-	createRemoteProgram,
-	syncCurrentProgram,
-} from "redux/program/program.operations";
+import { createRemoteProgram } from "redux/program/program.operations";
 import { loadStandardProgram } from "redux/program/program.actions";
 
 // programs
-import { removeAllRemotePrivatePrograms } from "redux/programs/programs.operations";
+import {
+	removeAllRemotePrivatePrograms,
+	syncPrograms,
+} from "redux/programs/programs.operations";
 import { clearLocalPrograms } from "redux/programs/programs.actions";
 
 // programs-list
@@ -46,7 +46,7 @@ export const loadUser = () => (dispatch, getState) => {
 		.then((res) => {
 			dispatch($.userLoaded(res.data));
 			dispatch(syncLog());
-			dispatch(syncCurrentProgram());
+			dispatch(syncPrograms());
 		})
 		// NOTE: Don't getError (causes redundant alert on startup)
 		.catch(() => dispatch(logout()));
@@ -66,6 +66,7 @@ export const register = (formData) => (dispatch, getState) => {
 			dispatch(createRemoteProgramsList());
 
 			// If local currentProgram has been modified, create remote program
+			// TODO: do for all saved programs
 			const { isPublished } = getState().program;
 			if (!isPublished) dispatch(createRemoteProgram());
 		})
@@ -86,7 +87,7 @@ export const login = (formData) => (dispatch) => {
 		.then((res) => {
 			dispatch($.authSuccess(res.data));
 			dispatch(syncLog());
-			dispatch(syncCurrentProgram());
+			dispatch(syncPrograms());
 		})
 		.catch((err) => {
 			dispatch(getError(err, "LOGIN_FAIL"));

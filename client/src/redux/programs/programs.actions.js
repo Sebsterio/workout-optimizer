@@ -17,6 +17,10 @@ export const programsDownloadFail = (note) => ({
 	note,
 });
 
+export const programsUpToDate = () => ({
+	type: $.PROGRAMS_UP_TO_DATE,
+});
+
 // --- Remove multiple remote private programs ---
 
 export const removingAllRemotePrivatePrograms = () => ({

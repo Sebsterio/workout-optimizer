@@ -7,7 +7,10 @@ import * as $ from "./programs.actions";
 import { getSavedProgramById, convertRemotePrograms } from "./programs.utils";
 
 // current-program
-import { loadProgram } from "redux/program/program.actions";
+import {
+	loadProgram,
+	currentProgramSynced,
+} from "redux/program/program.actions";
 
 // programs-list
 import { updateProgramsList } from "redux/programs-list/programs-list.operations";
@@ -15,20 +18,32 @@ import { updateProgramsList } from "redux/programs-list/programs-list.operations
 // error
 import { getError } from "../error/error.actions";
 
-// ----------------------- downloadSavedPrograms -------------------------
+// ----------------------- syncPrograms -------------------------
 
-// GET all programs listed in user's programs-list (except current program)
-// Save data in programs.saved (replace all)
-export const downloadSavedPrograms = () => (dispatch, getState) => {
+// GET all programs listed in user's remote programs-list
+export const syncPrograms = () => (dispatch, getState) => {
 	dispatch($.downloadingPrograms("saved"));
+
+	const { dateModified } = getState().program;
+	const data = JSON.stringify({ dateModified });
 	const token = getTokenConfig(getState);
+
 	axios
-		.get("/api/programs/saved", token)
+		// TODO: use GET and stringify date correctly to pass as query
+		.post("/api/programs/sync", data, token)
 		.then((res) => {
+			if (res.status === 204) return dispatch($.programsUpToDate());
+
 			const programs = convertRemotePrograms(res.data);
+			const currentProgram = programs.splice(0, 1);
+
 			dispatch($.programsDownloaded({ group: "saved", data: programs }));
+			dispatch(currentProgramSynced(currentProgram));
 		})
-		.catch(() => dispatch($.programsDownloadFail("saved")));
+		.catch((err) => {
+			dispatch($.programsDownloadFail("saved"));
+			dispatch(getError(err, "SYNC_PROGRAMS_ERROR"));
+		});
 };
 
 // ----------------------- downloadPublicPrograms -------------------------

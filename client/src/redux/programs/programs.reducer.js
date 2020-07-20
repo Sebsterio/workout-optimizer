@@ -28,6 +28,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 
+		case $.PROGRAMS_UP_TO_DATE:
 		case $.PROGRAMS_DOWNLAD_FAIL: {
 			return {
 				...state,

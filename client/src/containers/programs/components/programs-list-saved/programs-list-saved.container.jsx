@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { downloadSavedPrograms } from "redux/programs/programs.operations";
 import { openModal } from "redux/modal/modal.actions";
 
 import ProgramsListSaved from "./programs-list-saved";
@@ -21,7 +20,6 @@ const mapStateToProps = (state) => ({
 	listIsSyncing: state.programsList.isSyncing,
 });
 const mapDispatchToProps = (dispatch) => ({
-	getPrograms: () => dispatch(downloadSavedPrograms()),
 	openModal: (data) => dispatch(openModal(data)),
 });
 
