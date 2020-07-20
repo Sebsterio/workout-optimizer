@@ -1,1 +1,1 @@
-export { default } from "./programs.page";
+export { default } from "./programs.container";

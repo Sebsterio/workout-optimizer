@@ -4,16 +4,25 @@ import { Redirect } from "react-router-dom";
 import { Page, Menu, Button, Heading, Row } from "components";
 import { ProgramsListSaved, ProgramsListFetched } from "./components";
 
-const ProgramsPage = ({ match, history }) => {
+const ProgramsPage = ({ match, history, clearError }) => {
 	const { list } = match.params;
 
 	if (!list) return <Redirect to="programs/private" />;
 
-	const openPrivateList = () => history.replace("/programs/private");
+	const openPrivateList = () => {
+		clearError();
+		history.replace("/programs/private");
+	};
 
-	const openPublicList = () => history.replace("/programs/public");
+	const openPublicList = () => {
+		clearError();
+		history.replace("/programs/public");
+	};
 
-	const editCurrentProgram = () => history.push("/edit-program");
+	const editCurrentProgram = () => {
+		clearError();
+		history.push("/edit-program");
+	};
 
 	return (
 		<Page>
