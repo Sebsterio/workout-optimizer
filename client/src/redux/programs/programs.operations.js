@@ -7,10 +7,7 @@ import * as $ from "./programs.actions";
 import { getSavedProgramById, convertRemotePrograms } from "./programs.utils";
 
 // current-program
-import {
-	loadProgram,
-	currentProgramSynced,
-} from "redux/program/program.actions";
+import { loadProgram } from "redux/program/program.actions";
 
 // programs-list
 import { updateProgramsList } from "redux/programs-list/programs-list.operations";
@@ -35,10 +32,10 @@ export const syncPrograms = () => (dispatch, getState) => {
 			if (res.status === 204) return dispatch($.programsUpToDate());
 
 			const programs = convertRemotePrograms(res.data);
-			const currentProgram = programs.splice(0, 1);
+			const currentProgram = programs.splice(0, 1)[0];
 
 			dispatch($.programsDownloaded({ group: "saved", data: programs }));
-			dispatch(currentProgramSynced(currentProgram));
+			dispatch(loadProgram(currentProgram));
 		})
 		.catch((err) => {
 			dispatch($.programsDownloadFail("saved"));

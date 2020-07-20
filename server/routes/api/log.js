@@ -43,7 +43,6 @@ router.post("/sync", auth, async (req, res) => {
 router.delete("/", auth, async (req, res) => {
 	try {
 		const { userId } = req;
-		console.log(userId); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		const log = await Log.findOne({ userId });
 		if (!log) throw Error("Log does not exist");
 

@@ -1,8 +1,6 @@
 import { programsListActionTypes as $ } from "./programs-list.types";
 
 const INITIAL_STATE = {
-	isSyncing: false,
-	isSynced: false,
 	isUpdating: false,
 	isUpdated: false,
 	dateModified: null,
@@ -10,42 +8,7 @@ const INITIAL_STATE = {
 
 const programsReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		// ------- sync ------
-
-		case $.SYNCING_PROGRAMS_LIST: {
-			return {
-				...state,
-				isSyncing: true,
-				isSynced: false,
-			};
-		}
-
-		case $.PROGRAMS_LIST_SYNCED: {
-			return {
-				...state,
-				isSyncing: false,
-				isSynced: true,
-				...action.payload,
-			};
-		}
-
-		case $.PROGRAMS_LIST_UP_TO_DATE: {
-			return {
-				...state,
-				isSyncing: false,
-				isSynced: true,
-			};
-		}
-
-		case $.SYNC_PROGRAMS_LIST_FAIL: {
-			return {
-				...state,
-				isSyncing: false,
-				isSynced: false,
-			};
-		}
-
-		// ------- create/update/remove remote ------
+		// -------------- Remote --------------
 
 		case $.CREATING_REMOTE_PROGRAMS_LIST:
 		case $.UPDATING_REMOTE_PROGRAMS_LIST:
@@ -77,7 +40,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 			};
 		}
 
-		// ------- update local ------
+		// -------------- Local --------------
 
 		case $.UPDATE_LOCAL_PROGRAMS_LIST: {
 			return {

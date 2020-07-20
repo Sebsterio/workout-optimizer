@@ -6,7 +6,7 @@ import { ProgramSnippet } from "../index";
 const ProgramsList = ({
 	// redux
 	programs,
-	isDownloading,
+	downloading,
 	getPrograms,
 	openModal,
 }) => {
@@ -31,7 +31,7 @@ const ProgramsList = ({
 				);
 			})}
 
-			{isDownloading ? (
+			{downloading ? (
 				<Block>
 					<Spinner />
 				</Block>

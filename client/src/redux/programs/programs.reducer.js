@@ -2,8 +2,8 @@ import { programsActionTypes as $ } from "./programs.types";
 import { getStateWithRemovedProgram } from "./programs.utils";
 
 const INITIAL_STATE = {
-	isDownloading: false,
-	isUpdating: false,
+	downloading: false,
+	updating: false,
 	saved: [], // Present in user's programsList
 	fetched: [], // Kept temporarily (not persisted)
 };
@@ -15,7 +15,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		case $.DOWNLOADING_PROGRAMS: {
 			return {
 				...state,
-				isDownloading: true,
+				downloading: true,
 			};
 		}
 
@@ -23,7 +23,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 			const { group, data } = action.payload;
 			return {
 				...state,
-				isDownloading: false,
+				downloading: false,
 				[group]: [...data],
 			};
 		}
@@ -32,7 +32,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		case $.PROGRAMS_DOWNLAD_FAIL: {
 			return {
 				...state,
-				isDownloading: false,
+				downloading: false,
 			};
 		}
 
@@ -43,7 +43,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		case $.REMOVING_ALL_REMOTE_PRIVATE_PROGRAMS: {
 			return {
 				...state,
-				isUpdating: true,
+				updating: true,
 			};
 		}
 
@@ -52,7 +52,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		case $.ALL_REMOTE_PRIVATE_PROGRAMS_REMOVED: {
 			return {
 				...state,
-				isUpdating: false,
+				updating: false,
 			};
 		}
 

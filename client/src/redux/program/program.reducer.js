@@ -7,8 +7,8 @@ import {
 
 const INITIAL_STATE = {
 	// status
-	isSyncing: false,
-	isSynced: false,
+	isUpdating: false,
+	isUpdated: false,
 	isPublishing: false,
 	isPublished: false, // does a public copy exist
 	isPublic: false, // is this a public copy
@@ -23,41 +23,30 @@ const INITIAL_STATE = {
 
 const programReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		// ------- Create remote, Update remote, Sync ------
+		// ------- Create remote, Update remote ------
 
 		case $.CREATING_REMOTE_PROGRAM:
-		case $.UPDATING_REMOTE_CURRENT_PROGRAM:
-		case $.SYNCING_CURRENT_PROGRAM: {
+		case $.UPDATING_REMOTE_CURRENT_PROGRAM: {
 			return {
 				...state,
-				isSyncing: true,
-				isSynced: false,
+				isUpdating: true,
+				isUpdated: false,
 			};
 		}
 		case $.REMOTE_PROGRAM_CREATED:
-		case $.REMOTE_CURRENT_PROGRAM_UPDATED:
-		case $.CURRENT_PROGRAM_UP_TO_DATE: {
+		case $.REMOTE_CURRENT_PROGRAM_UPDATED: {
 			return {
 				...state,
-				isSyncing: false,
-				isSynced: true,
+				isUpdating: false,
+				isUpdated: true,
 			};
 		}
 		case $.REMOTE_PROGRAM_CREATE_FAIL:
-		case $.REMOTE_CURRENT_PROGRAM_UPDATE_FAIL:
-		case $.CURRENT_PROGRAM_SYNC_FAIL: {
+		case $.REMOTE_CURRENT_PROGRAM_UPDATE_FAIL: {
 			return {
 				...state,
-				isSyncing: false,
-				isSynced: false,
-			};
-		}
-		case $.CURRENT_PROGRAM_SYNCED: {
-			return {
-				...state,
-				isSyncing: false,
-				isSynced: true,
-				...action.payload,
+				isUpdating: false,
+				isUpdated: false,
 			};
 		}
 
@@ -90,7 +79,6 @@ const programReducer = (state = INITIAL_STATE, action) => {
 		case $.UPDATE_LOCAL_CURRENT_PROGRAM: {
 			const { dateModified, replaceProps } = action.payload;
 			const { fields } = state;
-			console.log(action.payload);
 			return {
 				...state,
 				dateModified,

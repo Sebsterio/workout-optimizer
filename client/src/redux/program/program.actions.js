@@ -29,25 +29,6 @@ export const remoteCurrentProgramUpdateFail = () => ({
 	type: $.REMOTE_CURRENT_PROGRAM_UPDATE_FAIL,
 });
 
-// ----------------- Sync ------------------
-
-export const syncingCurrentProgram = () => ({
-	type: $.SYNCING_CURRENT_PROGRAM,
-});
-
-export const currentProgramUpToDate = () => ({
-	type: $.CURRENT_PROGRAM_UP_TO_DATE,
-});
-
-export const currentProgramSynced = (data) => ({
-	type: $.CURRENT_PROGRAM_SYNCED,
-	payload: data,
-});
-
-export const currentProgramSyncFail = () => ({
-	type: $.CURRENT_PROGRAM_SYNC_FAIL,
-});
-
 // ----------------- Publish --------------------
 
 export const publishingCurrentProgram = () => ({

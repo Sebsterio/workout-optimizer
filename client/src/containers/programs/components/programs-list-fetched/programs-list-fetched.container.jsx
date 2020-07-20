@@ -8,7 +8,7 @@ import ProgramsListFetched from "./programs-list-fetched";
 
 const mapStateToProps = (state) => ({
 	programs: state.programs.fetched,
-	isDownloading: state.programs.downloading,
+	downloading: state.programs.downloading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

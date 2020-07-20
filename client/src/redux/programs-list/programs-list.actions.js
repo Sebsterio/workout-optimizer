@@ -33,25 +33,6 @@ export const updateRemoteProgramsListFail = () => ({
 	type: $.UPDATE_REMOTE_PROGRAMS_LIST_FAIL,
 });
 
-// Sync (get if newer than local)
-
-export const syncingProgramList = () => ({
-	type: $.SYNCING_PROGRAMS_LIST,
-});
-
-export const programsListUpToDate = () => ({
-	type: $.PROGRAMS_LIST_UP_TO_DATE,
-});
-
-export const programsListSynced = (data) => ({
-	type: $.PROGRAMS_LIST_SYNCED,
-	payload: data,
-});
-
-export const syncProgramsListFail = () => ({
-	type: $.SYNC_PROGRAMS_LIST_FAIL,
-});
-
 // Remove
 
 export const clearLocalProgramsList = () => ({

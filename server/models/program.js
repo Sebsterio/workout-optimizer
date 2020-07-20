@@ -8,14 +8,8 @@ const ProgramSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	id: {
-		type: String,
-		required: true,
-	},
-	userId: {
-		type: String,
-		required: true,
-	},
+	id: String,
+	userId: String,
 	dateModified: Date,
 	fields: {
 		type: String,

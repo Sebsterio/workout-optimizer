@@ -1,13 +1,13 @@
 import axios from "axios";
 
 import * as $ from "./programs-list.actions";
-import { getError } from "../error/error.actions";
+import { getError } from "redux/error/error.actions";
 import { getConvertedLocalProgramsList } from "./programs-list.utils";
 import { getTokenConfig, isIncognito } from "../utils";
 
 // ------------------- createRemoteProgramsList ------------------------
 
-// POST local programs-list to db
+// POST current and saved programIds to db
 export const createRemoteProgramsList = () => (dispatch, getState) => {
 	dispatch($.creatingRemoteProgramsList());
 
@@ -37,8 +37,6 @@ export const updateProgramsList = () => (dispatch, getState) => {
 
 	const data = JSON.stringify(getConvertedLocalProgramsList(getState));
 	const token = getTokenConfig(getState);
-
-	console.log(data);
 
 	axios
 		.put("/api/programs-list", data, token)
