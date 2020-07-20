@@ -6,9 +6,9 @@ export const standardProgram = {
 	isPublishing: false,
 	isPublished: true,
 	isPublic: true,
-	id: null, // = standard program
+	id: "standard",
 	dateUpdated: null,
-	name: "Standard program",
+	name: " program",
 	description: "Some description bla bla bla...",
 	fields: [
 		{

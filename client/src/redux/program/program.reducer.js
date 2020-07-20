@@ -14,7 +14,7 @@ const INITIAL_STATE = {
 	isPublic: false, // is this a public copy
 
 	// data
-	id: undefined, // null === standard program
+	id: null,
 	dateUpdated: null,
 	name: "",
 	description: "",

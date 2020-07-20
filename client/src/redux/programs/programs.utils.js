@@ -13,7 +13,7 @@ export const convertRemotePrivatePrograms = (programs, getState) => {
 	return all
 		.filter((programId) => programId !== current)
 		.map((programId) =>
-			!!programId
+			programId === "standard"
 				? programs.find((program) => program.id === programId)
 				: convertLocalProgram(standardProgram)
 		);

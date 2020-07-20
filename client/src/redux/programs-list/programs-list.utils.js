@@ -4,8 +4,7 @@ export const getUpdatedAllList = (all, add, remove) => {
 	let newAll = [...all];
 
 	if (add) newAll = [add, ...removeArrayItem(newAll, remove)];
-	// id can be null (standard program)
-	else if (remove !== undefined) newAll = removeArrayItem(newAll, remove);
+	else if (remove) newAll = removeArrayItem(newAll, remove);
 
 	return newAll;
 };

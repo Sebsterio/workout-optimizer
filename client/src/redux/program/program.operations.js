@@ -112,7 +112,8 @@ const updateRemoteCurrentProgram = (dateUpdated) => (dispatch, getState) => {
 // TODO: POST if newer than remote
 export const syncCurrentProgram = () => (dispatch, getState) => {
 	const id = getState().programsList.current;
-	if (!id) return dispatch($.loadStandardProgram());
+
+	if (id === "standard") return dispatch($.loadStandardProgram());
 
 	if (getState().user.isIncognito) return;
 
@@ -137,7 +138,7 @@ export const syncCurrentProgram = () => (dispatch, getState) => {
 
 // --------------------- publishCurrentProgram ----------------------
 
-// Duplicate program in db and set copy as public
+// Duplicate program with given id in db and set copy as public
 export const publishCurrentProgram = () => (dispatch, getState) => {
 	dispatch($.publishingCurrentProgram());
 
@@ -165,7 +166,7 @@ export const removeCurrentProgram = () => (dispatch, getState) => {
 
 	if (wasLast) {
 		dispatch($.loadStandardProgram());
-		dispatch(updateProgramsList({ current: null, remove: id }));
+		dispatch(updateProgramsList({ current: "standard", remove: id }));
 	} else {
 		const newCurrentProgram = savedPrograms[0];
 		dispatch($.loadProgram(convertRemoteProgram(newCurrentProgram)));

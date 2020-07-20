@@ -11,8 +11,8 @@ const INITIAL_STATE = {
 
 	// data
 	dateUpdated: null,
-	current: null,
-	all: [null],
+	current: "standard",
+	all: ["standard"],
 };
 
 const programsReducer = (state = INITIAL_STATE, action) => {
@@ -92,8 +92,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				isUpdated: false,
 				dateUpdated,
-				// current can be null (standard program)
-				current: current !== undefined ? current : state.current,
+				current: current ? current : state.current,
 				all: getUpdatedAllList(state.all, add, remove),
 			};
 		}
