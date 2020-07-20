@@ -23,8 +23,7 @@ import { updateProgramsList } from "redux/programs-list/programs-list.operations
 import { getError } from "redux/error/error.actions";
 
 // other
-
-import { getTokenConfig } from "../utils";
+import { getTokenConfig, isIncognito } from "../utils";
 
 // --------------------- updateCurrentProgram ----------------------
 
@@ -57,7 +56,7 @@ export const duplicateCurrentProgram = () => (dispatch, getState) => {
 
 // Assign new ID to current program; POST it to db; update programs-list
 export const createRemoteProgram = () => (dispatch, getState) => {
-	if (getState().user.isIncognito) return;
+	if (isIncognito(getState)) return;
 
 	dispatch($.creatingRemoteProgram());
 
@@ -86,7 +85,7 @@ export const createRemoteProgram = () => (dispatch, getState) => {
 
 // POST and replace whole program
 const updateRemoteCurrentProgram = (dateUpdated) => (dispatch, getState) => {
-	if (getState().user.isIncognito) return;
+	if (isIncognito(getState)) return;
 
 	dispatch($.updatingRemoteCurrentProgram());
 
@@ -115,7 +114,7 @@ export const syncCurrentProgram = () => (dispatch, getState) => {
 
 	if (id === "standard") return dispatch($.loadStandardProgram());
 
-	if (getState().user.isIncognito) return;
+	if (isIncognito(getState)) return;
 
 	dispatch($.syncingCurrentProgram());
 

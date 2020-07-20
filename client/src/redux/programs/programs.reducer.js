@@ -37,18 +37,18 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 
 		// ---------- Update/remove remote program(s) ----------
 
+		case $.UPDATING_REMOTE_PUBLIC_PROGRAM:
 		case $.REMOVING_REMOTE_PROGRAM:
-		case $.REMOVING_ALL_REMOTE_PRIVATE_PROGRAMS:
-		case $.UPDATING_REMOTE_PUBLIC_PROGRAM: {
+		case $.REMOVING_ALL_REMOTE_PRIVATE_PROGRAMS: {
 			return {
 				...state,
 				isUpdating: true,
 			};
 		}
 
+		case $.REMOTE_PUBLIC_PROGRAM_UPDATED:
 		case $.REMOTE_PROGRAM_REMOVED:
-		case $.ALL_REMOTE_PRIVATE_PROGRAMS_REMOVED:
-		case $.REMOTE_PUBLIC_PROGRAM_UPDATED: {
+		case $.ALL_REMOTE_PRIVATE_PROGRAMS_REMOVED: {
 			return {
 				...state,
 				isUpdating: false,

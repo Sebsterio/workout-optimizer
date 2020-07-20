@@ -10,3 +10,5 @@ export const getTokenConfig = (getState) => {
 	if (token) config.headers["x-auth-token"] = token;
 	return config;
 };
+
+export const isIncognito = (getState) => getState().user.isIncognito;

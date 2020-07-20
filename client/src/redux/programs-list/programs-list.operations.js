@@ -3,7 +3,7 @@ import axios from "axios";
 import * as $ from "./programs-list.actions";
 import { getError } from "../error/error.actions";
 import { getConvertedLocalProgramsList } from "./programs-list.utils";
-import { getTokenConfig } from "../utils";
+import { getTokenConfig, isIncognito } from "../utils";
 
 // ------------------- createRemoteProgramsList ------------------------
 
@@ -31,7 +31,7 @@ export const updateProgramsList = (payload) => (dispatch, getState) => {
 	const dateUpdated = new Date();
 	dispatch($.updateLocalProgramsList({ ...payload, dateUpdated }));
 
-	if (getState().user.isIncognito) return;
+	if (isIncognito(getState)) return;
 
 	dispatch($.updatingRemoteProgramsList());
 

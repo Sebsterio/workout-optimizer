@@ -8,13 +8,13 @@ import {
 	convertRemoteLog,
 	convertLocalEntry,
 } from "./log.utils";
-import { getTokenConfig } from "../utils";
+import { getTokenConfig, isIncognito } from "../utils";
 
 // -------------------- createRemoteLog ------------------------
 
 // POST local log to db
 export const createRemoteLog = () => (dispatch, getState) => {
-	if (getState().user.isIncognito) return;
+	if (isIncognito(getState)) return;
 
 	dispatch($.creatingRemoteLog());
 
@@ -41,7 +41,7 @@ export const createRemoteLog = () => (dispatch, getState) => {
 // GET user's log from db (TODO: ...if newer than local)
 // TODO: POST if newer than remote
 export const syncLog = () => async (dispatch, getState) => {
-	if (getState().user.isIncognito) return;
+	if (isIncognito(getState)) return;
 
 	dispatch($.syncingLog());
 
@@ -68,7 +68,7 @@ export const updateLogEntry = (data) => (dispatch, getState) => {
 	const dateUpdated = new Date();
 	dispatch($.updateLocalLogEntries({ ...data, dateUpdated }));
 
-	if (getState().user.isIncognito) return;
+	if (isIncognito(getState)) return;
 
 	dispatch($.updatingRemoteLog());
 
