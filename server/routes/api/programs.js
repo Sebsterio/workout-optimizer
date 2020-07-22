@@ -10,7 +10,7 @@ const router = express.Router();
 
 // @access: all
 
-router.get("/public", async (req, res) => {
+router.get("/public", async (_req, res) => {
 	try {
 		const programs = await Program.find({ isPublic: true }).limit(10);
 		if (!programs.length)
@@ -48,8 +48,7 @@ router.post("/sync", auth, async (req, res) => {
 		if (dateModifiedRemote === dateModifiedLocal) return res.status(204).send();
 
 		// Get programs data
-		const { current, saved } = programsList;
-		const programIds = [current, ...saved];
+		const programIds = programsList.saved;
 		const programIdsRegex = programIds
 			.map((programId) => `(${programId})`)
 			.join("|");
@@ -57,7 +56,7 @@ router.post("/sync", auth, async (req, res) => {
 			id: { $regex: programIdsRegex },
 		});
 
-		// Sort found programs in same order as programsList (current first)
+		// Sort found programs in same order as programsList
 		const sortedPrograms = programIds.map((id) =>
 			id === "standard"
 				? id

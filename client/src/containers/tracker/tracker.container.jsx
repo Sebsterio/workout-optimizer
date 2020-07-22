@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import TrackerPage from "./tracker.page";
 
 const mapStateToProps = (state) => ({
-	// cellSize: state.settings.cellSize,
 	cellSize: 90,
 });
 

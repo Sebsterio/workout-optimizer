@@ -16,8 +16,8 @@ export const createRemoteProgramsListFail = () => ({
 
 // Update
 
-export const updateLocalProgramsList = (data) => ({
-	type: $.UPDATE_LOCAL_PROGRAMS_LIST,
+export const modifyLocalSavedProgramsList = (data) => ({
+	type: $.MODIFY_LOCAL_SAVED_PROGRAMS_LIST,
 	payload: data,
 });
 

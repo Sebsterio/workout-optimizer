@@ -42,7 +42,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 
 		// -------------- Local --------------
 
-		case $.UPDATE_LOCAL_PROGRAMS_LIST: {
+		case $.MODIFY_LOCAL_SAVED_PROGRAMS_LIST: {
 			return {
 				...state,
 				isUpdated: false,

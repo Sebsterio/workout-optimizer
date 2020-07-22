@@ -1,22 +1,22 @@
 import React from "react";
 import { Button, Icon, Block, Col, Row } from "components";
 
-const ProgramField = ({ field, openModal, updateCurrentProgram }) => {
+export const ProgramField = ({ program, field, openModal, modifyProgram }) => {
 	const { name, icon } = field;
 
 	const handleEdit = () =>
-		openModal({ mode: "program-field", data: { field } });
+		openModal({ mode: "program-field", data: { program, field } });
 
 	const handleDuplicate = () => {
-		updateCurrentProgram({ fieldToDuplicate: field });
+		modifyProgram({ program, fieldToDuplicate: field });
 	};
 
 	const handleDelete = () => {
-		updateCurrentProgram({ fieldToDelete: field });
+		modifyProgram({ program, fieldToDelete: field });
 	};
 
 	const handleMove = (direction) => {
-		updateCurrentProgram({ fieldToMove: { field, direction } });
+		modifyProgram({ program, fieldToMove: { field, direction } });
 	};
 
 	return (
@@ -42,5 +42,3 @@ const ProgramField = ({ field, openModal, updateCurrentProgram }) => {
 		</Block>
 	);
 };
-
-export default ProgramField;

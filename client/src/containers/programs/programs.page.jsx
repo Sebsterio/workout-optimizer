@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { Page, Menu, Button, Heading, Row } from "components";
 import { ProgramsListSaved, ProgramsListFetched } from "./components";
 
-const ProgramsPage = ({ match, history, clearError }) => {
+const ProgramsPage = ({ match, history, setEditedProgram, clearError }) => {
 	const { list } = match.params;
 
 	if (!list) return <Redirect to="programs/private" />;
@@ -19,8 +19,9 @@ const ProgramsPage = ({ match, history, clearError }) => {
 		history.replace("/programs/public");
 	};
 
-	const editCurrentProgram = () => {
+	const editProgram = (program) => {
 		clearError();
+		setEditedProgram(program.id);
 		history.push("/edit-program");
 	};
 
@@ -42,9 +43,7 @@ const ProgramsPage = ({ match, history, clearError }) => {
 					/>
 				</Row>
 
-				{list === "private" && (
-					<ProgramsListSaved editCurrentProgram={editCurrentProgram} />
-				)}
+				{list === "private" && <ProgramsListSaved editProgram={editProgram} />}
 
 				{list === "public" && <ProgramsListFetched />}
 			</Menu>

@@ -1,14 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import {
+	getFetchedPrograms,
+	getAreProgramsDownloading,
+} from "redux/programs/programs.selectors";
+
 import { downloadPublicPrograms } from "redux/programs/programs.operations";
 import { openModal } from "redux/modal/modal.actions";
 
 import ProgramsListFetched from "./programs-list-fetched";
 
 const mapStateToProps = (state) => ({
-	programs: state.programs.fetched,
-	downloading: state.programs.downloading,
+	programs: getFetchedPrograms(state),
+	downloading: getAreProgramsDownloading(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

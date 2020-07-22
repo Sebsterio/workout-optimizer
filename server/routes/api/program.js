@@ -55,28 +55,19 @@ router.post("/update", auth, async (req, res) => {
 
 // ------------------ Publish program -------------------
 
-router.post("/publish", auth, async (req, res) => {
+router.post("/publish", async (req, res) => {
 	try {
-		const { userId } = req;
-		const { author, id } = req.body;
+		const { author, name, description, dateModified, fields } = req.body;
 
-		const privateProgram = await Program.findOne({ id });
-		if (!privateProgram) {
-			return res.status(404).json({ msg: "Remote program not found" });
-		}
-		if (privateProgram.userId !== userId) {
-			return res.status(401).json({ msg: "Unauthorized" });
-		}
-
-		const { name, description, dateModified, fields } = privateProgram;
 		const publicProgram = new Program({
-			author,
+			author: author || "Guest",
 			isPublic: true,
 			name,
 			description,
 			dateModified,
 			fields,
 		});
+
 		const savedProgram = await publicProgram.save();
 		savedProgram.id = savedProgram._id;
 		await savedProgram.save();

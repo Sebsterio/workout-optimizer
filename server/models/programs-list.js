@@ -7,16 +7,7 @@ const ProgramsListSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	current: {
-		type: String,
-		required: true,
-	},
-	saved: [
-		{
-			type: String,
-			required: true,
-		},
-	],
+	saved: [String],
 	dateModified: Date,
 });
 

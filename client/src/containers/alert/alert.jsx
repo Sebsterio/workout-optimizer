@@ -2,11 +2,11 @@ import React from "react";
 
 import "./alert.scss";
 
-const Alert = ({ error, clearError }) => {
-	if (error)
+const Alert = ({ errorMessage, clearError }) => {
+	if (errorMessage)
 		return (
 			<div className="alert">
-				<div className="alert__message">{error}</div>
+				<div className="alert__message">{errorMessage}</div>
 				<div className="alert__close" onClick={clearError}>
 					X
 				</div>

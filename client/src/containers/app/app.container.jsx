@@ -1,6 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import {
+	getIsAuthenticated,
+	getIsIncognito,
+	getIsLoading,
+} from "redux/user/user.selectors";
+
 import { loadUser } from "redux/user/user.operations";
 
 import App from "./app";
@@ -8,9 +14,9 @@ import App from "./app";
 //------------------------------------------------------------------------------
 
 const mapStateToProps = (state) => ({
-	isAuthenticated: state.user.isAuthenticated,
-	isIncognito: state.user.isIncognito,
-	isLoading: state.user.isLoading,
+	isAuthenticated: getIsAuthenticated(state),
+	isIncognito: getIsIncognito(state),
+	isLoading: getIsLoading(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

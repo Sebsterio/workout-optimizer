@@ -2,7 +2,7 @@ import React from "react";
 import Icon from "components/icon";
 import "./side-field.scss";
 
-export const SideField = ({ field, openModal }) => {
+export const SideField = ({ program, field, openModal }) => {
 	const { icon, name } = field;
 
 	let nameClass = "side-field__name";
@@ -11,7 +11,9 @@ export const SideField = ({ field, openModal }) => {
 	return (
 		<div
 			className="side-field"
-			onClick={() => openModal({ mode: "program-field", data: { field } })}
+			onClick={() =>
+				openModal({ mode: "program-field", data: { program, field } })
+			}
 		>
 			{icon && (
 				<div className="side-field__icon">

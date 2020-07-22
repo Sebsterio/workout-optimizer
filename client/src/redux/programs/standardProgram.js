@@ -1,6 +1,6 @@
 import shortid from "shortid";
 
-export const standardProgram = {
+export const standardProgramTemplate = {
 	isSyncing: false,
 	isSynced: false,
 	isPublishing: false,

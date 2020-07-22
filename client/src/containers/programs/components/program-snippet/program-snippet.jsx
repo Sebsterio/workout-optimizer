@@ -7,9 +7,8 @@ import { Button } from "components";
 export const ProgramSnippet = ({
 	// parent
 	program,
-	isCurrent,
 	isFetched,
-	noPrivatePrograms,
+	programsLength,
 	open,
 	// redux
 	isSaved,
@@ -20,7 +19,8 @@ export const ProgramSnippet = ({
 }) => {
 	const { id, name, author } = program;
 
-	const nothingToRemove = id === "standard" && noPrivatePrograms;
+	const isLastSavedProgram = id !== "standard" && programsLength === 1;
+	const noSavedPrograms = id === "standard" && programsLength === 1;
 
 	// Is in fetched array
 	if (isFetched)
@@ -39,26 +39,24 @@ export const ProgramSnippet = ({
 			</Block>
 		);
 
-	// Is in saved array OR is current
+	// Is in saved array
 	return (
-		<Block threeFields highlight={isCurrent}>
+		<Block threeFields highlight={isActivated}>
 			<Text>{name}</Text>
 
 			<Col>
-				<Button text="Delete" handler={remove} disabled={nothingToRemove} />
-
-				{isCurrent ? (
-					<Button text="Duplicate" handler={duplicate} />
-				) : (
-					<Button text="Activate" handler={activate} />
-				)}
+				<Button
+					text={isLastSavedProgram ? "Reset" : "Delete"}
+					handler={remove}
+					disabled={noSavedPrograms}
+				/>
+				<Button text="Duplicate" handler={duplicate} />
 			</Col>
 
-			{isCurrent ? (
+			<Col>
 				<Button text="Edit" handler={open} />
-			) : (
-				<Button text="View" handler={open} />
-			)}
+				<Button text="Activate" handler={activate} disabled={isActivated} />
+			</Col>
 		</Block>
 	);
 };

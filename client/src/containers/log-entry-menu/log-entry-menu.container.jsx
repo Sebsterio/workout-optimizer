@@ -2,14 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { updateLogEntry } from "redux/log/log.operations";
-import { updateMaxCustomRest } from "redux/program/program.actions";
+import { modifyMaxCustomRest } from "redux/programs/programs.actions";
 import { pickDate } from "redux/modal/modal.actions";
 
 import LogEntryMenu from "./log-entry-menu";
 
 const mapDispatchToProps = (dispatch) => ({
 	updateLogEntry: (data) => dispatch(updateLogEntry(data)),
-	updateMaxCustomRest: (data) => dispatch(updateMaxCustomRest(data)),
+	modifyMaxCustomRest: (data) => dispatch(modifyMaxCustomRest(data)),
 	pickDate: () => dispatch(pickDate()),
 });
 

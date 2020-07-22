@@ -2,8 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { getIsActivated } from "redux/program/program.selectors";
-import { getIsSaved } from "redux/programs/programs.selectors";
+import { getIsSaved, getIsActivated } from "redux/programs/programs.selectors";
 
 import {
 	saveFetchedProgram,

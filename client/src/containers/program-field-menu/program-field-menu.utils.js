@@ -28,6 +28,8 @@ export const isInputValid = (name, val, arr) => {
 	return true;
 };
 
+// TODO: use global array utils
+
 export const getUpdatedArray = (arr, index, name, val) => {
 	const newArr = [...arr];
 	newArr[index][name] = val;

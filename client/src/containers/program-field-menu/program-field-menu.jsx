@@ -33,13 +33,9 @@ const tabsList = [
 	},
 ];
 
-const ProgramFieldMenu = ({
-	cellData,
-	fields,
-	closeModal,
-	updateCurrentProgram,
-}) => {
-	const { field } = cellData;
+const ProgramFieldMenu = ({ data, closeModal, modifyProgram }) => {
+	const { program, field } = data;
+	const { fields } = program;
 
 	const [name, setName] = useState(field.name || "");
 	const [description, setDescription] = useState(field.description || "");
@@ -57,7 +53,7 @@ const ProgramFieldMenu = ({
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const newField = { name, description, levels, details, icon };
-		updateCurrentProgram({ fieldToReplace: { oldField: field, newField } });
+		modifyProgram({ program, fieldToReplace: { oldField: field, newField } });
 		closeModal();
 	};
 

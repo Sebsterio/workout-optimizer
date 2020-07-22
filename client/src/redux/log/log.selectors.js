@@ -36,6 +36,10 @@ const getRestLevel = (state, props) => {
 	return maxRestLevelToday;
 };
 
+export const getIsLogSyncing = (state) => state.log.isSyncing;
+
+export const getIsLogSynced = (state) => state.log.isSynced;
+
 export const makeGetEntry = () =>
 	createSelector([selectEntry], (entry) => entry);
 

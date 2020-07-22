@@ -18,8 +18,8 @@ export const createRemoteProgramsList = () => (dispatch, getState) => {
 		.post("/api/programs-list", data, token)
 		.then(() => dispatch($.remoteProgramsListCreated()))
 		.catch((err) => {
-			dispatch($.createRemoteProgramsListFail());
 			dispatch(getError(err, "CREATE_REMOTE_PROGRAMS_LIST_ERROR"));
+			return dispatch($.createRemoteProgramsListFail());
 		});
 };
 
@@ -29,7 +29,7 @@ export const createRemoteProgramsList = () => (dispatch, getState) => {
 // PUT current and saved programIds to db
 export const updateProgramsList = () => (dispatch, getState) => {
 	const dateModified = new Date();
-	dispatch($.updateLocalProgramsList({ dateModified }));
+	dispatch($.modifyLocalSavedProgramsList({ dateModified }));
 
 	if (isIncognito(getState)) return;
 

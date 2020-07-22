@@ -16,7 +16,7 @@ const Modal = ({ mode, data, isOpen, closeModal }) => {
 					<LogEntryMenu cellData={data} closeModal={closeModal} />
 				)}
 				{mode === "program-field" && (
-					<ProgramFieldMenu cellData={data} closeModal={closeModal} />
+					<ProgramFieldMenu data={data} closeModal={closeModal} />
 				)}
 				{mode === "program" && (
 					<ProgramDetails program={data} closeModal={closeModal} />

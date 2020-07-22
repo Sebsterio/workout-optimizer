@@ -12,8 +12,8 @@ import { ProgramField } from "./components";
 
 const ProgramMenu = ({
 	program,
-	updateCurrentProgram,
-	publishCurrentProgram,
+	modifyProgram,
+	publishProgram,
 	openModal,
 	history,
 }) => {
@@ -39,7 +39,7 @@ const ProgramMenu = ({
 			newProps.name = newName + " (custom)";
 			setNewName(newProps.name);
 		}
-		updateCurrentProgram({ replaceProps: newProps });
+		modifyProgram({ program, replaceProps: newProps });
 	};
 
 	const handleReset = () => {
@@ -47,7 +47,7 @@ const ProgramMenu = ({
 		setNewDesc(description);
 	};
 
-	// const handleAddField = () => updateCurrentProgram({ fieldToAdd: ...... });
+	const handlePublish = () => publishProgram(program);
 
 	return (
 		<Page>
@@ -62,7 +62,7 @@ const ProgramMenu = ({
 								? "Published"
 								: "Publish"
 						}
-						handler={publishCurrentProgram}
+						handler={handlePublish}
 						disabled={isPublishing || isPublished || isPublic}
 					/>
 					<Button disabled text="Delete" />
@@ -104,18 +104,12 @@ const ProgramMenu = ({
 
 				<Separator text="Fields" />
 
-				{/* <Row>
-				<Button
-					text="New field"
-					handler={handleAddField}
-				/>
-			</Row> */}
-
 				{fields.map((field) => (
 					<ProgramField
 						key={field.name}
+						program={program}
 						field={field}
-						updateCurrentProgram={updateCurrentProgram}
+						modifyProgram={modifyProgram}
 						openModal={openModal}
 					/>
 				))}

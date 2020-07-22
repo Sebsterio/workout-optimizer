@@ -14,16 +14,15 @@ import {
 } from "redux/log/log.operations";
 import { clearLocalLog } from "redux/log/log.actions";
 
-// current-program
-import { createRemoteProgram } from "redux/program/program.operations";
-import { loadStandardProgram } from "redux/program/program.actions";
-
 // programs
 import {
 	removeAllRemotePrivatePrograms,
 	syncPrograms,
 } from "redux/programs/programs.operations";
-import { clearLocalPrograms } from "redux/programs/programs.actions";
+import {
+	setCurrentStandardProgram,
+	clearLocalPrograms,
+} from "redux/programs/programs.actions";
 
 // programs-list
 import {
@@ -50,7 +49,14 @@ export const loadUser = () => (dispatch, getState) => {
 			dispatch(syncPrograms());
 		})
 		// NOTE: Don't getError (causes redundant alert on startup)
-		.catch(() => dispatch($.loadUserFail()));
+		.catch(() => {
+			dispatch($.loadUserFail());
+
+			// On first run (persistor empty) load standardProgram
+			const currentProgram = getState().programs.saved[0];
+			const firstRun = !currentProgram.id;
+			if (firstRun) dispatch(setCurrentStandardProgram());
+		});
 };
 
 // ------------------------ loadUser ------------------------------
@@ -64,12 +70,8 @@ export const register = (formData) => (dispatch, getState) => {
 		.then((res) => {
 			dispatch($.authSuccess(res.data));
 			dispatch(createRemoteLog());
-			dispatch(createRemoteProgramsList());
-
-			// If local currentProgram has been modified, create remote program
-			// TODO: do for all saved programs
-			const { isPublished } = getState().program;
-			if (!isPublished) dispatch(createRemoteProgram());
+			dispatch(createRemoteProgramsList()); // remove
+			dispatch(syncPrograms()); // createRemoteProgramsList on server
 		})
 		.catch((err) => {
 			dispatch(getError(err, "REGISTER_FAIL"));
@@ -104,7 +106,7 @@ export const logout = () => (dispatch) => {
 	dispatch(clearLocalLog());
 	dispatch(clearLocalPrograms());
 	dispatch(clearLocalProgramsList());
-	dispatch(loadStandardProgram());
+	dispatch(setCurrentStandardProgram());
 	localStorage.clear();
 };
 

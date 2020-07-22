@@ -1,21 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { getEditedProgram } from "redux/programs/programs.selectors";
+
 import {
-	updateCurrentProgram,
-	publishCurrentProgram,
-} from "redux/program/program.operations";
+	modifyProgram,
+	publishProgram,
+} from "redux/programs/programs.operations";
 import { openModal } from "redux/modal/modal.actions";
 
 import ProgramMenu from "./program-menu";
 
 const mapStateToProps = (state) => ({
-	program: state.program,
+	program: getEditedProgram(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	updateCurrentProgram: (data) => dispatch(updateCurrentProgram(data)),
-	publishCurrentProgram: () => dispatch(publishCurrentProgram()),
+	modifyProgram: (data) => dispatch(modifyProgram(data)),
+	publishProgram: (data) => dispatch(publishProgram(data)),
 	openModal: (data) => dispatch(openModal(data)),
 });
 

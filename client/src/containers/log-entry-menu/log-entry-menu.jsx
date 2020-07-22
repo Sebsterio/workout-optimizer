@@ -13,7 +13,7 @@ import { DetailsSection, LevelsSection } from "./components";
 const LogEntryMenu = ({
 	cellData: { field, dateStr, dateOffset, stats },
 	updateLogEntry,
-	updateMaxCustomRest,
+	modifyMaxCustomRest,
 	closeModal,
 	pickDate,
 }) => {
@@ -36,7 +36,7 @@ const LogEntryMenu = ({
 		// Ignore if rest is non-custom or hasn't changed
 		if (standardRest >= 0) return;
 		if (!!stats && rest === stats.rest) return;
-		updateMaxCustomRest({ field, rest });
+		modifyMaxCustomRest({ field, rest });
 	};
 
 	// Update log entry in redux & db

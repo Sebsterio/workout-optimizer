@@ -1,12 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { getErrorMessage } from "redux/error/error.selectors";
+
 import { clearError } from "redux/error/error.actions";
 
 import Alert from "./alert";
 
 const mapStateToProps = (state) => ({
-	error: state.error.msg || state.error.id,
+	errorMessage: getErrorMessage(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
