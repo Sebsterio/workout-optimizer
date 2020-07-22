@@ -16,8 +16,9 @@ import { clearLocalLog } from "redux/log/log.actions";
 
 // programs
 import {
-	removeAllRemotePrivatePrograms,
+	updateRemotePrograms,
 	syncPrograms,
+	removeAllRemotePrivatePrograms,
 } from "redux/programs/programs.operations";
 import {
 	setCurrentStandardProgram,
@@ -70,9 +71,9 @@ export const register = (formData) => (dispatch, getState) => {
 		.then((res) => {
 			dispatch($.authSuccess(res.data));
 			dispatch(createRemoteLog());
-			dispatch(createRemoteProgramsList()); // remove
-			dispatch(syncPrograms()); // createRemoteProgramsList on server
+			return dispatch(createRemoteProgramsList()); // blocking
 		})
+		.then(() => dispatch(updateRemotePrograms()))
 		.catch((err) => {
 			dispatch(getError(err, "REGISTER_FAIL"));
 			dispatch($.clearUserData());

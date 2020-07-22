@@ -8,19 +8,20 @@ import { getTokenConfig, isIncognito } from "../utils";
 // ------------------- createRemoteProgramsList ------------------------
 
 // POST current and saved programIds to db
-export const createRemoteProgramsList = () => (dispatch, getState) => {
+export const createRemoteProgramsList = () => async (dispatch, getState) => {
 	dispatch($.creatingRemoteProgramsList());
 
-	const data = JSON.stringify(getConvertedLocalProgramsList(getState));
-	const token = getTokenConfig(getState);
+	try {
+		const data = JSON.stringify(getConvertedLocalProgramsList(getState));
+		const token = getTokenConfig(getState);
 
-	axios
-		.post("/api/programs-list", data, token)
-		.then(() => dispatch($.remoteProgramsListCreated()))
-		.catch((err) => {
-			dispatch(getError(err, "CREATE_REMOTE_PROGRAMS_LIST_ERROR"));
-			return dispatch($.createRemoteProgramsListFail());
-		});
+		await axios.post("/api/programs-list", data, token);
+
+		return dispatch($.remoteProgramsListCreated());
+	} catch (err) {
+		dispatch($.createRemoteProgramsListFail());
+		return dispatch(getError(err, "CREATE_REMOTE_PROGRAMS_LIST_ERROR"));
+	}
 };
 
 // ---------------------- updateProgramsList ---------------------------
