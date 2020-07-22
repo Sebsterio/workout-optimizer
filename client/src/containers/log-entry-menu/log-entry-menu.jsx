@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
 	Menu,
+	Stack,
 	Row,
 	Button,
 	TextInput,
@@ -63,43 +64,50 @@ const LogEntryMenu = ({
 		pickDate();
 	};
 
-	return (
-		<Menu>
+	const menuHeader = (
+		<Stack compact>
 			<Heading>{entryExists ? "Edit Exercise" : "New Exercise"}</Heading>
-
 			<Row even>
 				<Text secondary>{name}</Text>
 				<Text secondary>|</Text>
 				<Text secondary>{dateStr}</Text>
 			</Row>
+		</Stack>
+	);
 
-			{description && (
-				<Row>
-					<Text size="small">{description}</Text>
+	const menuFooter = (
+		<Row spread>
+			<Button text="Delete" handler={handleDelete} disabled={!entryExists} />
+			{/* prettier-ignore */}
+			<Button	text="Duplicate" handler={handleDuplicate} disabled={!entryExists} />
+			<Button text="Cancel" handler={handleClose} />
+			<Button text="Save" handler={handleSubmit} />
+		</Row>
+	);
+
+	return (
+		<Menu header={menuHeader} footer={menuFooter}>
+			<Stack compact>
+				{description && (
+					<Row>
+						<Text size="small">{description}</Text>
+					</Row>
+				)}
+
+				<Row stretch>
+					{/* prettier-ignore */}
+					<TextInput name="notes"	placeholder="Notes"	value={notes}	handler={setNotes}	/>
 				</Row>
-			)}
 
-			<Row stretch>
-				{/* prettier-ignore */}
-				<TextInput name="notes"	placeholder="Notes"	value={notes}	handler={setNotes}	/>
-			</Row>
+				<Separator text="Exercise details" />
+				<DetailsSection {...{ field, details, isFuture, setDetails }} />
 
-			<Separator text="Exercise details" />
-			<DetailsSection {...{ field, details, isFuture, setDetails }} />
+				<Separator text="Intensity and rest" />
 
-			<Separator text="Intensity and rest" />
-			<LevelsSection
-				{...{ field, intensity, rest, setIntensity, setRest, handleSubmit }}
-			/>
-
-			<Separator />
-			<Row spread>
-				<Button text="Delete" handler={handleDelete} disabled={!entryExists} />
-				{/* prettier-ignore */}
-				<Button	text="Duplicate" handler={handleDuplicate} disabled={!entryExists} />
-				<Button text="Cancel" handler={handleClose} />
-				<Button text="Save" handler={handleSubmit} />
-			</Row>
+				<LevelsSection
+					{...{ field, intensity, rest, setIntensity, setRest, handleSubmit }}
+				/>
+			</Stack>
 		</Menu>
 	);
 };

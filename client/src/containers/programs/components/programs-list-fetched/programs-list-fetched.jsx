@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Block, Button, Spinner } from "components";
+import { Stack, Block, Button, Spinner } from "components";
 import { ProgramSnippet } from "../index";
 
 const ProgramsList = ({
@@ -19,7 +19,7 @@ const ProgramsList = ({
 		openModal({ mode: "program", data: program });
 
 	return (
-		<>
+		<Stack compact>
 			{programs.map((program) => {
 				return (
 					<ProgramSnippet
@@ -38,7 +38,7 @@ const ProgramsList = ({
 			) : (
 				<Button text="More" handler={getPrograms} />
 			)}
-		</>
+		</Stack>
 	);
 };
 

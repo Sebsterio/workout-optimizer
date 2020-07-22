@@ -1,6 +1,6 @@
 import React from "react";
-import { Menu, Row, Button, Heading, Text, Separator } from "components";
-import { FieldSnippet } from "../programs/components/index";
+import { Menu, Stack, Row, Button, Heading, Text, Separator } from "components";
+import { FieldSnippet } from "./components";
 
 const ProgramDetails = ({
 	// parent
@@ -27,33 +27,38 @@ const ProgramDetails = ({
 		history.replace("/programs/private");
 	};
 
+	const menuHeader = <Heading small text={name}></Heading>;
+
+	const menuFooter = (
+		<Row>
+			<Button text="Back" handler={closeModal} />
+			<Button
+				text={isSaved ? "Saved" : "Save"}
+				handler={handleSave}
+				disabled={isSaved || isActivated}
+			/>
+			<Button
+				text={isActivated ? "Activated" : "Activate"}
+				handler={handleActivate}
+				disabled={isActivated}
+			/>
+		</Row>
+	);
+
 	return (
-		<Menu>
-			<Row>
-				<Button text="Back" handler={closeModal} />
-				<Button
-					text={isSaved ? "Saved" : "Save"}
-					handler={handleSave}
-					disabled={isSaved || isActivated}
-				/>
-				<Button
-					text={isActivated ? "Activated" : "Activate"}
-					handler={handleActivate}
-					disabled={isActivated}
-				/>
-			</Row>
+		<Menu header={menuHeader} footer={menuFooter}>
+			<Stack>
+				<Text size="small" secondary>
+					Last updated: {new Date(dateModified).toDateString()}
+				</Text>
+				<Text>{description}</Text>
 
-			<Heading small text={name}></Heading>
-			<Text>{description}</Text>
-			<Text size="small" secondary>
-				Last updated: {new Date(dateModified).toDateString()}
-			</Text>
+				<Separator text="Fields" />
 
-			<Separator text="Fields" />
-
-			{fields.map((field, i) => (
-				<FieldSnippet field={field} key={i} />
-			))}
+				{fields.map((field, i) => (
+					<FieldSnippet field={field} key={i} />
+				))}
+			</Stack>
 		</Menu>
 	);
 };

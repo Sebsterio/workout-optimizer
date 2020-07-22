@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Page, Menu, Button } from "components";
+import { Page, Stack, Button } from "components";
 
 const OptionsPage = () => {
 	const [cacheExists, setCacheExists] = useState(!!localStorage.length);
@@ -11,13 +11,13 @@ const OptionsPage = () => {
 
 	return (
 		<Page>
-			<Menu>
+			<Stack>
 				<Button
 					text={cacheExists ? "Clear cache" : "Cache cleared"}
 					handler={clearCache}
 					disabled={!cacheExists}
 				/>
-			</Menu>
+			</Stack>
 		</Page>
 	);
 };

@@ -25,26 +25,27 @@ const ProgramsPage = ({ match, history, setEditedProgram, clearError }) => {
 		history.push("/edit-program");
 	};
 
+	const menuHeader = <Heading text="Programs Page" />;
+
+	const menuFooter = (
+		<Row>
+			<Button
+				text="Private"
+				handler={openPrivateList}
+				disabled={list === "private"}
+			/>
+			<Button
+				text="Public"
+				handler={openPublicList}
+				disabled={list === "public"}
+			/>
+		</Row>
+	);
+
 	return (
 		<Page>
-			<Menu compact>
-				<Heading text="Programs Page" />
-
-				<Row>
-					<Button
-						text="Private"
-						handler={openPrivateList}
-						disabled={list === "private"}
-					/>
-					<Button
-						text="Public"
-						handler={openPublicList}
-						disabled={list === "public"}
-					/>
-				</Row>
-
+			<Menu header={menuHeader} footer={menuFooter}>
 				{list === "private" && <ProgramsListSaved editProgram={editProgram} />}
-
 				{list === "public" && <ProgramsListFetched />}
 			</Menu>
 		</Page>

@@ -1,35 +1,25 @@
+@import "src/style/imports";
+
 .modal {
+	@include full-screen;
 	z-index: 999;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
 	&__bg {
+		@include position-absolute-stretch;
 		z-index: 0;
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
 	}
 
 	&__card {
 		z-index: 1;
-		max-width: 90vw;
+		max-width: 20rem;
 		max-height: 90vh;
 		padding: 1rem;
+
+		// theme
 		background-color: white;
 		border: 5px solid black;
-		overflow-y: auto;
-	}
-
-	&__title {
-		margin: 0;
-		text-align: center;
 	}
 }

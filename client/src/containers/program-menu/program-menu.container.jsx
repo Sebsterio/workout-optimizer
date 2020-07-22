@@ -15,9 +15,9 @@ const mapStateToProps = (state) => ({
 	program: getEditedProgram(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-	modifyProgram: (data) => dispatch(modifyProgram(data)),
-	publishProgram: (data) => dispatch(publishProgram(data)),
+const mapDispatchToProps = (dispatch, props) => ({
+	modify: (data) => dispatch(modifyProgram(data)),
+	publish: () => dispatch(publishProgram(props.program)),
 	openModal: (data) => dispatch(openModal(data)),
 });
 

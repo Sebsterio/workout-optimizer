@@ -1,6 +1,6 @@
 import React from "react";
 import shortid from "shortid";
-import { Row, Table, Button, Input } from "components";
+import { Stack, Row, Table, Button, Input } from "components";
 import {
 	getUniqueLabel,
 	getValueFromInput,
@@ -63,7 +63,7 @@ export const LevelsSection = ({ levels, setLevels }) => {
 	};
 
 	return (
-		<>
+		<Stack compact>
 			<Row>
 				{!!levels.length && (
 					<Table
@@ -76,7 +76,7 @@ export const LevelsSection = ({ levels, setLevels }) => {
 			<Row>
 				<Button text="New level" handler={addLevel} />
 			</Row>
-		</>
+		</Stack>
 	);
 };
 

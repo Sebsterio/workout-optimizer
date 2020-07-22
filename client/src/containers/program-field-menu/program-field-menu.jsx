@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-import { Separator, Menu, Row, Heading, Button, TextInput } from "components";
-
+import { Separator, Menu, Stack, Row, Heading, Button } from "components";
 import { isUnique } from "./program-field-menu.utils";
 import {
 	DescriptionSection,
@@ -62,29 +61,37 @@ const ProgramFieldMenu = ({ data, closeModal, modifyProgram }) => {
 		else alert("Names must be unique.");
 	};
 
-	return (
-		<Menu>
+	const isTabActive = (aTab) => aTab === tab;
+
+	const menuHeader = (
+		<Stack>
 			<Heading>Edit Field</Heading>
-			<TextInput
-				name="name"
-				label="name"
-				value={name}
-				handler={handleEditName}
-			/>
-			{/* nav tabs */}
 			<Row>
 				{tabsList.map((tab) => (
 					<Button
-						key={tab.route}
+						key={tab.title}
 						handler={(e) => switchTabs(e, tab)}
 						text={tab.route}
+						active={isTabActive(tab)}
 					/>
 				))}
 			</Row>
+		</Stack>
+	);
 
+	const menuFooter = (
+		<Row>
+			<Button handler={closeModal} text="Cancel" />
+			<Button handler={handleSubmit} text="Save" />
+		</Row>
+	);
+
+	return (
+		<Menu header={menuHeader} footer={menuFooter}>
 			{/* Main content */}
-			<Separator text={tab.title} />
 			{tab.render({
+				name,
+				handleEditName,
 				description,
 				setDescription,
 				icon,
@@ -94,13 +101,6 @@ const ProgramFieldMenu = ({ data, closeModal, modifyProgram }) => {
 				levels,
 				setLevels,
 			})}
-
-			{/* Permanent buttons */}
-			<Separator />
-			<Row>
-				<Button handler={closeModal} text="Cancel" />
-				<Button handler={handleSubmit} text="Save" />
-			</Row>
 		</Menu>
 	);
 };

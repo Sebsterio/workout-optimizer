@@ -37,20 +37,18 @@ const TrackerPage = ({ cellSize }) => {
 	}, [cellSize]);
 
 	return (
-		<Page>
-			<TrackerTable
-				tableRef={tableRef}
-				setFirstDayRendered={setFirstDayRendered}
-				cellSize={cellSize}
-				sideColumn={<Side />}
-			>
-				{Array.from({ length: cols }, (_, i) => firstDayRendered + i).map(
-					(dateOffset) => (
-						<Day day={dateOffset} key={dateOffset} />
-					)
-				)}
-			</TrackerTable>
-		</Page>
+		<TrackerTable
+			tableRef={tableRef}
+			setFirstDayRendered={setFirstDayRendered}
+			cellSize={cellSize}
+			sideColumn={<Side />}
+		>
+			{Array.from({ length: cols }, (_, i) => firstDayRendered + i).map(
+				(dateOffset) => (
+					<Day day={dateOffset} key={dateOffset} />
+				)
+			)}
+		</TrackerTable>
 	);
 };
 

@@ -5,6 +5,11 @@ import LogEntryMenu from "containers/log-entry-menu";
 import ProgramFieldMenu from "containers/program-field-menu";
 import { ProgramDetails } from "containers/program-details";
 
+// Container for menus; state not persisted
+// Fills page (pos. fixed)
+// Content wrapper : centered, not scrollable
+// Content: no assumptions
+
 const Modal = ({ mode, data, isOpen, closeModal }) => {
 	if (!isOpen) return null;
 

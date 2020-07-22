@@ -1,12 +1,12 @@
 import React from "react";
-import { Block, Heading, Row, Menu, Table } from "components";
+import { Block, Heading, Row, Stack, Table } from "components";
 
-const FieldSnippet = ({ field }) => {
+export const FieldSnippet = ({ field }) => {
 	const { levels, details, name } = field;
 
 	return (
 		<Block oneField>
-			<Menu>
+			<Stack>
 				<Heading small text={name} />
 
 				<Row center>
@@ -29,9 +29,7 @@ const FieldSnippet = ({ field }) => {
 						})}
 					/>
 				</Row>
-			</Menu>
+			</Stack>
 		</Block>
 	);
 };
-
-export default FieldSnippet;

@@ -1,6 +1,6 @@
 import React from "react";
 import shortid from "shortid";
-import { Row, Table, Button, Input } from "components";
+import { Stack, Row, Table, Button, Input } from "components";
 import {
 	getUniqueLabel,
 	getValueFromInput,
@@ -74,7 +74,7 @@ export const ParamsSection = ({ details, setDetails }) => {
 	};
 
 	return (
-		<>
+		<Stack compact>
 			<Row>
 				{!!details.length && (
 					<Table
@@ -87,7 +87,7 @@ export const ParamsSection = ({ details, setDetails }) => {
 			<Row>
 				<Button text="New parameter" handler={addParam} />
 			</Row>
-		</>
+		</Stack>
 	);
 };
 

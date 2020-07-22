@@ -32,17 +32,6 @@ export const syncPrograms = () => (dispatch, getState) => {
 			// no content (local collection up to date)
 			if (res.status === 204) return dispatch($.programsUpToDate());
 
-			// conflict
-			// if (res.status === 409) {
-			// 	const forcePush = prompt(
-			// 		"Remote programs list is newer than local. Do you want to replace it? \n Press OK to upload local version or CANCEL to download remote"
-			// 	);
-			// 	if (forcePush) {
-			//    update remote programs list
-			// 		return dispatch(createRemotePrograms())
-			// 	};
-			// }
-
 			const programs = convertRemotePrograms(res.data);
 			dispatch($.programsDownloaded({ note: "saved" }));
 			dispatch($.replaceCollection({ group: "saved", data: programs }));

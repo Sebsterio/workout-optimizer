@@ -1,5 +1,9 @@
 .button {
-	flex: 1 1 45%;
+	flex: 1 0 auto;
 	margin: 2px;
 	padding: 0.5em;
+
+	&--active {
+		border: 2px solid blue;
+	}
 }

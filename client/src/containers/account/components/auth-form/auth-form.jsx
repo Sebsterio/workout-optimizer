@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, Button, Input, Heading, Text } from "components";
+import { Stack, Button, Input, Heading, Text } from "components";
 
 const AuthForm = ({
 	mode,
@@ -117,10 +117,10 @@ const AuthForm = ({
 	};
 
 	return (
-		<Menu compact>
+		<Stack compact>
 			{formFields[mode]}
 			<Button text="Back" handler={goBack} />
-		</Menu>
+		</Stack>
 	);
 };
 

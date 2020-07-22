@@ -1,9 +1,7 @@
 .stack {
-	max-width: 300px;
-	margin: auto;
+	width: 100%;
 	display: grid;
 	grid-gap: 1.4rem;
-	overflow-y: auto;
 
 	&--compact {
 		grid-gap: 1rem;

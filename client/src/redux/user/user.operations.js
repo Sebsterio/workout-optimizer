@@ -60,10 +60,10 @@ export const loadUser = () => (dispatch, getState) => {
 		});
 };
 
-// ------------------------ loadUser ------------------------------
+// ------------------------ register ------------------------------
 
 // Create user db collection; get new token; create other db collections
-export const register = (formData) => (dispatch, getState) => {
+export const register = (formData) => (dispatch) => {
 	dispatch(clearError());
 	dispatch($.userLoading());
 	axios
