@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Separator, Menu, Stack, Row, Heading, Button } from "components";
+import { Menu, Stack, Row, Heading, Button } from "components";
 import { isUnique } from "./program-field-menu.utils";
 import {
 	DescriptionSection,

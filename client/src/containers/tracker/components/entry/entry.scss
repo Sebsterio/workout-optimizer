@@ -9,17 +9,17 @@ $white: white;
 	width: 95%;
 	overflow: hidden;
 	position: relative;
-	background: linear-gradient(rgb(225, 230, 253), rgb(200, 209, 246));
+	background: linear-gradient(rgb(200, 209, 246), rgb(225, 230, 253));
 
 	&--recovery {
 		&-1 {
-			background: linear-gradient(to right, white, rgb(184, 247, 221));
+			background: linear-gradient(to right, rgb(184, 247, 221), white);
 		}
 		&-2 {
 			background: linear-gradient(
 				to right,
-				rgb(184, 247, 221),
-				rgb(119, 221, 179)
+				rgb(119, 221, 179),
+				rgb(184, 247, 221)
 			);
 		}
 		&-3 {

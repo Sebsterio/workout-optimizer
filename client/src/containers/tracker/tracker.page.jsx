@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Page } from "components";
 import { TrackerTable, Side, Day } from "./components";
 
 const TrackerPage = ({ cellSize }) => {

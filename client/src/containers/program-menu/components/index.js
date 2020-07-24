@@ -1,1 +1,1 @@
-export * from "./program-field";
+export * from "./program-field-snippet";

@@ -1,9 +1,10 @@
 import React from "react";
 import "./column.scss";
 
-const Column = ({ head /* Arr */, body /* Arr */, isToday /* Bool */ }) => {
+const Column = ({ head /* Arr */, body /* Arr */, isToday, isSide }) => {
 	let classes = "tracker-column";
 	if (isToday) classes += " tracker-column--today";
+	if (isSide) classes += " tracker-column--side";
 
 	return (
 		<div className={classes}>

@@ -10,7 +10,7 @@ import {
 	TextArea,
 	Separator,
 } from "components";
-import { ProgramField } from "./components";
+import { ProgramFieldSnippet } from "./components";
 
 const ProgramMenu = ({ program, modify, publish, openModal, history }) => {
 	const {
@@ -98,7 +98,7 @@ const ProgramMenu = ({ program, modify, publish, openModal, history }) => {
 					<Separator text="Fields" />
 
 					{fields.map((field) => (
-						<ProgramField
+						<ProgramFieldSnippet
 							key={field.name}
 							program={program}
 							field={field}

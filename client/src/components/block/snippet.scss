@@ -1,0 +1,32 @@
+.snippet {
+	min-height: 80px;
+	position: relative;
+	padding: 1em;
+	display: flex;
+	justify-content: stretch;
+	border: 1px solid black;
+
+	&--highlight {
+		border: 2px solid blue;
+	}
+
+	&--greyedOut {
+		background-color: silver;
+	}
+
+	&__main {
+		margin-right: 1em;
+		flex: 0 1 100%;
+		display: grid;
+		justify-content: stretch;
+		justify-items: stretch;
+		align-content: stretch;
+		align-items: stretch;
+	}
+
+	&__aside {
+		flex: 1 0 0;
+		display: flex;
+		flex: row nowrap;
+	}
+}

@@ -8,8 +8,7 @@ import {
 } from "redux/programs/programs.operations";
 import { getIsSaved, getIsActivated } from "redux/programs/programs.selectors";
 
-// child
-import ProgramFieldSnippet from "./program-field-snippet";
+import ProgramSnippet from "./program-snippet";
 
 const mapStateToProps = (state, props) => ({
 	isActivated: getIsActivated(state, props.program),
@@ -22,11 +21,9 @@ const mapDispatchToProps = (dispatch, props) => ({
 	remove: () => dispatch(removeSavedProgram(props.program)),
 });
 
-const ProgramFieldSnippetContainer = (props) => (
-	<ProgramFieldSnippet {...props} />
-);
+const ProgramSnippetContainer = (props) => <ProgramSnippet {...props} />;
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(ProgramFieldSnippetContainer);
+)(ProgramSnippetContainer);

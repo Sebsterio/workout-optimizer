@@ -1,10 +1,10 @@
 import React from "react";
 
-import { Block, Col, Text } from "components";
+import { Snippet, Col, Text } from "components";
 
 import { Button } from "components";
 
-export const ProgramFieldSnippet = ({
+export const ProgramSnippet = ({
 	// parent
 	program,
 	isFetched,
@@ -25,23 +25,19 @@ export const ProgramFieldSnippet = ({
 	// Is in fetched array
 	if (isFetched)
 		return (
-			<Block
-				twoFields
-				highlight={isActivated}
-				greyedOut={isSaved || isActivated}
-			>
+			<Snippet highlight={isActivated} greyedOut={isSaved || isActivated}>
 				<Col>
 					<Text>{name}</Text>
 					<Text secondary>{author}</Text>
 				</Col>
 
 				<Button text="View" handler={open} />
-			</Block>
+			</Snippet>
 		);
 
 	// Is in saved array
 	return (
-		<Block threeFields highlight={isActivated}>
+		<Snippet highlight={isActivated}>
 			<Text>{name}</Text>
 
 			<Col>
@@ -57,8 +53,8 @@ export const ProgramFieldSnippet = ({
 				<Button text="Edit" handler={open} />
 				<Button text="Activate" handler={activate} disabled={isActivated} />
 			</Col>
-		</Block>
+		</Snippet>
 	);
 };
 
-export default ProgramFieldSnippet;
+export default ProgramSnippet;

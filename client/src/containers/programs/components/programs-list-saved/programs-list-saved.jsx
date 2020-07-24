@@ -2,13 +2,13 @@ import React from "react";
 
 import { Stack } from "components";
 
-import { ProgramFieldSnippet } from "../index";
+import { ProgramSnippet } from "../index";
 
 const ProgramsList = ({ programs, editProgram }) => {
 	return (
 		<Stack compact>
 			{programs.map((program) => (
-				<ProgramFieldSnippet
+				<ProgramSnippet
 					key={program.id}
 					program={program}
 					programsLength={programs.length}

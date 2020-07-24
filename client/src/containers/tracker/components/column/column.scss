@@ -36,11 +36,17 @@
 		overflow: hidden;
 		position: relative;
 
-		//
+		// TEMP
 		background-color: white;
 	}
 
 	&--today &__cell {
 		background: rgba(0, 0, 0, 0.1);
+	}
+
+	&--side &__head,
+	&--side &__cell {
+		width: $side-width;
+		min-width: 50px;
 	}
 }

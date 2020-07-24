@@ -10,8 +10,7 @@ const MiniSpinner = ({
 }) => {
 	return (
 		<div className="mini-spinner">
-			{(isLogSyncing || isProgramSyncing) && "Syncing..."}
-			{isLogSynced && isProgramSynced && "Synced"}
+			{isLogSyncing || isProgramSyncing ? "Syncing..." : "Synced"}
 		</div>
 	);
 };

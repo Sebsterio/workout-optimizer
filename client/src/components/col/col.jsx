@@ -1,9 +1,15 @@
 import React from "react";
 import "./col.scss";
 
-export const Col = ({ children, marginRight }) => {
+/*************************************************
+ * Flex column
+ * Content: children strech to fill height and width
+ * Child-content: stretched
+ *************************************************/
+
+export const Col = ({ children, firstChildDominant }) => {
 	let classes = "column";
-	if (marginRight) classes += " column--margin-right";
+	if (firstChildDominant) classes += " column--firstChildDominant";
 
 	return (
 		<div className={classes}>

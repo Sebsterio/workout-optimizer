@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
-import { Stack, Block, Button, Spinner } from "components";
-import { ProgramFieldSnippet } from "../index";
+import { Stack, Snippet, Button, Spinner } from "components";
+import { ProgramSnippet } from "../index";
 
 const ProgramsList = ({
 	// redux
@@ -22,7 +22,7 @@ const ProgramsList = ({
 		<Stack compact>
 			{programs.map((program) => {
 				return (
-					<ProgramFieldSnippet
+					<ProgramSnippet
 						isFetched
 						key={program.id}
 						program={program}
@@ -32,9 +32,9 @@ const ProgramsList = ({
 			})}
 
 			{downloading ? (
-				<Block>
+				<Snippet>
 					<Spinner />
-				</Block>
+				</Snippet>
 			) : (
 				<Button text="More" handler={getPrograms} />
 			)}

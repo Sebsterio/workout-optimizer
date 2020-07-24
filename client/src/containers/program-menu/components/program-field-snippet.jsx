@@ -1,7 +1,12 @@
 import React from "react";
-import { Button, Icon, Block, Col, Row } from "components";
+import { Button, Icon, Snippet, Col, Row } from "components";
 
-export const ProgramField = ({ program, field, openModal, modifyProgram }) => {
+export const ProgramFieldSnippet = ({
+	program,
+	field,
+	openModal,
+	modifyProgram,
+}) => {
 	const { name, icon } = field;
 
 	const handleEdit = () =>
@@ -20,8 +25,8 @@ export const ProgramField = ({ program, field, openModal, modifyProgram }) => {
 	};
 
 	return (
-		<Block>
-			<Col marginRight>
+		<Snippet>
+			<Col firstChildDominant>
 				{icon && <Icon {...icon} />}
 				<Row center>{name}</Row>
 			</Col>
@@ -39,6 +44,6 @@ export const ProgramField = ({ program, field, openModal, modifyProgram }) => {
 			<Col>
 				<Button handler={handleEdit} text="Edit" />
 			</Col>
-		</Block>
+		</Snippet>
 	);
 };
