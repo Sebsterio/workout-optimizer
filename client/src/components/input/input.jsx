@@ -1,42 +1,42 @@
 import React from "react";
 import shortid from "shortid";
+import {
+	getAttributesFromProps,
+	getClassNamesFromProps,
+} from "utils/component";
 import "./input.scss";
 
 export const Input = (props) => {
-	const { type, label, handler, options, data, column, narrow } = props;
+	const { type, label, handler, options, data } = props;
+
+	// Container classNames
+	const classes = getClassNamesFromProps("input", props, [
+		["type", "value-only"],
+		"column",
+		"narrow",
+	]);
 
 	// Input element attributes
 	const attributes = {
 		className: "input__input",
 		onChange: (e) => handler(e.target.value, e.target),
+		...getAttributesFromProps(props, [
+			["name"],
+			["value"],
+			["min"],
+			["max"],
+			["placeholder"],
+			["disabled"],
+			["checked", type === "checkbox"],
+			["type", type !== "textarea"],
+			["cols", type === "textarea", String],
+			["rows", type === "textarea", String],
+		]),
 	};
-
-	// Add attribute if passed as prop and condition is met
-	const addAttrFromProps = (attrName, condition = true, modifier) => {
-		const attrVal = props[attrName];
-		if (attrVal === undefined || !condition) return;
-		attributes[attrName] = modifier ? modifier(attrVal) : attrVal;
-	};
-
-	addAttrFromProps("name");
-	addAttrFromProps("value");
-	addAttrFromProps("min");
-	addAttrFromProps("max");
-	addAttrFromProps("placeholder");
-	addAttrFromProps("disabled");
-	addAttrFromProps("checked", type === "checkbox");
-	addAttrFromProps("type", type !== "textarea");
-	addAttrFromProps("cols", type === "textarea", String);
-	addAttrFromProps("rows", type === "textarea", String);
-
 	if (label) attributes.id = shortid.generate();
 	if (data) attributes[`data-${data[0]}`] = data[1];
 
-	// Container className
-	let classes = `input input--${type}`;
-	if (column) classes += " input--column";
-	if (narrow) classes += " input--narrow";
-
+	// Render
 	return (
 		<div className={classes}>
 			{label && (

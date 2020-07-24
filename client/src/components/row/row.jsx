@@ -1,13 +1,17 @@
 import React from "react";
+import { getClassNamesFromProps } from "utils/component";
 import "./row.scss";
 
-export const Row = ({ children, spread, center, stretch, even, wrap }) => {
-	let classes = "row";
-	if (wrap) classes += " row--wrap";
-	if (spread) classes += " row--spread";
-	if (stretch) classes += " row--stretch";
-	if (center) classes += " row--center";
-	if (even) classes += " row--even";
+export const Row = (props) => {
+	const { children } = props;
+
+	const classes = getClassNamesFromProps("row", props, [
+		"wrap",
+		"spread",
+		"stretch",
+		"center",
+		"even",
+	]);
 
 	return <div className={classes}>{children}</div>;
 };

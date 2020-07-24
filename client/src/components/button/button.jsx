@@ -1,28 +1,22 @@
 import React from "react";
 import { withRouter } from "react-router";
+import {
+	getClassNamesFromProps,
+	getAttributesFromProps,
+} from "utils/component";
 import "./button.scss";
 
-export const Button = ({
-	text,
-	children,
-	handler,
-	data,
-	disabled,
-	active,
-	to,
-	history,
-}) => {
-	// button class name
-	let classes = "button";
-	if (active) classes += " button--active";
+export const Button = (props) => {
+	const { text, children, handler, data, to, history } = props;
 
-	// button element html attributes
 	const attributes = {
-		className: classes,
 		onClick: to ? () => history.push(to) : handler,
+		className: getClassNamesFromProps("button", props, ["active"]),
+		...getAttributesFromProps(props, ["disabled"]),
 	};
-	if (disabled) attributes.disabled = true;
+
 	if (data) attributes[`data-${data[0]}`] = data[1];
+
 	return (
 		<button {...attributes}>
 			{text && text}
