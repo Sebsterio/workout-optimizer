@@ -1,14 +1,14 @@
 import React from "react";
 
-import { Stack, Block, Button, Spinner } from "components";
+import { Stack } from "components";
 
-import { ProgramSnippet } from "../index";
+import { ProgramFieldSnippet } from "../index";
 
 const ProgramsList = ({ programs, editProgram }) => {
 	return (
 		<Stack compact>
 			{programs.map((program) => (
-				<ProgramSnippet
+				<ProgramFieldSnippet
 					key={program.id}
 					program={program}
 					programsLength={programs.length}

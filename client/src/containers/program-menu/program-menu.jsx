@@ -56,7 +56,7 @@ const ProgramMenu = ({ program, modify, publish, openModal, history }) => {
 				handler={publish}
 				disabled={isPublishing || isPublished || isPublic}
 			/>
-			<Button text="Back" handler={goBack} />
+			<Button text="Done" handler={goBack} />
 		</Row>
 	);
 

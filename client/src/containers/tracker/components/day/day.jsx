@@ -1,5 +1,5 @@
 import React from "react";
-import { Column, Field } from "../index";
+import { Column, Entry } from "../index";
 import getDateInfo from "utils/date";
 
 const Day = ({ fields, day }) => {
@@ -10,7 +10,7 @@ const Day = ({ fields, day }) => {
 			isToday={day === 0}
 			head={[weekDay, monthDay]}
 			body={fields.map((field) => (
-				<Field dateOffset={day} dateStr={dateStr} field={field} />
+				<Entry dateOffset={day} dateStr={dateStr} field={field} />
 			))}
 		/>
 	);

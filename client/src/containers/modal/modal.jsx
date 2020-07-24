@@ -3,12 +3,14 @@ import "./modal.scss";
 
 import LogEntryMenu from "containers/log-entry-menu";
 import ProgramFieldMenu from "containers/program-field-menu";
-import { ProgramDetails } from "containers/program-details";
+import { ProgramPreview } from "containers/program-preview";
 
-// Container for menus; state not persisted
-// Fills page (pos. fixed)
-// Content wrapper : centered, not scrollable
-// Content: no assumptions
+/*************************************************
+ * Container for menus; state not persisted
+ * Fills page (pos. fixed)
+ * Content wrapper: centered, not scrollable
+ * Content: no assumptions
+ *************************************************/
 
 const Modal = ({ mode, data, isOpen, closeModal }) => {
 	if (!isOpen) return null;
@@ -24,7 +26,7 @@ const Modal = ({ mode, data, isOpen, closeModal }) => {
 					<ProgramFieldMenu data={data} closeModal={closeModal} />
 				)}
 				{mode === "program" && (
-					<ProgramDetails program={data} closeModal={closeModal} />
+					<ProgramPreview program={data} closeModal={closeModal} />
 				)}
 			</div>
 		</div>

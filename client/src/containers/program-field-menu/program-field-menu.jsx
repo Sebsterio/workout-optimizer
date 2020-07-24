@@ -22,12 +22,12 @@ const tabsList = [
 	},
 	{
 		route: "parameters",
-		title: "Exercise Parameters",
+		title: "Parameters",
 		render: (props) => <ParamsSection {...props} />,
 	},
 	{
 		route: "levels",
-		title: "Levels (Quick-Add Buttons)",
+		title: "Levels",
 		render: (props) => <LevelsSection {...props} />,
 	},
 ];
@@ -45,7 +45,7 @@ const ProgramFieldMenu = ({ data, closeModal, modifyProgram }) => {
 	const [tab, setTab] = useState(tabsList[0]);
 
 	const switchTabs = (e, tab) => {
-		e.preventDefault();
+		// e.preventDefault();
 		setTab(tab);
 	};
 
@@ -71,7 +71,7 @@ const ProgramFieldMenu = ({ data, closeModal, modifyProgram }) => {
 					<Button
 						key={tab.title}
 						handler={(e) => switchTabs(e, tab)}
-						text={tab.route}
+						text={tab.title}
 						active={isTabActive(tab)}
 					/>
 				))}

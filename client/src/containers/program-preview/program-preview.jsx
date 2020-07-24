@@ -1,8 +1,8 @@
 import React from "react";
 import { Menu, Stack, Row, Button, Heading, Text, Separator } from "components";
-import { FieldSnippet } from "./components";
+import { FieldPreview } from "./components";
 
-const ProgramDetails = ({
+const ProgramPreview = ({
 	// parent
 	program,
 	// state
@@ -56,11 +56,11 @@ const ProgramDetails = ({
 				<Separator text="Fields" />
 
 				{fields.map((field, i) => (
-					<FieldSnippet field={field} key={i} />
+					<FieldPreview field={field} key={i} />
 				))}
 			</Stack>
 		</Menu>
 	);
 };
 
-export default ProgramDetails;
+export default ProgramPreview;

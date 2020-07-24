@@ -27,17 +27,17 @@ export const ProgramField = ({ program, field, openModal, modifyProgram }) => {
 			</Col>
 
 			<Col>
-				<Button handler={handleEdit} text="Edit" />
-			</Col>
-
-			<Col>
-				<Button handler={handleDuplicate} text="Duplicate" />
 				<Button handler={handleDelete} text="Delete" />
+				<Button handler={handleDuplicate} text="Duplicate" />
 			</Col>
 
 			<Col>
 				<Button text="Up" handler={() => handleMove("up")}></Button>
 				<Button text="Down" handler={() => handleMove("down")}></Button>
+			</Col>
+
+			<Col>
+				<Button handler={handleEdit} text="Edit" />
 			</Col>
 		</Block>
 	);

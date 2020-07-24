@@ -4,7 +4,7 @@ import { Block, Col, Text } from "components";
 
 import { Button } from "components";
 
-export const ProgramSnippet = ({
+export const ProgramFieldSnippet = ({
 	// parent
 	program,
 	isFetched,
@@ -61,4 +61,4 @@ export const ProgramSnippet = ({
 	);
 };
 
-export default ProgramSnippet;
+export default ProgramFieldSnippet;

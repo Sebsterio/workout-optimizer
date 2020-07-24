@@ -5,7 +5,7 @@ import { makeGetStats, makeGetRestLevel } from "redux/log/log.selectors";
 import { getIsPickingDate } from "redux/modal/modal.selectors";
 import { openModal, datePicked } from "redux/modal/modal.actions";
 
-import Field from "./field";
+import Entry from "./entry";
 
 const makeMapStateToProps = () => {
 	const getStats = makeGetStats();
@@ -28,6 +28,6 @@ const mapDispatchToProps = (dispatch) => ({
 	datePicked: (data) => dispatch(datePicked(data)),
 });
 
-const FieldContainer = (props) => <Field {...props} />;
+const EntryContainer = (props) => <Entry {...props} />;
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(FieldContainer);
+export default connect(makeMapStateToProps, mapDispatchToProps)(EntryContainer);

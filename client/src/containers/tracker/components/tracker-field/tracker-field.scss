@@ -1,4 +1,4 @@
-.side-field {
+.tracker-field {
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -12,10 +12,10 @@
 	}
 
 	&:hover {
-		.side-field__icon {
+		.tracker-field__icon {
 			transform: scale(0.9);
 		}
-		.side-field__name {
+		.tracker-field__name {
 			display: initial;
 		}
 	}

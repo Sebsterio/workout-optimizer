@@ -4,10 +4,10 @@ import {
 	getIntensity,
 	getRestLevel,
 	getDetailsString,
-} from "./field.utils";
-import "./field.scss";
+} from "./entry.utils";
+import "./entry.scss";
 
-const Field = ({
+const Entry = ({
 	dateStr,
 	dateOffset,
 	field,
@@ -29,17 +29,17 @@ const Field = ({
 			});
 	};
 
-	let fieldClass = "field";
-	if (intensity >= 0) fieldClass += " field--active";
+	let fieldClass = "entry";
+	if (intensity >= 0) fieldClass += " entry--active";
 	if (restLevel)
-		fieldClass += ` field--recovery field--recovery-${getRestLevel(restLevel)}`;
-	if (isPickingDate) fieldClass += " field--selecting";
+		fieldClass += ` entry--recovery entry--recovery-${getRestLevel(restLevel)}`;
+	if (isPickingDate) fieldClass += " entry--selecting";
 
-	const exerciseClass = `field__exercise field__exercise--intensity-${getIntensity(
+	const exerciseClass = `entry__exercise entry__exercise--intensity-${getIntensity(
 		intensity
 	)}`;
 
-	const detailsClass = `field__details field__details--${getCompletion(
+	const detailsClass = `entry__details entry__details--${getCompletion(
 		details
 	)}`;
 
@@ -52,7 +52,7 @@ const Field = ({
 			{details && (
 				<div className={detailsClass}>
 					{details.map((entry, i) => (
-						<div className="field__details-line" key={i}>
+						<div className="entry__details-line" key={i}>
 							{getDetailsString(entry, field)}
 						</div>
 					))}
@@ -62,4 +62,4 @@ const Field = ({
 	);
 };
 
-export default Field;
+export default Entry;

@@ -10,7 +10,7 @@ import {
 } from "redux/programs/programs.operations";
 import { closeModal } from "redux/modal/modal.actions";
 
-import ProgramDetails from "./program-details";
+import ProgramPreview from "./program-preview";
 
 const mapStateToProps = (state, props) => ({
 	isActivated: getIsActivated(state, props.program),
@@ -23,9 +23,9 @@ const mapDispatchToProps = (dispatch, props) => ({
 	closeModal: () => dispatch(closeModal()),
 });
 
-const ProgramDetailsContainer = (props) => <ProgramDetails {...props} />;
+const ProgramPreviewContainer = (props) => <ProgramPreview {...props} />;
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(withRouter(ProgramDetailsContainer));
+)(withRouter(ProgramPreviewContainer));

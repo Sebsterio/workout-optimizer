@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Stack, Block, Button, Spinner } from "components";
-import { ProgramSnippet } from "../index";
+import { ProgramFieldSnippet } from "../index";
 
 const ProgramsList = ({
 	// redux
@@ -22,7 +22,7 @@ const ProgramsList = ({
 		<Stack compact>
 			{programs.map((program) => {
 				return (
-					<ProgramSnippet
+					<ProgramFieldSnippet
 						isFetched
 						key={program.id}
 						program={program}

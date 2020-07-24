@@ -1,7 +1,9 @@
 import React from "react";
 import "./stack.scss";
 
-// Content: column with an even gap between children
+/****************************************************
+ * Content: column with an even gap between children
+ ****************************************************/
 
 export const Stack = ({ children, compact }) => {
 	let classes = "stack";

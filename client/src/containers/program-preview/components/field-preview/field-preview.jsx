@@ -1,7 +1,7 @@
 import React from "react";
 import { Block, Heading, Row, Stack, Table } from "components";
 
-export const FieldSnippet = ({ field }) => {
+export const FieldPreview = ({ field }) => {
 	const { levels, details, name } = field;
 
 	return (

@@ -1,12 +1,12 @@
 import React from "react";
-import { Column, SideField, MiniSpinner } from "../index";
+import { Column, TrackerField, MiniSpinner } from "../index";
 
 const Side = ({ fields }) => {
 	return (
 		<Column
 			head={[<MiniSpinner />]}
 			body={fields.map((field) => (
-				<SideField field={field} />
+				<TrackerField field={field} />
 			))}
 		/>
 	);

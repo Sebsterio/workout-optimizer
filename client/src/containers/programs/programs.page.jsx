@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
-import { Page, Menu, Button, Heading, Row } from "components";
+import { Page, Menu, Stack, Button, Heading, Row } from "components";
 import { ProgramsListSaved, ProgramsListFetched } from "./components";
 
 const ProgramsPage = ({ match, history, setEditedProgram, clearError }) => {
@@ -25,26 +25,27 @@ const ProgramsPage = ({ match, history, setEditedProgram, clearError }) => {
 		history.push("/edit-program");
 	};
 
-	const menuHeader = <Heading text="Programs Page" />;
-
-	const menuFooter = (
-		<Row>
-			<Button
-				text="Private"
-				handler={openPrivateList}
-				disabled={list === "private"}
-			/>
-			<Button
-				text="Public"
-				handler={openPublicList}
-				disabled={list === "public"}
-			/>
-		</Row>
+	const menuHeader = (
+		<Stack>
+			<Heading text="Programs Page" />
+			<Row>
+				<Button
+					text="Private"
+					handler={openPrivateList}
+					disabled={list === "private"}
+				/>
+				<Button
+					text="Public"
+					handler={openPublicList}
+					disabled={list === "public"}
+				/>
+			</Row>
+		</Stack>
 	);
 
 	return (
 		<Page>
-			<Menu header={menuHeader} footer={menuFooter}>
+			<Menu header={menuHeader}>
 				{list === "private" && <ProgramsListSaved editProgram={editProgram} />}
 				{list === "public" && <ProgramsListFetched />}
 			</Menu>
