@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Row } from "components";
-import { CustomLevelInput, LevelButton, ToggleButton } from ".";
+import { Row, Button } from "components";
+import { CustomLevelInput, LevelButton } from ".";
 
 export const LevelsSection = ({
 	field,
@@ -17,8 +17,8 @@ export const LevelsSection = ({
 	const isIntensityCurrent = (int) => int === intensity;
 
 	return (
-		<Row>
-			<ToggleButton
+		<Row center>
+			<Button
 				text={customLevels ? "Standard" : "Custom"}
 				handler={toggleCustomLevels}
 			/>

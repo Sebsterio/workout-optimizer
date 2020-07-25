@@ -16,9 +16,18 @@ export const getAttributesFromProps = (props, items) => {
 	const attributes = {};
 
 	items.forEach((item) => {
-		const [attrName, condition = true, modifier] = item;
+		let attrName, condition, modifier;
+
+		if (Array.isArray(item)) {
+			[attrName, condition = true, modifier] = item;
+		} else {
+			attrName = item;
+			condition = true;
+		}
+
 		const attrVal = props[attrName];
 		if (attrVal === undefined || !condition) return;
+
 		attributes[attrName] = modifier ? modifier(attrVal) : attrVal;
 	});
 
@@ -26,7 +35,7 @@ export const getAttributesFromProps = (props, items) => {
 };
 
 /*****************************************************
- *  Generate classnames from React props
+ *  Generate classNames from n React props
  *
  * @param classes - initial HTML class attribute (String); must contain at least one className, i.e. base class
  * @param props   - React Component props object
@@ -45,6 +54,7 @@ export const getAttributesFromProps = (props, items) => {
  *     output: 'button button--size-3'
  *
  * @returns - HTML class attribute (String): initial classes + new classes
+ *
  *****************************************************/
 
 export const getClassNamesFromProps = (classes, props, items) => {

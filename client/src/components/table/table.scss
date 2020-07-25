@@ -1,6 +1,19 @@
 .table {
+	&__row {
+		display: grid;
+		grid-auto-flow: column;
+		justify-content: stretch;
+		justify-items: center;
+		align-content: stretch;
+		align-items: stretch;
+	}
 	&__cell {
-		width: 50px;
-		text-align: center;
+		min-width: 40px;
+		max-width: 70px;
+		display: grid;
+		justify-content: stretch;
+		justify-items: stretch;
+		align-content: stretch;
+		align-items: stretch;
 	}
 }

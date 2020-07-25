@@ -17,7 +17,7 @@ export const Table = ({
 }) => (
 	<table className="table">
 		<thead>
-			<tr>
+			<tr className="table__row">
 				{emptyCornerCell && <TableCell head />}
 				{headCells.map((cell) => (
 					<TableCell head key={shortid.generate()}>
@@ -30,7 +30,7 @@ export const Table = ({
 			{bodyRows.map(
 				(row) =>
 					row && (
-						<tr key={shortid.generate()}>
+						<tr className="table__row" key={shortid.generate()}>
 							{row.map((cell) => (
 								<TableCell key={shortid.generate()}>{cell}</TableCell>
 							))}

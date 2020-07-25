@@ -64,7 +64,7 @@ export const LevelsSection = ({ levels, setLevels }) => {
 
 	return (
 		<Stack compact>
-			<Row>
+			<Row center>
 				{!!levels.length && (
 					<Table
 						emptyCornerCell

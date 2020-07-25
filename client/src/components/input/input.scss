@@ -1,5 +1,11 @@
 .input {
-	width: 100%;
+	flex: 0 1 100%;
+	box-sizing: border-box;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: stretch;
+	align-items: stretch;
+	align-content: stretch;
 
 	&--column {
 		display: grid;
@@ -22,7 +28,13 @@
 
 	&__input {
 		box-sizing: border-box;
-		flex: 1 1 100%;
+		flex: 0 1 100%;
 		width: 100%;
+		padding: 0.4em;
+		margin: 2px;
+
+		&:not(textarea) {
+			height: 30px;
+		}
 	}
 }

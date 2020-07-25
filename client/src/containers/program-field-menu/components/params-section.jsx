@@ -75,7 +75,7 @@ export const ParamsSection = ({ details, setDetails }) => {
 
 	return (
 		<Stack compact>
-			<Row>
+			<Row center>
 				{!!details.length && (
 					<Table
 						emptyCornerCell

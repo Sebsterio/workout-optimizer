@@ -102,7 +102,7 @@ const ProgramMenu = ({ program, modify, publish, openModal, history }) => {
 							key={field.name}
 							program={program}
 							field={field}
-							modify={modify}
+							modifyProgram={modify}
 							openModal={openModal}
 						/>
 					))}

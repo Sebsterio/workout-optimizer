@@ -1,7 +1,13 @@
 import { createSelector } from "reselect";
 import getDateInfo from "../../utils/date";
 
-// const selectLog = (state) => state.log;
+// ------------------ Simple selectors ----------------------
+
+export const getIsLogSyncing = (state) => state.log.isSyncing;
+
+export const getIsLogSynced = (state) => state.log.isSynced;
+
+// ------------------ Complex selectors ----------------------
 
 const selectEntry = (state, props) => {
 	const entryName = props.dateStr.replace(/ /g, "_");
@@ -36,9 +42,7 @@ const getRestLevel = (state, props) => {
 	return maxRestLevelToday;
 };
 
-export const getIsLogSyncing = (state) => state.log.isSyncing;
-
-export const getIsLogSynced = (state) => state.log.isSynced;
+// "Maker" functions allow each component to cache the selector individually
 
 export const makeGetEntry = () =>
 	createSelector([selectEntry], (entry) => entry);
