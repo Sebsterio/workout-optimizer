@@ -6,6 +6,14 @@ import {
 } from "utils/component";
 import "./input.scss";
 
+/*****************************************************
+ * Generic input/select/textarea component
+ *
+ * HTML attributes and classNames passed as props
+ * if type: select -> options: [['value', 'displayName']]
+ *
+ *****************************************************/
+
 export const Input = (props) => {
 	const { type, label, handler, options, data } = props;
 
@@ -16,7 +24,7 @@ export const Input = (props) => {
 		"narrow",
 	]);
 
-	// Input element attributes
+	// Input element HTML attributes
 	const attributes = {
 		className: "input__input",
 		onChange: (e) => handler(e.target.value, e.target),
@@ -27,13 +35,13 @@ export const Input = (props) => {
 			"max",
 			"placeholder",
 			"disabled",
+			["id", !!label, shortid.generate],
 			["checked", type === "checkbox"],
 			["type", type !== "textarea"],
 			["cols", type === "textarea", String],
 			["rows", type === "textarea", String],
 		]),
 	};
-	if (label) attributes.id = shortid.generate();
 	if (data) attributes[`data-${data[0]}`] = data[1];
 
 	// Render

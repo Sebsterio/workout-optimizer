@@ -35,7 +35,7 @@ export const getAttributesFromProps = (props, items) => {
 };
 
 /*****************************************************
- *  Generate classNames from n React props
+ *  Generate classNames from React props
  *
  * @param classes - initial HTML class attribute (String); must contain at least one className, i.e. base class
  * @param props   - React Component props object
@@ -45,8 +45,7 @@ export const getAttributesFromProps = (props, items) => {
  *   input:  'button button--blue', props, ['wide', 'secondary']
  *   output: 'button button--blue button--wide button--secondary'
  *
- * If item is an array, item[0] is the name and item[1] is option
- *
+ * If item is an array, item[0] = propName, item[1] = option
  * Options:
  *   'value-only'     - returns the value of the prop instead of its name
  *   'name-and-value' - returns both as 'propName-propValue', e.g:
