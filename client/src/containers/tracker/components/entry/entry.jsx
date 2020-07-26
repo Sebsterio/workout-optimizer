@@ -2,7 +2,7 @@ import React from "react";
 import {
 	getCompletion,
 	getIntensity,
-	getRestLevel,
+	getRestLevelStyles,
 	getDetailsString,
 } from "./entry.utils";
 import "./entry.scss";
@@ -29,24 +29,30 @@ const Entry = ({
 			});
 	};
 
-	let fieldClass = "entry";
-	if (intensity >= 0) fieldClass += " entry--active";
-	if (restLevel)
-		fieldClass += ` entry--recovery entry--recovery-${getRestLevel(restLevel)}`;
-	if (isPickingDate) fieldClass += " entry--selecting";
+	// Entry element (main container)
+	let entryClass = "entry";
+	let entryStyles = {};
+	if (isPickingDate) entryClass += " entry--selecting";
+	if (intensity >= 0) entryClass += " entry--activity";
+	else if (restLevel) {
+		entryClass += ` entry--recovery`;
+		entryStyles = getRestLevelStyles(restLevel);
+	}
 
-	const exerciseClass = `entry__exercise entry__exercise--intensity-${getIntensity(
+	// Intensity element (overlay, stretched)
+	const intensityClass = `entry__exercise entry__exercise--intensity-${getIntensity(
 		intensity
 	)}`;
 
+	// Details elements (strings, centered)
 	const detailsClass = `entry__details entry__details--${getCompletion(
 		details
 	)}`;
 
 	return (
-		<div className={fieldClass} onClick={handleClick}>
+		<div className={entryClass} style={entryStyles} onClick={handleClick}>
 			{/* Intensity marker */}
-			{intensity >= 0 && <div className={exerciseClass}> </div>}
+			{intensity >= 0 && <div className={intensityClass} />}
 
 			{/* Details strings */}
 			{details && (

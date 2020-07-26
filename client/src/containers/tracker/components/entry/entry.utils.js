@@ -1,6 +1,9 @@
 export const getIntensity = (intensity) => (intensity < 3 ? intensity : "3");
 
-export const getRestLevel = (restLevel) => (restLevel < 3 ? restLevel : "3");
+export const getRestLevelStyles = (restLevel) => ({
+	"--background-width-multiplier": restLevel.initial,
+	"--background-pos-x-multiplier": restLevel.initial - restLevel.today,
+});
 
 export const getCompletion = (details) => {
 	if (!details) return null;

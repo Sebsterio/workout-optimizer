@@ -2,33 +2,33 @@
 
 $black: rgba(0, 0, 0, 0.2);
 $white: white;
+$active: rgb(119, 221, 179);
+$neutral: rgb(212, 220, 250);
+$neutral-1: lighten($neutral, 1.5);
 
 .entry {
+	// vars derived from restLevel
+	--background-width-multiplier: 1;
+	--background-pos-x-multiplier: 0;
+
 	box-sizing: border-box;
 	height: 95%;
 	width: 95%;
 	overflow: hidden;
 	position: relative;
-	background: linear-gradient(rgb(200, 209, 246), rgb(225, 230, 253));
+	background: linear-gradient(to right, $neutral, $neutral-1);
 
 	&--recovery {
-		&-1 {
-			background: linear-gradient(to right, rgb(184, 247, 221), white);
-		}
-		&-2 {
-			background: linear-gradient(
-				to right,
-				rgb(119, 221, 179),
-				rgb(184, 247, 221)
-			);
-		}
-		&-3 {
-			background: rgb(119, 221, 179);
-		}
+		background: linear-gradient(to right, $active, $neutral);
+		background-size: calc(var(--background-width-multiplier) * var(--cell-size))
+			100%;
+		background-position-x: calc(
+			var(--background-pos-x-multiplier) * var(--cell-size) * -1
+		);
 	}
 
-	&--active {
-		background: rgb(119, 221, 179);
+	&--activity {
+		background: $active;
 	}
 
 	&--selecting {
