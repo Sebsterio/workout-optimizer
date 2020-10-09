@@ -16,7 +16,13 @@ $neutral-1: lighten($neutral, 1.5);
 	width: 95%;
 	overflow: hidden;
 	position: relative;
+	user-select: none;
 	background: linear-gradient(to right, $neutral, $neutral-1);
+	box-shadow: $box-shadow-item;
+
+	&:hover {
+		box-shadow: $box-shadow-item-strong;
+	}
 
 	&--recovery {
 		background: linear-gradient(to right, $active, $neutral);
