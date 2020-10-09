@@ -8,13 +8,13 @@ export const icons = [
 	{
 		// torso
 		url: "https://image.flaticon.com/icons/svg/31/31432.svg",
-		size: "84%",
+		size: "100%",
 	},
 
 	{
 		// back
 		url: "https://image.flaticon.com/icons/svg/30/30672.svg",
-		size: "84%",
+		size: "100%",
 	},
 
 	{

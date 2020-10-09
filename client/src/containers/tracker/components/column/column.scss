@@ -17,6 +17,7 @@
 		z-index: 1;
 		background-color: white;
 		color: $color-text-weak;
+		user-select: none;
 
 		&-item {
 			padding: 0.1em;
@@ -24,7 +25,8 @@
 	}
 
 	&--today &__head {
-		background: silver;
+		background: rgb(235, 234, 234);
+		color: $color-text-strong;
 	}
 
 	&__cell {
