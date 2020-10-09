@@ -27,9 +27,12 @@
 
 	&__nav {
 		height: 100%;
+		width: 100%;
 		max-width: $screen-s;
-		@include flexBar;
-		justify-content: stretch;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		justify-content: center;
+		justify-items: center;
 	}
 }
 

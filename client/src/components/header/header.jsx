@@ -7,7 +7,7 @@ const Header = ({ routes }) => {
 	return (
 		<div className="header">
 			<div className="header__wrap">
-				<div className="header__logo">Logo</div>
+				<div className="header__logo">(Logo)</div>
 				<nav className="header__nav">
 					{routes
 						.filter((route) => route.inNavBar)
