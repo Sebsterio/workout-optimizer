@@ -1,13 +1,20 @@
 import React from "react";
 import "./icon.scss";
 
-export const Icon = ({ url, size }) => {
-	const iconStyle = {
-		backgroundImage: `url(${url})`,
-		backgroundSize: size,
-	};
+const getScaleFromSize = (size) => {
+	if (size.includes("%")) return Number(size.match(/\d+/)[0]) / 100;
+	return size;
+};
 
-	return <div className="icon" style={iconStyle}></div>;
+export const Icon = ({ url, size, alt = "icon" }) => {
+	const iconStyle = {};
+	if (size) iconStyle.transform = `scale(${getScaleFromSize(size)})`;
+
+	return (
+		<div className="icon">
+			<img className="icon__img" src={url} alt={alt} style={iconStyle} />
+		</div>
+	);
 };
 
 export default Icon;

@@ -31,7 +31,25 @@ const INITIAL_STATE = {
 			dateModified: null,
 			name: "",
 			description: "",
-			fields: [],
+			fields: [
+				// name: '',
+				// icon: {
+				//	url: ''
+				//	scale: 1
+				// }
+				// levels: [{
+				//	id: '',
+				//	label: '',
+				//	intensity: 0,
+				//	rest: 0,
+				// }],
+				// details: [{
+				//	id: '',
+				//	label: '',
+				//	type: '',
+				//	defaultVal: null,
+				// }],
+			],
 		},
 	],
 
