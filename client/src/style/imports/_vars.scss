@@ -1,3 +1,65 @@
+// ------ Colors ------
+
+// $color-background: rgb(250, 250, 250);
+// $color-background-body: rgb(255, 255, 255);
+
+// $color-primary: rgb(54, 168, 224);
+
+$color-text: rgb(36, 36, 36);
+// $color-text-strong: black;
+// $color-text-weak: rgb(99, 99, 99);
+
+// ------ Box-shadoow ------
+
+// $box-shadow-container: 0 0.1rem 0.3rem 0 rgba(0, 0, 0, 0.1);
+
+// $box-shadow-item: 0 0 0.2rem 0 rgba(0, 0, 0, 0.15);
+// $box-shadow-item-strong: 0 0 0.4rem 0 rgba(0, 0, 0, 0.15);
+// $box-shadow-item-inset: inset 0 0 0.2rem 0 rgba(0, 0, 0, 0.2);
+
+// $box-shadow-primary: 0 0 0.2rem 0 $color-primary;
+
+// ------ Spacing ------
+
+$spacing-xxs: 0.3rem;
+$spacing-xs: 0.5rem;
+// $spacing-s: 0.75rem;
+$spacing-m: 1rem;
+// $spacing-l: 2rem;
+// $spacing-xl: 3rem;
+
+// ------ Radius ------
+
+// $radius-1: 0.3rem;
+// $radius-2: 0.45rem;
+
+// ------ Sizing ------
+
+// $sizing-xs: 0.9rem;
+$sizing-s: 0.9rem;
+$sizing-m: 1rem;
+// $sizing-l: 1.05rem;
+// $sizing-xl: 2rem;
+
+// ------ Duration ------
+
+$duration-short: 0.2s;
+// $duration-medium: 0.4s;
+
+// ------ Timing function ------
+
+$timing-bounce: cubic-bezier(0.77, 2.14, 0.77, 0.93);
+
+// ------ Screen width ------
+
+$screen-xs: 350px;
+$screen-s: 700px;
+$screen-m: 900px; // unused
+$screen-l: 1200; // unused
+$screen-xl: 1500; // unused
+
+// ====================== Tracker ======================
+
 :root {
 	--cell-size: 100px;
 }

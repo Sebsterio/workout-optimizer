@@ -1,3 +1,7 @@
+@import "./vars";
+
+// ------ positioning ------
+
 @mixin position-absolute-stretch {
 	position: absolute;
 	top: 0;
@@ -12,4 +16,60 @@
 	left: 0;
 	width: 100vw;
 	height: 100vh;
+}
+
+@mixin flexBar {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+}
+
+// ------ media queries ------
+
+@mixin minWidth($width) {
+	@if $width == "xs" {
+		@media (min-width: $screen-xs) {
+			@content;
+		}
+	} @else if $width == "s" {
+		@media (min-width: $screen-s) {
+			@content;
+		}
+	} @else if $width == "m" {
+		@media (min-width: $screen-m) {
+			@content;
+		}
+	} @else if $width == "l" {
+		@media (min-width: $screen-l) {
+			@content;
+		}
+	} @else if $width == "xl" {
+		@media (min-width: $screen-xl) {
+			@content;
+		}
+	}
+}
+
+@mixin maxWidth($width) {
+	@if $width == "xs" {
+		@media (max-width: $screen-xs -1px) {
+			@content;
+		}
+	} @else if $width == "s" {
+		@media (max-width: $screen-s -1px) {
+			@content;
+		}
+	} @else if $width == "m" {
+		@media (max-width: $screen-m -1px) {
+			@content;
+		}
+	} @else if $width == "l" {
+		@media (max-width: $screen-l -1px) {
+			@content;
+		}
+	} @else if $width == "xl" {
+		@media (max-width: $screen-xl -1px) {
+			@content;
+		}
+	}
 }

@@ -1,16 +1,17 @@
+@import "../../style/imports";
+
 .header {
 	width: 100vw;
-	padding: 0.3em;
+	padding: $spacing-xxs;
 
 	&__wrap {
 		height: 100%;
-		max-width: 1200px;
+		max-width: $screen-l;
 		margin: auto;
-		display: flex;
-		flex-flow: row nowrap;
+		@include flexBar;
 		justify-content: center;
 
-		@media (min-width: 700px) {
+		@include minWidth("s") {
 			justify-content: space-between;
 		}
 	}
@@ -18,61 +19,58 @@
 	&__logo {
 		display: none;
 
-		@media (min-width: 700px) {
-			display: flex;
-			align-items: center;
-			padding: 0.5em;
+		@include minWidth("s") {
+			padding: $spacing-xs;
+			@include flexBar;
 		}
 	}
 
 	&__nav {
 		height: 100%;
-		max-width: 700px;
-		display: flex;
-		flex-flow: row nowrap;
+		max-width: $screen-s;
+		@include flexBar;
 		justify-content: stretch;
-		align-items: center;
 	}
 }
 
 .nav-link {
 	flex: 1 1 100%;
 	text-decoration: none;
-	display: flex;
-	flex-flow: row nowrap;
+	color: $color-text;
+	@include flexBar;
 	justify-content: center;
-	align-items: center;
-	padding: 0.5em;
-	color: black;
+	padding: $spacing-xs;
 
-	@media (min-width: 350px) {
-		padding: 1em;
+	@include minWidth("xs") {
+		padding: $spacing-m;
 	}
 
 	&__icon {
-		transition: transform 200ms;
+		// smaller on mobile
+		transition: transform $duration-short;
 		transform: scale(0.9);
-
-		@media (min-width: 350px) {
+		@include minWidth("xs") {
 			transform: none;
 		}
 	}
 
 	&__text {
-		display: block;
-		margin-left: 0.5em;
-		font-size: 0.9em;
+		margin-left: $spacing-xs;
+		font-size: $sizing-s;
+
+		// Hidden on mobile && not parent hover
 		width: 0;
 		opacity: 0;
 		transform: translateX(-10%) scale(0.5);
 		transform-origin: left;
 		transition: none;
 
-		@media (min-width: 700px) {
+		@include minWidth("s") {
 			width: auto;
-			transform: translateX(0);
+			transform: translateX(0); // `none` blocks :after transform
 			opacity: 1;
 
+			// Custom underline on desktop && hover
 			&:after {
 				content: "";
 				display: block;
@@ -84,18 +82,18 @@
 				background-color: black;
 				transform: scaleX(0);
 				transform-origin: left;
-				transition: transform 200ms;
+				transition: transform $duration-short;
 			}
 		}
 	}
 
 	&:hover &__text {
+		transition: transform $duration-short, opacity $duration-short;
 		width: auto;
 		opacity: 1;
-		transform: translateX(0);
-		transition: transform 200ms, opacity 200ms;
+		transform: translateX(0); // `none` causes a bug
 
-		@media (min-width: 700px) {
+		@include minWidth("s") {
 			&:after {
 				transform: none;
 			}
