@@ -18,9 +18,12 @@
 	height: 100vh;
 }
 
+// ------ display ------
+
 @mixin flexBar {
 	display: flex;
 	flex-flow: row nowrap;
+	justify-content: center;
 	align-items: center;
 }
 
@@ -72,4 +75,11 @@
 			@content;
 		}
 	}
+}
+
+// ------ animation ------
+
+@mixin animation($keyframes) {
+	animation: $keyframes 1s linear infinite;
+	-webkit-animation: $keyframes 1s linear infinite;
 }

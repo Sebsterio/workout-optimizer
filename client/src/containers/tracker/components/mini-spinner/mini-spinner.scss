@@ -1,4 +1,11 @@
+@import "src/style/imports";
+
 .mini-spinner {
-	color: grey;
-	font-size: 0.8em;
+	&__icon {
+		opacity: 0.6;
+
+		&--spinning {
+			@include animation(spin);
+		}
+	}
 }

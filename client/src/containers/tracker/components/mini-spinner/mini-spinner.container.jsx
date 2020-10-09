@@ -6,6 +6,7 @@ import {
 	getIsCurrentProgramSyncing,
 	getIsCurrentProgramSynced,
 } from "redux/programs/programs.selectors";
+import { getIsIncognito } from "redux/user/user.selectors";
 
 import MiniSpinner from "./mini-spinner.component";
 
@@ -14,6 +15,7 @@ const mapStateToProps = (state) => ({
 	isLogSynced: getIsLogSynced(state),
 	isProgramSyncing: getIsCurrentProgramSyncing(state),
 	isProgramSynced: getIsCurrentProgramSynced(state),
+	isIncognito: getIsIncognito(state),
 });
 
 const MiniSpinnerContainer = (props) => <MiniSpinner {...props} />;

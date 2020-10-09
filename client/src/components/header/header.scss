@@ -9,7 +9,6 @@
 		max-width: $screen-l;
 		margin: auto;
 		@include flexBar;
-		justify-content: center;
 
 		@include minWidth("s") {
 			justify-content: space-between;
@@ -41,7 +40,6 @@
 	text-decoration: none;
 	color: $color-text;
 	@include flexBar;
-	justify-content: center;
 	padding: $spacing-xs $spacing-xxs;
 
 	@include minWidth("xs") {
