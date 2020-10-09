@@ -31,8 +31,8 @@
 		max-width: $screen-s;
 		display: grid;
 		grid-template-columns: repeat(5, 1fr);
-		justify-content: center;
-		justify-items: center;
+		justify-content: stretch;
+		justify-items: stretch;
 	}
 }
 
@@ -42,7 +42,7 @@
 	color: $color-text;
 	@include flexBar;
 	justify-content: center;
-	padding: $spacing-xs;
+	padding: $spacing-xs $spacing-xxs;
 
 	@include minWidth("xs") {
 		padding: $spacing-m;
