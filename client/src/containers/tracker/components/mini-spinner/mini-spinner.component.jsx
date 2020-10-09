@@ -16,29 +16,22 @@ const MiniSpinner = ({
 }) => {
 	const isSyncing = isLogSyncing || isProgramSyncing;
 	const isSynced = isLogSynced && isProgramSynced;
+
+	const [src, alt, modifier] = isIncognito
+		? [syncDisabledIcon, "Sync disabled"]
+		: isSyncing
+		? [syncingIcon, "Syncing", "spinning"]
+		: !isSynced
+		? [notSyncedIcon, "Not synced"]
+		: [doneIcon, "Synced"];
+
+	const imgBaseClass = "mini-spinner__icon";
+	const imgModClass = ` ${imgBaseClass}--${modifier}`;
+	const imgClass = imgBaseClass + (modifier ? imgModClass : "");
+
 	return (
-		<div className="mini-spinner">
-			{isIncognito ? (
-				<img
-					src={syncDisabledIcon}
-					alt="Sync disabled"
-					className="mini-spinner__icon"
-				/>
-			) : isSyncing ? (
-				<img
-					src={syncingIcon}
-					alt="Syncing"
-					className="mini-spinner__icon mini-spinner__icon--spinning"
-				/>
-			) : !isSynced ? (
-				<img
-					src={notSyncedIcon}
-					alt="Not synced"
-					className="mini-spinner__icon"
-				/>
-			) : (
-				<img src={doneIcon} alt="Synced" className="mini-spinner__icon" />
-			)}
+		<div className="mini-spinner" onClick={() => alert(alt)}>
+			<img {...{ src, alt }} className={imgClass} />
 		</div>
 	);
 };
