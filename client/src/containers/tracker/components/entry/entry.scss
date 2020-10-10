@@ -1,15 +1,22 @@
 @import "src/style/imports";
 
-$black: rgba(0, 0, 0, 0.2);
-$white: white;
-$active: rgb(119, 221, 179);
+// exercise
+$active: rgb(110, 221, 175);
 $neutral: rgb(212, 220, 250);
 $neutral-1: lighten($neutral, 1.5);
+
+// exercise text
+$done: rgb(36, 36, 36);
+$partial: rgb(102, 102, 102);
+$planned: $partial;
 
 .entry {
 	// vars derived from restLevel
 	--background-width-multiplier: 1;
 	--background-pos-x-multiplier: 0;
+
+	// shared with .entry__excercise
+	$entry-radius: $radius-1;
 
 	box-sizing: border-box;
 	height: 95%;
@@ -17,11 +24,15 @@ $neutral-1: lighten($neutral, 1.5);
 	overflow: hidden;
 	position: relative;
 	user-select: none;
+
+	border-radius: $entry-radius;
 	background: linear-gradient(to right, $neutral, $neutral-1);
-	box-shadow: $box-shadow-item;
+	box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);
+	transition: transform $duration-short, box-shadow $duration-short;
 
 	&:hover {
-		box-shadow: $box-shadow-item-strong;
+		transform: scale(1.2);
+		box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.4);
 	}
 
 	&--recovery {
@@ -52,21 +63,32 @@ $neutral-1: lighten($neutral, 1.5);
 		height: 100%;
 		width: 100%;
 		box-sizing: border-box;
-		border: 0 solid rgb(11, 117, 16);
+		border-radius: $entry-radius;
+
+		--r: 0; // blur-radius, offset x & y
+		--o: 0; // opacity (black only)
+		// prettier-ignore
+		box-shadow: 
+			inset calc(var(--r) * -1) calc(var(--r) * -1) var(--r) 0 rgba(0, 0, 0, var(--o)),
+			inset var(--r) var(--r) var(--r) 0 rgba(255, 255, 255, .8);
 
 		&--intensity-0 {
-			border-width: 1px;
+			--r: 1px;
+			--o: 0.2;
 		}
 
 		&--intensity-1 {
-			border-width: 3px;
+			--r: 2px;
+			--o: 0.3;
 		}
 
 		&--intensity-2 {
-			border-width: 6px;
+			--r: 3px;
+			--o: 0.4;
 		}
 		&--intensity-3 {
-			border-width: 9px;
+			--r: 4px;
+			--o: 0.5;
 		}
 	}
 
@@ -83,13 +105,17 @@ $neutral-1: lighten($neutral, 1.5);
 		white-space: nowrap;
 
 		&--planned {
-			color: rgb(156, 156, 156);
+			color: $planned;
+			// font-style: italic;
+			font-weight: 300;
 		}
 		&--partial {
-			color: rgb(102, 102, 102);
+			color: $partial;
 		}
 		&--done {
-			color: black;
+			color: $done;
+			text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2),
+				1px 1px 1px rgba(255, 255, 255, 0.4);
 		}
 	}
 }
