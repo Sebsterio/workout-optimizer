@@ -7,23 +7,15 @@ import doneIcon from "assets/icons/done.svg";
 
 import "./mini-spinner.scss";
 
-const MiniSpinner = ({
-	isLogSyncing,
-	isLogSynced,
-	isProgramSyncing,
-	isProgramSynced,
-	isIncognito,
-}) => {
-	const isSyncing = isLogSyncing || isProgramSyncing;
-	const isSynced = isLogSynced && isProgramSynced;
-
+const MiniSpinner = ({ isLogSyncing, isLogSynced, isIncognito }) => {
+	// img attributes
 	const [src, alt, modifier] = isIncognito
 		? [syncDisabledIcon, "Sync disabled"]
-		: isSyncing
+		: isLogSynced
+		? [doneIcon, "Synced"]
+		: isLogSyncing
 		? [syncingIcon, "Syncing", "spinning"]
-		: !isSynced
-		? [notSyncedIcon, "Not synced"]
-		: [doneIcon, "Synced"];
+		: [notSyncedIcon, "Not synced"];
 
 	const imgBaseClass = "mini-spinner__icon";
 	const imgModClass = ` ${imgBaseClass}--${modifier}`;

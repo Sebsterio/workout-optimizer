@@ -12,12 +12,6 @@ export const getEditedProgram = (state) =>
 export const getCurrentProgramFields = (state) =>
 	state.programs.saved[0].fields;
 
-export const getIsCurrentProgramSyncing = (state) =>
-	state.programs.saved[0].isSyncing;
-
-export const getIsCurrentProgramSynced = (state) =>
-	state.programs.saved[0].isSynced;
-
 export const getIsSaved = (state, program) =>
 	state.programs.saved.some((savedProgram) => savedProgram.id === program.id);
 
