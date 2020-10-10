@@ -12,10 +12,10 @@ const MiniSpinner = ({ isLogSyncing, isLogSynced, isIncognito }) => {
 	const [src, alt, modifier] = isIncognito
 		? [syncDisabledIcon, "Sync disabled"]
 		: isLogSynced
-		? [doneIcon, "Synced"]
+		? [doneIcon, "Log synced"]
 		: isLogSyncing
-		? [syncingIcon, "Syncing", "spinning"]
-		: [notSyncedIcon, "Not synced"];
+		? [syncingIcon, "Log syncing", "spinning"]
+		: [notSyncedIcon, "Log not synced"];
 
 	const imgBaseClass = "mini-spinner__icon";
 	const imgModClass = ` ${imgBaseClass}--${modifier}`;
