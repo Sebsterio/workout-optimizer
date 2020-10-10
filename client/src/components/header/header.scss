@@ -17,10 +17,13 @@
 
 	&__logo {
 		display: none;
+		font-size: $sizing-l;
+		font-family: "Trade Winds", cursive;
+		user-select: none;
 
 		@include minWidth("s") {
-			padding: $spacing-xs;
 			@include flexBar;
+			padding: 0 $spacing-m;
 		}
 	}
 
