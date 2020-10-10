@@ -1,5 +1,14 @@
 @import "src/style/imports";
 
+$color-today: rgba(0, 0, 0, 0.1);
+$column-today-background: linear-gradient(
+	90deg,
+	$color-transparent 0%,
+	$color-today 20%,
+	$color-today 80%,
+	$color-transparent 100%
+);
+
 .tracker-column {
 	position: relative;
 
@@ -25,7 +34,8 @@
 	}
 
 	&--today &__head {
-		background: rgb(235, 234, 234);
+		background: $color-today;
+		background: $column-today-background;
 		color: $color-text-strong;
 	}
 
@@ -45,7 +55,8 @@
 	}
 
 	&--today &__cell {
-		background: rgba(0, 0, 0, 0.1);
+		background: $color-today;
+		background: $column-today-background;
 	}
 
 	&--side {
@@ -57,5 +68,8 @@
 		width: $side-width;
 		min-width: 50px;
 		background-color: white;
+	}
+	&--side &__cell {
+		cursor: pointer;
 	}
 }
