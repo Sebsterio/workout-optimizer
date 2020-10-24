@@ -14,12 +14,24 @@
 
 	&__card {
 		z-index: 1;
-		max-width: 20rem;
-		max-height: 90vh;
-		padding: 1rem;
+		width: 96vw;
+		max-height: 96vh;
+		padding: $spacing-m $spacing-xs;
 
-		// theme
-		background-color: white;
-		border: 5px solid black;
+		background-color: $color-background;
+		box-shadow: $box-shadow-container;
+		border-radius: $radius-1;
+
+		@include minWidth("xs") {
+			width: 100vw;
+			max-width: 20rem;
+			padding: $spacing-l $spacing-m;
+		}
+
+		@include minWidth("s") {
+			width: auto;
+			max-width: unset;
+			padding: $spacing-l;
+		}
 	}
 }

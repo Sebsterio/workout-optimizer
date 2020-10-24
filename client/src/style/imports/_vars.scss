@@ -1,7 +1,7 @@
 // ------ Colors ------
 
-// $color-background: rgb(250, 250, 250);
-// $color-background-body: rgb(255, 255, 255);
+$color-background: rgb(255, 255, 255);
+// $color-background-secondary: rgb(255, 255, 255);
 
 // $color-primary: rgb(54, 168, 224);
 
@@ -13,7 +13,7 @@ $color-transparent: rgba(0, 0, 0, 0); // for gradients
 
 // ------ Box-shadoow ------
 
-// $box-shadow-container: 0 0.1rem 0.3rem 0 rgba(0, 0, 0, 0.1);
+$box-shadow-container: 0 0.1rem 0.6rem 0 rgba(0, 0, 0, 0.6);
 
 $box-shadow-item: 0 0 0.3rem 0 rgba(0, 0, 0, 0.15);
 $box-shadow-item-strong: 0 0 0.6rem 0 rgba(0, 0, 0, 0.3);
@@ -25,15 +25,14 @@ $box-shadow-item-strong: 0 0 0.6rem 0 rgba(0, 0, 0, 0.3);
 
 $spacing-xxs: 0.3rem;
 $spacing-xs: 0.5rem;
-// $spacing-s: 0.75rem;
+$spacing-s: 0.75rem;
 $spacing-m: 1rem;
-// $spacing-l: 2rem;
-// $spacing-xl: 3rem;
+$spacing-l: 1.5rem;
+$spacing-xl: 2rem;
 
 // ------ Radius ------
 
 $radius-1: 0.2rem;
-// $radius-2: 0.45rem;
 
 // ------ Sizing ------
 
