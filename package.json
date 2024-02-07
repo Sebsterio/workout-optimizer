@@ -23,16 +23,17 @@
 		"cors": "^2.8.5",
 		"dotenv": "^8.2.0",
 		"express": "^4.16.3",
-		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.9.19"
+		"jsonwebtoken": "^9.0.2",
+		"mongoose": "^5.9.19",
+		"nvm": "^0.0.4"
 	},
 	"devDependencies": {
 		"morgan": "^1.10.0",
-		"nodemon": "^1.17.5"
+		"nodemon": "^3.0.3"
 	},
 	"engines": {
-		"node": "14.x",
-		"npm": "6.x"
+		"node": ">=14.0.0",
+		"npm": ">=6.0.0"
 	},
 	"repository": {
 		"type": "git",
