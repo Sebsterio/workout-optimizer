@@ -1,24 +1,14 @@
-@use "src/style/library" as *;
-
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
-
-html,
-body,
-#root {
+html, body, #root {
 	width: 100vw;
 	height: 100vh;
 }
 
-body {
-	font-family: "Roboto", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+#root {
+  isolation: isolate;
+}
 
-	color: $color-text;
+body {
+	font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 	font-size: 14px;
 
 	@media (min-width: 350px) {
@@ -29,6 +19,10 @@ body {
 	}
 }
 
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+code, kbd, samp, pre {
+	font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+p {
+	line-height: 1.5;
 }
