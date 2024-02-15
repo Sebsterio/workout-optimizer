@@ -9,25 +9,26 @@
 	align-items: center;
 
 	&__icon {
-		width: 90%;
-		height: 70%;
+		width: 75%;
+		transition: transform $duration-short ease-in-out;
 	}
 
 	&__name {
 		text-align: center;
+		max-height: 0;
+		transition: max-height $duration-short ease-in-out;
+		overflow: hidden;
 
 		&--small {
 			font-size: $sizing-xs;
-			display: none;
 		}
 	}
 
-	&:hover {
-		.tracker-field__icon {
-			transform: scale(0.9);
-		}
-		.tracker-field__name {
-			display: initial;
-		}
+	&:hover &__icon {
+		transform: scale(0.75);
+	}
+
+	&:hover &__name {
+		max-height: $sizing-s;
 	}
 }
