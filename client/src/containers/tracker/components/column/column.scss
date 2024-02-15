@@ -1,4 +1,4 @@
-@import "src/style/imports";
+@use "src/style/library" as *;
 
 $bg-color-side: rgba(255, 255, 255, 0.5);
 $bg-color-side-head: $bg-color-side;

@@ -1,9 +1,11 @@
 // ------ Colors ------
 
-$color-background: rgb(255, 255, 255);
-// $color-background-secondary: rgb(255, 255, 255);
+:root {
+	--background-color: "#000";
+	--background-image: "#000";
+}
 
-// $color-primary: rgb(54, 168, 224);
+$color-background: var(--background-color);
 
 $color-text: rgb(36, 36, 36);
 $color-text-strong: black;
@@ -40,7 +42,9 @@ $sizing-xs: 0.7rem;
 $sizing-s: 0.9rem;
 $sizing-m: 1rem;
 $sizing-l: 1.4rem;
-// $sizing-xl: 2rem;
+// $sizing-xl: 2.1rem;
+$sizing-2xl: 2.8rem;
+$sizing-3xl: 3.5rem;
 
 // ------ Duration ------
 

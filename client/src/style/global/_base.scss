@@ -1,3 +1,5 @@
+@use "src/style/library" as *;
+
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -28,6 +30,5 @@ body {
 }
 
 code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

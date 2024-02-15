@@ -1,4 +1,4 @@
-@import "./vars";
+@use "vars";
 
 // ------ positioning ------
 
@@ -31,23 +31,23 @@
 
 @mixin minWidth($width) {
 	@if $width == "xs" {
-		@media (min-width: $screen-xs) {
+		@media (min-width: vars.$screen-xs) {
 			@content;
 		}
 	} @else if $width == "s" {
-		@media (min-width: $screen-s) {
+		@media (min-width: vars.$screen-s) {
 			@content;
 		}
 	} @else if $width == "m" {
-		@media (min-width: $screen-m) {
+		@media (min-width: vars.$screen-m) {
 			@content;
 		}
 	} @else if $width == "l" {
-		@media (min-width: $screen-l) {
+		@media (min-width: vars.$screen-l) {
 			@content;
 		}
 	} @else if $width == "xl" {
-		@media (min-width: $screen-xl) {
+		@media (min-width: vars.$screen-xl) {
 			@content;
 		}
 	}
@@ -55,23 +55,23 @@
 
 @mixin maxWidth($width) {
 	@if $width == "xs" {
-		@media (max-width: $screen-xs -1px) {
+		@media (max-width: vars.$screen-xs -1px) {
 			@content;
 		}
 	} @else if $width == "s" {
-		@media (max-width: $screen-s -1px) {
+		@media (max-width: vars.$screen-s -1px) {
 			@content;
 		}
 	} @else if $width == "m" {
-		@media (max-width: $screen-m -1px) {
+		@media (max-width: vars.$screen-m -1px) {
 			@content;
 		}
 	} @else if $width == "l" {
-		@media (max-width: $screen-l -1px) {
+		@media (max-width: vars.$screen-l -1px) {
 			@content;
 		}
 	} @else if $width == "xl" {
-		@media (max-width: $screen-xl -1px) {
+		@media (max-width: vars.$screen-xl -1px) {
 			@content;
 		}
 	}

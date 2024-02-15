@@ -1,4 +1,4 @@
-@import "src/style/imports";
+@use "src/style/library" as *;
 
 .spinner {
 	&__container {

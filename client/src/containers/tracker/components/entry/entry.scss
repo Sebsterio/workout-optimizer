@@ -1,9 +1,10 @@
-@import "src/style/imports";
+@use "sass:color";
+@use "src/style/library" as *;
 
 // exercise
 $active: rgb(110, 221, 175);
 $neutral: rgb(212, 220, 250);
-$neutral-1: lighten($neutral, 1.5);
+$neutral-1: color.adjust($neutral, $lightness: 1.5);
 
 // exercise text
 $done: rgb(36, 36, 36);
@@ -37,11 +38,8 @@ $planned: $partial;
 
 	&--recovery {
 		background: linear-gradient(to right, $active, $neutral);
-		background-size: calc(var(--background-width-multiplier) * var(--cell-size))
-			100%;
-		background-position-x: calc(
-			var(--background-pos-x-multiplier) * var(--cell-size) * -1
-		);
+		background-size: calc(var(--background-width-multiplier) * var(--cell-size)) 100%;
+		background-position-x: calc(var(--background-pos-x-multiplier) * var(--cell-size) * -1);
 	}
 
 	&--activity {
@@ -114,8 +112,7 @@ $planned: $partial;
 		}
 		&--done {
 			color: $done;
-			text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2),
-				1px 1px 1px rgba(255, 255, 255, 0.4);
+			text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2), 1px 1px 1px rgba(255, 255, 255, 0.4);
 		}
 	}
 }
