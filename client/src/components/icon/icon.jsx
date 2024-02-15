@@ -6,7 +6,7 @@ const getScaleFromSize = (size) => {
 	return size;
 };
 
-export const Icon = ({ url, size, alt = "icon" }) => {
+export const Icon = ({ url, size, name, alt = name ?? "icon" }) => {
 	const iconStyle = {};
 	if (size) iconStyle.transform = `scale(${getScaleFromSize(size)})`;
 

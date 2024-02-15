@@ -1,37 +1,41 @@
-export const icons = [
+import absIcon from "assets/icons/field/abs.png";
+import armsIcon from "assets/icons/field/arms.png";
+import backIcon from "assets/icons/field/back.png";
+import cardioIcon from "assets/icons/field/cardio.png";
+import chestIcon from "assets/icons/field/chest.png";
+import quadsIcon from "assets/icons/field/quads.png";
+
+export const fieldIcons = [
 	{
-		// arms
-		url: "https://image.flaticon.com/icons/svg/30/30237.svg",
-		size: "66%",
+		name: 'arms',
+		url: armsIcon,
+		size: "75%",
 	},
 
 	{
-		// torso
-		url: "https://image.flaticon.com/icons/svg/31/31432.svg",
-		size: "84%",
+		name: 'torso',
+		url: chestIcon,
 	},
 
 	{
-		// back
-		url: "https://image.flaticon.com/icons/svg/30/30672.svg",
-		size: "84%",
+		name: 'back',
+		url: backIcon,
+		size: "85%",
 	},
 
 	{
-		// abs
-		url: "https://image.flaticon.com/icons/svg/30/30728.svg",
-		size: "55%",
+		name: 'abs',
+		url: absIcon,
+		size: "80%",
 	},
 
 	{
-		// legs
-		url: "https://image.flaticon.com/icons/svg/30/30627.svg",
-		size: "60%",
+		name: 'legs',
+		url: quadsIcon,
 	},
 
 	{
-		// heart
-		url: "https://image.flaticon.com/icons/svg/30/30391.svg",
-		size: "60%",
+		name: 'heart',
+		url: cardioIcon,
 	},
 ];

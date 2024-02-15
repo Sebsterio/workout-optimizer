@@ -1,16 +1,15 @@
-import Tracker from "containers/tracker";
+import Account from "containers/account";
+import Options from "containers/options";
+import { ProgramMenu } from "containers/program-menu";
 import Programs from "containers/programs";
 import Statistics from "containers/statistics";
-import Options from "containers/options";
-import Account from "containers/account";
+import Tracker from "containers/tracker";
 
-import { ProgramMenu } from "containers/program-menu";
-
-import trackerIcon from "assets/icons/tracker.svg";
-import programsIcon from "assets/icons/programs.svg";
-import statisticsIcon from "assets/icons/statistics.svg";
-import accountIcon from "assets/icons/account.svg";
-import optionsIcon from "assets/icons/options.svg";
+import trackerIcon from "assets/icons/nav/tracker.svg";
+import accountIcon from "assets/icons/nav/account.svg";
+import optionsIcon from "assets/icons/nav/options.svg";
+import programsIcon from "assets/icons/nav/programs.svg";
+import statisticsIcon from "assets/icons/nav/statistics.svg";
 
 export const routes = [
 	// In nav

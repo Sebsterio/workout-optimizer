@@ -1,5 +1,18 @@
 import shortid from "shortid";
 
+import absIcon from "assets/icons/field/abs.png";
+import armsIcon from "assets/icons/field/arms.png";
+import backIcon from "assets/icons/field/back.png";
+import calvesIcon from "assets/icons/field/calves.png";
+import cardioIcon from "assets/icons/field/cardio.png";
+import chestIcon from "assets/icons/field/chest.png";
+import glutesIcon from "assets/icons/field/glutes.png";
+import quadsIcon from "assets/icons/field/quads.png";
+
+// NOTES:
+// !levels && !details -> binary field
+// details: max 4 items
+
 export const standardProgramTemplate = {
 	isSyncing: false,
 	isSynced: false,
@@ -14,8 +27,7 @@ export const standardProgramTemplate = {
 		{
 			name: "cardio",
 			icon: {
-				url: "https://image.flaticon.com/icons/svg/30/30391.svg",
-				size: "60%",
+				url: cardioIcon,
 			},
 			levels: [
 				{ label: "Light", intensity: 1, rest: 0, id: shortid.generate() },
@@ -36,8 +48,8 @@ export const standardProgramTemplate = {
 		{
 			name: "arms",
 			icon: {
-				url: "https://image.flaticon.com/icons/svg/30/30237.svg",
-				size: "66%",
+				url: armsIcon,
+				size: "75%",
 			},
 			description: "Exercise description here...",
 			levels: [
@@ -45,7 +57,6 @@ export const standardProgramTemplate = {
 				{ label: "Medium", intensity: 2, rest: 1, id: shortid.generate() },
 				{ label: "Hard", intensity: 3, rest: 2, id: shortid.generate() },
 			],
-			// max 4 fields
 			details: [
 				{
 					label: "sets",
@@ -62,13 +73,11 @@ export const standardProgramTemplate = {
 				{ label: "kg", type: "number", defaultVal: 20, id: shortid.generate() },
 				{ label: "done", type: "checkbox" },
 			],
-			// !levels && !details -> binary field
 		},
 		{
 			name: "chest",
 			icon: {
-				url: "https://image.flaticon.com/icons/svg/31/31432.svg",
-				size: "84%",
+				url: chestIcon,
 			},
 			description: "Exercise description here...",
 			levels: [
@@ -96,8 +105,8 @@ export const standardProgramTemplate = {
 		{
 			name: "core",
 			icon: {
-				url: "https://image.flaticon.com/icons/svg/30/30728.svg",
-				size: "55%",
+				url: absIcon,
+				size: "80%",
 			},
 			levels: [
 				{ label: "Light", intensity: 1, rest: 0, id: shortid.generate() },
@@ -122,66 +131,10 @@ export const standardProgramTemplate = {
 			],
 		},
 		{
-			name: "upper back",
+			name: "back",
 			icon: {
-				url: "https://image.flaticon.com/icons/svg/30/30672.svg",
-				size: "84%",
-			},
-			levels: [
-				{ label: "Light", intensity: 1, rest: 0, id: shortid.generate() },
-				{ label: "Medium", intensity: 2, rest: 1, id: shortid.generate() },
-				{ label: "Hard", intensity: 3, rest: 2, id: shortid.generate() },
-			],
-			details: [
-				{
-					label: "sets",
-					type: "number",
-					defaultVal: 1,
-					id: shortid.generate(),
-				},
-				{
-					label: "reps",
-					type: "number",
-					defaultVal: 10,
-					id: shortid.generate(),
-				},
-				{ label: "kg", type: "number", defaultVal: 20, id: shortid.generate() },
-				{ label: "done", type: "checkbox" },
-			],
-		},
-		{
-			name: "lower back",
-			icon: {
-				url: "https://image.flaticon.com/icons/svg/30/30672.svg",
-				size: "84%",
-			},
-			levels: [
-				{ label: "Light", intensity: 1, rest: 0, id: shortid.generate() },
-				{ label: "Medium", intensity: 2, rest: 1, id: shortid.generate() },
-				{ label: "Hard", intensity: 3, rest: 2, id: shortid.generate() },
-			],
-			details: [
-				{
-					label: "sets",
-					type: "number",
-					defaultVal: 1,
-					id: shortid.generate(),
-				},
-				{
-					label: "reps",
-					type: "number",
-					defaultVal: 10,
-					id: shortid.generate(),
-				},
-				{ label: "kg", type: "number", defaultVal: 20, id: shortid.generate() },
-				{ label: "done", type: "checkbox" },
-			],
-		},
-		{
-			name: "quads",
-			icon: {
-				url: "https://image.flaticon.com/icons/svg/30/30627.svg",
-				size: "60%",
+				url: backIcon,
+				size: "85%",
 			},
 			levels: [
 				{ label: "Light", intensity: 1, rest: 0, id: shortid.generate() },
@@ -208,8 +161,63 @@ export const standardProgramTemplate = {
 		{
 			name: "glutes",
 			icon: {
-				url: "https://image.flaticon.com/icons/svg/30/30627.svg",
-				size: "60%",
+				url: glutesIcon,
+				size: "75%",
+			},
+			levels: [
+				{ label: "Light", intensity: 1, rest: 0, id: shortid.generate() },
+				{ label: "Medium", intensity: 2, rest: 1, id: shortid.generate() },
+				{ label: "Hard", intensity: 3, rest: 2, id: shortid.generate() },
+			],
+			details: [
+				{
+					label: "sets",
+					type: "number",
+					defaultVal: 1,
+					id: shortid.generate(),
+				},
+				{
+					label: "reps",
+					type: "number",
+					defaultVal: 10,
+					id: shortid.generate(),
+				},
+				{ label: "kg", type: "number", defaultVal: 20, id: shortid.generate() },
+				{ label: "done", type: "checkbox" },
+			],
+		},
+		{
+			name: "quads",
+			icon: {
+				url: quadsIcon,
+			},
+			levels: [
+				{ label: "Light", intensity: 1, rest: 0, id: shortid.generate() },
+				{ label: "Medium", intensity: 2, rest: 1, id: shortid.generate() },
+				{ label: "Hard", intensity: 3, rest: 2, id: shortid.generate() },
+			],
+			details: [
+				{
+					label: "sets",
+					type: "number",
+					defaultVal: 1,
+					id: shortid.generate(),
+				},
+				{
+					label: "reps",
+					type: "number",
+					defaultVal: 10,
+					id: shortid.generate(),
+				},
+				{ label: "kg", type: "number", defaultVal: 20, id: shortid.generate() },
+				{ label: "done", type: "checkbox" },
+			],
+		},
+		{
+			name: "calves",
+			icon: {
+				url: calvesIcon,
+				size: "85%",
 			},
 			levels: [
 				{ label: "Light", intensity: 1, rest: 0, id: shortid.generate() },

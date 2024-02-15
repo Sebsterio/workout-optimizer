@@ -1,9 +1,9 @@
 import React from "react";
 
-import syncingIcon from "assets/icons/syncing.svg";
-import notSyncedIcon from "assets/icons/not_synced.svg";
-import syncDisabledIcon from "assets/icons/sync_disabled.svg";
-import doneIcon from "assets/icons/done.svg";
+import doneIcon from "assets/icons/ui/done.svg";
+import notSyncedIcon from "assets/icons/ui/not_synced.svg";
+import syncDisabledIcon from "assets/icons/ui/sync_disabled.svg";
+import syncingIcon from "assets/icons/ui/syncing.svg";
 
 import "./mini-spinner.scss";
 

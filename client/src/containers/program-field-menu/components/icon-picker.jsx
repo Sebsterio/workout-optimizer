@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "components";
-import { icons } from "assets/icons";
+import { fieldIcons } from "assets/icons";
 
 import "./icon-picker.scss";
 
@@ -11,7 +11,7 @@ export const IconPicker = ({ icon, setIcon }) => {
 
 	return (
 		<div className="icon-picker">
-			{icons.map((icon) => (
+			{fieldIcons.map((icon) => (
 				<div
 					key={icon.url}
 					className={getClass(icon.url)}
