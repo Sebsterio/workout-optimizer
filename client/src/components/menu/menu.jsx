@@ -1,5 +1,6 @@
-import React from "react";
 import "./menu.scss";
+
+import React from "react";
 
 /*************************************************
  * Grows vertically to contain children, limited height
@@ -8,9 +9,9 @@ import "./menu.scss";
  *   overflow Y-scrollable
  *************************************************/
 
-export const Menu = ({ header, footer, children }) => {
+export const Menu = ({ size = "xl", header, footer, children }) => {
 	return (
-		<div className="menu">
+		<div className={`menu menu--h-${size}`}>
 			{header && <div className="menu__header">{header}</div>}
 
 			<div className="menu__content">{children}</div>

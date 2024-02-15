@@ -12,3 +12,4 @@ export * from "./page";
 export * from "./block";
 export * from "./col";
 export * from "./stack";
+export * from './color-picker'

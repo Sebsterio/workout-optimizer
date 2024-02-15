@@ -1,21 +1,36 @@
 import React, { useState } from "react";
-import { Page, Stack, Button } from "components";
+import { Button, ColorPicker, Heading, Menu, Page, Stack } from "components";
+import { gradients, useThemeContext } from "theme";
 
 const OptionsPage = () => {
-	const [cacheExists, setCacheExists] = useState(!!localStorage.length);
+	const { bgName, bgId, setBgId } = useThemeContext();
 
-	const clearCache = () => {
+	const [hasStorage, setHasStorage] = useState(!!localStorage.length);
+
+	const clearStorage = () => {
 		localStorage.clear();
-		setCacheExists(!!localStorage.length);
+		setHasStorage(!!localStorage.length);
 	};
 
 	return (
 		<Page>
 			<Stack>
+				<Heading text="Options" />
+
+				<Menu size="m" header={"Theme: " + bgName}>
+					<ColorPicker
+						items={gradients}
+						getIsSelected={(i) => bgId === String(i)}
+						selectBg={(e) => setBgId(e.target.value)}
+					/>
+				</Menu>
+
+				<hr />
+
 				<Button
-					text={cacheExists ? "Clear cache" : "Cache cleared"}
-					handler={clearCache}
-					disabled={!cacheExists}
+					text={hasStorage ? "Clear cache" : "Cache cleared"}
+					handler={clearStorage}
+					disabled={!hasStorage} //
 				/>
 			</Stack>
 		</Page>
