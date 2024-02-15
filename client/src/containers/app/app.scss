@@ -1,3 +1,5 @@
+@import "src/style/imports";
+
 .app {
 	width: 100vw;
 	height: 100vh;
@@ -6,9 +8,25 @@
 	overflow: hidden;
 	display: flex;
 	flex-flow: column nowrap;
-}
 
-main {
-	flex: 1 1 0;
-	position: relative;
+	&__background {
+		$angle: 135deg; // temp-unused: vars unsupported by gradient-preview tool
+		$duration: 6s;
+
+		background-color: var(--background-color);
+		background-image: var(--background-image);
+		background-attachment: fixed;
+
+		&--animated {
+			background-size: 200% 200%;
+			// background-size: 1000% 1000%;
+			@include animation(slide, $duration);
+		}
+	}
+
+	main {
+		flex: 1 1 0;
+		position: relative;
+		background: inherit;
+	}
 }

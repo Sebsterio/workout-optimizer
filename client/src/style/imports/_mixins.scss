@@ -79,7 +79,9 @@
 
 // ------ animation ------
 
-@mixin animation($keyframes) {
-	animation: $keyframes 1s linear infinite;
-	-webkit-animation: $keyframes 1s linear infinite;
+@mixin animation($keyframes, $duration: 1s) {
+	-webkit-animation: $keyframes $duration linear infinite;
+	-moz-animation: $keyframes $duration linear infinite;
+	-o-animation: $keyframes $duration linear infinite;
+	animation: $keyframes $duration linear infinite;
 }
