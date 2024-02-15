@@ -1,21 +1,20 @@
 import React, { useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import Alert from "containers/alert";
 import Modal from "containers/modal";
 import AccountPage from "containers/account";
-
 import Header from "components/header";
 import Spinner from "components/spinner";
-
 import routes from "routes";
+import { useThemeContext } from "theme";
 
 import "./app.scss";
 
 const App = ({ isAuthenticated, isIncognito, isLoading, loadUser }) => {
-	useEffect(() => {
-		loadUser();
-	}, [loadUser]);
+	const { cssVars } = useThemeContext();
+
+	useEffect(loadUser, [loadUser]);
 
 	const userIsDefined = isAuthenticated || isIncognito;
 
@@ -25,7 +24,7 @@ const App = ({ isAuthenticated, isIncognito, isLoading, loadUser }) => {
 	});
 
 	return (
-		<div className="app">
+		<div className="app" style={cssVars}>
 			{userIsDefined && <Header routes={routes} />}
 			<Alert />
 			<main>
