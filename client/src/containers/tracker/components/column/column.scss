@@ -1,42 +1,49 @@
 @import "src/style/imports";
 
-$color-today: rgba(0, 0, 0, 0.1);
-$column-today-background: linear-gradient(
-	90deg,
-	$color-transparent 0%,
-	$color-today 20%,
-	$color-today 80%,
-	$color-transparent 100%
-);
+$bg-color-side: rgba(255, 255, 255, 0.5);
+$bg-color-side-head: $bg-color-side;
+$bg-color-content-head: $bg-color-side;
+$bg-color-content-head-today: rgba(255, 255, 255, 0.2);
+
+$gap: 4px; // $spacing-xxs;
 
 .tracker-column {
 	position: relative;
+	background: inherit;
 
 	&__head {
-		box-sizing: border-box;
+		position: sticky;
+		top: 0;
+		z-index: 1;
 		height: $head-height;
 		width: $cell-size;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		overflow: hidden;
-
-		position: sticky;
-		top: 0;
-		z-index: 1;
-		background-color: white;
+		padding-bottom: calc($gap / 2);
+		margin-bottom: calc(-1 * $gap / 2);
+		background: inherit;
 		color: $color-text-weak;
 		user-select: none;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: -1;
+			background: $bg-color-content-head;
+		}
+
+		&:not(.tracker-column--side > &):before {
+			height: calc(100% - $gap);
+		}
 
 		&-item {
 			padding: 0.1em;
 		}
-	}
-
-	&--today &__head {
-		background: $color-today;
-		background: $column-today-background;
-		color: $color-text-strong;
 	}
 
 	&__cell {
@@ -46,7 +53,6 @@ $column-today-background: linear-gradient(
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		// overflow: hidden;
 		position: relative;
 
 		&:hover {
@@ -54,22 +60,56 @@ $column-today-background: linear-gradient(
 		}
 	}
 
-	&--today &__cell {
-		background: $color-today;
-		background: $column-today-background;
+	// --- Today Col ---
+
+	// &--today {
+	// 	margin-inline: $spacing-xxs;
+	// 	background: $color-today;
+	// 	background: $column-today-background;
+	// }
+
+	&--today &__head {
+		color: $color-text-strong;
 	}
+
+	&--today &__head::before {
+		background: $bg-color-content-head-today !important;
+	}
+
+	// --- Aside Col ---
 
 	&--side {
 		z-index: 999;
-	}
-
-	&--side &__head,
-	&--side &__cell {
 		width: $side-width;
 		min-width: 50px;
-		background-color: white;
+		background: inherit;
 	}
+
+	&--side &__head {
+		width: 100%;
+		background: inherit;
+
+		&::before {
+			height: 101%;
+			clip-path: polygon(
+				0 0,
+				100% 0,
+				100% calc(100% - $gap),
+				calc(100% - $gap) calc(100% - $gap),
+				calc(100% - $gap) 100%,
+				0 100%
+			);
+			background: $bg-color-side-head;
+		}
+	}
+
+	&--side &__body {
+		padding-right: $gap;
+	}
+
 	&--side &__cell {
+		width: 100%;
+		background: $bg-color-side;
 		cursor: pointer;
 	}
 }

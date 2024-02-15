@@ -6,16 +6,20 @@
 	bottom: 0;
 	left: 0;
 	right: 0;
-	flex: 1 0 0;
 	display: flex;
 	flex-flow: row nowrap;
-	overflow: scroll;
+	align-items: stretch;
+	overflow-x: scroll;
+	overflow-y: auto;
+	background: inherit;
 
 	&__side {
 		position: sticky;
-		left: 0;
-		right: 100%;
 		z-index: 999;
+		left: 0;
+		right: 100%; ///
+		height: fit-content;
+		background: inherit;
 	}
 
 	&__fake-padding {
@@ -26,6 +30,7 @@
 		flex: 0 0 auto;
 		display: flex;
 		flex-flow: row nowrap;
+		background: inherit;
 	}
 }
 
