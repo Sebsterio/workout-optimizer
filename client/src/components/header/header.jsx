@@ -5,7 +5,7 @@ import "./header.scss";
 
 const Header = ({ routes }) => {
 	return (
-		<div className="header">
+		<header className="header">
 			<div className="header__wrap">
 				<div className="header__logo">flX</div>
 				<nav className="header__nav">
@@ -21,7 +21,7 @@ const Header = ({ routes }) => {
 					{/* desktop only */}
 				</nav>
 			</div>
-		</div>
+		</header>
 	);
 };
 

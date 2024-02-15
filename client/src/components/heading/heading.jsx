@@ -6,10 +6,10 @@ export const Heading = ({ children, text, small }) => {
 	if (small) classes += " heading--small";
 
 	return (
-		<h1 className={classes}>
+		<h2 className={classes}>
 			{text}
 			{children}
-		</h1>
+		</h2>
 	);
 };
 
