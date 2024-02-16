@@ -2,6 +2,8 @@
 	"name": "workout-optimizer",
 	"description": "Exercise Tracker App",
 	"version": "1.0.0",
+	"author": "Sebastian Rosloniec",
+	"license": "MIT",
 	"main": "server.js",
 	"scripts": {
 		"client": "npm start --prefix client",
@@ -39,8 +41,6 @@
 		"type": "git",
 		"url": "git+https://github.com/Sebsterio/workout-optimizer.git"
 	},
-	"author": "Sebastian Rosloniec",
-	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/Sebsterio/workout-optimizer/issues"
 	}

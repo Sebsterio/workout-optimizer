@@ -1,4 +1,4 @@
-@use "vars";
+@use "vars" as *;
 
 // ------ positioning ------
 
@@ -31,23 +31,23 @@
 
 @mixin minWidth($width) {
 	@if $width == "xs" {
-		@media (min-width: vars.$screen-xs) {
+		@media (min-width: $screen-xs) {
 			@content;
 		}
 	} @else if $width == "s" {
-		@media (min-width: vars.$screen-s) {
+		@media (min-width: $screen-s) {
 			@content;
 		}
 	} @else if $width == "m" {
-		@media (min-width: vars.$screen-m) {
+		@media (min-width: $screen-m) {
 			@content;
 		}
 	} @else if $width == "l" {
-		@media (min-width: vars.$screen-l) {
+		@media (min-width: $screen-l) {
 			@content;
 		}
 	} @else if $width == "xl" {
-		@media (min-width: vars.$screen-xl) {
+		@media (min-width: $screen-xl) {
 			@content;
 		}
 	}
@@ -55,23 +55,23 @@
 
 @mixin maxWidth($width) {
 	@if $width == "xs" {
-		@media (max-width: vars.$screen-xs -1px) {
+		@media (max-width: calc($screen-xs - 1px)) {
 			@content;
 		}
 	} @else if $width == "s" {
-		@media (max-width: vars.$screen-s -1px) {
+		@media (max-width: calc($screen-s -1px)) {
 			@content;
 		}
 	} @else if $width == "m" {
-		@media (max-width: vars.$screen-m -1px) {
+		@media (max-width: calc($screen-m -1px)) {
 			@content;
 		}
 	} @else if $width == "l" {
-		@media (max-width: vars.$screen-l -1px) {
+		@media (max-width: calc($screen-l -1px)) {
 			@content;
 		}
 	} @else if $width == "xl" {
-		@media (max-width: vars.$screen-xl -1px) {
+		@media (max-width: calc($screen-xl -1px)) {
 			@content;
 		}
 	}
@@ -80,8 +80,5 @@
 // ------ animation ------
 
 @mixin animation($keyframes, $duration: 1s) {
-	-webkit-animation: $keyframes $duration linear infinite;
-	-moz-animation: $keyframes $duration linear infinite;
-	-o-animation: $keyframes $duration linear infinite;
 	animation: $keyframes $duration linear infinite;
 }

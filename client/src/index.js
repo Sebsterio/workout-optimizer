@@ -10,7 +10,7 @@ import AppContainer from "containers/app";
 
 // import * as serviceWorker from "./serviceWorker";
 
-import "style/index.scss";
+import "style/global/index.scss";
 
 ReactDOM.render(
 	<React.StrictMode>
