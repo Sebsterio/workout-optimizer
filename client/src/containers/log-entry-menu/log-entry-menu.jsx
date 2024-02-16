@@ -48,12 +48,12 @@ const LogEntryMenu = ({
 	};
 
 	// Delete log entry in redux & db
-	const handleDelete = (e) => {
+	const handleDelete = (_e) => {
 		updateLogEntry({ field, dateStr, stats: "DELETE" });
 		closeModal();
 	};
 
-	const handleDuplicate = (e) => {
+	const handleDuplicate = (_e) => {
 		pickDate();
 	};
 
@@ -71,8 +71,7 @@ const LogEntryMenu = ({
 	const menuFooter = (
 		<Row spread>
 			<Button text="Delete" handler={handleDelete} disabled={!entryExists} />
-			{/* prettier-ignore */}
-			<Button	text="Duplicate" handler={handleDuplicate} disabled={!entryExists} />
+			<Button text="Duplicate" handler={handleDuplicate} disabled={!entryExists} />
 			<Button text="Cancel" handler={handleClose} />
 			<Button text="Save" handler={handleSubmit} />
 		</Row>

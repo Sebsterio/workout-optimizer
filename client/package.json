@@ -55,6 +55,7 @@
 			"build"
 		],
 		"rules": {
+			"no-sequences": "off",
 			"no-unused-vars": [
 				"warn",
 				{

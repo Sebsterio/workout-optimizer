@@ -2,13 +2,24 @@
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
 
-	"prettier.configPath": "./client/.prettierrc",
+	"prettier.configPath": "./client/.prettierrc.js",
 	"prettier.ignorePath": "./client/.prettierignore",
-	"prettier.requireConfig": true,
+	"prettier.requireConfig": false,
 	"prettier.useEditorConfig": false,
-	"prettier.enableDebugLogs": true,
+	//"prettier.enableDebugLogs": true,
 	
 	"javascript.format.enable": false,
 	"typescript.format.enable": false,
 	"json.format.enable": false,
+	
+	"eslint.format.enable": false,
+	"eslint.lintTask.enable": true,
+	"eslint.run": "onSave",
+	"eslint.workingDirectories": [
+		"./client"
+	],
+	"eslint.rules.customizations": [
+		{"rule": "no-sequences", "severity": "off"} // doesn't work in terminal
+	],
+	"eslint.debug": true,
 }
