@@ -92,7 +92,9 @@
 	}
 
 	&:hover &__text {
-		transition: transform $duration-short, opacity $duration-short;
+		transition:
+			transform $duration-short,
+			opacity $duration-short;
 		width: auto;
 		opacity: 1;
 		transform: translateX(0); // `none` causes a bug

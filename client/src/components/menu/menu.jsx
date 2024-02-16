@@ -1,6 +1,6 @@
-import "./menu.scss";
-
 import React from "react";
+
+import "./menu.scss";
 
 /*************************************************
  * Grows vertically to contain children, limited height

@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
 import "./tracker-table.scss";
 
 // NOTE: Using fakePadding html element instead of CSS padding prop
 // due to tableSide having {position: sticky};
 // TODO: use {transform: translate} on tableContent
 
-const TrackerTable = ({
-	sideColumn,
-	children,
-	tableRef,
-	setFirstDayRendered,
-	cellSize,
-}) => {
+const TrackerTable = ({ sideColumn, children, tableRef, setFirstDayRendered, cellSize }) => {
 	const TABLE_X_PADDING = 15 * cellSize;
 	const SCROLL_X_THRESHOLD = cellSize;
 	const SCROLL_X_THRESHOLD_NEAR_EDGE = 300;
@@ -33,9 +28,7 @@ const TrackerTable = ({
 	// jump-scroll by 1 col width to appear static in relation cols
 	const fakeScroll = (sign, space) => {
 		const stepsToShift = sign * Math.abs(Math.ceil(space / cellSize));
-		setFirstDayRendered(
-			(firstDayRendered) => firstDayRendered + stepsToShift * 1
-		);
+		setFirstDayRendered((firstDayRendered) => firstDayRendered + stepsToShift * 1);
 		tableRef.current.scrollLeft -= stepsToShift * cellSize;
 	};
 
@@ -78,17 +71,11 @@ const TrackerTable = ({
 		<div className="tracker-table" ref={tableRef} onScroll={handleScroll}>
 			<div className="tracker-table__side">{sideColumn}</div>
 
-			<div
-				className="tracker-table__fake-padding"
-				style={{ width: paddingLeft + "px" }}
-			></div>
+			<div className="tracker-table__fake-padding" style={{ width: paddingLeft + "px" }}></div>
 
 			<div className="tracker-table__content">{children}</div>
 
-			<div
-				className="tracker-table__fake-padding"
-				style={{ width: paddingRight + "px" }}
-			></div>
+			<div className="tracker-table__fake-padding" style={{ width: paddingRight + "px" }}></div>
 		</div>
 	);
 };

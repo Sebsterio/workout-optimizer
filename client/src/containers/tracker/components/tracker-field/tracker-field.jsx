@@ -1,5 +1,7 @@
 import React from "react";
+
 import Icon from "components/icon";
+
 import "./tracker-field.scss";
 
 export const TrackerField = ({ program, field, openModal }) => {
@@ -11,9 +13,7 @@ export const TrackerField = ({ program, field, openModal }) => {
 	return (
 		<div
 			className="tracker-field"
-			onClick={() =>
-				openModal({ mode: "program-field", data: { program, field } })
-			}
+			onClick={() => openModal({ mode: "program-field", data: { program, field } })}
 		>
 			{icon && (
 				<div className="tracker-field__icon">

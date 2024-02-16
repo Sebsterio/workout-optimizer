@@ -1,5 +1,6 @@
 import React from "react";
-import { Row, Input, Button, Table } from "components";
+
+import { Button, Input, Row, Table } from "components";
 
 // ---------------------- Component ------------------------
 
@@ -18,8 +19,7 @@ export const DetailsSection = ({ field, isFuture, details, setDetails }) => {
 	};
 
 	const updateEntry = ({ value, checked, i, label, type }) => {
-		const newValue =
-			type === "checkbox" ? checked : type === "number" ? Number(value) : value;
+		const newValue = type === "checkbox" ? checked : type === "number" ? Number(value) : value;
 
 		const newDetails = [...details];
 		newDetails[i][label] = newValue;
@@ -44,9 +44,7 @@ export const DetailsSection = ({ field, isFuture, details, setDetails }) => {
 				checked={type === "checkbox" ? entry[label] : null}
 				value={entry[label]}
 				disabled={label === "done" && isFuture}
-				handler={(value, { checked }) =>
-					updateEntry({ value, checked, i, label, type })
-				}
+				handler={(value, { checked }) => updateEntry({ value, checked, i, label, type })}
 			/>
 		));
 
@@ -67,11 +65,7 @@ export const DetailsSection = ({ field, isFuture, details, setDetails }) => {
 
 			<Row center>
 				<Button text="New plan" handler={(e) => addEntry(e, false)} />
-				<Button
-					text="New log"
-					handler={(e) => addEntry(e, true)}
-					disabled={isFuture}
-				/>
+				<Button text="New log" handler={(e) => addEntry(e, true)} disabled={isFuture} />
 			</Row>
 		</>
 	);

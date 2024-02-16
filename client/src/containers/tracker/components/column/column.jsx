@@ -1,6 +1,6 @@
 import React from "react";
-import "./column.scss";
 
+import "./column.scss";
 
 const Column = ({ head, body, isToday, isSide }) => {
 	let classes = "tracker-column";

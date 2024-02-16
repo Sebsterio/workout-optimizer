@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
-import { Stack, Snippet, Button, Spinner } from "components";
+import { Button, Snippet, Spinner, Stack } from "components";
+
 import { ProgramSnippet } from "../index";
 
 const ProgramsList = ({
@@ -15,8 +16,7 @@ const ProgramsList = ({
 		if (!programs.length) getPrograms();
 	}, [programs, getPrograms]);
 
-	const viewProgram = (program) =>
-		openModal({ mode: "program", data: program });
+	const viewProgram = (program) => openModal({ mode: "program", data: program });
 
 	return (
 		<Stack compact>

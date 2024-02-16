@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 
-import { Menu, Stack, Row, Heading, Button } from "components";
+import { Button, Heading, Menu, Row, Stack } from "components";
+
+import { DescriptionSection, IconPicker, LevelsSection, ParamsSection } from "./components";
 import { isUnique } from "./program-field-menu.utils";
-import {
-	DescriptionSection,
-	ParamsSection,
-	LevelsSection,
-	IconPicker,
-} from "./components";
 
 const tabsList = [
 	{

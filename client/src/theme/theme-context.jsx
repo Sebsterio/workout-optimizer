@@ -1,9 +1,15 @@
 import { createContext, useContext, useState } from "react";
-import { getAnalogousColors, getAntiColor, getComplementaryColor, getRoundedColor } from "./helpers";
-import { hexToRgb, rgbToHex } from "utils/color";
 
+import { hexToRgb, rgbToHex } from "utils/color";
 import { createStorage } from "utils/storage";
+
 import { gradients } from "./gradients";
+import {
+	getAnalogousColors,
+	getAntiColor,
+	getComplementaryColor,
+	getRoundedColor,
+} from "./helpers";
 
 const themeStorage = createStorage(localStorage, "theme-id", "0");
 
@@ -51,6 +57,7 @@ export const ThemeProvider = (props) => {
 
 export const useThemeContext = () => {
 	const context = useContext(ThemeContext);
-	if (context === initialContext) throw new Error("useThemeContext must be used within a ThemeContextProvider");
+	if (context === initialContext)
+		throw new Error("useThemeContext must be used within a ThemeContextProvider");
 	return context;
 };

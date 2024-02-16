@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import {
-	Menu,
-	Stack,
-	Row,
-	Button,
-	TextInput,
-	Heading,
-	Text,
-	Separator,
-} from "components";
+
+import { Button, Heading, Menu, Row, Separator, Stack, Text, TextInput } from "components";
+
 import { DetailsSection, LevelsSection } from "./components";
 
 const LogEntryMenu = ({
@@ -104,9 +97,7 @@ const LogEntryMenu = ({
 
 				<Separator text="Intensity and rest" />
 
-				<LevelsSection
-					{...{ field, intensity, rest, setIntensity, setRest, handleSubmit }}
-				/>
+				<LevelsSection {...{ field, intensity, rest, setIntensity, setRest, handleSubmit }} />
 			</Stack>
 		</Menu>
 	);

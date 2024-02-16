@@ -1,5 +1,7 @@
 import React from "react";
+
 import { getClassNamesFromProps } from "utils/component";
+
 import "./text.scss";
 
 export const Text = (props) => {

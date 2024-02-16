@@ -1,26 +1,21 @@
 import React, { useState } from "react";
+
 import {
-	Page,
-	Menu,
-	Stack,
-	Heading,
-	Row,
 	Button,
-	TextInput,
-	TextArea,
+	Heading,
+	Menu,
+	Page,
+	Row,
 	Separator,
+	Stack,
+	TextArea,
+	TextInput,
 } from "components";
+
 import { ProgramFieldSnippet } from "./components";
 
 const ProgramMenu = ({ program, modify, publish, openModal, history }) => {
-	const {
-		name,
-		description,
-		fields,
-		isPublishing,
-		isPublished,
-		isPublic,
-	} = program;
+	const { name, description, fields, isPublishing, isPublished, isPublic } = program;
 
 	const [newName, setNewName] = useState(name);
 	const [newDesc, setNewDesc] = useState(description);
@@ -50,9 +45,7 @@ const ProgramMenu = ({ program, modify, publish, openModal, history }) => {
 	const menuFooter = (
 		<Row>
 			<Button
-				text={
-					isPublishing ? "Publishing" : isPublished ? "Published" : "Publish"
-				}
+				text={isPublishing ? "Publishing" : isPublished ? "Published" : "Publish"}
 				handler={publish}
 				disabled={isPublishing || isPublished || isPublic}
 			/>

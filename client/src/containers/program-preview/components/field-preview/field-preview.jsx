@@ -1,5 +1,6 @@
 import React from "react";
-import { Snippet, Heading, Row, Stack, Table } from "components";
+
+import { Heading, Row, Snippet, Stack, Table } from "components";
 
 export const FieldPreview = ({ field }) => {
 	const { levels, details, name } = field;

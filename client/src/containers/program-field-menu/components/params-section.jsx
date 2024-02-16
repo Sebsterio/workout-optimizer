@@ -1,13 +1,15 @@
 import React from "react";
 import shortid from "shortid";
-import { Stack, Row, Table, Button, Input } from "components";
+
+import { Button, Input, Row, Stack, Table } from "components";
+
 import {
-	getUniqueLabel,
-	getValueFromInput,
-	isInputValid,
-	getUpdatedArray,
 	getInjectedArray,
 	getSplicedArray,
+	getUniqueLabel,
+	getUpdatedArray,
+	getValueFromInput,
+	isInputValid,
 } from "../program-field-menu.utils";
 
 export const ParamsSection = ({ details, setDetails }) => {

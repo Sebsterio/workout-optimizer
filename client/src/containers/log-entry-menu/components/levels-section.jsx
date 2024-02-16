@@ -1,15 +1,9 @@
-import React, { useState } from "react";
-import { Row, Button } from "components";
 import { CustomLevelInput, LevelButton } from ".";
+import React, { useState } from "react";
 
-export const LevelsSection = ({
-	field,
-	intensity,
-	rest,
-	setIntensity,
-	setRest,
-	handleSubmit,
-}) => {
+import { Button, Row } from "components";
+
+export const LevelsSection = ({ field, intensity, rest, setIntensity, setRest, handleSubmit }) => {
 	const [customLevels, setCustomLevels] = useState(false);
 
 	const toggleCustomLevels = () => setCustomLevels(!customLevels);
@@ -18,10 +12,7 @@ export const LevelsSection = ({
 
 	return (
 		<Row center>
-			<Button
-				text={customLevels ? "Standard" : "Custom"}
-				handler={toggleCustomLevels}
-			/>
+			<Button text={customLevels ? "Standard" : "Custom"} handler={toggleCustomLevels} />
 
 			{customLevels && (
 				<>
@@ -30,11 +21,7 @@ export const LevelsSection = ({
 						value={intensity}
 						handler={(val) => setIntensity(Number(val))}
 					/>
-					<CustomLevelInput
-						name="rest"
-						value={rest}
-						handler={(val) => setRest(Number(val))}
-					/>
+					<CustomLevelInput name="rest" value={rest} handler={(val) => setRest(Number(val))} />
 				</>
 			)}
 

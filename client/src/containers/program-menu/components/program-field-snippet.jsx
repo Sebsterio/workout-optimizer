@@ -1,16 +1,11 @@
 import React from "react";
-import { Button, Icon, Snippet, Col, Row } from "components";
 
-export const ProgramFieldSnippet = ({
-	program,
-	field,
-	openModal,
-	modifyProgram,
-}) => {
+import { Button, Col, Icon, Row, Snippet } from "components";
+
+export const ProgramFieldSnippet = ({ program, field, openModal, modifyProgram }) => {
 	const { name, icon } = field;
 
-	const handleEdit = () =>
-		openModal({ mode: "program-field", data: { program, field } });
+	const handleEdit = () => openModal({ mode: "program-field", data: { program, field } });
 
 	const handleDuplicate = () => {
 		modifyProgram({ program, fieldToDuplicate: field });

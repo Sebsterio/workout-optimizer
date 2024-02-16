@@ -1,5 +1,6 @@
 import React from "react";
 import shortid from "shortid";
+
 import "./table.scss";
 
 export const TableCell = ({ children, head }) => {

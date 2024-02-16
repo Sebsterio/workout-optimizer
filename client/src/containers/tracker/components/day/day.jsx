@@ -1,6 +1,8 @@
 import React from "react";
-import { Column, Entry } from "../index";
+
 import getDateInfo from "utils/date";
+
+import { Column, Entry } from "../index";
 
 const Day = ({ fields, day }) => {
 	const { weekDay, monthDay, dateStr } = getDateInfo(new Date(), day) || null;

@@ -1,5 +1,6 @@
 import React from "react";
-import { Column, TrackerField, MiniSpinner } from "../index";
+
+import { Column, MiniSpinner, TrackerField } from "../index";
 
 const Side = ({ fields }) => {
 	return (

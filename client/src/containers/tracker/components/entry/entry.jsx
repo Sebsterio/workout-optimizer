@@ -1,10 +1,7 @@
 import React from "react";
-import {
-	getCompletion,
-	getIntensity,
-	getRestLevelStyles,
-	getDetailsString,
-} from "./entry.utils";
+
+import { getCompletion, getDetailsString, getIntensity, getRestLevelStyles } from "./entry.utils";
+
 import "./entry.scss";
 
 const Entry = ({
@@ -40,14 +37,10 @@ const Entry = ({
 	}
 
 	// Intensity element (overlay, stretched)
-	const intensityClass = `entry__exercise entry__exercise--intensity-${getIntensity(
-		intensity
-	)}`;
+	const intensityClass = `entry__exercise entry__exercise--intensity-${getIntensity(intensity)}`;
 
 	// Details elements (strings, centered)
-	const detailsClass = `entry__details entry__details--${getCompletion(
-		details
-	)}`;
+	const detailsClass = `entry__details entry__details--${getCompletion(details)}`;
 
 	return (
 		<div className={entryClass} style={entryStyles} onClick={handleClick}>

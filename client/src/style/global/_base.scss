@@ -1,14 +1,17 @@
-html, body, #root {
+html,
+body,
+#root {
 	width: 100vw;
 	height: 100vh;
 }
 
 #root {
-  isolation: isolate;
+	isolation: isolate;
 }
 
 body {
-	font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+	font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji";
 	font-size: 14px;
 
 	@media (min-width: 350px) {
@@ -19,7 +22,10 @@ body {
 	}
 }
 
-code, kbd, samp, pre {
+code,
+kbd,
+samp,
+pre {
 	font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
 }
 

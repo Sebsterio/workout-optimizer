@@ -1,9 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router";
-import {
-	getClassNamesFromProps,
-	getAttributesFromProps,
-} from "utils/component";
+
+import { getAttributesFromProps, getClassNamesFromProps } from "utils/component";
+
 import "./button.scss";
 
 export const Button = (props) => {

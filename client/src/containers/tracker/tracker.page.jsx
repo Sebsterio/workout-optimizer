@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
-import { TrackerTable, Side, Day } from "./components";
+import React, { useEffect, useRef, useState } from "react";
+
+import { Day, Side, TrackerTable } from "./components";
 
 const TrackerPage = ({ cellSize }) => {
 	const [cols, setCols] = useState(0); // N of cols loaded
@@ -42,11 +43,9 @@ const TrackerPage = ({ cellSize }) => {
 			cellSize={cellSize}
 			sideColumn={<Side />}
 		>
-			{Array.from({ length: cols }, (_, i) => firstDayRendered + i).map(
-				(dateOffset) => (
-					<Day day={dateOffset} key={dateOffset} />
-				)
-			)}
+			{Array.from({ length: cols }, (_, i) => firstDayRendered + i).map((dateOffset) => (
+				<Day day={dateOffset} key={dateOffset} />
+			))}
 		</TrackerTable>
 	);
 };

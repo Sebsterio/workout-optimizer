@@ -1,9 +1,8 @@
 import React from "react";
 import shortid from "shortid";
-import {
-	getAttributesFromProps,
-	getClassNamesFromProps,
-} from "utils/component";
+
+import { getAttributesFromProps, getClassNamesFromProps } from "utils/component";
+
 import "./input.scss";
 
 /*****************************************************

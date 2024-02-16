@@ -1,5 +1,7 @@
 import React from "react";
+
 import { getClassNamesFromProps } from "utils/component";
+
 import "./snippet.scss";
 
 /*************************************************
@@ -10,10 +12,7 @@ import "./snippet.scss";
  *************************************************/
 
 export const Snippet = (props) => {
-	const classes = getClassNamesFromProps("snippet", props, [
-		"highlight",
-		"greyedOut",
-	]);
+	const classes = getClassNamesFromProps("snippet", props, ["highlight", "greyedOut"]);
 
 	const children = React.Children.toArray(props.children);
 	const mainChild = children.splice(0, 1);

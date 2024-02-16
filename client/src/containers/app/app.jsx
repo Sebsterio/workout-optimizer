@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Alert from "containers/alert";
-import Modal from "containers/modal";
-import AccountPage from "containers/account";
 import Header from "components/header";
 import Spinner from "components/spinner";
+import AccountPage from "containers/account";
+import Alert from "containers/alert";
+import Modal from "containers/modal";
 import routes from "routes";
 import { useThemeContext } from "theme";
 
@@ -28,13 +28,7 @@ const App = ({ isAuthenticated, isIncognito, isLoading, loadUser }) => {
 			{userIsDefined && <Header routes={routes} />}
 			<Alert />
 			<main>
-				{isLoading ? (
-					<Spinner />
-				) : userIsDefined ? (
-					<Switch>{pages}</Switch>
-				) : (
-					<AccountPage />
-				)}
+				{isLoading ? <Spinner /> : userIsDefined ? <Switch>{pages}</Switch> : <AccountPage />}
 				<Modal />
 			</main>
 		</div>

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Page, Stack, Heading, Button } from "components";
+
+import { Button, Heading, Page, Stack } from "components";
+
 import AuthForm from "./components/auth-form";
 
 const AccountPage = ({ user, logout, skipAuth, clearError }) => {

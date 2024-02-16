@@ -1,5 +1,7 @@
 import React from "react";
+
 import { getClassNamesFromProps } from "utils/component";
+
 import "./row.scss";
 
 export const Row = (props) => {

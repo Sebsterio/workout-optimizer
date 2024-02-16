@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Page, Heading } from "components";
+import { Heading, Page } from "components";
 
 const StatisticsPage = () => {
 	return (

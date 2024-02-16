@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Snippet, Col, Text } from "components";
-
+import { Col, Snippet, Text } from "components";
 import { Button } from "components";
 
 export const ProgramSnippet = ({

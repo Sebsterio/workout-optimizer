@@ -1,8 +1,9 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
-import { Page, Menu, Stack, Button, Heading, Row } from "components";
-import { ProgramsListSaved, ProgramsListFetched } from "./components";
+import { Button, Heading, Menu, Page, Row, Stack } from "components";
+
+import { ProgramsListFetched, ProgramsListSaved } from "./components";
 
 const ProgramsPage = ({ match, history, setEditedProgram, clearError }) => {
 	const { list } = match.params;
@@ -29,16 +30,8 @@ const ProgramsPage = ({ match, history, setEditedProgram, clearError }) => {
 		<Stack>
 			<Heading text="Programs Page" />
 			<Row>
-				<Button
-					text="Private"
-					handler={openPrivateList}
-					disabled={list === "private"}
-				/>
-				<Button
-					text="Public"
-					handler={openPublicList}
-					disabled={list === "public"}
-				/>
+				<Button text="Private" handler={openPrivateList} disabled={list === "private"} />
+				<Button text="Public" handler={openPublicList} disabled={list === "public"} />
 			</Row>
 		</Stack>
 	);

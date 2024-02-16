@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-import { Stack, Button, Input, Heading, Text } from "components";
 
-const AuthForm = ({
-	mode,
-	goBack,
-	login,
-	register,
-	update,
-	connect,
-	remove,
-}) => {
+import { Button, Heading, Input, Stack, Text } from "components";
+
+const AuthForm = ({ mode, goBack, login, register, update, connect, remove }) => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -18,33 +11,15 @@ const AuthForm = ({
 	// ---------------------- Render ----------------------
 
 	const nameInput = (label) => (
-		<Input
-			type="text"
-			name="name"
-			label={label}
-			value={name}
-			handler={setName}
-		/>
+		<Input type="text" name="name" label={label} value={name} handler={setName} />
 	);
 
 	const emailInput = (label) => (
-		<Input
-			type="email"
-			name="email"
-			label={label}
-			value={email}
-			handler={setEmail}
-		/>
+		<Input type="email" name="email" label={label} value={email} handler={setEmail} />
 	);
 
 	const passwordInput = (label) => (
-		<Input
-			type="password"
-			name="password"
-			label={label}
-			value={password}
-			handler={setPassword}
-		/>
+		<Input type="password" name="password" label={label} value={password} handler={setPassword} />
 	);
 
 	const newPasswordInput = (
@@ -58,10 +33,7 @@ const AuthForm = ({
 	);
 
 	const submitButton = (label, handler) => (
-		<Button
-			text={label}
-			handler={() => handler({ name, email, password, newPassword })}
-		/>
+		<Button text={label} handler={() => handler({ name, email, password, newPassword })} />
 	);
 
 	const formFields = {
@@ -95,8 +67,8 @@ const AuthForm = ({
 				{/* My PTs: (component consiting of blocks - 1 for each connected PT) */}
 				<Heading small text="Feature currently unavailable" />
 				<Text>
-					By connecting with a PT, you authrize him/her to view and modify your
-					program and exercise log.
+					By connecting with a PT, you authrize him/her to view and modify your program and exercise
+					log.
 				</Text>
 				{emailInput("PT email")}
 				{passwordInput("Your password")}
@@ -106,10 +78,7 @@ const AuthForm = ({
 		remove: (
 			<>
 				<Heading small text="Caution!" />
-				<Text>
-					You're about to permanently remove all your data. This action cannot
-					be undone.
-				</Text>
+				<Text>You're about to permanently remove all your data. This action cannot be undone.</Text>
 				{passwordInput("Password")}
 				{submitButton("CLOSE ACCOUNT", remove)}
 			</>
