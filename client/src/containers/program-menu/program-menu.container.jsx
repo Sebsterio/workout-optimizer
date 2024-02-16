@@ -1,13 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { getEditedProgram } from "redux/programs/programs.selectors";
-
-import {
-	modifyProgram,
-	publishProgram,
-} from "redux/programs/programs.operations";
-import { openModal } from "redux/modal/modal.actions";
+import { openModal } from "state/modal/modal.actions";
+import { modifyProgram, publishProgram } from "state/programs/programs.operations";
+import { getEditedProgram } from "state/programs/programs.selectors";
 
 import ProgramMenu from "./program-menu";
 
@@ -23,7 +19,4 @@ const mapDispatchToProps = (dispatch, props) => ({
 
 const ProgramMenuContainer = (props) => <ProgramMenu {...props} />;
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ProgramMenuContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProgramMenuContainer);

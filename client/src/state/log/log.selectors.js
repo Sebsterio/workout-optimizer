@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+
 import getDateInfo from "../../utils/date";
 
 // ------------------ Simple selectors ----------------------
@@ -42,8 +43,7 @@ const getRestLevel = (state, props) => {
 		tempProps.dateStr = getDateInfo(dateStr, -i).dateStr;
 		const stats = selectStats(state, tempProps);
 		const restToday = stats ? stats.rest - i + 1 : 0;
-		if (restToday > restLevel.today)
-			restLevel = { today: restToday, initial: stats.rest };
+		if (restToday > restLevel.today) restLevel = { today: restToday, initial: stats.rest };
 	}
 	if (restLevel.today === 0) return null;
 	return restLevel;
@@ -51,11 +51,8 @@ const getRestLevel = (state, props) => {
 
 // "Maker" functions allow each component to cache the selector individually
 
-export const makeGetEntry = () =>
-	createSelector([selectEntry], (entry) => entry);
+export const makeGetEntry = () => createSelector([selectEntry], (entry) => entry);
 
-export const makeGetStats = () =>
-	createSelector([selectStats], (stats) => stats);
+export const makeGetStats = () => createSelector([selectStats], (stats) => stats);
 
-export const makeGetRestLevel = () =>
-	createSelector([getRestLevel], (restLevel) => restLevel);
+export const makeGetRestLevel = () => createSelector([getRestLevel], (restLevel) => restLevel);

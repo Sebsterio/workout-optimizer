@@ -7,35 +7,35 @@ import quadsIcon from "assets/icons/field/quads.png";
 
 export const fieldIcons = [
 	{
-		name: 'arms',
+		name: "arms",
 		url: armsIcon,
 		size: "75%",
 	},
 
 	{
-		name: 'torso',
+		name: "torso",
 		url: chestIcon,
 	},
 
 	{
-		name: 'back',
+		name: "back",
 		url: backIcon,
 		size: "85%",
 	},
 
 	{
-		name: 'abs',
+		name: "abs",
 		url: absIcon,
 		size: "80%",
 	},
 
 	{
-		name: 'legs',
+		name: "legs",
 		url: quadsIcon,
 	},
 
 	{
-		name: 'heart',
+		name: "heart",
 		url: cardioIcon,
 	},
 ];

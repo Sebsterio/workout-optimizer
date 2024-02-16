@@ -27,8 +27,7 @@ export const getDetailsString = (entry, field) => {
 			.map((param) => entry[param.label])
 			// Abbreviate etc.
 			.map((value) => {
-				if (typeof value === "string" && value.length > 5)
-					return value.substr(0, 4) + "...";
+				if (typeof value === "string" && value.length > 5) return value.substr(0, 4) + "...";
 				if (value === true) return "Y";
 				if (value === false) return "N";
 				return value;

@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { setEditedProgram } from "redux/programs/programs.actions";
-import { clearError } from "redux/error/error.actions";
+import { clearError } from "state/error/error.actions";
+import { setEditedProgram } from "state/programs/programs.actions";
 
 import ProgramsPage from "./programs.page";
 

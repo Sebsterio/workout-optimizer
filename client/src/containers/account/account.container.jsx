@@ -1,11 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { getUser } from "redux/user/user.selectors";
-
-import { skipAuth } from "redux/user/user.actions";
-import { logout } from "redux/user/user.operations";
-import { clearError } from "redux/error/error.actions";
+import { clearError } from "state/error/error.actions";
+import { skipAuth } from "state/user/user.actions";
+import { logout } from "state/user/user.operations";
+import { getUser } from "state/user/user.selectors";
 
 import AccountPage from "./account.page";
 
@@ -21,7 +20,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 const AccountPageContainer = (props) => <AccountPage {...props} />;
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(AccountPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountPageContainer);

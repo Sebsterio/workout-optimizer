@@ -1,13 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import {
-	getFetchedPrograms,
-	getAreProgramsDownloading,
-} from "redux/programs/programs.selectors";
-
-import { downloadPublicPrograms } from "redux/programs/programs.operations";
-import { openModal } from "redux/modal/modal.actions";
+import { openModal } from "state/modal/modal.actions";
+import { downloadPublicPrograms } from "state/programs/programs.operations";
+import { getAreProgramsDownloading, getFetchedPrograms } from "state/programs/programs.selectors";
 
 import ProgramsListFetched from "./programs-list-fetched";
 
@@ -21,11 +17,6 @@ const mapDispatchToProps = (dispatch) => ({
 	openModal: (data) => dispatch(openModal(data)),
 });
 
-const ProgramsListFetchedContainer = (props) => (
-	<ProgramsListFetched {...props} />
-);
+const ProgramsListFetchedContainer = (props) => <ProgramsListFetched {...props} />;
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ProgramsListFetchedContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProgramsListFetchedContainer);

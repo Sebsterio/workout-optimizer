@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { getSavedPrograms } from "redux/programs/programs.selectors";
+import { getSavedPrograms } from "state/programs/programs.selectors";
 
 import ProgramsListSaved from "./programs-list-saved";
 

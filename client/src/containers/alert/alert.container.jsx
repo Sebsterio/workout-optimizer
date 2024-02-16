@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { getErrorMessage } from "redux/error/error.selectors";
-
-import { clearError } from "redux/error/error.actions";
+import { clearError } from "state/error/error.actions";
+import { getErrorMessage } from "state/error/error.selectors";
 
 import Alert from "./alert";
 

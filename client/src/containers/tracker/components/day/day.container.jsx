@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getCurrentProgramFields } from "redux/programs/programs.selectors";
+
+import { getCurrentProgramFields } from "state/programs/programs.selectors";
+
 import Day from "./day";
 
 const mapStateToProps = (state) => ({

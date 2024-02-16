@@ -5,11 +5,11 @@ import Programs from "containers/programs";
 import Statistics from "containers/statistics";
 import Tracker from "containers/tracker";
 
-import trackerIcon from "assets/icons/nav/tracker.svg";
 import accountIcon from "assets/icons/nav/account.svg";
 import optionsIcon from "assets/icons/nav/options.svg";
 import programsIcon from "assets/icons/nav/programs.svg";
 import statisticsIcon from "assets/icons/nav/statistics.svg";
+import trackerIcon from "assets/icons/nav/tracker.svg";
 
 export const routes = [
 	// In nav

@@ -1,13 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import {
-	getIsAuthenticated,
-	getIsIncognito,
-	getIsLoading,
-} from "redux/user/user.selectors";
-
-import { loadUser } from "redux/user/user.operations";
+import { loadUser } from "state/user/user.operations";
+import { getIsAuthenticated, getIsIncognito, getIsLoading } from "state/user/user.selectors";
 
 import App from "./app";
 

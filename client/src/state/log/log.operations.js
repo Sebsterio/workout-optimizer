@@ -1,14 +1,10 @@
 import axios from "axios";
 
-import * as $ from "./log.actions";
 import { getError } from "../error/error.actions";
-
-import {
-	convertLocalEntries,
-	convertRemoteLog,
-	convertLocalEntry,
-} from "./log.utils";
 import { getTokenConfig, isIncognito } from "../utils";
+
+import * as $ from "./log.actions";
+import { convertLocalEntries, convertLocalEntry, convertRemoteLog } from "./log.utils";
 
 // -------------------- createRemoteLog ------------------------
 

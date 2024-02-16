@@ -1,5 +1,4 @@
-export const isUnique = (val, arr, propName) =>
-	arr.every((item) => item[propName] !== val);
+export const isUnique = (val, arr, propName) => arr.every((item) => item[propName] !== val);
 
 export const getUniqueLabel = (arr) => {
 	let newLabel = "new";

@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { makeGetStats, makeGetRestLevel } from "redux/log/log.selectors";
-import { getIsPickingDate } from "redux/modal/modal.selectors";
-import { openModal, datePicked } from "redux/modal/modal.actions";
+import { makeGetRestLevel, makeGetStats } from "state/log/log.selectors";
+import { datePicked, openModal } from "state/modal/modal.actions";
+import { getIsPickingDate } from "state/modal/modal.selectors";
 
 import Entry from "./entry";
 

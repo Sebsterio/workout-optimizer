@@ -2,13 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { getIsSaved, getIsActivated } from "redux/programs/programs.selectors";
-
-import {
-	saveFetchedProgram,
-	activateProgram,
-} from "redux/programs/programs.operations";
-import { closeModal } from "redux/modal/modal.actions";
+import { closeModal } from "state/modal/modal.actions";
+import { activateProgram, saveFetchedProgram } from "state/programs/programs.operations";
+import { getIsActivated, getIsSaved } from "state/programs/programs.selectors";
 
 import ProgramPreview from "./program-preview";
 
@@ -25,7 +21,4 @@ const mapDispatchToProps = (dispatch, props) => ({
 
 const ProgramPreviewContainer = (props) => <ProgramPreview {...props} />;
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(withRouter(ProgramPreviewContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProgramPreviewContainer));

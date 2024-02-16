@@ -1,8 +1,7 @@
 export const replaceArrayItem = (arr, oldItem, newItem) =>
 	arr.map((item) => (item === oldItem ? newItem : item));
 
-export const removeArrayItem = (array, item) =>
-	array.filter((curItem) => curItem !== item);
+export const removeArrayItem = (array, item) => array.filter((curItem) => curItem !== item);
 
 // unpure
 export const extractArrayItem = (array, item) => {

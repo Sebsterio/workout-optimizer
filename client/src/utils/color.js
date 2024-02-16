@@ -4,14 +4,19 @@ const shortHexRegx = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const hexSplitRegx = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 
 function getRgbArray(...args) {
-	const rgb = args.length === 3 ? args : Array.isArray(args[0]) ? args[0] : [args[0].r, args[0].g, args[0].b];
-	return rgb.every((c) => c >= 0 && c <= 255) ? rgb : (console.error("Invalid rgb:", args), [0, 0, 0]);
+	const rgb =
+		args.length === 3 ? args : Array.isArray(args[0]) ? args[0] : [args[0].r, args[0].g, args[0].b];
+	return rgb.every((c) => c >= 0 && c <= 255)
+		? rgb
+		: (console.error("Invalid rgb:", args), [0, 0, 0]);
 }
 
 // --- Conversion ---
 
 export function hexToRgb(hex) {
-	const hex6 = hex.substring(0, 7).replace(shortHexRegx, (_, ...rgb) => rgb.map((c) => c + c).join(""));
+	const hex6 = hex
+		.substring(0, 7)
+		.replace(shortHexRegx, (_, ...rgb) => rgb.map((c) => c + c).join(""));
 	const hexArr = hexSplitRegx.exec(hex6) ?? (console.error("Invalid hex:", hex), []);
 	const [_, r, g, b] = hexArr.map((val, i) => (i ? parseInt(val, 16) : 0)); // eslint-disable-line no-unused-vars
 	return { r, g, b };
@@ -61,7 +66,10 @@ export function getYiqFromRgb_1(rgb) {
 	return Math.round((parseInt(r) * 299 + parseInt(g) * 587 + parseInt(b) * 114) / 1000);
 }
 // gamma: range 2.2--2.223 // exponent: large areas 0.33, tiny points 0.5 // [wR,wG,wB]: color luminance weights
-export function getLuminanceFromRgb(rgb, { wR = 0.2126, wG = 0.7152, wB = 0.0722, gamma = 2.2, exponent = 0.43 } = {}) {
+export function getLuminanceFromRgb(
+	rgb,
+	{ wR = 0.2126, wG = 0.7152, wB = 0.0722, gamma = 2.2, exponent = 0.43 } = {}
+) {
 	const [r, g, b] = getRgbArray(rgb).map((c) => (c / 255.0) ** gamma);
 	const Ylum = r * wR + g * wG + b * wB;
 	return Math.pow(Ylum, exponent) * 100;

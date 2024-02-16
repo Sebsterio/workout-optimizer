@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { getData, getMode, getIsOpen } from "redux/modal/modal.selectors";
-import { closeModal } from "redux/modal/modal.actions";
+import { closeModal } from "state/modal/modal.actions";
+import { getData, getIsOpen, getMode } from "state/modal/modal.selectors";
 
 import Modal from "./modal";
 

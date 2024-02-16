@@ -1,10 +1,10 @@
 import { programsActionTypes as $ } from "./programs.types";
 import {
-	getStateWithModifiedSavedProgram,
-	getStateWithRemovedSavedProgram,
+	getFieldsWithNewMaxCustomRest,
 	getGroupWithRemovedProgram,
 	getModifiedFields,
-	getFieldsWithNewMaxCustomRest,
+	getStateWithModifiedSavedProgram,
+	getStateWithRemovedSavedProgram,
 } from "./programs.utils";
 import { standardProgramTemplate } from "./standardProgram";
 
@@ -131,10 +131,7 @@ const programsReducer = (state = INITIAL_STATE, action) => {
 		// Add/Move program to front of saved programs array
 		case $.SET_CURRENT_PROGRAM: {
 			const newCurrentProgram = action.payload;
-			const savedPrograms = getGroupWithRemovedProgram(
-				state.saved,
-				newCurrentProgram
-			);
+			const savedPrograms = getGroupWithRemovedProgram(state.saved, newCurrentProgram);
 			return {
 				...state,
 				saved: [newCurrentProgram, ...savedPrograms],

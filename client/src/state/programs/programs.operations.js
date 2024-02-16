@@ -1,19 +1,18 @@
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 
-// programs
-import * as $ from "./programs.actions";
-import { getSavedProgramById } from "./programs.selectors";
-import { convertRemotePrograms, convertLocalProgram } from "./programs.utils";
-
-// programs-list
-import { updateProgramsList } from "redux/programs-list/programs-list.operations";
-
 // error
-import { getError } from "redux/error/error.actions";
+import { getError } from "state/error/error.actions";
+// programs-list
+import { updateProgramsList } from "state/programs-list/programs-list.operations";
 
 // other
 import { getConfig, getTokenConfig, isIncognito } from "../utils";
+
+// programs
+import * as $ from "./programs.actions";
+import { getSavedProgramById } from "./programs.selectors";
+import { convertLocalProgram, convertRemotePrograms } from "./programs.utils";
 
 // ----------------------- syncPrograms -------------------------
 

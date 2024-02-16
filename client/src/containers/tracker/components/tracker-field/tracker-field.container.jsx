@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getCurrentProgram } from "redux/programs/programs.selectors";
-import { openModal } from "redux/modal/modal.actions";
+
+import { openModal } from "state/modal/modal.actions";
+import { getCurrentProgram } from "state/programs/programs.selectors";
 
 import TrackerField from "./tracker-field";
 
@@ -15,7 +16,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 const TrackerFieldContainer = (props) => <TrackerField {...props} />;
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(TrackerFieldContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(TrackerFieldContainer);

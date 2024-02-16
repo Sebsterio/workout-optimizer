@@ -1,39 +1,29 @@
 import axios from "axios";
 
-// user
-import * as $ from "./user.actions";
-
 // error
-import { getError, clearError } from "redux/error/error.actions";
-
+import { clearError, getError } from "state/error/error.actions";
+import { clearLocalLog } from "state/log/log.actions";
 // log
-import {
-	createRemoteLog,
-	syncLog,
-	removeRemoteLog,
-} from "redux/log/log.operations";
-import { clearLocalLog } from "redux/log/log.actions";
-
-// programs
-import {
-	updateRemotePrograms,
-	syncPrograms,
-	removeAllRemotePrivatePrograms,
-} from "redux/programs/programs.operations";
-import {
-	setCurrentStandardProgram,
-	clearLocalPrograms,
-} from "redux/programs/programs.actions";
-
+import { createRemoteLog, removeRemoteLog, syncLog } from "state/log/log.operations";
+import { clearLocalProgramsList } from "state/programs-list/programs-list.actions";
 // programs-list
 import {
 	createRemoteProgramsList,
 	removeRemoteProgramsList,
-} from "redux/programs-list/programs-list.operations";
-import { clearLocalProgramsList } from "redux/programs-list/programs-list.actions";
+} from "state/programs-list/programs-list.operations";
+import { clearLocalPrograms, setCurrentStandardProgram } from "state/programs/programs.actions";
+// programs
+import {
+	removeAllRemotePrivatePrograms,
+	syncPrograms,
+	updateRemotePrograms,
+} from "state/programs/programs.operations";
 
 // other
 import { getConfig, getTokenConfig } from "../utils";
+
+// user
+import * as $ from "./user.actions";
 
 // ------------------------ loadUser ------------------------------
 

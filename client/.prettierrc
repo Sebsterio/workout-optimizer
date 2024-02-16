@@ -6,14 +6,14 @@
 	"jsxSingleQuote": false,
 	"trailingComma": "es5",
 	"endOfLine": "auto",
-
 	"importOrderSeparation": true,
 	"importOrderSortSpecifiers": true,
 	"importOrderParserPlugins": ["jsx"],
 	"plugins": ["@trivago/prettier-plugin-sort-imports"],
 	"importOrder": [
 		"<THIRD_PARTY_MODULES>",
-		"^(assets|components|containers|redux|routes|style|theme|utils)(?:/.*)?$",
+		"^(components|containers|routes|state|theme|utils)(?:/.*)?$",
+		"^assets(?:/.*)?$",
 		"^[.][.]/(?!(.*)[.]s?css$).*$",
 		"^[.]/(?!(.*)[.]s?css$).*$",
 		"[.]s?css$"

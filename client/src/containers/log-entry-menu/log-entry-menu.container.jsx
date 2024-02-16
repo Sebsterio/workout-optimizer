@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { updateLogEntry } from "redux/log/log.operations";
-import { modifyMaxCustomRest } from "redux/programs/programs.actions";
-import { pickDate } from "redux/modal/modal.actions";
+import { updateLogEntry } from "state/log/log.operations";
+import { pickDate } from "state/modal/modal.actions";
+import { modifyMaxCustomRest } from "state/programs/programs.actions";
 
 import LogEntryMenu from "./log-entry-menu";
 

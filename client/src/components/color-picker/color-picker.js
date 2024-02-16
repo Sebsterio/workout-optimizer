@@ -1,6 +1,6 @@
-import "./color-picker.scss";
-
 import React from "react";
+
+import "./color-picker.scss";
 
 export const ColorPicker = ({ items, getIsSelected, selectBg }) => {
 	return (

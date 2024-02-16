@@ -1,9 +1,11 @@
 import axios from "axios";
 
-import * as $ from "./programs-list.actions";
-import { getError } from "redux/error/error.actions";
-import { getConvertedLocalProgramsList } from "./programs-list.utils";
+import { getError } from "state/error/error.actions";
+
 import { getTokenConfig, isIncognito } from "../utils";
+
+import * as $ from "./programs-list.actions";
+import { getConvertedLocalProgramsList } from "./programs-list.utils";
 
 // ------------------- createRemoteProgramsList ------------------------
 

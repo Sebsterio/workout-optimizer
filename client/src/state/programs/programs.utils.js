@@ -1,11 +1,5 @@
-import { standardProgramTemplate } from "redux/programs/standardProgram";
-
-import {
-	removeArrayItem,
-	replaceArrayItem,
-	duplicateArrayItem,
-	moveArrayItem,
-} from "utils/array";
+import { standardProgramTemplate } from "state/programs/standardProgram";
+import { duplicateArrayItem, moveArrayItem, removeArrayItem, replaceArrayItem } from "utils/array";
 
 // --------------------------- Reducer -----------------------------
 
@@ -32,13 +26,7 @@ export const getGroupWithModifiedProgram = (group, programToModify, newProps) =>
 	);
 
 export const getModifiedFields = (fields, payload) => {
-	const {
-		fieldToAdd,
-		fieldToReplace,
-		fieldToDuplicate,
-		fieldToDelete,
-		fieldToMove,
-	} = payload;
+	const { fieldToAdd, fieldToReplace, fieldToDuplicate, fieldToDelete, fieldToMove } = payload;
 
 	let newFields = [...fields];
 
@@ -68,8 +56,7 @@ export const getModifiedFields = (fields, payload) => {
 // TODO: move to log redux
 export const getFieldsWithNewMaxCustomRest = (fields, field, rest) =>
 	fields.map((f) => {
-		if (f === field && (!f.maxCustomRest || f.maxCustomRest < rest))
-			f.maxCustomRest = rest;
+		if (f === field && (!f.maxCustomRest || f.maxCustomRest < rest)) f.maxCustomRest = rest;
 		return f;
 	});
 
