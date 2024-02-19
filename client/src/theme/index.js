@@ -1,2 +1,2 @@
+export * from "./scheme";
 export * from "./theme-context";
-export * from "./gradients";

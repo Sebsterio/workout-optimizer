@@ -13,7 +13,7 @@ const config = {
 	plugins: ["@trivago/prettier-plugin-sort-imports"],
 	importOrder: [
 		"<THIRD_PARTY_MODULES>",
-		"^(components|containers|routes|state|theme|utils)(?:/.*)?$",
+		"^(components|containers|routes|state|static|theme|utils)(?:/.*)?$",
 		"^assets(?:/.*)?$",
 		"^[.][.]/(?!(.*)[.]s?css$).*$",
 		"^[.]/(?!(.*)[.]s?css$).*$",

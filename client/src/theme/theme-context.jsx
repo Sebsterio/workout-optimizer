@@ -1,48 +1,31 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 
-import { hexToRgb, rgbToHex } from "utils/color";
-import { createStorage } from "utils/storage";
+import { deepMerge } from "utils/object";
+import { useLocalState } from "utils/storage";
 
-import { gradients } from "./gradients";
-import {
-	getAnalogousColors,
-	getAntiColor,
-	getComplementaryColor,
-	getRoundedColor,
-} from "./helpers";
+import { generatePalette } from "./palette";
+import { getDefaultSchemeId, getScheme } from "./scheme";
 
-const themeStorage = createStorage(localStorage, "theme-id", "0");
+const THEME_STORAGE_KEY = "theme";
 
-const getPaletteProps = ({ hex, rgb }, preset) => ({
-	color: preset?.color ?? hex ?? rgbToHex(rgb),
-	inverse: preset?.inverse ?? getAntiColor(rgb),
-	rounded: preset?.rounded ?? getRoundedColor(rgb), // TEMP
+const createCssVars = (palette, gradient) => ({
+	"--background-color": palette.base.color,
+	"--background-image": gradient,
 });
 
 const useThemeState = () => {
-	const [bgId, setBgId] = useState(themeStorage.get() ?? "0");
-	const setBgIdPersisted = (id) => (themeStorage.set(id), setBgId(id)); // eslint-disable-line no-sequences
+	const [themeId, setThemeId] = useLocalState(THEME_STORAGE_KEY, getDefaultSchemeId());
 
-	const { name, gradient, color: baseHex, ...scheme } = gradients[bgId];
+	const { seed, background, ...scheme } = getScheme(themeId);
+	const baseHex = Array.isArray(seed) ? seed[0] : seed;
+	const palette = generatePalette(baseHex, scheme);
+	const _palett = deepMerge(palette, scheme);
+	const cssVars = createCssVars(palette, background);
 
-	const baseRgb = hexToRgb(baseHex);
-	const complementRgb = getComplementaryColor(baseRgb);
-	const [analogLeftRgb, analogRightRgb] = getAnalogousColors(baseRgb);
-
-	const palette = {
-		base: getPaletteProps({ hex: baseHex, rgb: baseRgb }, scheme.base),
-		comp: getPaletteProps({ rgb: complementRgb }, scheme.comp),
-		analogL: getPaletteProps({ rgb: analogLeftRgb }, scheme.analogL),
-		analogR: getPaletteProps({ rgb: analogRightRgb }, scheme.analogR),
+	return {
+		...{ scheme: { seed, background, ...scheme }, palette, cssVars },
+		...{ id: themeId, setId: setThemeId },
 	};
-
-	// shouldn't bg be assigned by theme?
-	const cssVars = {
-		"--background-color": palette.base.color,
-		"--background-image": gradient,
-	};
-
-	return { palette, gradient, cssVars, bgName: name, bgId, setBgId: setBgIdPersisted };
 };
 
 // ----------------------------------------------------------------------------
@@ -58,6 +41,6 @@ export const ThemeProvider = (props) => {
 export const useThemeContext = () => {
 	const context = useContext(ThemeContext);
 	if (context === initialContext)
-		throw new Error("useThemeContext must be used within a ThemeContextProvider");
+		throw new Error("useThemeContext must be used within ThemeContextProvider");
 	return context;
 };

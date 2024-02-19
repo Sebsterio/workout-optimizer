@@ -1,3 +1,11 @@
+const DEFAULTS = {
+	RGB_LUM: {
+		weights: { r: 0.2126, g: 0.7152, b: 0.0722 },
+		gamma: 2.2, // fine-tuning; sensible range: 2.18 - 2.223
+		exponent: 0.43, // fine-tuning for size of compared areas - large: 0.33, tiny: 0.5
+	},
+};
+
 // --- Helpers ---
 
 const shortHexRegx = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -56,21 +64,64 @@ export function hsvToRgb(hsv) {
 
 // --- Transforms ---
 
-// TODO: compare these
-export function getYiqFromRgb(rgb) {
+export function getYiqFromRgb(rgb, isTestVariant) {
 	const [r, g, b] = getRgbArray(rgb);
-	return (r * 299 + g * 587 + b * 114) / 1000;
+
+	return !isTestVariant // TODO test the variant
+		? (r * 299 + g * 587 + b * 114) / 1000
+		: Math.round((parseInt(r) * 299 + parseInt(g) * 587 + parseInt(b) * 114) / 1000);
 }
-export function getYiqFromRgb_1(rgb) {
-	const [r, g, b] = getRgbArray(rgb);
-	return Math.round((parseInt(r) * 299 + parseInt(g) * 587 + parseInt(b) * 114) / 1000);
-}
-// gamma: range 2.2--2.223 // exponent: large areas 0.33, tiny points 0.5 // [wR,wG,wB]: color luminance weights
-export function getLuminanceFromRgb(
-	rgb,
-	{ wR = 0.2126, wG = 0.7152, wB = 0.0722, gamma = 2.2, exponent = 0.43 } = {}
-) {
+
+export function getLuminanceFromRgb(rgb, config) {
+	const { gamma, exponent, weights } = { ...DEFAULTS.RGB_LUM, ...config };
+	const { r: wR, g: wG, b: wB } = weights;
 	const [r, g, b] = getRgbArray(rgb).map((c) => (c / 255.0) ** gamma);
 	const Ylum = r * wR + g * wG + b * wB;
 	return Math.pow(Ylum, exponent) * 100;
 }
+
+export function getGrayscaleFromRgb(rgb) {
+	const [r, g, b] = getRgbArray(rgb);
+	const mono8b = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+	const grayHex = Math.round(mono8b).toString(16).padStart(2, "0");
+	return "#" + grayHex.repeat(3);
+}
+
+export const getTemperaturFromRgb = () => null; /// TODO
+
+export function rotateHue(hsv, deg) {
+	let newHue = (hsv.h += deg);
+	if (deg > 0 && newHue >= 360) newHue -= 360;
+	if (deg < 0 && newHue < 0) newHue += 360;
+	return { ...hsv, h: newHue };
+}
+
+export function getRotatedRgb(rgb, deg) {
+	return hsvToRgb(rotateHue(rgbToHsv(rgb), deg));
+}
+
+// ---------------------------------------------------------------------
+
+// export function darkenColor(rgb, percent) {
+// 	let [red, green, blue] = rgb.replace('rgb(', '').replace(')', '').split(',');
+
+// 	if (!red && !green && !blue) return 'rgb(100,100,100)';
+
+// 	red = parseInt(red * (100 - percent) / 100, 10);
+// 	green = parseInt(green * (100 - percent) / 100, 10);
+// 	blue = parseInt(blue * (100 - percent) / 100, 10);
+
+// 	return 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+
+// }
+// export function brightenColor(rgb, percent) {
+// 	let [red, green, blue] = rgb.replace('rgb(', '').replace(')', '').split(',');
+
+// 	if (!red && !green && !blue) return 'rgb(100,100,100)';
+
+// 	red = parseInt(red * (100 + percent) / 100, 10);
+// 	green = parseInt(green * (100 + percent) / 100, 10);
+// 	blue = parseInt(blue * (100 + percent) / 100, 10);
+
+// 	return 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+// }
