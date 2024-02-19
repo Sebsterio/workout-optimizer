@@ -1,33 +1,13 @@
 import React from "react";
 
-import "./color-picker.scss";
+import { Picker } from "components/picker";
 
-export const ColorPicker = ({ items, getIsSelected, selectBg }) => {
+export const ColorPicker = ({ items, selectedId, onSelect: handleSelect }) => {
 	return (
-		<ul className="color-picker">
-			{items.map(({ name, color, gradient }, i) => (
-				<li key={i} title={name}>
-					<label
-						className="color-picker__item"
-						style={{
-							backgroundColor: color,
-							backgroundImage: gradient,
-						}}
-					>
-						<input
-							className="sr-only"
-							type="radio"
-							name="colors"
-							value={i}
-							checked={getIsSelected(i)}
-							onChange={selectBg}
-						/>
-						<span className="sr-only">{name}</span>
-					</label>
-				</li>
+		<Picker selectedId={selectedId} onSelect={handleSelect}>
+			{items.map((data, i) => (
+				<Picker.Item {...data} key={i} />
 			))}
-		</ul>
+		</Picker>
 	);
 };
-
-export default ColorPicker;
