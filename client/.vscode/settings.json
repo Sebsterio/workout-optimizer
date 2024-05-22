@@ -1,0 +1,67 @@
+{
+	/// Deps
+
+	"prettier.requireConfig": false,
+	"prettier.configPath": ".prettierrc.js",
+	"prettier.ignorePath": ".prettierignore",
+	"stylelint.configFile": ".stylelintrc.js",
+	"stylelint.configBasedir": ".",
+	"eslint.workingDirectories": ["."],
+
+	/// Logging
+
+	"eslint.debug": false,
+	"prettier.enableDebugLogs": false,
+
+	/// Linting
+
+	"eslint.enable": true,
+	"stylelint.enable": true,
+	"json.validate.enable": true,
+	"javascript.validate.enable": false,
+	"typescript.validate.enable": false,
+	"css.validate": false,
+	"less.validate": false,
+	"scss.validate": false,
+
+	"eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+	"stylelint.validate": ["css", "scss"],
+	"stylelint.snippet": ["css", "scss"],
+
+	"scss.showErrors": true,
+
+	/// Formatting
+
+	"prettier.enable": true,
+	"json.format.enable": false,
+	"javascript.format.enable": false,
+	"typescript.format.enable": false,
+	"css.format.enable": false,
+	"scss.format.enable": false,
+	"eslint.format.enable": false,
+
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+	"[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+	"[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+	"[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+	"[html]": { "editor.defaultFormatter": "vscode.html-language-features" },
+
+	"editor.tabSize": 2,
+	"editor.insertSpaces": false,
+
+	/// Workflow
+
+	"eslint.run": "onSave",
+
+	"editor.formatOnPaste": false,
+	"editor.formatOnType": false,
+	"editor.formatOnSave": true,
+	"editor.formatOnSaveMode": "file",
+
+	"[markdown]": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnType": true,
+		"editor.wordWrap": "on"
+	}
+}
